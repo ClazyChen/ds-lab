@@ -1,5 +1,5 @@
 #include "vector.h"
-using clazy_framework::VectorAllocator;
+using namespace clazy_framework;
 
 // 这个例子展示向量扩容和缩容的过程
 // 当指定合理的缩容阈值时，向量可以通过扩容和缩容，保持自己的装填因子在一个受控的区间范围内

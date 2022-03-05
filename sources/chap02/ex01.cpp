@@ -1,6 +1,7 @@
 #include "vector.h"
 #include "random.h"
 #include <cassert>
+using namespace clazy_framework;
 
 // 这个例子展示了向量的插入、删除和查找操作
 // 对于一个数据结构来说，这三种操作是最基本的
@@ -11,15 +12,13 @@ using Vector = clazy::Vector<T, clazy::DefaultVectorAllocator>;
 // 如果您想要测试自己实现的数据结构，修改上面的代码
 // 比如改为 using Vector = UserVector<T> 这样。
 
-using Rank = clazy_framework::Rank;
-
 const int start_size = 4;       // 向量的初始长度
 const int op_count = 20;        // 连续操作序列的长度
 const double insert_cdf = 0.5;  // 在连续操作序列中“插入”的占比
 const double remove_cdf = 0.7;  // 在连续操作序列中“插入”和“删除”的总占比
 const double find_cdf   = 1.0;  // 这里使用累计概率函数
 
-clazy_framework::Random random; // 随机数发生器
+Random random;                  // 随机数发生器
 Vector<int> V;                  // 用于测试的向量（您实现的）
 vector<int> v;                  // 用于对比的向量（STL）
 

@@ -1,6 +1,6 @@
 #include "vector.h"
 #include <cassert>
-using clazy_framework::VectorAllocator;
+using namespace clazy_framework;
 using clazy::DefaultVectorAllocator;
 
 // 这个例子展示的是扩容策略的问题
@@ -47,7 +47,7 @@ using Vector = clazy::Vector<int, Allocator>;
 // 下面讨论连续在末尾插入n个元素的情况，进行实验
 // 在末尾插入元素可以降低插入元素本身花费的时间，从而更明显地观察扩容的时间
 template <typename Allocator> requires (is_base_of_v<VectorAllocator, Allocator>)
-class InsertTest : public clazy_framework::Algorithm {
+class InsertTest : public Algorithm {
 protected:
     Vector<Allocator> V;
 public:
@@ -66,7 +66,7 @@ public:
 template <typename Allocator> requires (is_base_of_v<VectorAllocator, Allocator>)
 void applyTest(int n) {
     auto instance = make_shared<InsertTest<Allocator>>();
-    clazy_framework::applyTest<InsertTest<Allocator>>(instance, [&](auto test) {
+    applyTest<InsertTest<Allocator>>(instance, [&](auto test) {
         test->apply(n);
     });
 }

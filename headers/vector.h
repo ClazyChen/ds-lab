@@ -63,9 +63,9 @@ const int min_vector_capacity = 4;
 // 向量
 template <typename T, typename Allocator = DefaultVectorAllocator>
 requires (is_base_of_v<clazy_framework::VectorAllocator, Allocator>)
-class Vector : public clazy_framework::Vector<T> {
+class Vector : public clazy_framework::AbstractVector<T> {
 protected:
-    using Iterator = clazy_framework::Vector<T>::Iterator;
+    using Iterator = clazy_framework::AbstractVector<T>::Iterator;
     unique_ptr<T[]> _data;   // 向量的数据区
     int _capacity;           // 向量的容量
     int _size;               // 向量的规模

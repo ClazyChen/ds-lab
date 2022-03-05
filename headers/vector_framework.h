@@ -11,7 +11,7 @@ using Rank = int;
 
 // 向量的ADT接口
 template <typename T>
-class Vector {
+class AbstractVector {
 public:
     // 向量的迭代器；您不需要改动这一部分，它应当是天然有效的
     class Iterator {
