@@ -4,7 +4,7 @@
 #include <random>
 #include <vector>
 #include <ctime>
-using namespace std;
+#include "vector.h"
 
 namespace clazy_framework {
 
@@ -40,10 +40,10 @@ uniform_real_distribution<double> Random::_doubleDist = uniform_real_distributio
 uniform_int_distribution<int> Random::_intDist = uniform_int_distribution<int>(0, 65535);
 
 // 生成一个随机向量
-vector<int> randomVector(int n, int lo = 0, int hi = 65535) {
-    vector<int> result(n);
+clazy::Vector<int> randomVector(int n, int lo = 0, int hi = 65535) {
+    clazy::Vector<int> result(n);
     for (int i = 0; i < n; i++) {
-        result[i] = Random::nextIntBetween(lo, hi);
+        result.push_back(Random::nextIntBetween(lo, hi));
     }
     return result;
 }

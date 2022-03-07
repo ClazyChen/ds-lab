@@ -79,7 +79,7 @@ template <typename... Allocator> requires (is_base_of_v<VectorAllocator, Allocat
 void applyAllTests() {
     for (int n : testData) {
         cout << "Testing n = " << n << endl;
-        int _[] = {(applyTest<Allocator>(n), 0)... }; // 这种写法为了有序地展开各个Allocator
+        int _[] {(applyTest<Allocator>(n), 0)... }; // 这种写法为了有序地展开各个Allocator
     }
 }
 

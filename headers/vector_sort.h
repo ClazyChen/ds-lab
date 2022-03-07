@@ -5,16 +5,14 @@
 namespace clazy_framework {
 
 // 这个文件考虑一个基本问题：向量的排序
-template <typename T>
+template <typename T, typename Vector = clazy::Vector<T>>
+requires (is_base_of_v<AbstractVector<T>, Vector>)
 class VectorSort : public Algorithm {
 protected:
-    virtual void sort(Vector<T>& V, const function<bool(const T&, const T&)>& cmp) = 0;
+    virtual void sort(Vector& V, const function<bool(const T&, const T&)>& cmp) = 0;
 public:
-    virtual void apply(Vector<T>& V, const function<bool(const T&, const T&)>& cmp) {
+    virtual void apply(Vector& V, const function<bool(const T&, const T&)>& cmp = less_equal<T>()) {
         sort(V, cmp);
-    }
-    virtual void apply(Vector<T>& V) {
-        sort(V, less_equal<T>());
     }
 };
 
@@ -24,11 +22,11 @@ namespace clazy {
 
 // 归并排序
 template <typename T>
-class VectorMergeSort : public VectorSort<T> {
+class VectorMergeSort : public clazy_framework::VectorSort<T> {
 private:
     Vector<T> W;
 protected:
-    virtual void mergeSort(Vector<T>::Iterator it_begin, Vector<T>::Iterator it_end, const function<bool(const T&, const T&)>& cmp);
+    virtual void mergeSort(VectorIterator<T> it_begin, VectorIterator<T> it_end, const function<bool(const T&, const T&)>& cmp);
     virtual void sort(Vector<T>& V, const function<bool(const T&, const T&)>& cmp) {
         mergeSort(begin(V), end(V), cmp);
     }
@@ -36,7 +34,7 @@ protected:
 
 // 标准归并排序（使用迭代器设计）
 template <typename T>
-void VectorMergeSort<T>::mergeSort(Vector<T>::Iterator it_begin, Vector<T>::Iterator it_end, const function<bool(const T&, const T&)>& cmp) {
+void VectorMergeSort<T>::mergeSort(VectorIterator<T> it_begin, VectorIterator<T> it_end, const function<bool(const T&, const T&)>& cmp) {
     if (it_end - it_begin <= 1) {
         return;                                       // 递归边界：只有0或1个元素
     }

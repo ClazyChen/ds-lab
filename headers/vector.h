@@ -60,12 +60,14 @@ protected:
 // 向量的最小容量
 const int min_vector_capacity = 4;
 
+template <typename T>
+using VectorIterator = clazy_framework::AbstractVector<T>::Iterator;
+
 // 向量
 template <typename T, typename Allocator = DefaultVectorAllocator>
 requires (is_base_of_v<clazy_framework::VectorAllocator, Allocator>)
 class Vector : public clazy_framework::AbstractVector<T> {
 protected:
-    using Iterator = clazy_framework::AbstractVector<T>::Iterator;
     unique_ptr<T[]> _data;   // 向量的数据区
     int _capacity;           // 向量的容量
     int _size;               // 向量的规模
@@ -87,8 +89,8 @@ public:
     virtual void resize(int size);
 
     // 实现获取起始位置和结束位置的函数
-    virtual Iterator begin() const { return Iterator(_data.get()); }
-    virtual Iterator end() const { return begin() + _size; }
+    virtual VectorIterator<T> begin() const { return VectorIterator<T>(_data.get()); }
+    virtual VectorIterator<T> end() const { return begin() + _size; }
 
     // 插入元素，返回被插入元素的秩
     virtual Rank insert(Rank r, const T& e);
@@ -118,7 +120,7 @@ Vector<T, Allocator>::Vector(int capacity) {
 template <typename T, typename Allocator>
 Vector<T, Allocator>::Vector(const Vector<T, Allocator>& V): Vector(V._capacity) {
     _size = V._size;
-    copy(begin(V), begin(V) + _size, begin());
+    copy(V.begin(), V.begin() + _size, begin());
 }
 
 // 重新设置容量，这里总是重新开辟一块空间，并复制进去
@@ -134,11 +136,11 @@ void Vector<T, Allocator>::setCapacity(int capacity) {
 // 重新设置规模，这里要判断是否需要扩容或缩容
 template <typename T, typename Allocator>
 void Vector<T, Allocator>::resize(int size) {
-    _size = size;                           // 重新设置规模
     auto [action, capacity] = allocator->apply(_capacity, size);
     if (action != clazy_framework::VectorAllocator::Result::NoAction) {
         setCapacity(capacity);              // 如果有必要，则进行扩容或者缩容
     }
+    _size = size;                           // 重新设置规模
 }
 
 // 插入元素

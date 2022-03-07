@@ -45,7 +45,7 @@ double calculateTime(function<void()> f) {
 // 进行单一测试
 template <typename BaseClass> requires (is_base_of_v<Algorithm, BaseClass>)
 void applyTest(shared_ptr<BaseClass> instance, const function<void(shared_ptr<BaseClass>)>& test) {
-    cout << "TEST [" << setw(24) << instance->getTypename() << "]\t";
+    cout << "TEST [" << setw(28) << instance->getTypename() << "]\t";
     double seconds = calculateTime([&]() { test(instance); });
     cout << " (" << seconds << "s)" << endl;
 }

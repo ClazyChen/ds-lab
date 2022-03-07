@@ -40,7 +40,7 @@ int main() {
         cout << "Testing n = " << n << endl;
         auto data = randomVector(n);
         applyTest<SumA>(algorithms, [&](auto sum) {
-            cout << "answer = " << setw(11) << sum->apply(begin(data).base(), n);
+            cout << "answer = " << setw(11) << sum->apply(&(data[0]), n);
         });
     };
     // 测试数据可能造成溢出，溢出情况下可以观察到，两种算法仍然能返回一样的值

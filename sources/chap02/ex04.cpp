@@ -63,7 +63,7 @@ protected:
             r = find_if(begin(V) + r, end(V), P) - begin(V);
             if (++offset > 0) { // 删除一个元素之后，下一个区间移动偏移量+1
 				copy(begin(V) + r_last + 1, begin(V) + r, begin(V) + r_last + 1 - offset);
-            } 
+            }                   // 注意最后一段也需要移动，所以这里用了do-while循环，与前面不一样
             r_last = r++;       // 更新记录上次的r，并需要让r向前移动（因为V[r]并没有被实际删除）
         } while (r < V.size());
         this->cnt = offset;     // 因为是直接copy移动的，没有调用remove，所以直接更新cnt
@@ -86,6 +86,7 @@ int main() {
                 cout << " removed = " << setw(9) << algorithm->apply(V, is_even) << "\t";
             });                                         // 删除所有的偶数
             assert(none_of(begin(V), end(V), is_even)); // 验证所有偶数都已经被删掉了
+            assert(V.size() == n / 2);
         }
     }
 }
