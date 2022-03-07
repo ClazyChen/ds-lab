@@ -71,8 +71,29 @@ protected:
     }                           // find_if加起来只遍历了V一次，copy加起来也只遍历了V一次
 };
 
+// 第三种想法：全局查找、全局删除 的 另一种实现形式（快慢指针）
+// 快指针查找，慢指针赋值，写法更加简洁
+template <typename T>
+class BatchRemoveGFGR_FSP : public BatchRemove<T> {
+protected:
+    virtual void batchRemove(Vector<T>& V, const function<bool(const T&)>& P) {
+        auto it_assign = begin(V);  // 赋值指针（慢指针）
+        for (auto it_find = begin(V); it_find != end(V); it_find++) { // 查找指针（快指针）
+            if (!P(*it_find)) {     // 如果是不会被删除的元素
+                *(it_assign++) = *it_find; // 则将其赋值到赋值指针的位置上
+            }                       // 否则将其丢弃，赋值指针不移动
+        }
+        this->cnt = end(V) - it_assign; // 快慢指针的距离就是被删除的元素数量
+        V.resize(it_assign - begin(V)); // 修改V的规模，丢弃后面的元素
+    }
+};
+
 int main() {
-    auto algorithms = generateInstances<BatchRemove<int>, BatchRemoveSFSR<int>, BatchRemoveGFSR<int>, BatchRemoveGFGR<int>>();
+    auto algorithms = generateInstances<BatchRemove<int>, 
+        BatchRemoveSFSR<int>, 
+        BatchRemoveGFSR<int>, 
+        BatchRemoveGFGR<int>,
+        BatchRemoveGFGR_FSP<int>>();
     int testData[] { 10, 100, 1000, 10000, 100'000 };   // 测试的向量规模
     auto is_even = [](const int& x) { return x % 2 == 0; }; // 测试用例：删除所有的偶数
     for (int n : testData) {
@@ -83,7 +104,7 @@ int main() {
                 V.push_back(i); 
             }
             applyTest<BatchRemove<int>>(algorithm, [&](auto remove) {
-                cout << " removed = " << setw(9) << algorithm->apply(V, is_even) << "\t";
+                cout << " removed = " << setw(9) << remove->apply(V, is_even) << "\t";
             });                                         // 删除所有的偶数
             assert(none_of(begin(V), end(V), is_even)); // 验证所有偶数都已经被删掉了
             assert(V.size() == n / 2);
