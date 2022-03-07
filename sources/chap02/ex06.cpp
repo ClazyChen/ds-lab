@@ -40,13 +40,13 @@ int main() {
     auto searchAlgorithms = generateInstances<VectorSearch<int, Vector<int>>, clazy::VectorSequentialSearch<int>, clazy::VectorBinarySearch<int>>();
     for (int n : testData) {
         cout << "Testing n = " << n << endl;
-        auto V = randomVector(n, 0, rangeLimit(n));
+        auto V = randomVector<Vector<int>>(n, 0, rangeLimit(n));
         applyTest<VectorSort<int, Vector<int>>>(sortAlgorithm, [&](auto vectorSort) {
             vectorSort->apply(V);
         });
         assert(sorted(V));
         // 这里预先生成好要查找的元素，从而在比较时不需要考虑随机数的时间开销
-        auto VF = randomVector(search_count, 0, rangeLimit(n));
+        auto VF = randomVector<Vector<int>>(search_count, 0, rangeLimit(n));
         // 算法正确性验证，采用顺序查找作为参照物
         auto basicSearch = make_shared<clazy::VectorSequentialSearch<int>>();
         for (int i = 0; i < sqrt(VF.size()); i++) {

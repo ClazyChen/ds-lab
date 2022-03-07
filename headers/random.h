@@ -40,8 +40,10 @@ uniform_real_distribution<double> Random::_doubleDist = uniform_real_distributio
 uniform_int_distribution<int> Random::_intDist = uniform_int_distribution<int>(0, 65535);
 
 // 生成一个随机向量
-clazy::Vector<int> randomVector(int n, int lo = 0, int hi = 65535) {
-    clazy::Vector<int> result(n);
+template <typename Vector = clazy::Vector<int>>
+requires (is_base_of_v<AbstractVector<int>, Vector>)
+Vector randomVector(int n, int lo = 0, int hi = 65535) {
+    Vector result(n);
     for (int i = 0; i < n; i++) {
         result.push_back(Random::nextIntBetween(lo, hi));
     }

@@ -13,7 +13,7 @@ public:
 
 namespace clazy {
 
-// 经典的阶乘实现
+// 经典的阶乘实现（打表）
 class FactorialTable {
 public:
     constexpr static const int max_number = 13;
