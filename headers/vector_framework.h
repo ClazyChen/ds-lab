@@ -102,6 +102,10 @@ public:
             return position;
         }
 
+        pointer base() {
+            return position;
+        }
+
         reference operator[](int index) {
             return *(position + index);
         }
