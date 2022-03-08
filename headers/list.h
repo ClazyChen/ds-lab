@@ -36,37 +36,6 @@ public:
     virtual constexpr bool isBidirectional() { return true; }
 };
 
-// 在静态链表实现中，采用特殊值表示指向空位置
-static constexpr ptrdiff_t nullDiff = INT32_MAX;
-
-// 单向静态节点
-template <typename T>
-class ForwardStaticListNode : public clazy_framework::AbstractListNode<T> {
-protected:
-    T _data;
-    ptrdiff_t _succ = nullDiff;
-public:
-    ForwardStaticListNode() {}
-    ForwardStaticListNode(T _data): _data(_data) {}
-    virtual ListNodePos<T> setSucc(ListNodePos<T> _succ) { this->_succ = _succ - this; return this; }
-    virtual ListNodePos<T> succ() { return this + _succ; }
-    virtual T& data() { return _data; }
-    virtual constexpr bool isBidirectional() { return false; }
-};
-
-// 双向静态节点
-template <typename T>
-class StaticListNode : public ForwardStaticListNode<T> {
-protected:
-    ptrdiff_t _pred = nullDiff;
-public:
-    StaticListNode() {}
-    StaticListNode(T _data): ForwardStaticListNode<T>(_data) {}
-    virtual ListNodePos<T> setPred(ListNodePos<T> _pred) { this->_pred = _pred - this; return this; }
-    virtual ListNodePos<T> pred() { return this + _pred; }
-    virtual constexpr bool isBidirectional() { return true; }
-};
-
 template <typename T>
 using ListIterator = clazy_framework::AbstractList<T>::Iterator;
 
@@ -78,6 +47,10 @@ protected:
     ListNodePos<T> _head;           // 列表的首哨兵
     ListNodePos<T> _tail;           // 列表的尾哨兵
     int _size;                      // 列表的规模
+
+    // 创建新的节点的接口，将会在静态链表中重载
+    virtual ListNodePos<T> create() const { return make_shared<Node>(); }
+    virtual ListNodePos<T> create(const T& e) const { return make_shared<Node>(e); }
 
 public:
     List();               // 默认构造函数
@@ -102,8 +75,8 @@ public:
 // 默认构造函数
 template <typename T, typename Node, bool Circular>
 List<T, Node, Circular>::List(): _size(0) {
-    _head = make_shared<Node>();
-    _tail = make_shared<Node>();
+    _head = create();
+    _tail = create();
     _head->setSucc(_tail);
     if constexpr (Circular) {
         _tail->setSucc(_tail)->setPred(_tail); // 循环链表，形成自环
@@ -116,11 +89,11 @@ List<T, Node, Circular>::List(): _size(0) {
 // 这里使用的方法是一正一反
 template <typename T, typename Node, bool Circular>
 List<T, Node, Circular>::List(const List<T, Node, Circular>& L) {
-    _head = make_shared<Node>();
-    _tail = make_shared<Node>();
+    _head = create();
+    _tail = create();
     Node last = _head, cur;     // 正向遍历，建立连接
     for (auto it = L.begin(); it != L.end(); ++it) {
-        cur = make_shared<Node>(*it);
+        cur = create(*it);
         last = cur->setPred(last->setSucc(cur));
     }
     _tail->setPred(last->setSucc(_tail)); // 末尾元素连接尾哨兵
@@ -148,8 +121,8 @@ ListNodePos<T> List<T, Node, Circular>::insertAsPred(ListNodePos<T> pos, const T
 template <typename T, typename Node, bool Circular>
 ListNodePos<T> List<T, Node, Circular>::insertAsSucc(ListNodePos<T> pos, const T& e) {
     _size++;
-    auto succ = pos->succ(), cur = make_shared<Node>(e);
-    cur->setPred(pos->setSucc(cur))->setSucc(succ->setPred(cur)); // 四次赋值
+    auto succ = pos->succ(), cur = create(e);
+    return cur->setPred(pos->setSucc(cur))->setSucc(succ->setPred(cur)); // 四次赋值
 }
 
 // 删除元素
@@ -158,6 +131,7 @@ T List<T, Node, Circular>::remove(ListNodePos<T> pos) {
     _size--;
     pos->pred()->setSucc(pos->succ());
     pos->succ()->setPred(pos->pred());
+    return pos->data();
 }
 
 // 查找元素
