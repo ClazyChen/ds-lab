@@ -12,12 +12,6 @@ namespace clazy {
 // 在静态链表实现中，采用特殊值表示指向空位置
 static constexpr ptrdiff_t nullDiff = INT32_MAX;
 
-// 空继承的静态节点
-template <typename T>
-class AbstractStaticListNode : public clazy_framework::AbstractListNode<T> {
-
-};
-
 // 单向静态节点
 template <typename T>
 class ForwardStaticListNode : public AbstractStaticListNode<T> {
@@ -58,7 +52,7 @@ public:
 
 // 静态列表
 template <typename T, typename Node = StaticListNode<T>, bool Circular = false, typename Container = Vector<Node>>
-requires (is_base_of_v<AbstractStaticListNode<T>, Node> && is_base_of_v<clazy_framework::AbstractVector<Node>, Container>)
+requires (is_base_of_v<clazy_framework::AbstractListNode<T>, Node> && is_base_of_v<clazy_framework::AbstractVector<Node>, Container>)
 class StaticList : public List<T, Node, Circular> {
 protected:
     Container V;            // 在静态列表中，用向量维护

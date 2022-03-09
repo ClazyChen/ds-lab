@@ -109,7 +109,13 @@ template <typename T, typename Node, bool Circular>
 ListNodePos<T> List<T, Node, Circular>::insertAsPred(ListNodePos<T> pos, const T& e) {
     _size++;
     if constexpr (pos->isBidirectional()) {
-        return insertAsSucc(pos->pred(), e); // 对前驱节点执行后插
+        auto cur = insertAsSucc(pos->pred(), e); // 对前驱节点执行后插
+        if constexpr (Circular) {                // 双向循环链表
+            if (begin().base() == pos) {         // 如果pos是第一个元素
+                _head->setSucc(cur);             // 需要重新设置首元素指针的位置
+            }
+        }
+        return cur;
     } else {
         insertAsSucc(pos, pos->data()); // 执行后插，复制pos处的节点
         pos->data() = e;                // 将pos处的值改掉
@@ -121,6 +127,11 @@ ListNodePos<T> List<T, Node, Circular>::insertAsPred(ListNodePos<T> pos, const T
 template <typename T, typename Node, bool Circular>
 ListNodePos<T> List<T, Node, Circular>::insertAsSucc(ListNodePos<T> pos, const T& e) {
     _size++;
+    if constexpr (Circular) { // 循环链表，插入为首哨兵的后继，相当于插入为第一个元素的前驱
+        if (pos == _head) {       
+            return insertAsPred(_head->succ(), e);
+        }
+    }
     auto succ = pos->succ(), cur = create(e);
     return cur->setPred(pos->setSucc(cur))->setSucc(succ->setPred(cur)); // 四次赋值
 }
@@ -129,9 +140,14 @@ ListNodePos<T> List<T, Node, Circular>::insertAsSucc(ListNodePos<T> pos, const T
 template <typename T, typename Node, bool Circular>
 T List<T, Node, Circular>::remove(ListNodePos<T> pos) {
     _size--;
-    pos->pred()->setSucc(pos->succ());
-    pos->succ()->setPred(pos->pred());
-    return pos->data();
+    if constexpr (pos->isBidirectional()) { // 双向链表，直接删除
+        pos->pred()->setSucc(pos->succ());
+        pos->succ()->setPred(pos->pred());
+        return pos->data();
+    } else {                                // 单向链表，采用和前插类似的技术
+        pos->data() = pos->succ()->data();
+
+    }
 }
 
 // 查找元素
