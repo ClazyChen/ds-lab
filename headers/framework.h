@@ -42,10 +42,12 @@ double calculateTime(function<void()> f) {
     return (double)(end - start) / CLOCKS_PER_SEC;
 }
 
+constexpr const static int defaultWidth = 28;
+
 // 进行单一测试
 template <typename BaseClass> requires (is_base_of_v<Algorithm, BaseClass>)
-void applyTest(shared_ptr<BaseClass> instance, const function<void(shared_ptr<BaseClass>)>& test) {
-    cout << "TEST [" << setw(28) << instance->getTypename() << "]\t";
+void applyTest(shared_ptr<BaseClass> instance, const function<void(shared_ptr<BaseClass>)>& test, int width = defaultWidth) {
+    cout << "TEST [" << setw(width) << instance->getTypename() << "]\t";
     double seconds = calculateTime([&]() { test(instance); });
     cout << " (" << seconds << "s)" << endl;
 }
@@ -53,8 +55,12 @@ void applyTest(shared_ptr<BaseClass> instance, const function<void(shared_ptr<Ba
 // 进行对比测试
 template <typename BaseClass> requires (is_base_of_v<Algorithm, BaseClass>)
 void applyTest(vector<shared_ptr<BaseClass>>& instances, const function<void(shared_ptr<BaseClass>)>& test) {
+    int width = defaultWidth;
     for (auto instance : instances) {
-        applyTest(instance, test);
+        width = max<int>(width, instance->getTypename().size() + 2);
+    }
+    for (auto instance : instances) {
+        applyTest(instance, test, width);
     }
 }
 

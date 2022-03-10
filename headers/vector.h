@@ -75,18 +75,19 @@ protected:
     // 向量扩容缩容的策略
     static unique_ptr<clazy_framework::VectorAllocator> allocator;
 
+    // 控制容量的函数
+    virtual void setCapacity(int capacity);
+
 public:
     Vector();                   // 默认构造函数，生成空向量
     Vector(int capacity);       // 生成指定规模的空向量
     Vector(const Vector<T, Allocator>& V); // 复制构造函数，复制向量
 
-    // 实现获取容量和规模的函数
+    // 实现获取容量和规模、修改规模的函数
     virtual int capacity() const { return _capacity; }
     virtual int size() const { return _size; }
-
-    // 实现修改容量和规模的函数
-    virtual void setCapacity(int capacity);
     virtual void resize(int size);
+    virtual void clear() { resize(0); }
 
     // 实现获取起始位置和结束位置的函数
     virtual VectorIterator<T> begin() const { return VectorIterator<T>(_data.get()); }

@@ -8,6 +8,12 @@ namespace clazy {
 template <typename T>
 using ListNodePos = clazy_framework::ListNodePos<T>;
 
+// 在这个实现里，Node需要静态成员函数constexpr bool isBidirectional
+template <typename Node>
+concept DirectionDefined = requires {
+    array<char, Node::isBidirectional()> {};
+};
+
 // 单向（后向）节点
 template <typename T>
 class ForwardListNode : public clazy_framework::AbstractListNode<T> {
@@ -17,10 +23,13 @@ protected:
 public:
     ForwardListNode() {}
     ForwardListNode(T _data): _data(_data) {}
-    virtual ListNodePos<T> setSucc(ListNodePos<T> _succ) { this->_succ = _succ; return this; }
+    virtual ListNodePos<T> setSucc(ListNodePos<T> _succ) { 
+        this->_succ = _succ; 
+        return this->shared_from_this(); 
+    }
     virtual ListNodePos<T> succ() { return _succ; }
     virtual T& data() { return _data; }
-    virtual constexpr bool isBidirectional() { return false; }
+    constexpr static bool isBidirectional() { return false; }
 };
 
 // 双向节点
@@ -31,9 +40,12 @@ protected:
 public:
     ListNode() {}
     ListNode(T _data): ForwardListNode<T>(_data) {}
-    virtual ListNodePos<T> setPred(ListNodePos<T> _pred) { this->_pred = _pred; return this; }
+    virtual ListNodePos<T> setPred(ListNodePos<T> _pred) { 
+        this->_pred = _pred; 
+        return this->shared_from_this(); 
+    }
     virtual ListNodePos<T> pred() { return _pred; }
-    virtual constexpr bool isBidirectional() { return true; }
+    constexpr static bool isBidirectional() { return true; }
 };
 
 template <typename T>
@@ -41,7 +53,7 @@ using ListIterator = clazy_framework::AbstractList<T>::Iterator;
 
 // 普通列表
 template <typename T, typename Node = ListNode<T>, bool Circular = false>
-requires (is_base_of_v<clazy_framework::AbstractListNode<T>, Node>)
+requires (is_base_of_v<clazy_framework::AbstractListNode<T>, Node> && DirectionDefined<Node>)
 class List : public clazy_framework::AbstractList<T> {
 protected:
     ListNodePos<T> _head;           // 列表的首哨兵
@@ -57,12 +69,13 @@ public:
     List(const List<T, Node, Circular>& L); // 复制构造函数
 
     virtual int size() const { return _size; }
+    virtual void clear() { *this = List(); } // 直接重建列表
     virtual ListIterator<T> begin() const { return ListIterator<T>(_head->succ()); }
     virtual ListIterator<T> end() const { return ListIterator<T>(_tail); }
 
     // 插入元素（包括前插和后插），返回被插入元素的指针
-    virtual ListNodePos<T> insertAsPred(ListNodePos<T> pos, const T& e) = 0;
-    virtual ListNodePos<T> insertAsSucc(ListNodePos<T> pos, const T& e) = 0;
+    virtual ListNodePos<T> insertAsPred(ListNodePos<T> pos, const T& e);
+    virtual ListNodePos<T> insertAsSucc(ListNodePos<T> pos, const T& e);
     
     // 删除元素，返回被删除的元素
     virtual T remove(ListNodePos<T> pos);
@@ -103,24 +116,33 @@ List<T, Node, Circular>::List(const List<T, Node, Circular>& L) {
     }                           // 线性链表则不需要这一步骤
 }
 
+// 插入的语义：
+// 对于任何链表，首哨兵的前插都是未定义行为
+// 对于线性链表，尾哨兵的后插是未定义行为
+// 对于循环链表，尾哨兵的后插 等价于 首哨兵的后插
+
 // 前插
 // 对于单向链表，这里的方法会导致原先指向pos的指针失效，从而不是很安全
 template <typename T, typename Node, bool Circular>
 ListNodePos<T> List<T, Node, Circular>::insertAsPred(ListNodePos<T> pos, const T& e) {
-    _size++;
-    if constexpr (pos->isBidirectional()) {
-        auto cur = insertAsSucc(pos->pred(), e); // 对前驱节点执行后插
-        if constexpr (Circular) {                // 双向循环链表
-            if (begin().base() == pos) {         // 如果pos是第一个元素
-                _head->setSucc(cur);             // 需要重新设置首元素指针的位置
-            }
-        }
-        return cur;
+    if constexpr (Node::isBidirectional()) {
+        pos = insertAsSucc(pos->pred(), e); // 对前驱节点执行后插
     } else {
-        insertAsSucc(pos, pos->data()); // 执行后插，复制pos处的节点
-        pos->data() = e;                // 将pos处的值改掉
-        return pos;
+        if (end().base() == pos) {
+            _size++;                        // 唯一不调用前插转后插的地方
+            _tail = create();
+            pos->setSucc(_tail->setPred(pos)); // 特判尾哨兵的前插
+        } else {
+            insertAsSucc(pos, pos->data()); // 执行后插，复制pos处的节点
+        }
+        pos->data() = e;                    // 将pos处的值改掉
     }
+    if constexpr (Circular) {                // 双向循环链表
+        if (begin().base() == pos->succ()) { // 如果前插的节点是第一个元素
+            _head->setSucc(pos);             // 需要重新设置首元素指针的位置
+        }
+    }
+    return pos;
 }
 
 // 后插
@@ -140,13 +162,15 @@ ListNodePos<T> List<T, Node, Circular>::insertAsSucc(ListNodePos<T> pos, const T
 template <typename T, typename Node, bool Circular>
 T List<T, Node, Circular>::remove(ListNodePos<T> pos) {
     _size--;
-    if constexpr (pos->isBidirectional()) { // 双向链表，直接删除
+    if constexpr (Node::isBidirectional()) { // 双向链表，直接删除
         pos->pred()->setSucc(pos->succ());
         pos->succ()->setPred(pos->pred());
         return pos->data();
     } else {                                // 单向链表，采用和前插类似的技术
+        T temp = pos->data();
         pos->data() = pos->succ()->data();
-
+        pos->setSucc(pos->succ()->succ());
+        return temp;        
     }
 }
 
@@ -162,9 +186,8 @@ ListNodePos<T> List<T, Node, Circular>::find(const T& e) const {
 }
 
 // 利用<<输出
-template <typename T, typename Node, bool Circular, typename ListType>
-requires (is_base_of_v<List<T, Node, Circular>, ListType>)
-ostream& operator<<(ostream& out, const ListType& L) {
+template <typename T, typename Node, bool Circular>
+ostream& operator<<(ostream& out, const List<T, Node, Circular>& L) {
     out << "L(";
     for (auto it = begin(L); it != end(L); it++) {
         if (it != begin(L)) {

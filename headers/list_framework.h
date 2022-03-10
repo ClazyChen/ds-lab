@@ -1,5 +1,6 @@
 #pragma once
 
+#include "linear_framework.h"
 #include <iterator>
 #include <memory>
 using namespace std;
@@ -7,21 +8,20 @@ using namespace std;
 // 这个文件给出了列表相关的基本框架
 namespace clazy_framework {
 
+template <typename T> class AbstractListNode; 
+
 // 列表节点的ADT接口
 template <typename T>
-class AbstractListNode {
+class AbstractListNode : public enable_shared_from_this<AbstractListNode<T>> {
 public:
     // 您需要实现它的直接前驱和直接后继的获取接口和设置接口（返回本身的指针）
-    virtual shared_ptr<AbstractListNode<T>> pred() { return this; }
-    virtual shared_ptr<AbstractListNode<T>> succ() { return this; }
-    virtual shared_ptr<AbstractListNode<T>> setPred(shared_ptr<AbstractListNode<T>> _pred) { return this; }
-    virtual shared_ptr<AbstractListNode<T>> setSucc(shared_ptr<AbstractListNode<T>> _succ) { return this; }
+    virtual shared_ptr<AbstractListNode<T>> pred() { return this->shared_from_this(); }
+    virtual shared_ptr<AbstractListNode<T>> succ() { return this->shared_from_this(); }
+    virtual shared_ptr<AbstractListNode<T>> setPred(shared_ptr<AbstractListNode<T>> _pred) { return this->shared_from_this(); }
+    virtual shared_ptr<AbstractListNode<T>> setSucc(shared_ptr<AbstractListNode<T>> _succ) { return this->shared_from_this(); }
 
     // 您需要实现获取数据的接口
     virtual T& data() = 0;
-
-    // 是否是双向的
-    virtual constexpr bool isBidirectional() = 0;
 };
 
 // 当您希望构造单链表时，可以用于指定前向指针pred()返回节点本身
@@ -33,7 +33,7 @@ using ListNodePos = shared_ptr<AbstractListNode<T>>;
 
 // 列表的ADT接口
 template <typename T>
-class AbstractList {
+class AbstractList : public AbstractLinearStructure<T> {
 public:
     // 列表的迭代器
     class Iterator {
@@ -121,7 +121,7 @@ public:
         }
     };
 
-    // 您需要能获取列表的基本属性：规模
+    // 您需要获取列表的长度
     virtual int size() const = 0;
 
     // 您需要定义遍历的起始位置和结束位置
@@ -129,7 +129,7 @@ public:
     virtual Iterator end() const = 0;
 
     // 列表的循秩访问，不建议使用
-    T& operator[](Rank r) const {
+    virtual T& operator[](int r) const {
         return begin()[r];
     }
 
@@ -144,31 +144,31 @@ public:
     virtual ListNodePos<T> find(const T& e) const = 0;
 
     // 一些不需要您自己定义的接口
-    bool empty() const {
+    virtual bool empty() const {
         return begin() == end();
     }
 
-    T& front() const {
+    virtual T& front() const {
         return *begin();
     }
 
-    T& back() const {
+    virtual T& back() const {
         return *(end() - 1);
     }
 
-    void push_front(const T& e) {
+    virtual void push_front(const T& e) {
         insertAsPred(begin().base(), e);
     }
 
-    void push_back(const T& e) {
+    virtual void push_back(const T& e) {
         insertAsPred(end().base(), e);
     }
 
-    T pop_front() {
+    virtual T pop_front() {
         return remove(begin().base());
     }
 
-    T pop_back() {
+    virtual T pop_back() {
         return remove((end() - 1).base());
     }
 };

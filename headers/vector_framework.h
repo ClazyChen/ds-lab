@@ -1,5 +1,6 @@
 #pragma once
 
+#include "linear_framework.h"
 #include <iterator>
 using namespace std;
 
@@ -11,7 +12,7 @@ using Rank = int;
 
 // 向量的ADT接口
 template <typename T>
-class AbstractVector {
+class AbstractVector : public AbstractLinearStructure<T> {
 public:
     // 向量的迭代器；您不需要改动这一部分，它应当是天然有效的
     class Iterator {
@@ -115,16 +116,18 @@ public:
         }
     };
 
-    // 您需要能获取向量的基本属性：容量和规模
+    // 您需要能获取向量的基本属性：容量和规模；并需要能够修改规模
+    // 理论上您也可以实现不可扩容的向量（静态顺序表），此时容量是不能被更改的
     virtual int capacity() const = 0;
     virtual int size() const = 0;
+    virtual void resize(int size) = 0;
 
     // 您需要定义遍历的起始位置和结束位置
     virtual Iterator begin() const = 0;
     virtual Iterator end() const = 0;
 
     // 向量的循秩访问，不允许您自己定义，需要您保证存放的顺序连续性才能生效
-    T& operator[](Rank r) const {
+    virtual T& operator[](Rank r) const {
         return begin()[r];
     }
 
@@ -138,31 +141,31 @@ public:
     virtual Rank find(const T& e) const = 0;
 
     // 一些不需要您自己定义的接口
-    bool empty() const {
+    virtual bool empty() const {
         return begin() == end();
     }
 
-    T& front() const {
+    virtual T& front() const {
         return *begin();
     }
 
-    T& back() const {
+    virtual T& back() const {
         return *(end() - 1);
     }
 
-    void push_front(const T& e) {
+    virtual void push_front(const T& e) {
         insert(0, e);
     }
 
-    void push_back(const T& e) {
+    virtual void push_back(const T& e) {
         insert(size(), e);
     }
 
-    T pop_front() {
+    virtual T pop_front() {
         return remove(0);
     }
 
-    T pop_back() {
+    virtual T pop_back() {
         return remove(size() - 1);
     }
 
