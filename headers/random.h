@@ -44,7 +44,7 @@ template <typename Vector = clazy::Vector<int>>
 requires (is_base_of_v<AbstractVector<int>, Vector>)
 Vector randomVector(int n, int lo = 0, int hi = 65535) {
     Vector result(n);
-    for (int i = 0; i < n; i++) {
+    for (int i : views::iota(0, n)) {
         result.push_back(Random::nextIntBetween(lo, hi));
     }
     return result;

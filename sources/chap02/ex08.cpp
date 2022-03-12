@@ -44,7 +44,7 @@ public:
         int n = V.size();
         int d = gcd->apply(n, k);       // 计算最大公约数
         T temp;                         // 辅助空间，只需要1个（循环交换）
-        for (Rank i = 0; i < d; i++) {
+        for (Rank i : views::iota(0, d)) {
             temp = V[i];
             Rank j = i, next_j = (j + k) % n;
             do {
@@ -86,7 +86,7 @@ int main() {
     for (auto [n, k] : testData) {
         cout << "Testing n = " << n << " k = " << k << endl;
         Vector<int> V(n);
-        for (int i = 0; i < n; i++) {
+        for (int i : views::iota(0, n)) {
             V.push_back(i);
         }
         random_shuffle(begin(V), end(V));  // 生成实验数据
@@ -95,7 +95,7 @@ int main() {
             applyTest<CyclicLeftShift<int>>(algorithm, [&](auto cyclicLeftShift) {
                 cyclicLeftShift->apply(V_t, k);
             });
-            for (int i = 0; i < n; i++) {
+            for (int i : views::iota(0, n)) {
                 assert(V_t[i] == V[(i+k)%n]);
             }
         }

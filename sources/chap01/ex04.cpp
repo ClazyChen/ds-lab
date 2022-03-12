@@ -16,7 +16,7 @@ class ZeroPoint : public Algorithm {
 protected:
     const double eps = 1e-6;
 public:
-    virtual double solve(const function<double(double)>& f, double l, double r);
+    virtual double solve(const function<double(double)>& f, double l, double r) = 0;
 };
 
 // 经典的循环版本的二分求解算法

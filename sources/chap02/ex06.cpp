@@ -12,17 +12,6 @@ using namespace clazy_framework;
 template <typename T>
 using Vector = clazy::Vector<T>;
 
-// 检验有序性的算法
-template <typename T>
-bool sorted(const Vector<T> & V, const function<bool(const T&, const T&)>& cmp = less_equal<T>()) {
-    for (auto it = begin(V); it < end(V) - 1; it++) {
-        if (!cmp(*it, *(it + 1))) {
-            return false;
-        }
-    }
-    return true;
-}
-
 // 随机数发生器
 Random random;
 
@@ -44,12 +33,12 @@ int main() {
         applyTest<VectorSort<int, Vector<int>>>(sortAlgorithm, [&](auto vectorSort) {
             vectorSort->apply(V);
         });
-        assert(sorted(V));
+        assert(is_sorted(begin(V), end(V)));
         // 这里预先生成好要查找的元素，从而在比较时不需要考虑随机数的时间开销
         auto VF = randomVector<Vector<int>>(search_count, 0, rangeLimit(n));
         // 算法正确性验证，采用顺序查找作为参照物
         auto basicSearch = make_shared<clazy::VectorSequentialSearch<int>>();
-        for (int i = 0; i < sqrt(VF.size()); i++) {
+        for (int i : views::iota(0, (int)sqrt(VF.size()))) {
             auto [res_b, r_b] = basicSearch->apply(V, VF[i]);
             for (auto search : searchAlgorithms) {
                 auto [res, r] = search->apply(V, VF[i]);

@@ -31,7 +31,7 @@ public:
     virtual int apply(Vector<T>& V) {
         int oldSize = V.size();
         for (Rank r = 1; r < V.size(); ) {
-            if (any_of(begin(V), begin(V) + r, [&](const T& x) { return x == V[r]; })) {
+            if (any_of(begin(V), begin(V) + r, [&](auto& x) { return x == V[r]; })) {
                 V.remove(r); // r已经被删掉了，所以不需要向后移动
             } else {
                 r++;
@@ -84,10 +84,10 @@ public:
     SortBasedDeduplicate(): sortAlgorithm(make_shared<Sort<E>>()), sortedDeduplicate(make_shared<SortedDeduplicate<E>>()) {}
     virtual int apply(Vector<T>& V) {
         Vector<E> VE(V.size());                // 建立辅助向量
-        for (int i = 0; i < V.size(); i++) {
+        for (int i : views::iota(0, V.size())) {
             VE.push_back({V[i], i});           // 记录每个元素的秩
         }
-        sortAlgorithm->apply(VE, [](const E& e1, const E& e2) {
+        sortAlgorithm->apply(VE, [](auto& e1, auto& e2) {
             if (e1.data <= e2.data) {
                 return e1.data == e2.data ? e1.r <= e2.r : true;
             } else {
@@ -95,11 +95,11 @@ public:
             }
         });                                    // 双关键字排序，这样可以使用非稳定的排序
         int removed = sortedDeduplicate->apply(VE);
-        sortAlgorithm->apply(VE, [](const E& e1, const E& e2) {
+        sortAlgorithm->apply(VE, [](auto& e1, auto& e2) {
             return e1.r <= e2.r;
         });                                    // 重新排序，复原相对顺序
         V.resize(VE.size());
-        transform(begin(VE), end(VE), begin(V), [](const E& e) {
+        transform(begin(VE), end(VE), begin(V), [](auto& e) {
             return e.data;
         });                                    // 将辅助向量中的元素转移回原向量
         return removed;
@@ -110,7 +110,7 @@ public:
 template <typename T>
 bool checkDeduplicated(const Vector<T>& V) {
     for (auto it = begin(V); it != end(V); it++) {
-        if (any_of(it + 1, end(V), [&](const T& x) { return x == *it; })) {
+        if (any_of(it + 1, end(V), [&](auto& x) { return x == *it; })) {
             return false;
         }
     }
@@ -135,7 +135,7 @@ struct Mint {
 Random random;
 Vector<Mint> markedRandomVector(int n, int lo, int hi) {
     Vector<Mint> result(n);
-    for (int i = 0; i < n; i++) {
+    for (int i : views::iota(0, n)) {
         result.push_back({random.nextIntBetween(lo, hi), i});
     }
     return result;
@@ -162,7 +162,7 @@ int main() {
             assert(answer_b == answer_t);
             assert(V_b.size() == V_t.size());
             assert(checkDeduplicated(V_t));
-            for (int i = 0; i < V_t.size(); i++) {
+            for (int i : views::iota(0, V_t.size())) {
                 assert(V_b[i].equals(V_t[i]));
             }
         }

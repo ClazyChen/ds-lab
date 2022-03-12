@@ -17,8 +17,8 @@ template <typename T>
 class Shuffle : public Algorithm {
 public:
     void apply(Vector<T>& V) {
-        for (Rank i = V.size(); i > 0; i--) {
-            swap(V[i-1], V[random.nextIntBetween(0, i)]);
+        for (Rank i : views::iota(1, V.size()) | views::reverse) {
+            swap(V[i], V[random.nextIntBetween(0, i+1)]);
         }
     }
 };
@@ -29,7 +29,7 @@ public:
 clazy::Factorial factorial;
 int getFingerprint(const Vector<int>& V) {
     int result = 0;
-    for (int i = 0; i < V.size(); i++) {
+    for (Rank i : views::iota(0, V.size())) {
         result += (V[i] - count_if(begin(V), begin(V) + i, [&](int x) { return x < V[i]; })) * factorial.apply(V.size() - 1 - i);     
     }
     return result;
@@ -40,14 +40,14 @@ const int shuffle_number = 100'000'000;  // 进行随机打乱的次数
 
 int main() {
     Vector<int> V;
-    for (int i = 0; i < n; i++) {
+    for (int i : views::iota(0, n)) {
         V.push_back(i);
     }
     auto algorithm = make_shared<Shuffle<int>>();
     // 首先进行时间实验，这里不做统计
     applyTest<Shuffle<int>>(algorithm, [&](auto shuffle) {
         cout << "shuffling timing test ... ";
-        for (int i = 0; i < shuffle_number; i++) {
+        for (int i : views::iota(0, shuffle_number)) {
             shuffle->apply(V);
         }
     });
@@ -57,7 +57,7 @@ int main() {
     counter.resize(permutation);
     fill(begin(counter), end(counter), 0);
     cout << "shuffling result test ... " << endl;
-    for (int i = 0; i < shuffle_number; i++) {
+    for (int i : views::iota(0, shuffle_number)) {
         algorithm->apply(V);
         counter[getFingerprint(V)] ++;
     }

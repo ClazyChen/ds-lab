@@ -68,12 +68,12 @@ template <typename T, typename Allocator = DefaultVectorAllocator>
 requires (is_base_of_v<clazy_framework::VectorAllocator, Allocator>)
 class Vector : public clazy_framework::AbstractVector<T> {
 protected:
-    unique_ptr<T[]> _data;   // 向量的数据区
+    T* _data;   // 向量的数据区
     int _capacity;           // 向量的容量
     int _size;               // 向量的规模
 
     // 向量扩容缩容的策略
-    static unique_ptr<clazy_framework::VectorAllocator> allocator;
+    static clazy_framework::VectorAllocator* allocator;
 
     // 控制容量的函数
     virtual void setCapacity(int capacity);
@@ -82,6 +82,7 @@ public:
     Vector();                   // 默认构造函数，生成空向量
     Vector(int capacity);       // 生成指定规模的空向量
     Vector(const Vector<T, Allocator>& V); // 复制构造函数，复制向量
+    ~Vector() { delete[] _data; } // 析构函数
 
     // 实现获取容量和规模、修改规模的函数
     virtual int capacity() const { return _capacity; }
@@ -90,7 +91,7 @@ public:
     virtual void clear() { resize(0); }
 
     // 实现获取起始位置和结束位置的函数
-    virtual VectorIterator<T> begin() const { return VectorIterator<T>(_data.get()); }
+    virtual VectorIterator<T> begin() const { return VectorIterator<T>(_data); }
     virtual VectorIterator<T> end() const { return begin() + _size; }
 
     // 插入元素，返回被插入元素的秩
@@ -105,7 +106,7 @@ public:
 
 // 以下是上述接口的实现部分
 template <typename T, typename Allocator>
-unique_ptr<clazy_framework::VectorAllocator> Vector<T, Allocator>::allocator = make_unique<Allocator>();
+clazy_framework::VectorAllocator* Vector<T, Allocator>::allocator = new Allocator();
 
 // 构造函数
 template <typename T, typename Allocator>
@@ -114,7 +115,7 @@ Vector<T, Allocator>::Vector(): Vector(min_vector_capacity) {}
 template <typename T, typename Allocator>
 Vector<T, Allocator>::Vector(int capacity) {
     _capacity = max(capacity, min_vector_capacity);
-    _data = make_unique<T[]>(_capacity);
+    _data = new T[_capacity];
     _size = 0;
 }
 
@@ -128,10 +129,11 @@ Vector<T, Allocator>::Vector(const Vector<T, Allocator>& V): Vector(V._capacity)
 template <typename T, typename Allocator>
 void Vector<T, Allocator>::setCapacity(int capacity) {
     _capacity = max(capacity, min_vector_capacity); // 重新设置capacity
-    auto temp = make_unique<T[]>(_capacity); // 申请一块新的空间
-    _size = min(_size, _capacity);           // size永远不能超过capacity，多余的元素弃掉
-    copy(begin(), begin() + _size, temp.get()); // 复制数据到新的空间里
-    _data = move(temp);                      // 修改数据区，原数据区被智能指针释放掉
+    auto temp = new T[_capacity];                   // 申请一块新的空间
+    _size = min(_size, _capacity);                  // size永远不能超过capacity，多余的元素弃掉
+    copy(begin(), begin() + _size, temp);       // 复制数据到新的空间里
+    delete[] _data;                             // 删除原有的数据区
+    _data = temp;                               // 指向新的数据区
 }
 
 // 重新设置规模，这里要判断是否需要扩容或缩容

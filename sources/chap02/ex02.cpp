@@ -55,7 +55,7 @@ public:
         return typeid(Allocator).name(); // 使用Allocator的名字以降低长度
     }
     void apply(int n) {
-        for (int i = 0; i < n; i++) {
+        for (int i : views::iota(0, n)) {
             V.push_back(i);
         }
         assert(V.size() == n);

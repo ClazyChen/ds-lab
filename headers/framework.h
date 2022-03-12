@@ -11,6 +11,7 @@
 #include <tuple>
 #include <typeinfo>
 #include <iomanip>
+#include <ranges>
 using namespace std;
 
 namespace clazy_framework {
