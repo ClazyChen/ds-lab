@@ -9,6 +9,7 @@ template <typename T>
 using ListNodePos = clazy_framework::ListNodePos<T>;
 
 // 在这个实现里，Node需要静态成员函数constexpr bool isBidirectional
+// 这个地方我暂时不知道什么方法可以更优雅一点判断一个量是constexpr
 template <typename Node>
 concept DirectionDefined = requires {
     array<char, Node::isBidirectional()> {};
@@ -25,7 +26,7 @@ public:
     ForwardListNode(T _data): _data(_data) {}
     virtual ListNodePos<T> setSucc(ListNodePos<T> _succ) { 
         this->_succ = _succ; 
-        return this->shared_from_this(); 
+        return this; 
     }
     virtual ListNodePos<T> succ() { return _succ; }
     virtual T& data() { return _data; }
@@ -42,7 +43,7 @@ public:
     ListNode(T _data): ForwardListNode<T>(_data) {}
     virtual ListNodePos<T> setPred(ListNodePos<T> _pred) { 
         this->_pred = _pred; 
-        return this->shared_from_this(); 
+        return this; 
     }
     virtual ListNodePos<T> pred() { return _pred; }
     constexpr static bool isBidirectional() { return true; }
@@ -60,16 +61,23 @@ protected:
     ListNodePos<T> _tail;           // 列表的尾哨兵
     int _size;                      // 列表的规模
 
-    // 创建新的节点的接口，将会在静态链表中重载
-    virtual ListNodePos<T> create() const { return make_shared<Node>(); }
-    virtual ListNodePos<T> create(const T& e) const { return make_shared<Node>(e); }
+    // 和内存管理相关的接口，在静态链表中，这些接口会被重载
+    // 动态链表和静态链表的本质区别，是对申请和释放内存的区别
+    // 创建新的节点的接口
+    virtual ListNodePos<T> create() { return new Node(); }
+    virtual ListNodePos<T> create(const T& e) { return new Node(e); }
+    // 删除一个节点的接口
+    virtual void destroy(ListNodePos<T> pos) { delete pos; }
+    // 删除所有节点的接口
+    virtual void destroyAll();
 
 public:
-    List();               // 默认构造函数
+    List();                                 // 默认构造函数
     List(const List<T, Node, Circular>& L); // 复制构造函数
+    ~List() { destroyAll(); }               // 析构函数
 
     virtual int size() const { return _size; }
-    virtual void clear() { *this = List(); } // 直接重建列表
+    virtual void clear() { destroyAll(); *this = List(); } // 删除所有节点，并重建列表
     virtual ListIterator<T> begin() const { return ListIterator<T>(_head->succ()); }
     virtual ListIterator<T> end() const { return ListIterator<T>(_tail); }
 
@@ -85,6 +93,16 @@ public:
 };
 
 // 以下是上述接口的实现部分
+// 删除全部节点
+template <typename T, typename Node, bool Circular>
+void List<T, Node, Circular>::destroyAll() {
+    for (auto p = _head; p != nullptr; ) {
+        auto q = p->succ();
+        destroy(p);
+        p = q;
+    }
+}
+
 // 默认构造函数
 template <typename T, typename Node, bool Circular>
 List<T, Node, Circular>::List(): _size(0) {
@@ -162,16 +180,17 @@ ListNodePos<T> List<T, Node, Circular>::insertAsSucc(ListNodePos<T> pos, const T
 template <typename T, typename Node, bool Circular>
 T List<T, Node, Circular>::remove(ListNodePos<T> pos) {
     _size--;
+    T temp = pos->data();
     if constexpr (Node::isBidirectional()) { // 双向链表，直接删除
         pos->pred()->setSucc(pos->succ());
         pos->succ()->setPred(pos->pred());
-        return pos->data();
+        destroy(pos);
     } else {                                // 单向链表，采用和前插类似的技术
-        T temp = pos->data();
         pos->data() = pos->succ()->data();
         pos->setSucc(pos->succ()->succ());
-        return temp;        
+        destroy(pos->succ());       
     }
+    return temp;
 }
 
 // 查找元素

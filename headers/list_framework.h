@@ -2,7 +2,6 @@
 
 #include "linear_framework.h"
 #include <iterator>
-#include <memory>
 using namespace std;
 
 // 这个文件给出了列表相关的基本框架
@@ -12,13 +11,13 @@ template <typename T> class AbstractListNode;
 
 // 列表节点的ADT接口
 template <typename T>
-class AbstractListNode : public enable_shared_from_this<AbstractListNode<T>> {
+class AbstractListNode {
 public:
     // 您需要实现它的直接前驱和直接后继的获取接口和设置接口（返回本身的指针）
-    virtual shared_ptr<AbstractListNode<T>> pred() { return this->shared_from_this(); }
-    virtual shared_ptr<AbstractListNode<T>> succ() { return this->shared_from_this(); }
-    virtual shared_ptr<AbstractListNode<T>> setPred(shared_ptr<AbstractListNode<T>> _pred) { return this->shared_from_this(); }
-    virtual shared_ptr<AbstractListNode<T>> setSucc(shared_ptr<AbstractListNode<T>> _succ) { return this->shared_from_this(); }
+    virtual AbstractListNode<T>* pred() { return this; }
+    virtual AbstractListNode<T>* succ() { return this; }
+    virtual AbstractListNode<T>* setPred(AbstractListNode<T>* _pred) { return this; }
+    virtual AbstractListNode<T>* setSucc(AbstractListNode<T>* _succ) { return this; }
 
     // 您需要实现获取数据的接口
     virtual T& data() = 0;
@@ -29,7 +28,7 @@ public:
 
 // 定义位置
 template <typename T>
-using ListNodePos = shared_ptr<AbstractListNode<T>>;
+using ListNodePos = AbstractListNode<T>*;
 
 // 列表的ADT接口
 template <typename T>
@@ -49,7 +48,7 @@ public:
         explicit Iterator(ListNodePos<T> position): position(position) {}
 
         bool operator==(Iterator other) {
-            return (position.get() == other.position.get());
+            return (position == other.position);
         }
 
         bool operator!=(Iterator other) {

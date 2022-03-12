@@ -87,10 +87,14 @@ Author: Clazy Chen @ THU
 
 如果您使用的是更“高级”的系统和编辑器，我相信您并不需要我来展示如何进行环境配置。
 
-1. 下载MinGW（[MinGW-w64 - for 32 and 64 bit Windows download | SourceForge.net](https://sourceforge.net/projects/mingw-w64/)）并安装。
+1. 下载MinGW。
 
    > 这是因为，在Dev-C++中自带的MinGW版本太低了。
-   >
+   
+   进入网站[WinLibs - GCC+MinGW-w64 compiler for Windows](https://winlibs.com/)。
+   
+   选择最新版本的MinGW；从这个网站上下载的是免安装版本。
+   
 2. 进入Dev-C++，工具—编译选项—由文件夹添加编译设置，选择刚装的MinGW的文件夹。
 
    编译器：编译时增加加入命令 `-std=c++2a -fconcepts`。（开启C++20）
