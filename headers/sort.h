@@ -4,15 +4,15 @@
 
 namespace clazy_framework {
 
-// 这个文件考虑一个基本问题：向量的排序
-template <typename T, typename Vector = clazy::Vector<T>>
-requires (is_base_of_v<AbstractVector<T>, Vector>)
-class VectorSort : public Algorithm {
+// 这个文件考虑一个基本问题：排序
+template <typename T, typename Container>
+requires (is_base_of_v<AbstractLinearStructure<T>, Container>)
+class Sort : public Algorithm {
 protected:
-    virtual void sort(Vector& V, const function<bool(const T&, const T&)>& cmp) = 0;
+    virtual void sort(Container& C, const Comparator<T>& cmp) = 0;
 public:
-    virtual void apply(Vector& V, const function<bool(const T&, const T&)>& cmp = less_equal<T>()) {
-        sort(V, cmp);
+    virtual void apply(Container& C, const Comparator<T>& cmp = less_equal<T>()) {
+        sort(C, cmp);
     }
 };
 
@@ -20,9 +20,9 @@ public:
 
 namespace clazy {
 
-// 归并排序
+// 向量的归并排序
 template <typename T>
-class VectorMergeSort : public clazy_framework::VectorSort<T> {
+class VectorMergeSort : public clazy_framework::Sort<T, Vector<T>> {
 private:
     Vector<T> W;
 protected:

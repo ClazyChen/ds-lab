@@ -1,4 +1,4 @@
-#include "vector_sort.h"
+#include "sort.h"
 #include "vector_search.h"
 #include "random.h"
 #include <cassert>
@@ -25,12 +25,12 @@ constexpr int testData[] {
 };
 
 int main() {
-    shared_ptr<VectorSort<int, Vector<int>>> sortAlgorithm = make_shared<clazy::VectorMergeSort<int>>();
+    shared_ptr<Sort<int, Vector<int>>> sortAlgorithm = make_shared<clazy::VectorMergeSort<int>>();
     auto searchAlgorithms = generateInstances<VectorSearch<int, Vector<int>>, clazy::VectorSequentialSearch<int>, clazy::VectorBinarySearch<int>>();
     for (int n : testData) {
         cout << "Testing n = " << n << endl;
         auto V = randomVector<Vector<int>>(n, 0, rangeLimit(n));
-        applyTest<VectorSort<int, Vector<int>>>(sortAlgorithm, [&](auto vectorSort) {
+        applyTest<Sort<int, Vector<int>>>(sortAlgorithm, [&](auto vectorSort) {
             vectorSort->apply(V);
         });
         assert(is_sorted(begin(V), end(V)));
