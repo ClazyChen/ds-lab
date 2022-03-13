@@ -13,7 +13,7 @@ namespace clazy {
 // 因为向量扩容的时候，所有节点的地址都会发生变化
 
 // 在静态链表实现中，采用特殊值表示指向空位置
-static constexpr ptrdiff_t nullDiff = INT32_MAX;
+static constexpr ptrdiff_t nullDiff = INT64_MAX;
 
 // 单向静态节点
 template <typename T>
@@ -88,8 +88,8 @@ protected:
     
     // 重载删除节点的接口，改为将节点交换到向量末尾并释放
     virtual void destroy(ListNodePos<T> pos);
-    // 重载删除所有节点的接口，什么都不用做
-    virtual void destroyAll() {}
+    // 重载删除所有节点的接口，直接释放V的空间
+    virtual void destroyAll() { V.resize(0); }
 
 public:
     StaticList(): List<T, Node, Circular>() {}

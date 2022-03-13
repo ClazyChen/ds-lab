@@ -190,7 +190,7 @@ T List<T, Node, Circular>::remove(ListNodePos<T> pos) {
         pos->pred()->setSucc(pos->succ());
         pos->succ()->setPred(pos->pred());
         destroy(pos);
-    } else {                                // 单向链表，采用和前插类似的技术
+    } else {                                 // 单向链表，采用和前插类似的技术
         pos->data() = pos->succ()->data();
         pos->setSucc(pos->succ()->succ());
         destroy(pos->succ());       

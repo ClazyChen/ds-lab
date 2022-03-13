@@ -51,12 +51,12 @@ protected:
 public:
 	virtual void clear_n() { return reset(); }
 	virtual void push_back_n(int n) {
-		for (int i = 0; i < n; i++) {
+		for (int i : views::iota(0, n)){
 			push_back(i);
 		}
 	}
 	virtual void push_front_n(int n) {
-		for (int i = 0; i < n; i++) {
+		for (int i : views::iota(0, n)) {
 			push_front(i);
 		}
 	}
@@ -89,8 +89,8 @@ int main() {
 		Push<int, BidirectionalList<int>>,
 		Push<int, Vector<int>>
 	>();
-	int testData[] { 10, 1000, 10000, 100'000, 10'000'000 };
-	// 因为向量前插在最后1组数据中实在太慢，所以屏蔽了向量
+	int testData[] { 10, 1000, 10000, 100'000, 1'000'000, 10'000'000, 50'000'000 };
+	// 因为向量前插在最后的大数据中实在太慢，所以屏蔽了向量
 	// 进行一组测试
 	auto test = [&](string name, function<void(int, shared_ptr<PushProblem>)> func) {
 		cout << name << endl;
@@ -113,4 +113,5 @@ int main() {
 // 双向链表的优势在于
 // 1. 向前驱方向查找，单向链表无法完成
 // 2. 前插是安全的（单向链表的前插不安全，会导致逻辑上指向pos的指针，在前插之后指向了被插入的节点pos->pred）
+// 3. 删除是安全的（同上）
 // 另一方面，向量的后插效率和链表【内存连续时】相似，而前插效率非常低
