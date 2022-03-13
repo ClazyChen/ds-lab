@@ -71,13 +71,17 @@ protected:
     // 删除所有节点的接口
     virtual void destroyAll();
 
+private:
+    // 创建一个空表
+    void createEmptyList();
+
 public:
-    List();                                 // 默认构造函数
+    List() { createEmptyList(); }           // 默认构造函数
     List(const List<T, Node, Circular>& L); // 复制构造函数
-    ~List() { cout << "dec" << endl;destroyAll(); }               // 析构函数
+    ~List() { destroyAll(); }               // 析构函数
 
     virtual int size() const { return _size; }
-    virtual void clear() { cout << "clear" << endl; destroyAll(); *this = List(); } // 删除所有节点，并重建列表
+    virtual void clear() { destroyAll(); createEmptyList(); } // 删除所有节点
     virtual ListIterator<T> begin() const { return ListIterator<T>(_head->succ()); }
     virtual ListIterator<T> end() const { return ListIterator<T>(_tail); }
 
@@ -96,20 +100,17 @@ public:
 // 删除全部节点
 template <typename T, typename Node, bool Circular>
 void List<T, Node, Circular>::destroyAll() {
-    cout << "destroyAll" << endl; int x = 0;
     for (auto p = _head; p != nullptr; ) {
-        // cout << x++ << endl;
         auto q = p->succ();
-         cout << "x";
         destroy(p);
         p = q;
-         cout << "y" << endl;
     }
 }
 
-// 默认构造函数
+// 生成空表
 template <typename T, typename Node, bool Circular>
-List<T, Node, Circular>::List(): _size(0) {
+void List<T, Node, Circular>::createEmptyList() {
+    _size = 0;
     _head = create();
     _tail = create();
     _head->setSucc(_tail);

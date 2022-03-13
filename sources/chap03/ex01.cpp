@@ -67,8 +67,8 @@ requires (is_base_of_v<AbstractLinearStructure<T>, Container>)
 class Push : public BatchedPushProblem<T> {
 protected:
 	Container C;
-	virtual void reset() { cout << "reset" << endl; cout << C << endl; C.clear(); }
-	virtual void push_back(const T& e) { C.push_back(e); cout << C << endl; }
+	virtual void reset() { C.clear(); }
+	virtual void push_back(const T& e) { C.push_back(e); }
 	virtual void push_front(const T& e) { C.push_front(e); }
 public:
 	virtual void push_front_n(int n) {
@@ -85,7 +85,7 @@ public:
 int main() {
 	auto algorithms = generateInstances<
 		PushProblem,
-		//Push<int, ForwardList<int>>,
+		Push<int, ForwardList<int>>,
 		Push<int, BidirectionalList<int>>,
 		Push<int, Vector<int>>
 	>();
@@ -107,3 +107,10 @@ int main() {
     return 0;
 }
 
+// 这里需要注意的是，链表在实验表现出的性能并不等同于实际环境中可以达到的性能
+// 这一点将在后面的实验中展示出来（主要影响因素是内存连续性）
+// 可以看出，单向链表的效率是比双向高的（且后插比前插明显，因为前插多一次赋值）
+// 双向链表的优势在于
+// 1. 向前驱方向查找，单向链表无法完成
+// 2. 前插是安全的（单向链表的前插不安全，会导致逻辑上指向pos的指针，在前插之后指向了被插入的节点pos->pred）
+// 另一方面，向量的后插效率和链表【内存连续时】相似，而前插效率非常低
