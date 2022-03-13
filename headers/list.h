@@ -74,10 +74,10 @@ protected:
 public:
     List();                                 // 默认构造函数
     List(const List<T, Node, Circular>& L); // 复制构造函数
-    ~List() { destroyAll(); }               // 析构函数
+    ~List() { cout << "dec" << endl;destroyAll(); }               // 析构函数
 
     virtual int size() const { return _size; }
-    virtual void clear() { destroyAll(); *this = List(); } // 删除所有节点，并重建列表
+    virtual void clear() { cout << "clear" << endl; destroyAll(); *this = List(); } // 删除所有节点，并重建列表
     virtual ListIterator<T> begin() const { return ListIterator<T>(_head->succ()); }
     virtual ListIterator<T> end() const { return ListIterator<T>(_tail); }
 
@@ -96,10 +96,14 @@ public:
 // 删除全部节点
 template <typename T, typename Node, bool Circular>
 void List<T, Node, Circular>::destroyAll() {
+    cout << "destroyAll" << endl; int x = 0;
     for (auto p = _head; p != nullptr; ) {
+        // cout << x++ << endl;
         auto q = p->succ();
+         cout << "x";
         destroy(p);
         p = q;
+         cout << "y" << endl;
     }
 }
 
@@ -119,7 +123,7 @@ List<T, Node, Circular>::List(): _size(0) {
 // 复制构造函数
 // 这里使用的方法是一正一反
 template <typename T, typename Node, bool Circular>
-List<T, Node, Circular>::List(const List<T, Node, Circular>& L) {
+List<T, Node, Circular>::List(const List<T, Node, Circular>& L): _size(0) {
     _head = create();
     _tail = create();
     Node last = _head, cur;     // 正向遍历，建立连接

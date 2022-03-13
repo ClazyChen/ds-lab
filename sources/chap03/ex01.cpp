@@ -44,8 +44,7 @@ public:
 
 template <typename T>
 class BatchedPushProblem : public PushProblem {
-public:
-//protected:
+protected:
 	virtual void reset() = 0;
 	virtual void push_back(const T& e) = 0;
 	virtual void push_front(const T& e) = 0;
@@ -66,11 +65,10 @@ public:
 template <typename T, typename Container>
 requires (is_base_of_v<AbstractLinearStructure<T>, Container>)
 class Push : public BatchedPushProblem<T> {
-public:
-//protected:
+protected:
 	Container C;
-	virtual void reset() { C.clear(); }
-	virtual void push_back(const T& e) { C.push_back(e); }
+	virtual void reset() { cout << "reset" << endl; cout << C << endl; C.clear(); }
+	virtual void push_back(const T& e) { C.push_back(e); cout << C << endl; }
 	virtual void push_front(const T& e) { C.push_front(e); }
 public:
 	virtual void push_front_n(int n) {
@@ -85,21 +83,10 @@ public:
 };
 
 int main() {
-//	Push<int, ForwardList<int>> push;
-	ForwardList<int> L;
-	int n = 400000;
-	for (int i = 0; i < n; i++) {
-			L.push_back(i);
-		}
-	cout << L.size() << endl;
-	L.clear();
-	cout << L.size() << endl;
-	return 0;
-	
 	auto algorithms = generateInstances<
 		PushProblem,
-		Push<int, ForwardList<int>>,
-	//	Push<int, BidirectionalList<int>>,
+		//Push<int, ForwardList<int>>,
+		Push<int, BidirectionalList<int>>,
 		Push<int, Vector<int>>
 	>();
 	int testData[] { 10, 1000, 10000, 100'000, 10'000'000 };
@@ -116,7 +103,7 @@ int main() {
 		}
 	};
 	test("Push Back Test", [](int n, auto push) { push->push_back_n(n); });
-	//test("Push Front Test", [](int n, auto push) { push->push_front_n(n); });
+	test("Push Front Test", [](int n, auto push) { push->push_front_n(n); });
     return 0;
 }
 
