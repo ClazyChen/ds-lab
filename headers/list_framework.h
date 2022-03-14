@@ -6,9 +6,7 @@ using namespace std;
 
 // 这个文件给出了列表相关的基本框架
 namespace clazy_framework {
-
-template <typename T> class AbstractListNode; 
-
+    
 // 列表节点的ADT接口
 template <typename T>
 class AbstractListNode {
