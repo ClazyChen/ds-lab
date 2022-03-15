@@ -24,6 +24,19 @@ public:
 // 当您希望构造单链表时，可以用于指定前向指针pred()返回节点本身
 // 并在实现的单链表中避免使用前向运算符（-、--、-=）
 
+// 在这个实现里，Node需要静态成员函数constexpr bool isBidirectional
+// 好像静态函数不能被设置为constexpr 所以这里实现很粗暴，只能用concept强制您实现这个函数
+// 这个地方我暂时不知道什么方法可以更优雅一点判断一个量是constexpr，所以用了array的大小来做
+template <typename Node>
+concept DirectionDefined = requires {
+    { Node::isBidirectional() } -> same_as<bool>;
+    array<char, Node::isBidirectional()> {};
+};
+
+// 定义一个链表节点需要满足的条件：继承于抽象链表类，并且定义了constexpr的方向
+template <typename T, typename Node>
+concept ListNodeType = is_base_of_v<clazy_framework::AbstractListNode<T>, Node> && DirectionDefined<Node>;
+
 // 定义位置
 template <typename T>
 using ListNodePos = AbstractListNode<T>*;

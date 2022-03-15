@@ -1,4 +1,4 @@
-#include "sort.h"
+#include "vector_sort.h"
 #include "vector_search.h"
 #include "random.h"
 #include <cassert>
@@ -26,7 +26,7 @@ constexpr int testData[] {
 
 int main() {
     shared_ptr<Sort<int, Vector<int>>> sortAlgorithm = make_shared<clazy::VectorMergeSort<int>>();
-    auto searchAlgorithms = generateInstances<VectorSearch<int, Vector<int>>, clazy::VectorSequentialSearch<int>, clazy::VectorBinarySearch<int>>();
+    auto searchAlgorithms = generateInstances<clazy::VectorSearch<int, Vector<int>>, clazy::VectorSequentialSearch<int>, clazy::VectorBinarySearch<int>>();
     for (int n : testData) {
         cout << "Testing n = " << n << endl;
         auto V = randomVector<Vector<int>>(n, 0, rangeLimit(n));
@@ -46,7 +46,7 @@ int main() {
             }
         }
         // 算法性能对比
-        applyTest<VectorSearch<int, Vector<int>>>(searchAlgorithms, [&](auto vectorSearch) {
+        applyTest<clazy::VectorSearch<int, Vector<int>>>(searchAlgorithms, [&](auto vectorSearch) {
             for (int x : VF) {
                 vectorSearch->apply(V, x);
             }

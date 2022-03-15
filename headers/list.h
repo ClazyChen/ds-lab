@@ -8,13 +8,6 @@ namespace clazy {
 template <typename T>
 using ListNodePos = clazy_framework::ListNodePos<T>;
 
-// 在这个实现里，Node需要静态成员函数constexpr bool isBidirectional
-// 这个地方我暂时不知道什么方法可以更优雅一点判断一个量是constexpr
-template <typename Node>
-concept DirectionDefined = requires {
-    array<char, Node::isBidirectional()> {};
-};
-
 // 单向（后向）节点
 template <typename T>
 class ForwardListNode : public clazy_framework::AbstractListNode<T> {
@@ -54,7 +47,7 @@ using ListIterator = clazy_framework::AbstractList<T>::Iterator;
 
 // 普通列表
 template <typename T, typename Node = ListNode<T>, bool Circular = false>
-requires (is_base_of_v<clazy_framework::AbstractListNode<T>, Node> && DirectionDefined<Node>)
+requires (clazy_framework::ListNodeType<T, Node>)
 class List : public clazy_framework::AbstractList<T> {
 protected:
     ListNodePos<T> _head;           // 列表的首哨兵

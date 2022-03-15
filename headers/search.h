@@ -10,13 +10,15 @@ template <typename P>
 using SearchResult = pair<bool, P>;
 
 // 基本的查找
+// 注意我们并不规定Container是const的
+// 因为一些结构（比如伸展树）有可能会在查找的过程中同时发生改变
 template <typename T, typename Container, typename P>
 requires (is_base_of_v<DataStructure<T>, Container>)
 class Search : public Algorithm {
 protected:
     virtual SearchResult<P> search(Container& C, const T& e) = 0;
 public:
-    virtual SearchResult<P> apply(Container& C, const T& e) {
+    SearchResult<P> apply(Container& C, const T& e) {
         return search(C, e);
     }
 };
@@ -33,7 +35,7 @@ protected:
         return search(C, e, less_equal<T>());
     }
 public:
-    virtual SearchResult<P> apply(Container& C, const T& e, const Comparator<T>& cmp) {
+    SearchResult<P> apply(Container& C, const T& e, const Comparator<T>& cmp = less_equal<T>()) {
         return search(C, e, cmp);
     }
 };
