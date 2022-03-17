@@ -12,9 +12,6 @@ using namespace clazy_framework;
 template <typename T>
 using Vector = clazy::Vector<T>;
 
-// 随机数发生器
-Random random;
-
 const int random_ratio = 2;       // 从一定倍数的区间里随机选取，这样区间里有些数选不到
 const int search_count = 100'000; // 查找操作的次数
 constexpr int rangeLimit(int n) {

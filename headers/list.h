@@ -186,6 +186,9 @@ T List<T, Node, Circular>::remove(ListNodePos<T> pos) {
     } else {                                 // 单向链表，采用和前插类似的技术
         pos->data() = pos->succ()->data();
         pos->setSucc(pos->succ()->succ());
+        if (pos->succ() == _tail) {          // 删除最后一个节点，需要重置尾哨兵位置
+            _tail = pos;
+        }
         destroy(pos->succ());       
     }
     return temp;

@@ -1,5 +1,7 @@
 #include "list_sort.h"
 #include "vector_sort.h"
+#include "list_search.h"
+#include "vector_search.h"
 #include "random.h"
 #include <cassert>
 using namespace clazy_framework;
@@ -25,16 +27,120 @@ using BidirectionalListMergeSort = clazy::ListMergeSort<T, clazy::ListNode<T>, B
 template <typename T>
 using VectorMergeSort = clazy::VectorMergeSort<T, Vector<T>>;
 
-// 排序问题
+// 各自的查找算法，其中向量采用折半查找
+template <typename T>
+using ForwardListSearch = clazy::ListSequentialSearch<T, clazy::ForwardListNode<T>, ForwardList<T>>;
+
+template <typename T>
+using BidirectionalListSearch = clazy::ListSequentialSearch<T, clazy::ListNode<T>, BidirectionalList<T>>;
+
+template <typename T>
+using VectorSearch = clazy::VectorBinarySearch<T, Vector<T>>;
+
+// 排序和查找算法
+template <typename T>
+class SortSearchProblem : public Algorithm {
+public:
+    virtual void init(const clazy::Vector<T>& V) = 0; // 用一个向量，初始化一个规模为n的数据结构
+    virtual void applySort() = 0; // 进行排序操作
+    virtual void checkSort() = 0; // 检查排序结果
+    virtual void applySearch(const clazy::Vector<T>& V) = 0; // 进行查找操作
+    virtual void checkSearch(const clazy::Vector<T>& V) = 0; // 测试查找结果
+};
+
+template <typename T, typename Container, typename SortMethod, typename SearchMethod, typename P>
+requires (is_base_of_v<clazy_framework::AbstractLinearStructure<T>, Container> && 
+          is_base_of_v<clazy_framework::Sort<T, Container>, SortMethod> && 
+          is_base_of_v<clazy_framework::OrderedSearch<T, Container, P>, SearchMethod>)
+class SortSearchInstance : public SortSearchProblem<T> {
+protected:
+    Container C; // 用来进行排序的数据结构
+    SortMethod sortAlgorithm;
+    SearchMethod searchAlgorithm;
+public:
+    virtual void init(const clazy::Vector<T>& V) {
+        C.clear();
+        for (auto x : V) {
+            C.push_back(x);
+        }
+    }
+    virtual void applySort() {
+        sortAlgorithm.apply(C);
+    }
+    virtual void applySearch(const clazy::Vector<T>& V) {
+        if constexpr (is_base_of_v<AbstractList<T>, Container>) {
+            if ((long long)C.size() * V.size() >= 10'000'000'000LL) {
+                cout << "(no action)"; return; // 如果查找次数太多，把列表的顺序查找屏蔽掉
+            }
+        }
+        for (auto x : V) {
+            searchAlgorithm.apply(C, x);
+        }
+    }
+    virtual void checkSort() {
+        assert(is_sorted(begin(C), end(C)));
+    }
+    virtual void checkSearch(const clazy::Vector<T>& V) {
+        C.clear();
+        for (auto x : V) {
+            auto [r, p] = searchAlgorithm.apply(C, x);
+            if constexpr (is_base_of_v<AbstractVector<T>, Container>) {
+                if (r) {
+                    assert(C[p] == x);
+                } else {
+                    C.insert(p, x);
+                }
+            } else {
+                if (r) {
+                    assert(p->data() == x);
+                } else {
+                    C.insertAsPred(p, x);
+                }
+            }
+        }
+        checkSort();
+    }
+    virtual string getTypename() const { // 重载typename，短路到数据结构名上
+        return typeid(C).name();
+    }
+};
+
+const int search_count = 100'000; // 查找操作的次数
+const int test_search_count = 100; // 进行测试查找的次数
 
 int main() {
-    ForwardList<int> L;
-    ForwardListMergeSort<int> s;
-    for (int i = 0; i < 10; i++) {
-        L.push_back(Random::nextIntBetween(0, 20));
+    auto algorithms = generateInstances<
+        SortSearchProblem<int>, 
+        SortSearchInstance<int, ForwardList<int>, ForwardListMergeSort<int>, ForwardListSearch<int>, ListNodePos<int>>,
+        SortSearchInstance<int, BidirectionalList<int>, BidirectionalListMergeSort<int>, BidirectionalListSearch<int>, ListNodePos<int>>,
+        SortSearchInstance<int, Vector<int>, VectorMergeSort<int>, VectorSearch<int>, Rank>>();
+    int testData[] { 10, 1000, 10000, 100'000, 1'000'000 };
+    for (int n : testData) {
+        cout << "Testing n = " << n << endl;
+        auto data = randomVector(n);
+        auto sdata = randomVector(search_count);
+        auto searchTestData = randomVector(test_search_count);
+        for (auto algorithm : algorithms) {
+            algorithm->checkSearch(searchTestData);
+        }
+        for (auto algorithm : algorithms) {
+            algorithm->init(data);
+        }
+        cout << "Applying Sort" << endl;
+        applyTest<SortSearchProblem<int>>(algorithms, [](auto algorithm) {
+            algorithm->applySort();
+        });
+        for (auto algorithm : algorithms) {
+            algorithm->checkSort();
+        }
+        cout << "Applying Search" << endl;
+        applyTest<SortSearchProblem<int>>(algorithms, [&sdata](auto algorithm) {
+            algorithm->applySearch(sdata);
+        });
     }
-    cout << L << endl;
-    s.apply(L);
-    cout << L << endl;
     return 0;
 }
+
+// 如前所述，这里测试的时候列表中的节点也是有高度的局部性的
+// 如果列表中的节点的地址是乱序的，会和上个实验一样，排序性能更加降低
+// 至于查找，由于列表不能提供随机访问，只能顺序查找，所以无论如何都会比向量性能低
