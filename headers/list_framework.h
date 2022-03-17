@@ -162,6 +162,7 @@ public:
         return *begin();
     }
 
+    // 特别提醒：单链表无法使用，需要重载
     virtual T& back() const {
         return *(end() - 1);
     }
@@ -178,6 +179,7 @@ public:
         return remove(begin().base());
     }
 
+    // 特别提醒：单链表无法使用，需要重载
     virtual T pop_back() {
         return remove((end() - 1).base());
     }

@@ -87,17 +87,36 @@ public:
 
     // 查找元素，返回查找到的元素的位置，未找到返回nullptr
     virtual ListNodePos<T> find(const T& e) const;
+
+    // 重载，单向链表需要O(n)找位置
+    virtual T& back() const {
+        if constexpr (Node::isBidirectional()) {
+            return clazy_framework::AbstractList<T>::back();
+        } else {
+            return *(begin() + (_size - 1));
+        }
+    }
+
+    // 重载，单向链表需要O(n)找位置
+    virtual T pop_back() {
+        if constexpr (Node::isBidirectional()) {
+            return clazy_framework::AbstractList<T>::pop_back();
+        } else {
+            return remove((begin() + (_size - 1)).base());
+        }
+    }
 };
 
 // 以下是上述接口的实现部分
 // 删除全部节点
 template <typename T, typename Node, bool Circular>
 void List<T, Node, Circular>::destroyAll() {
-    for (auto p = _head; p != nullptr; ) {
+    auto p = _head;
+    do {
         auto q = p->succ();
         destroy(p);
         p = q;
-    }
+    } while (p != _tail);
 }
 
 // 生成空表
@@ -142,21 +161,18 @@ List<T, Node, Circular>::List(const List<T, Node, Circular>& L): _size(0) {
 template <typename T, typename Node, bool Circular>
 ListNodePos<T> List<T, Node, Circular>::insertAsPred(ListNodePos<T> pos, const T& e) {
     if constexpr (Node::isBidirectional()) {
-        pos = insertAsSucc(pos->pred(), e); // 对前驱节点执行后插
+        pos = insertAsSucc(pos->pred(), e); // 对前驱节点执行后插    
+        if constexpr (Circular) {                // 循环链表
+            if (begin().base() == pos->succ()) { // 如果前插的节点是第一个元素
+                _head->setSucc(pos);             // 需要重新设置首元素指针的位置
+            }
+        }
     } else {
-        if (end().base() == pos) {
-            _size++;                        // 唯一不调用前插转后插的地方
-            _tail = create();
-            pos->setSucc(_tail->setPred(pos)); // 特判尾哨兵的前插
-        } else {
-            insertAsSucc(pos, pos->data()); // 执行后插，复制pos处的节点
+        insertAsSucc(pos, pos->data());     // 执行后插，复制pos处的节点
+        if (end().base() == pos) {          // 若有必要，更新尾哨兵
+            _tail = pos->succ();
         }
         pos->data() = e;                    // 将pos处的值改掉
-    }
-    if constexpr (Circular) {                // 双向循环链表
-        if (begin().base() == pos->succ()) { // 如果前插的节点是第一个元素
-            _head->setSucc(pos);             // 需要重新设置首元素指针的位置
-        }
     }
     return pos;
 }
@@ -171,7 +187,11 @@ ListNodePos<T> List<T, Node, Circular>::insertAsSucc(ListNodePos<T> pos, const T
         }
     }
     auto succ = pos->succ(), cur = create(e);
-    return cur->setPred(pos->setSucc(cur))->setSucc(succ->setPred(cur)); // 四次赋值
+    cur->setPred(pos->setSucc(cur))->setSucc(succ); // 四次赋值
+    if (succ != nullptr) {
+        succ->setPred(cur);
+    }
+    return cur;
 }
 
 // 删除元素
@@ -182,14 +202,20 @@ T List<T, Node, Circular>::remove(ListNodePos<T> pos) {
     if constexpr (Node::isBidirectional()) { // 双向链表，直接删除
         pos->pred()->setSucc(pos->succ());
         pos->succ()->setPred(pos->pred());
+        if constexpr (Circular) {
+            if (pos == _head->succ()) {      // 循环链表删除第一个节点的时候，需要修改头哨兵的后继
+                _head->setSucc(pos->succ());
+            }
+        }
         destroy(pos);
     } else {                                 // 单向链表，采用和前插类似的技术
-        pos->data() = pos->succ()->data();
-        pos->setSucc(pos->succ()->succ());
-        if (pos->succ() == _tail) {          // 删除最后一个节点，需要重置尾哨兵位置
+        auto vic = pos->succ();
+        pos->data() = vic->data();
+        pos->setSucc(vic->succ());
+        if (vic == _tail) {                  // 删除最后一个节点，需要重置尾哨兵位置
             _tail = pos;
         }
-        destroy(pos->succ());       
+        destroy(vic);       
     }
     return temp;
 }

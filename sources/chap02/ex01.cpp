@@ -26,7 +26,7 @@ int e = 0;                      // 用于向向量中加入元素
 
 void check() {
     assert(V.size() == v.size());
-    for (Rank r = 0; r < V.size(); r++) {
+    for (Rank r : views::iota(0, V.size())) {
         assert(V[r] == v[r]);
     }
 }
