@@ -120,15 +120,19 @@ protected:
     ListNodePos<T> _tail;           // 列表的尾哨兵
     int _size;                      // 列表的规模
 
-    // 和内存管理相关的接口，在静态链表中，这些接口会被重载
+    // 和内存管理相关的接口，在静态链表中，这些接口是基于Container的
     // 动态链表和静态链表的本质区别，是对申请和释放内存的区别
     // 创建新的节点的接口
     virtual ListNodePos<T> create();
-    virtual ListNodePos<T> create(const T& e);
+    virtual ListNodePos<T> create(const T& e); 
     // 删除一个节点的接口
     virtual void destroy(ListNodePos<T> pos);
     // 删除所有节点的接口
     virtual void destroyAll();
+
+    // 对于静态链表，使用这个函数来安全地创建节点
+    template <typename... P>
+    void safelyExecute(function<void()> f, P&... pointers);
 
 private:
     // 创建一个空表
@@ -180,11 +184,26 @@ using StaticList = List<T, Node, Circular, true, Container>;
 
 // 以下是上述接口的实现部分
 
+// 安全地执行f()，同时更新pointers
+template <typename T, typename Node, bool Circular, bool Static, typename Container>
+template <typename... P>
+void List<T, Node, Circular, Static, Container>::safelyExecute(function<void()> f, P&... pointers) {
+    if constexpr (Static) {
+        ptrdiff_t offsets[] {((Node*)pointers - &V[0])... };
+        f();
+        int i = 0;
+        int _[] {(pointers = &V[0] + offsets[i], i++)...};
+    } else {
+        f();
+    }
+}
+
+
 // 创建一个节点
 template <typename T, typename Node, bool Circular, bool Static, typename Container>
 ListNodePos<T> List<T, Node, Circular, Static, Container>::create() {
     if constexpr (Static) {
-        V.push_back(Node());
+        safelyExecute([&]() { V.push_back(Node()); }, _head, _tail);
         return (V.end() - 1).base();
     } else {
         return new Node();
@@ -195,7 +214,7 @@ ListNodePos<T> List<T, Node, Circular, Static, Container>::create() {
 template <typename T, typename Node, bool Circular, bool Static, typename Container>
 ListNodePos<T> List<T, Node, Circular, Static, Container>::create(const T& e) {
     if constexpr (Static) {
-        V.push_back(Node(e));
+        safelyExecute([&]() { V.push_back(Node(e)); }, _head, _tail);
         return (V.end() - 1).base();
     } else {
         return new Node(e);
@@ -298,22 +317,11 @@ ListNodePos<T> List<T, Node, Circular, Static, Container>::insertAsPred(ListNode
             }
         }
     } else {
-        if constexpr (Static) {
-            ptrdiff_t offset = (Node*)pos - &V[0];
-            insertAsSucc(pos, pos->data());
-            pos = &V[0] + offset;
-        } else {
-            insertAsSucc(pos, pos->data());     // 执行后插，复制pos处的节点
-        }
+        safelyExecute([&]() { insertAsSucc(pos, pos->data()); }, pos);
         if (end().base() == pos) {          // 若有必要，更新尾哨兵
             _tail = pos->succ();
         }
         pos->data() = e;                    // 将pos处的值改掉
-        if constexpr (Static) {
-        for (auto node : V) {
-            cout << node.data() << ", ";
-        } cout << endl;
-    }
     }
     return pos;
 }
@@ -328,13 +336,7 @@ ListNodePos<T> List<T, Node, Circular, Static, Container>::insertAsSucc(ListNode
         }
     }
     ListNodePos<T> cur;
-    if constexpr (Static) {
-        ptrdiff_t offset = (Node*)pos - &V[0];
-        cur = create(e);
-        pos = &V[0] + offset;
-    } else {
-        cur = create(e);
-    }
+    safelyExecute([&]() { cur = create(e); }, pos);
     auto succ = pos->succ();
     cur->setPred(pos->setSucc(cur))->setSucc(succ); // 四次赋值
     if (succ != nullptr) {

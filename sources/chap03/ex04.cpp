@@ -104,16 +104,9 @@ void remove() {
 }
 
 int main() {
-	cout << "start" << endl; 
-	for (int i = 0; i < 10; i++) {
-		L5.push_back(i);
-		cout << L5 << endl;
-	}
-	
-	return 0; 
-//    while (e < start_size) {
-//        insert(); // 实验开始，首先进行一些插入
-//    }
+    while (e < start_size) {
+        insert(); // 实验开始，首先进行一些插入
+    }
     check();
     for (int i : views::iota(0, op_count)) { // 实验中，进行若干次随机操作
         double x = random.nextDouble();
@@ -123,7 +116,7 @@ int main() {
             remove();
         }
         // cout << "\tLf = " << Lf << endl;
-        cout << "\tL5 = " << L5 << endl;
+        // cout << "\tL5 = " << L5 << endl;
         cout << "\t V =  " << V << endl;
         check();
     }
