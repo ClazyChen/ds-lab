@@ -4,14 +4,33 @@
 #include <cassert>
 using namespace clazy_framework;
 
-// 这个例子展示了循环链表
+// 这个例子展示了全部的8种链表形态
 // 我现在并没有理解循环链表有什么用
+// 所以单独用一个实验展示这个这个现象
 
 template <typename T>
-using CircularForwardList = clazy::List<T, clazy::ForwardListNode<T>, true>;
+using ListFLD = clazy::List<T, clazy::ForwardListNode<T>>;
 
 template <typename T>
-using CircularBidirectionalList = clazy::List<T, clazy::ListNode<T>, true>;
+using ListBLD = clazy::List<T>;
+
+template <typename T>
+using ListFCD = clazy::List<T, clazy::ForwardListNode<T>, true>;
+
+template <typename T>
+using ListBCD = clazy::List<T, clazy::ListNode<T>, true>;
+
+template <typename T>
+using ListFLS = clazy::StaticList<T, clazy::ForwardStaticListNode<T>>;
+
+template <typename T>
+using ListBLS = clazy::StaticList<T>;
+
+template <typename T>
+using ListFCS = clazy::StaticList<T, clazy::ForwardStaticListNode<T>, true>;
+
+template <typename T>
+using ListBCS = clazy::StaticList<T, clazy::StaticListNode<T>, true>;
 
 // 作为对照组，同样使用向量
 template <typename T>
@@ -20,14 +39,20 @@ using Vector = clazy::Vector<T>;
 // 随机操作的控制
 const int start_size = 4;       // 向量的初始长度
 const int op_count = 20;        // 连续操作序列的长度
-const double insert_cdf = 0.75; // 在连续操作序列中“插入”的占比
-const double front_cdf  = 0.6;  // 在连续操作序列中前端操作的占比
+const double insert_cdf = 0.6;  // 在连续操作序列中“插入”的占比
+const double front_cdf  = 0;  // 在连续操作序列中前端操作的占比
 
 Random random;                  // 随机数发生器
-CircularForwardList<int> Lf;    // 单向循环链表
-CircularBidirectionalList<int> Lb; // 双向循环链表
+ListFLD<int> L1;                // 8种链表
+ListBLD<int> L2;
+ListFCD<int> L3;
+ListBCD<int> L4;
+ListFLS<int> L5;
+// ListBLS<int> L6;
+// ListFCS<int> L7;
+// ListBCS<int> L8;
 const vector<clazy_framework::AbstractList<int>*> Ls {
-    &Lf, &Lb
+    &L1, &L2, &L3, &L4, &L5//, &L6, &L7, &L8
 };                              // 用于测试的循环链表
 Vector<int> V;                  // 用于对比的向量
 
@@ -79,9 +104,16 @@ void remove() {
 }
 
 int main() {
-    while (e < start_size) {
-        insert(); // 实验开始，首先进行一些插入
-    }
+	cout << "start" << endl; 
+	for (int i = 0; i < 10; i++) {
+		L5.push_back(i);
+		cout << L5 << endl;
+	}
+	
+	return 0; 
+//    while (e < start_size) {
+//        insert(); // 实验开始，首先进行一些插入
+//    }
     check();
     for (int i : views::iota(0, op_count)) { // 实验中，进行若干次随机操作
         double x = random.nextDouble();
@@ -90,8 +122,8 @@ int main() {
         } else {
             remove();
         }
-        cout << "\tLf = " << Lf << endl;
-        cout << "\tLb = " << Lb << endl;
+        // cout << "\tLf = " << Lf << endl;
+        cout << "\tL5 = " << L5 << endl;
         cout << "\t V =  " << V << endl;
         check();
     }

@@ -106,7 +106,7 @@ public:
 
 // 以下是上述接口的实现部分
 template <typename T, typename Allocator>
-clazy_framework::VectorAllocator* Vector<T, Allocator>::allocator = new Allocator();
+clazy_framework::VectorAllocator* Vector<T, Allocator>::allocator = nullptr;
 
 // 构造函数
 template <typename T, typename Allocator>
@@ -139,6 +139,9 @@ void Vector<T, Allocator>::setCapacity(int capacity) {
 // 重新设置规模，这里要判断是否需要扩容或缩容
 template <typename T, typename Allocator>
 void Vector<T, Allocator>::resize(int size) {
+    if (allocator == nullptr) {
+        allocator = new Allocator();
+    }
     auto [action, capacity] = allocator->apply(_capacity, size);
     if (action != clazy_framework::VectorAllocator::Result::NoAction) {
         setCapacity(capacity);              // 如果有必要，则进行扩容或者缩容
@@ -149,9 +152,12 @@ void Vector<T, Allocator>::resize(int size) {
 // 插入元素
 template <typename T, typename Allocator>
 Rank Vector<T, Allocator>::insert(Rank r, const T& e) {
+    // cout << "insert " <<  r << endl;
     resize(_size + 1);                      // 向量的规模增加1
+    // cout << "insert mid " <<  r << endl;
     copy_backward(begin() + r, begin() + _size - 1, begin() + _size); // 把后面的元素后移，思考一下，为什么要用backward？
     _data[r] = e;                           // 要插入的元素加入到向量中
+    // cout << "insert end " <<  r << endl;
     return r;
 }
 

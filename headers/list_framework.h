@@ -10,6 +10,8 @@ namespace clazy_framework {
 // 列表节点的ADT接口
 template <typename T>
 class AbstractListNode {
+protected:
+    T _data;
 public:
     // 您需要实现它的直接前驱和直接后继的获取接口和设置接口（返回本身的指针）
     virtual AbstractListNode<T>* pred() { return this; }
@@ -18,7 +20,15 @@ public:
     virtual AbstractListNode<T>* setSucc(AbstractListNode<T>* _succ) { return this; }
 
     // 您需要实现获取数据的接口
-    virtual T& data() = 0;
+    virtual T& data() { return _data; }
+
+    // 默认实现的构造函数
+    AbstractListNode() {}
+    AbstractListNode(T _data): _data(_data) {}
+
+    // 默认实现的比较接口
+    bool operator==(const AbstractListNode<T>& other) const { return _data == other._data; };
+    bool operator!=(const AbstractListNode<T>& other) const { return !(*this == other);}
 };
 
 // 当您希望构造单链表时，可以用于指定前向指针pred()返回节点本身
@@ -34,6 +44,7 @@ concept DirectionDefined = requires {
 };
 
 // 定义一个链表节点需要满足的条件：继承于抽象链表类，并且定义了constexpr的方向
+// 实际上作为一个静态节点，还必须满足移动时指针不发生混乱，这个大概需要用static assert弄，暂时先不写了
 template <typename T, typename Node>
 concept ListNodeType = is_base_of_v<clazy_framework::AbstractListNode<T>, Node> && DirectionDefined<Node>;
 
