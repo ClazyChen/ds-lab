@@ -17,8 +17,8 @@ class BasicList : public clazy_framework::AbstractList<T, P, Node> {
 
 // 在基本的列表实现中，仍然不对下面这些接口作出定义
 // 留到具体的动态和静态列表的时候才作出定义
-protected:
-    virtual T& data(P pos) = 0;
+public:
+    virtual T& data(P pos) const = 0;
     virtual P pred(P pos) const = 0;
     virtual P succ(P pos) const = 0;
     virtual P setPred(P pos, P pred) = 0;
@@ -43,29 +43,27 @@ protected:
     // 释放一个节点的接口
     virtual void destroy(P pos) = 0;
     // 释放所有节点的接口，用于析构、清空这种需要整个列表全部删除的场合
-    virtual void destroyAll() = 0;
+    virtual void destroyAll() {};
 
-private:
     // 生成空表，直接连接头尾哨兵
-    void createEmptyList() {
+    virtual void createEmptyList() {
         _size = 0;
         _head = create();
         _tail = create();
         setSucc(_head, _tail);
         setPred(_tail, _head);
     }
-
-public:
-    BasicList() { createEmptyList(); } // 默认构造函数
+    // 复制列表，用于复制构造函数
     template <typename ListType, typename P1, typename Node1>
     requires (is_base_of_v<BasicList<T, P1, Node1>, ListType>)
-    BasicList(const ListType& L);      // 复制构造函数
-    ~BasicList() { destroyAll(); }     // 析构函数，需要释放空间
+    void duplicateList(const ListType& L);
 
+public:
+    BasicList() { } // 默认构造函数
     virtual int size() const { return _size; }
     virtual void clear() { destroyAll(); createEmptyList(); }
-    virtual ListIterator<T, P, Node> begin() const { return ListIterator<T, P, Node>(succ(_head)); }
-    virtual ListIterator<T, P, Node> end() const { return ListIterator<T, P, Node>(_tail); }
+    virtual ListIterator<T, P, Node> begin() const { return ListIterator<T, P, Node>(succ(_head), this); }
+    virtual ListIterator<T, P, Node> end() const { return ListIterator<T, P, Node>(_tail, this); }
 
     // 插入元素（包括前插和后插）的接口，返回被插入元素的位置
     virtual P insertAsPred(P pos, const T& e);
@@ -83,7 +81,7 @@ public:
 template <typename T, typename P, typename Node>
 template <typename ListType, typename P1, typename Node1>
 requires (is_base_of_v<BasicList<T, P1, Node1>, ListType>)
-BasicList<T, P, Node>::BasicList(const ListType& L) {
+void BasicList<T, P, Node>::duplicateList(const ListType& L) {
     _size = L.size();
     _head = create();
     _tail = create();
@@ -164,9 +162,8 @@ P BasicList<T, P, Node>::find(const T& e) const {
 }
 
 // 利用<<输出
-template <typename T, typename P, typename Node, typename ListType>
-requires (is_base_of_v<BasicList<T, P, Node>, ListType>)
-ostream& operator<< (ostream& out, const ListType& L) {
+template <typename T, typename P, typename Node>
+ostream& operator<< (ostream& out, const BasicList<T, P, Node>& L) {
     out << "L(";
     for (auto it = begin(L); it != end(L); it++) {
         if (it != begin(L)) {

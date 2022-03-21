@@ -12,7 +12,7 @@ using clazy_framework::Comparator;
 // Rank在成功时，表示查找到的元素的秩；在失败时，指示应当被插入的位置
 template <typename T, typename Container = Vector<T>>
 requires (is_base_of_v<clazy_framework::AbstractVector<T>, Container>)
-using VectorSearch = clazy_framework::OrderedSearch<T, Container, Rank>;
+using VectorSearch = clazy_framework::OrderedSearch<T, Rank, Container>;
 
 // 顺序查找
 template <typename T, typename Container = Vector<T>>

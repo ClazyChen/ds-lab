@@ -68,10 +68,11 @@ class StaticList : public BasicList<T, Rank, Node> {
 protected:
     Container V;  // 使用向量存储所有的节点
 
+public:
     // 重载找位置相关的函数
     virtual T& data(Rank pos) { return V[pos].data(); }
-    virtual Rank pred(Rank pos) { return V[pos].pred(); }
-    virtual Rank succ(Rank pos) { return V[pos].succ(); }
+    virtual Rank pred(Rank pos) const { return V[pos].pred(); }
+    virtual Rank succ(Rank pos) const { return V[pos].succ(); }
     virtual Rank setPred(Rank pos, Rank _pred) { 
         if (pos != invalidRank) {
             V[pos].setPred(_pred);
@@ -92,11 +93,10 @@ protected:
     virtual void destroy(Rank pos);
     virtual void destroyAll() { V.resize(0); }
 
-public:
-    StaticList() {} // 默认构造函数
+    StaticList() { this->createEmptyList(); } // 默认构造函数
     template <typename ListType, typename P1, typename Node1>
     requires (is_base_of_v<BasicList<T, P1, Node1>, ListType>)
-    StaticList(const ListType& L): BasicList<T, Rank, Node>(L) {} // 复制构造函数
+    StaticList(const ListType& L) { this->duplicateList(L); } // 复制构造函数
 
 };
 

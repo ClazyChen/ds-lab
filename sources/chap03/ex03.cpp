@@ -9,7 +9,7 @@ using namespace clazy_framework;
 // 这个例子将会讨论列表的排序和查找
 // 同样，我们拿单向链表、双向链表和向量来对比
 template <typename T>
-using ForwardList = clazy::List<T, clazy::ForwardListNode<T>>;
+using ForwardList = clazy::ForwardList<T>;
 
 template <typename T>
 using BidirectionalList = clazy::List<T>;
@@ -19,20 +19,20 @@ using Vector = clazy::Vector<T>;
 
 // 各自的排序算法
 template <typename T>
-using ForwardListMergeSort = clazy::ListMergeSort<T, clazy::ForwardListNode<T>, ForwardList<T>>;
+using ForwardListMergeSort = clazy::ListMergeSort<T, clazy::ListNodePos<T>, clazy::ForwardListNode<T>>;
 
 template <typename T>
-using BidirectionalListMergeSort = clazy::ListMergeSort<T, clazy::ListNode<T>, BidirectionalList<T>>;
+using BidirectionalListMergeSort = clazy::ListMergeSort<T>;
 
 template <typename T>
 using VectorMergeSort = clazy::VectorMergeSort<T, Vector<T>>;
 
 // 各自的查找算法，其中向量采用折半查找
 template <typename T>
-using ForwardListSearch = clazy::ListSequentialSearch<T, clazy::ForwardListNode<T>, ForwardList<T>>;
+using ForwardListSearch = clazy::ListSequentialSearch<T, clazy::ListNodePos<T>, clazy::ForwardListNode<T>>;
 
 template <typename T>
-using BidirectionalListSearch = clazy::ListSequentialSearch<T, clazy::ListNode<T>, BidirectionalList<T>>;
+using BidirectionalListSearch = clazy::ListSequentialSearch<T>;
 
 template <typename T>
 using VectorSearch = clazy::VectorBinarySearch<T, Vector<T>>;
@@ -51,10 +51,10 @@ public:
 template <typename T, typename Container, typename SortMethod, typename SearchMethod, typename P>
 requires (is_base_of_v<clazy_framework::AbstractLinearStructure<T>, Container> && 
           is_base_of_v<clazy_framework::Sort<T, Container>, SortMethod> && 
-          is_base_of_v<clazy_framework::OrderedSearch<T, Container, P>, SearchMethod>)
+          is_base_of_v<clazy_framework::OrderedSearch<T, P, Container>, SearchMethod>)
 class SortSearchInstance : public SortSearchProblem<T> {
 protected:
-    Container C; // 用来进行排序的数据结构
+    Container C; // 用来进行排序的数据结构d
     SortMethod sortAlgorithm;
     SearchMethod searchAlgorithm;
 public:
@@ -68,7 +68,7 @@ public:
         sortAlgorithm.apply(C);
     }
     virtual void applySearch(const clazy::Vector<T>& V) {
-        if constexpr (is_base_of_v<AbstractList<T>, Container>) {
+        if constexpr (!is_base_of_v<AbstractVector<T>, Container>) {
             if ((long long)C.size() * V.size() >= 10'000'000'000LL) {
                 cout << "(no action)"; return; // 如果查找次数太多，把列表的顺序查找屏蔽掉
             }
@@ -111,8 +111,8 @@ const int test_search_count = 100; // 进行测试查找的次数
 int main() {
     auto algorithms = generateInstances<
         SortSearchProblem<int>, 
-        SortSearchInstance<int, ForwardList<int>, ForwardListMergeSort<int>, ForwardListSearch<int>, ListNodePos<int>>,
-        SortSearchInstance<int, BidirectionalList<int>, BidirectionalListMergeSort<int>, BidirectionalListSearch<int>, ListNodePos<int>>,
+        SortSearchInstance<int, ForwardList<int>, ForwardListMergeSort<int>, ForwardListSearch<int>, clazy::ListNodePos<int>>,
+        SortSearchInstance<int, BidirectionalList<int>, BidirectionalListMergeSort<int>, BidirectionalListSearch<int>, clazy::ListNodePos<int>>,
         SortSearchInstance<int, Vector<int>, VectorMergeSort<int>, VectorSearch<int>, Rank>>();
     int testData[] { 10, 1000, 10000, 100'000, 1'000'000 };
     for (int n : testData) {

@@ -12,7 +12,7 @@ using SearchResult = pair<bool, P>;
 // 基本的查找
 // 注意我们并不规定Container是const的
 // 因为一些结构（比如伸展树）有可能会在查找的过程中同时发生改变
-template <typename T, typename Container, typename P>
+template <typename T, typename P, typename Container>
 requires (is_base_of_v<DataStructure<T>, Container>)
 class Search : public Algorithm {
 protected:
@@ -26,9 +26,9 @@ public:
 // 全序集上的查找（基于比较函数）
 // 在向量、列表、分块表、BST、B树、B+树、跳表上做查找都使用这个
 // 散列是基于散列函数的，不使用这个
-template <typename T, typename Container, typename P>
+template <typename T, typename P, typename Container>
 requires (is_base_of_v<DataStructure<T>, Container>)
-class OrderedSearch : public Search<T, Container, P> {
+class OrderedSearch : public Search<T, P, Container> {
 protected:
     virtual SearchResult<P> search(Container& C, const T& e, const Comparator<T>& cmp) = 0;
     virtual SearchResult<P> search(Container& C, const T& e) { // 默认

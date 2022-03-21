@@ -15,8 +15,8 @@ public:
     // 直接前驱和直接后继的获取接口和设置接口（返回本身的指针）
     virtual AbstractDynamicListNode<T>* pred() { return this; }
     virtual AbstractDynamicListNode<T>* succ() { return this; }
-    virtual void setPred(AbstractDynamicListNode<T>* _pred) { return this; }
-    virtual void setSucc(AbstractDynamicListNode<T>* _succ) { return this; }
+    virtual void setPred(AbstractDynamicListNode<T>* _pred) { }
+    virtual void setSucc(AbstractDynamicListNode<T>* _succ) { }
 
     // 获取数据的接口
     virtual T& data() { return _data; }
@@ -64,20 +64,20 @@ public:
 template <typename T, typename Node>
 requires (is_base_of_v<AbstractDynamicListNode<T>, Node> && clazy_framework::ListNodeType<T, Node>)
 class DynamicList : public BasicList<T, ListNodePos<T>, Node> {
-protected:
+public:
     // 重载找位置相关的函数
-    virtual T& data(ListNodePos<T> pos) { return pos->data(); }
-    virtual ListNodePos<T> pred(ListNodePos<T> pos) { return pos->pred(); }
-    virtual ListNodePos<T> succ(ListNodePos<T> pos) { return pos->succ(); }
+    virtual T& data(ListNodePos<T> pos) const { return pos->data(); }
+    virtual ListNodePos<T> pred(ListNodePos<T> pos) const { return pos->pred(); }
+    virtual ListNodePos<T> succ(ListNodePos<T> pos) const { return pos->succ(); }
     virtual ListNodePos<T> setPred(ListNodePos<T> pos, ListNodePos<T> _pred) { 
         if (pos != nullptr) {
-            return pos->setPred(_pred);
+            pos->setPred(_pred);
         }
         return pos;
     }
     virtual ListNodePos<T> setSucc(ListNodePos<T> pos, ListNodePos<T> _succ) {
         if (pos != nullptr) {
-            return pos->setSucc(_succ);
+            pos->setSucc(_succ);
         }
         return pos;
     }
@@ -89,22 +89,22 @@ protected:
     virtual void destroy(ListNodePos<T> pos) { delete pos; }
     virtual void destroyAll();
 
-public:
-    DynamicList() {} // 默认构造函数
+    DynamicList() { this->createEmptyList(); } // 默认构造函数
     template <typename ListType, typename P1, typename Node1>
     requires (is_base_of_v<BasicList<T, P1, Node1>, ListType>)
-    DynamicList(const ListType& L): BasicList<T, ListNodePos<T>, Node>(L) {} // 复制构造函数
+    DynamicList(const ListType& L) { this->duplicateList(L); } // 复制构造函数
+    ~DynamicList() { destroyAll(); } // 析构函数
 
 };
 
 template <typename T, typename Node>
 void DynamicList<T, Node>::destroyAll() {
-    auto p = BasicList<T, ListNodePos<T>, Node>::_head;
+    auto p = this->_head;
     do {
         auto q = succ(p);
         destroy(p);
         p = q;
-    } while (p != BasicList<T, ListNodePos<T>, Node>::_tail);
+    } while (p != this->_tail);
 }
 
 }

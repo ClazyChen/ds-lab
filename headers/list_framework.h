@@ -27,9 +27,9 @@ concept ListNodeType = requires (const T& e){
 template <typename T, typename P, typename Node>
 requires (ListNodeType<T, Node>)
 class AbstractList : public AbstractLinearStructure<T> {
-protected:
+public:
     // 您需要定义按位置获取数据，及其在线性列表中的前驱和后继
-    virtual T& data(P pos) = 0;
+    virtual T& data(P pos) const = 0;
     virtual P pred(P pos) const = 0;
     virtual P succ(P pos) const = 0;
     // 设置前驱和后继，然后返回pos本身（如果pos无效则什么都不做）
@@ -38,12 +38,12 @@ protected:
     // 产生一个无效的位置（nullptr，静态列表通常可取-1）
     virtual P invalid() const = 0;
 
-public:
     // 列表的迭代器
     // 注意，迭代器的base是P类型的，也就是说在静态链表中是Rank
     class Iterator {
     protected:
         P position;
+        const AbstractList<T, P, Node>* L;
     public:
         using iterator_category = bidirectional_iterator_tag;
         using value_type        = T;
@@ -51,7 +51,7 @@ public:
         using pointer           = P;
         using reference         = T&;
 
-        explicit Iterator(P position): position(position) {}
+        explicit Iterator(P position, const AbstractList<T, P, Node>* L): position(position), L(L) {}
 
         bool operator==(Iterator other) {
             return (position == other.position);
@@ -62,7 +62,7 @@ public:
         }
 
         Iterator& operator++() {
-            position = succ(position);
+            position = L->succ(position);
             return *this;
         }
 
@@ -73,7 +73,7 @@ public:
         }
 
         Iterator& operator--() {
-            position = pred(position);
+            position = L->pred(position);
             return *this;
         }
 
@@ -110,7 +110,7 @@ public:
         }
 
         reference operator*() {
-            return data(position);
+            return L->data(position);
         }
 
         pointer operator->() {

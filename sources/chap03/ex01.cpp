@@ -17,7 +17,7 @@ using namespace clazy_framework;
 // 比如查找特定节点的前驱，双向链表的时间远远小于单向链表
 
 template <typename T>
-using ForwardList = clazy::List<T, clazy::ForwardListNode<T>>;
+using ForwardList = clazy::ForwardList<T>;
 
 template <typename T>
 using BidirectionalList = clazy::List<T>;

@@ -29,7 +29,7 @@ template <typename T>
 class SequentialClear : public ClearProblem<T> {
 protected:
     BidirectionalList<T> L;
-    Vector<ListNodePos<T>> V;
+    Vector<clazy::ListNodePos<T>> V;
 public:
     virtual void initialize(int n) {
         L.clear();
@@ -51,7 +51,7 @@ class RandomClear : public SequentialClear<T> {
 public:
     virtual void initialize(int n) {
         SequentialClear<T>::initialize(n);
-        random_shuffle(begin(SequentialClear<T>::V), end(SequentialClear<T>::V));
+        random_shuffle(begin(this->V), end(this->V));
     }
 };
 
