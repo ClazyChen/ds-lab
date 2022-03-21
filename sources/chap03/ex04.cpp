@@ -40,7 +40,7 @@ using Vector = clazy::Vector<T>;
 const int start_size = 4;       // 向量的初始长度
 const int op_count = 20;        // 连续操作序列的长度
 const double insert_cdf = 0.6;  // 在连续操作序列中“插入”的占比
-const double front_cdf  = 0;  // 在连续操作序列中前端操作的占比
+const double front_cdf  = 0.5;  // 在连续操作序列中前端操作的占比
 
 Random random;                  // 随机数发生器
 ListFLD<int> L1;                // 8种链表
@@ -48,9 +48,9 @@ ListBLD<int> L2;
 ListFCD<int> L3;
 ListBCD<int> L4;
 ListFLS<int> L5;
-// ListBLS<int> L6;
-// ListFCS<int> L7;
-// ListBCS<int> L8;
+ListBLS<int> L6;
+ListFCS<int> L7;
+ListBCS<int> L8;
 const vector<clazy_framework::AbstractList<int>*> Ls {
     &L1, &L2, &L3, &L4, &L5//, &L6, &L7, &L8
 };                              // 用于测试的循环链表
@@ -104,9 +104,16 @@ void remove() {
 }
 
 int main() {
-    while (e < start_size) {
-        insert(); // 实验开始，首先进行一些插入
-    }
+//    for (int i = 0; i < 10; i++) {
+//        L5.push_front(i);
+//        cout << L5 << endl;
+//    }
+////
+//    return 0;
+
+//    while (e < start_size) {
+//        insert(); // 实验开始，首先进行一些插入
+//    }
     check();
     for (int i : views::iota(0, op_count)) { // 实验中，进行若干次随机操作
         double x = random.nextDouble();
@@ -116,7 +123,7 @@ int main() {
             remove();
         }
         // cout << "\tLf = " << Lf << endl;
-        // cout << "\tL5 = " << L5 << endl;
+        cout << "\tL5 = " << L5 << endl;
         cout << "\t V =  " << V << endl;
         check();
     }

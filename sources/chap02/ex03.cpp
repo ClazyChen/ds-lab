@@ -35,11 +35,11 @@ const int shrink_threshold = 4;
 
 int main() {
     Vector<DynamicVectorAllocator<expand_ratio, shrink_ratio, shrink_threshold>> V;
-    for (int i = 0; i < op_number; i++) {
+    for (int i : views::iota(0, op_number)) {
         V.push_back(i);
         cout << "inserted capacity: " << V.capacity() << "\t V = " << V << endl;
     }
-    for (int i = 0; i < op_number; i++) {
+    for (int i : views::iota(0, op_number)) {
         V.pop_back();
         cout << "removed  capacity: " << V.capacity() << "\t V = " << V << endl;
     }

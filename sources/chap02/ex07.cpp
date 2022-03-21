@@ -15,7 +15,7 @@ using Vector = clazy::Vector<T>;
 
 // 当您使用自己实现的向量时，相应的排序算法也需要修改
 template <typename T>
-using Sort = clazy::VectorMergeSort<T>;
+using SortAlgorithm = clazy::VectorMergeSort<T>;
 
 template <typename T>
 class Deduplicate : public Algorithm {
@@ -78,10 +78,10 @@ protected:
             return data == other.data;
         }
     }; // 采用元素+原向量中的秩作为次序
-    shared_ptr<clazy_framework::VectorSort<E, Vector<E>>> sortAlgorithm;
+    shared_ptr<clazy::VectorSort<E, Vector<E>>> sortAlgorithm;
     shared_ptr<Deduplicate<E>> sortedDeduplicate;
 public:
-    SortBasedDeduplicate(): sortAlgorithm(make_shared<Sort<E>>()), sortedDeduplicate(make_shared<SortedDeduplicate<E>>()) {}
+    SortBasedDeduplicate(): sortAlgorithm(make_shared<SortAlgorithm<E>>()), sortedDeduplicate(make_shared<SortedDeduplicate<E>>()) {}
     virtual int apply(Vector<T>& V) {
         Vector<E> VE(V.size());                // 建立辅助向量
         for (int i : views::iota(0, V.size())) {

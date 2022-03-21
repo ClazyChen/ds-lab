@@ -60,7 +60,7 @@ int main() {
         insert();                        // 实验开始，首先进行一些插入
     }
     check();
-    for (int i = 0; i < op_count; i++) { // 实验中，进行若干次随机操作
+    for (int i : views::iota(0, op_count)) { // 实验中，进行若干次随机操作
         double x = random.nextDouble();
         if (x < insert_cdf) {
             insert();

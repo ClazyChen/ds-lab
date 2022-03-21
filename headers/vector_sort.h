@@ -6,10 +6,16 @@ namespace clazy {
 
 using clazy_framework::Comparator;
 
+// 向量的排序
+// Rank在成功时，表示查找到的元素的秩；在失败时，指示应当被插入的位置
+template <typename T, typename Container = Vector<T>>
+requires (is_base_of_v<clazy_framework::AbstractVector<T>, Container>)
+using VectorSort = clazy_framework::Sort<T, Container>;
+
 // 向量的归并排序
 template <typename T, typename Container = Vector<T>>
 requires (is_base_of_v<clazy_framework::AbstractVector<T>, Container>)
-class VectorMergeSort : public clazy_framework::Sort<T, Container> {
+class VectorMergeSort : public VectorSort<T, Container> {
 private:
     Container W;
 protected:
