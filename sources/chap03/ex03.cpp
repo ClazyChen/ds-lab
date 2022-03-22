@@ -54,7 +54,7 @@ requires (is_base_of_v<clazy_framework::AbstractLinearStructure<T>, Container> &
           is_base_of_v<clazy_framework::OrderedSearch<T, P, Container>, SearchMethod>)
 class SortSearchInstance : public SortSearchProblem<T> {
 protected:
-    Container C; // 用来进行排序的数据结构d
+    Container C; // 用来进行排序的数据结构
     SortMethod sortAlgorithm;
     SearchMethod searchAlgorithm;
 public:
@@ -141,6 +141,11 @@ int main() {
     return 0;
 }
 
+// 实验结果应该是，列表的归并排序的效率会低于向量，因为需要更多次数的赋值（平均）
+// 单向链表对链子的赋值次数比双向链表少一半，但是也需要额外的时间用来对节点内的元素做交换等操作
+// 所以单向链表和双向链表的归并排序效率并不会有显著差异
 // 如前所述，这里测试的时候列表中的节点也是有高度的局部性的
 // 如果列表中的节点的地址是乱序的，会和上个实验一样，排序性能更加降低
-// 至于查找，由于列表不能提供随机访问，只能顺序查找，所以无论如何都会比向量性能低
+// 从而在平均层面上和向量拉开差距
+
+// 至于查找，由于列表不能提供随机访问，只能顺序查找，所以无论如何都会比向量性能低非常多

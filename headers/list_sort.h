@@ -56,8 +56,8 @@ void ListMergeSort<T, P, Node, Container>::mergeSort(Container& L, P& pos_begin,
                 L.setPred(pos_left, pos_move);
             } else /* forward list */ {               // 如果是单向链表，用后删代替删除，用后插代替前插
                 L.setSucc(pos_mpred, pos_right);      // 将move从右半部分摘出
-                L.setSucc(pos_right, L.succ(pos_left)); // 将move插入到left后面
-                L.setSucc(pos_left, pos_right);
+                L.setSucc(pos_move, L.succ(pos_left)); // 将move插入到left后面
+                L.setSucc(pos_left, pos_move);
                 swap(L.data(pos_left), L.data(pos_move)); // 交换两个节点的值，实现等价前插
                 if (pos_mpred == pos_left) {          // 可能需要扩展左半部分的边界
                     pos_mpred = pos_move;

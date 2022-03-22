@@ -1,131 +1,85 @@
-#include "list.h"
-#include "vector.h"
-#include "random.h"
-#include <cassert>
+#include "list_sort.h"
+#include "vector_sort.h"
 using namespace clazy_framework;
 
-// 这个例子展示了全部的8种链表形态
-// 我现在并没有理解循环链表有什么用
-// 所以单独用一个实验展示这个这个现象
+// 承接上个例子，这个例子说明，列表的归并排序效率和输入数据的形态相关
+
+// 在归并排序算法中，向量的左半部分和右半部分是地位平等的，而列表不是
+// 列表左指针右移的成本，远远小于右指针右移
+// 所以，如果列表天生有序，那么列表的归并排序中不需要进行任何赋值操作，向量则需要不断搬到辅助存储空间去
+// 所以最好情况下列表的效率能提升很多，反过来，如果列表天生是倒序的，则会表现很差
+
+// 单向链表和双向链表
+template <typename T>
+using ForwardList = clazy::ForwardList<T>;
 
 template <typename T>
-using ListFLD = clazy::List<T, clazy::ForwardListNode<T>>;
+using BidirectionalList = clazy::List<T>;
 
-template <typename T>
-using ListBLD = clazy::List<T>;
-
-template <typename T>
-using ListFCD = clazy::List<T, clazy::ForwardListNode<T>, true>;
-
-template <typename T>
-using ListBCD = clazy::List<T, clazy::ListNode<T>, true>;
-
-template <typename T>
-using ListFLS = clazy::StaticList<T, clazy::ForwardStaticListNode<T>>;
-
-template <typename T>
-using ListBLS = clazy::StaticList<T>;
-
-template <typename T>
-using ListFCS = clazy::StaticList<T, clazy::ForwardStaticListNode<T>, true>;
-
-template <typename T>
-using ListBCS = clazy::StaticList<T, clazy::StaticListNode<T>, true>;
-
-// 作为对照组，同样使用向量
 template <typename T>
 using Vector = clazy::Vector<T>;
 
-// 随机操作的控制
-const int start_size = 4;       // 向量的初始长度
-const int op_count = 20;        // 连续操作序列的长度
-const double insert_cdf = 0.6;  // 在连续操作序列中“插入”的占比
-const double front_cdf  = 0.5;  // 在连续操作序列中前端操作的占比
+// 各自的排序算法
+template <typename T>
+using ForwardListMergeSort = clazy::ListMergeSort<T, clazy::ListNodePos<T>, clazy::ForwardListNode<T>>;
 
-Random random;                  // 随机数发生器
-ListFLD<int> L1;                // 8种链表
-ListBLD<int> L2;
-ListFCD<int> L3;
-ListBCD<int> L4;
-ListFLS<int> L5;
-ListBLS<int> L6;
-ListFCS<int> L7;
-ListBCS<int> L8;
-const vector<clazy_framework::AbstractList<int>*> Ls {
-    &L1, &L2, &L3, &L4, &L5//, &L6, &L7, &L8
-};                              // 用于测试的循环链表
-Vector<int> V;                  // 用于对比的向量
+template <typename T>
+using BidirectionalListMergeSort = clazy::ListMergeSort<T>;
 
-int e = 0;                      // 用于向向量中加入元素
+template <typename T>
+using VectorMergeSort = clazy::VectorMergeSort<T, Vector<T>>;
 
-void check() {
-    for (auto L : Ls) {
-        assert(L->size() == V.size());
-        auto itL = begin(*L);
-        auto itV = begin(V);
-        for (; itV != end(V); itV++, itL++) {
-            assert(*itL == *itV);
+enum class DataType {
+    Increasing, Decreasing
+};
+
+// 排序和查找算法
+template <typename T>
+class SortProblem : public Algorithm {
+public:
+    virtual void init(int n, DataType dtype) = 0; // 初始化一个规模为n的数据结构
+    virtual void applySort() = 0; // 进行排序操作
+};
+
+template <typename Container, typename SortMethod>
+requires (is_base_of_v<clazy_framework::AbstractLinearStructure<int>, Container> && 
+          is_base_of_v<clazy_framework::Sort<int, Container>, SortMethod>)
+class SortInstance : public SortProblem<int> {
+protected:
+    Container C; // 用来进行排序的数据结构
+    SortMethod sortAlgorithm;
+public:
+    virtual void init(int n, DataType dtype) {
+        C.clear();
+        if (dtype == DataType::Increasing) {
+            for (int i : views::iota(0, n)) {
+                C.push_back(i);
+            }
+        } else /* dtype == DataType::Decreasing */ {
+            for (int i : views::iota(0, n) | views::reverse) {
+                C.push_back(i);
+            }
         }
     }
-}
-
-void insert() {
-    bool front = random.nextDouble() <= front_cdf;
-    if (front) {
-        cout << "push front(" << e << ")" << endl;
-        for (auto L : Ls) {
-            L->push_front(e);
-        }
-        V.push_front(e++);
-    } else {
-        cout << "push back(" << e << ")" << endl;
-        for (auto L : Ls) {
-            L->push_back(e);
-        }
-        V.push_back(e++);
+    virtual void applySort() {
+        sortAlgorithm.apply(C);
     }
-}
-
-void remove() {
-    bool front = random.nextDouble() <= front_cdf;
-    if (front) {
-        cout << "pop front(" << V[0] << ")" << endl;
-        for (auto L : Ls) {
-            L->pop_front();
-        }
-        V.pop_front();
-    } else {
-        cout << "pop back(" << V[V.size()-1] << ")" << endl;
-        for (auto L : Ls) {
-            L->pop_back();
-        }
-        V.pop_back();
-    }
-}
+};
 
 int main() {
-//    for (int i = 0; i < 10; i++) {
-//        L5.push_front(i);
-//        cout << L5 << endl;
-//    }
-////
-//    return 0;
-
-//    while (e < start_size) {
-//        insert(); // 实验开始，首先进行一些插入
-//    }
-    check();
-    for (int i : views::iota(0, op_count)) { // 实验中，进行若干次随机操作
-        double x = random.nextDouble();
-        if (x < insert_cdf || V.size() == 0) {
-            insert();
-        } else {
-            remove();
+    auto algorithms = generateInstances<
+        SortProblem<int>, 
+        SortInstance<ForwardList<int>, ForwardListMergeSort<int>>,
+        SortInstance<BidirectionalList<int>, BidirectionalListMergeSort<int>>,
+        SortInstance<Vector<int>, VectorMergeSort<int>>();
+    int testData[] { 10, 1000, 10000, 100'000, 1'000'000 };
+    for (int n : testData) {
+        for (auto dtype : {DataType::Increasing, DataType::Decreasing}) {
+            cout << "Testing n = " << n << endl;
+            for (auto algorithm : algorithms) {
+                algorithm->init(n, dtype);
+            }
         }
-        // cout << "\tLf = " << Lf << endl;
-        cout << "\tL5 = " << L5 << endl;
-        cout << "\t V =  " << V << endl;
-        check();
     }
     return 0;
 }

@@ -6,9 +6,9 @@ using namespace clazy_framework;
 
 int main() {
 	auto V = randomVector(10);
-	List<int> L;
-	ListMergeSort<int> S;
-	for (int i = 9; i >= 0; i--) {
+	ForwardList<int> L;
+	ListMergeSort<int, ListNodePos<int>, ForwardListNode<int>> S;
+	for (int i = 0; i < 10; i++) {
 		L.push_back(V[i]);
 	}
 	cout << L << endl;
