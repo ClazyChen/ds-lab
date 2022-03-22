@@ -29,7 +29,7 @@ class IndividualMalloc : public Malloc {
 public:
     virtual void apply(int n) {
         for (int i : views::iota(0, n)) {
-            auto _ = new char;
+            auto _ = new char; // 为了展示new only的时间，这里不能做别的事情，也就没法delete了
         }
     }
 };

@@ -5,6 +5,7 @@
 #include <vector>
 #include <ctime>
 #include "vector.h"
+#include "stack_framework.h"
 
 namespace clazy_framework {
 
@@ -48,6 +49,23 @@ Vector randomVector(int n, int lo = 0, int hi = 65535) {
         result.push_back(Random::nextIntBetween(lo, hi));
     }
     return result;
+}
+
+// 生成一个随机的栈操作序列
+template <typename T, typename Vector = clazy::Vector<T>>
+requires (is_base_of_v<AbstractVector<T>, Vector>)
+Vector randomStackOperation(int n, T push_e, T pop_e) {
+    int p = n, q = n;
+    Vector V;
+    for (int i : views::iota(0, n * 2)) {
+        int r = Random::nextIntBetween(0, (p+q) * (q-p+1));
+        if (r < p * (q-p+2)) {
+            V.push_back(push_e); p--;
+        } else {
+            V.push_back(pop_e); q--;
+        }
+    }
+    return V;
 }
 
 }

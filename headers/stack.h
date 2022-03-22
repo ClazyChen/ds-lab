@@ -20,6 +20,16 @@ public:
 
     Stack() {} // 默认构造函数
     Stack(const Stack& S): C(S.C) {} // 复制构造函数
+
+    template <typename T1, typename Container1> // 为了能够输出Container的内容，声明输出为友元函数
+    friend ostream& operator<< (ostream& out, const Stack<T1, Container1>& S);
 };
+
+template <typename T, typename Container>
+ostream& operator<< (ostream& out, const Stack<T, Container>& S) {
+    out << "Stack-";
+    out << S.C;
+    return out << "->";
+}
 
 }
