@@ -34,6 +34,7 @@ protected:
 public:
     Vector();                   // 默认构造函数，生成空向量
     Vector(int capacity);       // 生成指定规模的空向量
+    Vector(int n, T* data);     // 基于数组生成向量
     Vector(const Vector<T, Allocator>& V); // 复制构造函数，复制向量
     ~Vector() { delete[] _data; } // 析构函数
 
@@ -71,13 +72,20 @@ clazy_framework::AbstractAllocator* Vector<T, Allocator>::allocator = nullptr;
 
 // 构造函数
 template <typename T, typename Allocator>
-Vector<T, Allocator>::Vector(): Vector(min_vector_capacity) {}
+Vector<T, Allocator>::Vector(): Vector(default_min_capacity) {}
 
 template <typename T, typename Allocator>
 Vector<T, Allocator>::Vector(int capacity) {
-    _capacity = max(capacity, min_vector_capacity);
+    _capacity = max(capacity, default_min_capacity);
     _data = new T[_capacity];
     _size = 0;
+}
+
+template <typename T, typename Allocator>
+Vector<T, Allocator>::Vector(int n, T* data) {
+    _capacity = n;
+    _data = data;
+    _size = n;
 }
 
 template <typename T, typename Allocator>
@@ -89,7 +97,7 @@ Vector<T, Allocator>::Vector(const Vector<T, Allocator>& V): Vector(V._capacity)
 // 重新设置容量，这里总是重新开辟一块空间，并复制进去
 template <typename T, typename Allocator>
 void Vector<T, Allocator>::setCapacity(int capacity) {
-    _capacity = max(capacity, min_vector_capacity); // 重新设置capacity
+    _capacity = max(capacity, default_min_capacity); // 重新设置capacity
     auto temp = new T[_capacity];                   // 申请一块新的空间
     _size = min(_size, _capacity);                  // size永远不能超过capacity，多余的元素弃掉
     copy(begin(), begin() + _size, temp);       // 复制数据到新的空间里
@@ -104,7 +112,7 @@ void Vector<T, Allocator>::resize(int size) {
         allocator = new Allocator();
     }
     auto [action, capacity] = allocator->apply(_capacity, size);
-    if (action != clazy_framework::VectorAllocator::Result::NoAction) {
+    if (action != clazy_framework::AbstractAllocator::Result::NoAction) {
         setCapacity(capacity);              // 如果有必要，则进行扩容或者缩容
     }
     _size = size;                           // 重新设置规模

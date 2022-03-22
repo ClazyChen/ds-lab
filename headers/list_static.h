@@ -2,6 +2,7 @@
 
 #include "vector.h"
 #include "list_basic.h"
+#include "stack.h"
 
 // 这个文件基于基本列表实现了静态链表
 
@@ -59,6 +60,9 @@ public:
     constexpr static bool isBidirectional() { return true; }
 };
 
+// 静态链表需要解决的问题是，被删除的节点仍然会在内存中占据空间
+// 要重新利用这些空间，就需要引入一个额外的数据结构来存储这些已经被释放的位置
+
 // 静态列表
 template <typename T, typename Node = StaticListNode<T>, typename Container = Vector<Node>>
 requires (is_base_of_v<AbstractStaticListNode<T>, Node> &&
@@ -67,6 +71,17 @@ requires (is_base_of_v<AbstractStaticListNode<T>, Node> &&
 class StaticList : public BasicList<T, Rank, Node> {
 protected:
     Container V;  // 使用向量存储所有的节点
+    Stack<Rank> S; // 使用栈存储被删除的位置
+
+    // 寻找一个可用的位置
+    virtual Rank allocatePosition() {
+        if (!S.empty()) {    // 如果存在可用的位置
+            return S.pop();  // 就弹出一个可用的位置使用
+        } else {             // 如果没有可用的位置
+            V.resize(V.size() + 1); // 则申请一个新的位置（向量长度增加）
+            return V.size() - 1;
+        }
+    }
 
 public:
     // 重载找位置相关的函数
@@ -88,10 +103,14 @@ public:
     virtual Rank invalid() const { return invalidRank; }
 
     // 重载空间分配相关的函数
-    virtual Rank create() { V.push_back(Node()); return V.size() - 1; }
-    virtual Rank create(const T& e) { V.push_back(Node(e)); return V.size() - 1; }
-    virtual void destroy(Rank pos);
-    virtual void destroyAll() { V.resize(0); }
+    virtual Rank create() { return allocatePosition(); }
+    virtual Rank create(const T& e) {
+        Rank pos = allocatePosition();
+        data(pos) = e;
+        return pos;
+    }
+    virtual void destroy(Rank pos) { S.push(pos); } // 将pos标记为可用
+    virtual void destroyAll() { V.clear(); S.clear(); } // 清空所有的元素
 
     StaticList() { this->createEmptyList(); } // 默认构造函数
     StaticList(const StaticList<T, Node>& L) { this->duplicateList(L); } // 复制构造函数
@@ -104,18 +123,5 @@ public:
     } // 线性表类型转换
 
 };
-
-// 释放一个节点
-template <typename T, typename Node, typename Container>
-void StaticList<T, Node, Container>::destroy(Rank pos) {
-    Rank vic = V.size() - 1; // 向量的删除需要在最后一个，以降低复杂度
-    if (pos != vic) {        // 所以如果不在一个，需要先交换到最后一个
-        Rank last = pred(vic), next = succ(vic); // 定位到当前最后一个元素的直接前驱和直接后继
-        data(pos) = data(vic); // 把当前的最后一个元素，交换到pos的位置上
-        setPred(pos, setSucc(last, pos));
-        setSucc(pos, setPred(next, pos));
-    }
-    V.pop_back();            // 将最后一个位置（vic）释放
-}
 
 }

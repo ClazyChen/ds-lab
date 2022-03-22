@@ -78,7 +78,7 @@ public:
         sortAlgorithm.apply(C);
     }
     virtual string getTypename() const { // 重载typename，短路到数据结构名上
-        return typeid(C).name();
+        return C.getTypename();
     }
 };
 

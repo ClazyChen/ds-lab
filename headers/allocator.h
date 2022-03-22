@@ -52,7 +52,7 @@ constexpr const int default_min_capacity = 4;
 // 装填因子低于某个阈值时，触发缩容
 // 注意为了避免扩容和缩容之间左右横跳，阈值和加倍倍数需要被不等式限制
 template <int ExpandRatio, int ShrinkRatio, int ShrinkThreshold = INT32_MAX, int MinCapacity = default_min_capacity> 
-requires (ShrinkThreshold > ExpandRatio && ShrinkRatio >= 1)
+requires (ShrinkThreshold > ExpandRatio && ShrinkThreshold >= ShrinkRatio && ShrinkRatio >= 1 && ExpandRatio > 1 && MinCapacity > 0)
 class RatioAllocator : public clazy_framework::AbstractAllocator {
 protected:
     virtual pair<Result, int> expand(int capacity, int size) const {

@@ -1,13 +1,10 @@
 #include "list.h"
-#include "random.h"
+#include "random.h" 
 using namespace clazy_framework;
 
 // 这个例子展示静态链表和动态链表的区别
-// 它们的主要区别在于内存池，动态链表使用的是OS的内存池，而静态链表一次分配较大的内存空间然后手动进行分配
-
-// 这里将展示两个方面：
-// 其一，是连续插入的情况，这里不考虑向量的扩容时间
-// 其二，是连续删除的情况，这里删除的次序是随机的，从而在动态链表的场合会遇到较大的麻烦
+// 它们的主要区别在于内存池，动态链表使用的是OS的内存池，而静态链表从OS申请一块大的内存空间，然后手动进行分配
+// 静态链表的效率，是显著低于动态链表的（用户分配很难比得上OS分配），内部结构也比动态链表复杂
 
 // 动态链表和静态链表
 template <typename T>
@@ -62,20 +59,19 @@ public:
 			C.remove(p);
 		}
 	}
+	virtual string getTypename() const {
+		return C.getTypename();
+	}
 };
 
 int main() {
 	auto algorithms = generateInstances<
 		TestProblem<int>,
-		//TestInstance<int, clazy::ListNodePos<int>, clazy::ListNode<int>, DynamicList<int>>,
+		TestInstance<int, clazy::ListNodePos<int>, clazy::ListNode<int>, DynamicList<int>>,
 		TestInstance<int, Rank, clazy::StaticListNode<int>, StaticList<int>>
 	>();
     vector<int> testData { 10, 10000, 1'000'000, 10'000'000, 20'000'000 };
 	int maxn = *max_element(begin(testData), end(testData));
-	cout << "initializing..." << endl;
-	for (auto algorithm : algorithms) {
-		algorithm->init(maxn, 0);
-	}
 	for (int n : testData) {
 		cout << "Testing n = " << n << endl;
 		cout << "Testing insert" << endl;

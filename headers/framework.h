@@ -23,6 +23,10 @@ public:
     virtual void clear() = 0;
     // 判空函数，框架里会写
     virtual bool empty() const = 0;
+    // 获取类型名
+    virtual string getTypename() const {
+        return typeid(*this).name();
+    }
 };
 
 template <typename T, typename Container>
