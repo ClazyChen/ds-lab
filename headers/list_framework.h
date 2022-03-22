@@ -12,7 +12,7 @@ namespace clazy_framework {
 // 这个地方我暂时不知道什么方法可以更优雅一点判断一个量是constexpr，所以用了array的大小来做
 // 同时，需要Node接受无参数（用于初始化）和带参数的两种构造函数
 template <typename T, typename Node>
-concept ListNodeType = requires (const T& e){
+concept is_listnode_type = requires (const T& e){
     { Node::isBidirectional() } -> same_as<bool>;
     Node();
     Node(e);
@@ -25,7 +25,7 @@ concept ListNodeType = requires (const T& e){
 // 而在静态的列表中，位置使用偏移量Rank实现
 // 第三个参数指示，是否是双向链表
 template <typename T, typename P, typename Node>
-requires (ListNodeType<T, Node>)
+requires (is_listnode_type<T, Node>)
 class AbstractList : public AbstractLinearStructure<T> {
 public:
     // 您需要定义按位置获取数据，及其在线性列表中的前驱和后继

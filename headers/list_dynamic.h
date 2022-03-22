@@ -62,7 +62,7 @@ public:
 
 // 动态列表
 template <typename T, typename Node>
-requires (is_base_of_v<AbstractDynamicListNode<T>, Node> && clazy_framework::ListNodeType<T, Node>)
+requires (is_base_of_v<AbstractDynamicListNode<T>, Node> && clazy_framework::is_listnode_type<T, Node>)
 class DynamicList : public BasicList<T, ListNodePos<T>, Node> {
 public:
     // 重载找位置相关的函数
@@ -90,11 +90,15 @@ public:
     virtual void destroyAll();
 
     DynamicList() { this->createEmptyList(); } // 默认构造函数
-    template <typename ListType, typename P1, typename Node1>
-    requires (is_base_of_v<BasicList<T, P1, Node1>, ListType>)
-    DynamicList(const ListType& L) { this->duplicateList(L); } // 复制构造函数
+    DynamicList(const DynamicList<T, Node>& L) { this->duplicateList(L); } // 复制构造函数
     ~DynamicList() { destroyAll(); } // 析构函数
 
+    template <typename Container>
+    requires (clazy_framework::is_linear_structure<T, Container>)
+    auto& operator=(const Container& L) {
+        this->duplicateList(L); 
+        return *this;
+    } // 线性表类型转换
 };
 
 template <typename T, typename Node>

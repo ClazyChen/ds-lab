@@ -19,4 +19,7 @@ public:
     virtual T pop_back() = 0;
 };
 
+template <typename T, typename Container>
+concept is_linear_structure = is_base_of_v<AbstractLinearStructure<T>, Container>;
+
 }

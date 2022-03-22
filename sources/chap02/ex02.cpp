@@ -26,19 +26,11 @@ protected:
 
 // 实现以ratio为倍数的加倍扩容策略
 template <int ratio> requires (ratio > 1)
-class GPVectorAllocator : public DefaultVectorAllocator {
-protected:
-    virtual pair<Result, int> expand(int capacity, int size) const {
-        while (capacity < size) {     // 加倍扩容策略
-            capacity *= ratio;
-        }
-        return {Result::Expand, capacity};
-    }
-};
+using GPVectorAllocator = clazy::RatioAllocator<ratio, 1>;
 
-// 当您需要增加自己设计的策略时，和上述方法类似，继承于VectorAllocator
+// 当您需要增加自己设计的策略时，和上述方法类似，继承于AbstractAllocator
 
-template <typename Allocator> requires (is_base_of_v<VectorAllocator, Allocator>)
+template <typename Allocator> requires (is_base_of_v<AbstractAllocator, Allocator>)
 using Vector = clazy::Vector<int, Allocator>;
 
 // 当您需要使用自己实现的向量时，修改上述Vector的指向目标
@@ -46,7 +38,7 @@ using Vector = clazy::Vector<int, Allocator>;
 // 以下是实验框架代码
 // 下面讨论连续在末尾插入n个元素的情况，进行实验
 // 在末尾插入元素可以降低插入元素本身花费的时间，从而更明显地观察扩容的时间
-template <typename Allocator> requires (is_base_of_v<VectorAllocator, Allocator>)
+template <typename Allocator> requires (is_base_of_v<AbstractAllocator, Allocator>)
 class InsertTest : public Algorithm {
 protected:
     Vector<Allocator> V;
@@ -63,7 +55,7 @@ public:
 };
 
 // 对一种参数策略和一种n进行实验，得到时间
-template <typename Allocator> requires (is_base_of_v<VectorAllocator, Allocator>)
+template <typename Allocator> requires (is_base_of_v<AbstractAllocator, Allocator>)
 void applyTest(int n) {
     auto instance = make_shared<InsertTest<Allocator>>();
     applyTest<InsertTest<Allocator>>(instance, [&](auto test) {
@@ -75,7 +67,7 @@ void applyTest(int n) {
 int testData[] { 100, 1000, 10000, 100'000, 1'000'000 };
 
 // 进行实验的函数
-template <typename... Allocator> requires (is_base_of_v<VectorAllocator, Allocator> && ...)
+template <typename... Allocator> requires (is_base_of_v<AbstractAllocator, Allocator> && ...)
 void applyAllTests() {
     for (int n : testData) {
         cout << "Testing n = " << n << endl;

@@ -25,6 +25,9 @@ public:
     virtual bool empty() const = 0;
 };
 
+template <typename T, typename Container>
+concept is_data_structure = is_base_of_v<DataStructure<T>, Container>;
+
 class Algorithm {
 public:
     virtual string getTypename() const {

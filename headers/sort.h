@@ -6,7 +6,7 @@ namespace clazy_framework {
 
 // 这个文件考虑一个基本问题：排序
 template <typename T, typename Container>
-requires (is_base_of_v<AbstractLinearStructure<T>, Container>)
+requires (is_linear_structure<T, Container>)
 class Sort : public Algorithm {
 protected:
     virtual void sort(Container& C, const Comparator<T>& cmp) = 0;

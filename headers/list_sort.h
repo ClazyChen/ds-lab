@@ -8,7 +8,7 @@ using clazy_framework::Comparator;
 
 // 列表的归并排序
 template <typename T, typename P = ListNodePos<T>, typename Node = ListNode<T>, typename Container = DynamicList<T, Node>>
-requires (is_base_of_v<clazy_framework::AbstractList<T, P, Node>, Container> && clazy_framework::ListNodeType<T, Node>)
+requires (is_base_of_v<clazy_framework::AbstractList<T, P, Node>, Container> && clazy_framework::is_listnode_type<T, Node>)
 class ListMergeSort : public clazy_framework::Sort<T, Container> {
 protected:
     virtual void mergeSort(Container& L, P& pos_begin, P pos_end, int size, const Comparator<T>& cmp);
@@ -38,8 +38,8 @@ void ListMergeSort<T, P, Node, Container>::mergeSort(Container& L, P& pos_begin,
         pos_bpred = L.pred(pos_begin);                // 不进行复位的话，则归并结束之后begin指向的节点不再是实际的链表首节点
     } else /* forward list */ {                       // 单向链表的情形下为了摘出右半部分指向的元素
         for (int i : views::iota(0, size / 2 - 1)) {  // 需要界定，左半部分的最后一个元素，从而保证不发生断链
-            pos_mpred = L.succ(pos_mpred);            // 这里取的是mid的前驱，作为左半部分边界的初始值
-        }
+            pos_mpred = L.succ(pos_mpred);            // 这里取的是mid的前驱，作为左半部分边界的初始值 
+        }                                             // 这里不能放在取pos_mid的一起取，因为在递归的过程中可能会被移动
     }
     while (pos_left != pos_right && pos_right != pos_end) { // 如果两段都没有被归并完，注意左半边被归并完的特征就是left追上right
         if (cmp(L.data(pos_left), L.data(pos_right))) { // 比较还没有被归并的最小元素

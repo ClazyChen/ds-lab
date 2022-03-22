@@ -12,7 +12,7 @@ using ListIterator = clazy_framework::AbstractList<T, P, Node>::Iterator;
 // 而在静态的列表中，位置使用偏移量Rank实现
 // 第三个参数指示，是否是双向链表
 template <typename T, typename P, typename Node>
-requires (clazy_framework::ListNodeType<T, Node>)
+requires (clazy_framework::is_listnode_type<T, Node>)
 class BasicList : public clazy_framework::AbstractList<T, P, Node> {
 
 // 在基本的列表实现中，仍然不对下面这些接口作出定义
@@ -43,7 +43,7 @@ protected:
     // 释放一个节点的接口
     virtual void destroy(P pos) = 0;
     // 释放所有节点的接口，用于析构、清空这种需要整个列表全部删除的场合
-    virtual void destroyAll() {};
+    virtual void destroyAll() {}
 
     // 生成空表，直接连接头尾哨兵
     virtual void createEmptyList() {
@@ -54,9 +54,9 @@ protected:
         setPred(_tail, _head);
     }
     // 复制列表，用于复制构造函数
-    template <typename ListType, typename P1, typename Node1>
-    requires (is_base_of_v<BasicList<T, P1, Node1>, ListType>)
-    void duplicateList(const ListType& L);
+    template <typename Container>
+    requires (clazy_framework::is_linear_structure<T, Container>)
+    void duplicateList(const Container& L);
 
 public:
     BasicList() { } // 默认构造函数
@@ -79,14 +79,14 @@ public:
 // 复制构造函数，这里和正常的复制构造函数设计的不一样
 // 因为我们希望允许动态和静态链表之间、双向和单向链表之间相互赋值
 template <typename T, typename P, typename Node>
-template <typename ListType, typename P1, typename Node1>
-requires (is_base_of_v<BasicList<T, P1, Node1>, ListType>)
-void BasicList<T, P, Node>::duplicateList(const ListType& L) {
-    _size = L.size();
+template <typename Container>
+requires (clazy_framework::is_linear_structure<T, Container>)
+void BasicList<T, P, Node>::duplicateList(const Container& C) {
+    _size = C.size();
     _head = create();
     _tail = create();
     P last = _head, cur;
-    for (auto it = L.begin(); it != L.end(); it++) { // 遍历L，建立连接
+    for (auto it = C.begin(); it != C.end(); it++) { // 遍历L，建立连接
         cur = create(*it); // 复制一个节点
         last = setPred(cur, setSucc(last, cur)); // 将cur接在last后面
     }

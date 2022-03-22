@@ -60,9 +60,9 @@ public:
 };
 
 // 静态列表
-template <typename T, typename Node, typename Container = Vector<Node>>
+template <typename T, typename Node = StaticListNode<T>, typename Container = Vector<Node>>
 requires (is_base_of_v<AbstractStaticListNode<T>, Node> &&
-          clazy_framework::ListNodeType<T, Node> && equality_comparable<Node> &&
+          clazy_framework::is_listnode_type<T, Node> && equality_comparable<Node> &&
           is_base_of_v<clazy_framework::AbstractVector<Node>, Container>)
 class StaticList : public BasicList<T, Rank, Node> {
 protected:
@@ -70,7 +70,7 @@ protected:
 
 public:
     // 重载找位置相关的函数
-    virtual T& data(Rank pos) { return V[pos].data(); }
+    virtual T& data(Rank pos) const { return V[pos].data(); }
     virtual Rank pred(Rank pos) const { return V[pos].pred(); }
     virtual Rank succ(Rank pos) const { return V[pos].succ(); }
     virtual Rank setPred(Rank pos, Rank _pred) { 
@@ -94,9 +94,14 @@ public:
     virtual void destroyAll() { V.resize(0); }
 
     StaticList() { this->createEmptyList(); } // 默认构造函数
-    template <typename ListType, typename P1, typename Node1>
-    requires (is_base_of_v<BasicList<T, P1, Node1>, ListType>)
-    StaticList(const ListType& L) { this->duplicateList(L); } // 复制构造函数
+    StaticList(const StaticList<T, Node>& L) { this->duplicateList(L); } // 复制构造函数
+
+    template <typename Container1>
+    requires (clazy_framework::is_linear_structure<T, Container1>)
+    auto& operator=(const Container1& L) {
+        this->duplicateList(L); 
+        return *this;
+    } // 线性表类型转换
 
 };
 
@@ -109,8 +114,8 @@ void StaticList<T, Node, Container>::destroy(Rank pos) {
         data(pos) = data(vic); // 把当前的最后一个元素，交换到pos的位置上
         setPred(pos, setSucc(last, pos));
         setSucc(pos, setPred(next, pos));
-        V.pop_back();        // 将最后一个位置（vic）释放
     }
+    V.pop_back();            // 将最后一个位置（vic）释放
 }
 
 }

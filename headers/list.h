@@ -14,4 +14,9 @@ using ForwardList = DynamicList<T, ForwardListNode<T>>;
 template <typename T>
 using List = DynamicList<T, ListNode<T>>;
 
+template <typename T>
+using ForwardStaticList = StaticList<T, ForwardStaticListNode<T>>;
+
+// StaticList 双向静态链表 不需要别名
+
 }

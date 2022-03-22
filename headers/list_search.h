@@ -18,7 +18,7 @@ using ListSearch = clazy_framework::OrderedSearch<T, P, Container>;
 // 顺序查找
 // 在查找这个环节里，单向链表和双向链表可以达成统一
 template <typename T, typename P = ListNodePos<T>, typename Node = ListNode<T>, typename Container = DynamicList<T, Node>>
-requires (is_base_of_v<clazy_framework::AbstractList<T, P, Node>, Container> && clazy_framework::ListNodeType<T, Node>)
+requires (is_base_of_v<clazy_framework::AbstractList<T, P, Node>, Container> && clazy_framework::is_listnode_type<T, Node>)
 class ListSequentialSearch : public ListSearch<T, P, Node, Container> {
 protected:
     virtual SearchResult<ListNodePos<T>> search(Container& L, const T& e, const Comparator<T>& cmp) {
