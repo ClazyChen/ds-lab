@@ -100,7 +100,7 @@ int main() {
         cout << "Testing n = " << n << endl;
         for (auto algorithm : algorithms) {
             Vector<int> V(n);                           // 测试数据：[0,n)的整数序列
-            for (int i = 0; i < n; i++) {               // 因为是动态操作，每次都需要重新生成序列
+            for (int i : views::iota(0, n)) {           // 因为是动态操作，每次都需要重新生成序列
                 V.push_back(i); 
             }
             applyTest<BatchRemove<int>>(algorithm, [&](auto remove) {

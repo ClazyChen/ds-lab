@@ -12,9 +12,6 @@ using namespace clazy_framework;
 template <typename T>
 using Vector = clazy::Vector<T>;
 
-// 随机数发生器
-Random random;
-
 const int random_ratio = 2;       // 从一定倍数的区间里随机选取，这样区间里有些数选不到
 const int search_count = 100'000; // 查找操作的次数
 constexpr int rangeLimit(int n) {
@@ -25,12 +22,12 @@ constexpr int testData[] {
 };
 
 int main() {
-    shared_ptr<VectorSort<int, Vector<int>>> sortAlgorithm = make_shared<clazy::VectorMergeSort<int>>();
-    auto searchAlgorithms = generateInstances<VectorSearch<int, Vector<int>>, clazy::VectorSequentialSearch<int>, clazy::VectorBinarySearch<int>>();
+    shared_ptr<Sort<int, Vector<int>>> sortAlgorithm = make_shared<clazy::VectorMergeSort<int>>();
+    auto searchAlgorithms = generateInstances<clazy::VectorSearch<int, Vector<int>>, clazy::VectorSequentialSearch<int>, clazy::VectorBinarySearch<int>>();
     for (int n : testData) {
         cout << "Testing n = " << n << endl;
         auto V = randomVector<Vector<int>>(n, 0, rangeLimit(n));
-        applyTest<VectorSort<int, Vector<int>>>(sortAlgorithm, [&](auto vectorSort) {
+        applyTest<Sort<int, Vector<int>>>(sortAlgorithm, [&](auto vectorSort) {
             vectorSort->apply(V);
         });
         assert(is_sorted(begin(V), end(V)));
@@ -46,7 +43,7 @@ int main() {
             }
         }
         // 算法性能对比
-        applyTest<VectorSearch<int, Vector<int>>>(searchAlgorithms, [&](auto vectorSearch) {
+        applyTest<clazy::VectorSearch<int, Vector<int>>>(searchAlgorithms, [&](auto vectorSearch) {
             for (int x : VF) {
                 vectorSearch->apply(V, x);
             }

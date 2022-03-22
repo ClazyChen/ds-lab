@@ -71,11 +71,11 @@ public:
 int main() {
     auto algorithms = generateInstances<CyclicLeftShift<int>, CyclicLeftShiftSwap<int>, CyclicLeftShiftRing<int>, CyclicLeftShiftReverse<int>>();
     pair<int, int> testData[] {
-        {10, 2},                 // swap方法的时间复杂度是Theta(n+k)，结果和k有关
-        {10'000'000, 1},         // k较小时比reverse快，k较大时比reverse慢
-        {10'000'000, 100'00},    // reverse对于k的影响不大
+        {10, 2},                 // swap方法通常都能有更好的性能
+        {10'000'000, 1},         // 但是需要额外的O(k)空间
+        {10'000'000, 100'00},    // reverse的性能居中，且不需要额外的空间
         {10'000'000, 100'07},    // 而ring方法，看似对数组元素的赋值次数最少（一步到位），但计算复杂且跳跃，反而最慢
-        {10'000'000, 5'000'000}, // ring的效率，不但k有关，还和(n,k)的最大公约数有关
+        {10'000'000, 5'000'000}, // ring的效率，不但和k有关，还和(n,k)的最大公约数有关
         {10'000'000, 9'000'000}, // 这个问题作出解释，需要《组成原理》的知识
         {100'000'000, 1},        // 简单地说，swap和reverse都充分利用了局部性（从而可以很好的吃Cache和TLB）
         {100'000'000, 100'000},  // 而ring是跳跃赋值的，所以会很慢

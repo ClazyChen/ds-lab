@@ -16,6 +16,22 @@ using namespace std;
 
 namespace clazy_framework {
 
+template <typename T>
+class DataStructure {
+public:
+    // 您需要允许用户清空数据结构
+    virtual void clear() = 0;
+    // 判空函数，框架里会写
+    virtual bool empty() const = 0;
+    // 获取类型名
+    virtual string getTypename() const {
+        return typeid(*this).name();
+    }
+};
+
+template <typename T, typename Container>
+concept is_data_structure = is_base_of_v<DataStructure<T>, Container>;
+
 class Algorithm {
 public:
     virtual string getTypename() const {
@@ -64,5 +80,8 @@ void applyTest(vector<shared_ptr<BaseClass>>& instances, const function<void(sha
         applyTest(instance, test, width);
     }
 }
+
+template <typename T>
+using Comparator = function<bool(const T&, const T&)>;
 
 }

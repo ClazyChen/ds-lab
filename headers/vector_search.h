@@ -1,33 +1,26 @@
 #pragma once
 
 #include "vector.h"
-
-namespace clazy_framework {
-
-// 这个文件考虑一个基本问题：有序向量的查找
-// 返回一个pair，bool表示是否查找成功
-// Rank在成功时，表示查找到的元素的秩；在失败时，指示应当被插入的位置
-template <typename T, typename Vector = clazy::Vector<T>>
-requires (is_base_of_v<AbstractVector<T>, Vector>)
-class VectorSearch : public Algorithm {
-protected:
-    virtual pair<bool, Rank> search(Vector& V, const T& e, const function<bool(const T&, const T&)>& cmp) = 0;
-public:
-    virtual pair<bool, Rank> apply(Vector& V, const T& e, const function<bool(const T&, const T&)>& cmp = less_equal<T>()) {
-        return search(V, e, cmp);
-    }
-};
-
-}
+#include "search.h"
 
 namespace clazy {
 
+using clazy_framework::SearchResult;
+using clazy_framework::Comparator;
+
+// 向量的查找
+// Rank在成功时，表示查找到的元素的秩；在失败时，指示应当被插入的位置
+template <typename T, typename Container = Vector<T>>
+requires (is_base_of_v<clazy_framework::AbstractVector<T>, Container>)
+using VectorSearch = clazy_framework::OrderedSearch<T, Rank, Container>;
+
 // 顺序查找
-template <typename T>
-class VectorSequentialSearch : public clazy_framework::VectorSearch<T> {
+template <typename T, typename Container = Vector<T>>
+requires (is_base_of_v<clazy_framework::AbstractVector<T>, Container>)
+class VectorSequentialSearch : public VectorSearch<T, Container> {
 protected:
-    virtual pair<bool, Rank> search(Vector<T>& V, const T& e, const function<bool(const T&, const T&)>& cmp) {
-        for (Rank r = V.size()-1; r >= 0; r--) {
+    virtual SearchResult<Rank> search(Container& V, const T& e, const Comparator<T>& cmp) {
+        for (Rank r : views::iota(0, V.size()) | views::reverse) {
             if (cmp(V[r], e)) {
                 if (V[r] == e) {
                     return {true, r};
@@ -41,11 +34,12 @@ protected:
 };
 
 // 折半查找（迭代方法）
-template <typename T>
-class VectorBinarySearch : public clazy_framework::VectorSearch<T> {
+template <typename T, typename Container = Vector<T>>
+requires (is_base_of_v<clazy_framework::AbstractVector<T>, Container>)
+class VectorBinarySearch : public VectorSearch<T, Container> {
 protected:
-    virtual VectorIterator<T> binarySearch(VectorIterator<T> it_begin, VectorIterator<T> it_end, const T& e, const function<bool(const T&, const T&)>& cmp);
-    virtual pair<bool, Rank> search(Vector<T>& V, const T& e, const function<bool(const T&, const T&)>& cmp) {
+    virtual VectorIterator<T> binarySearch(VectorIterator<T> it_begin, VectorIterator<T> it_end, const T& e, const Comparator<T>& cmp);
+    virtual SearchResult<Rank> search(Container& V, const T& e, const Comparator<T>& cmp) {
         auto pos = binarySearch(begin(V), end(V), e, cmp);
         if (pos > begin(V) && *(pos - 1) == e) {
             return {true, pos - begin(V) - 1};
@@ -56,8 +50,8 @@ protected:
 };
 
 // 迭代方法（对应邓俊辉《数据结构》形式C）
-template <typename T>
-VectorIterator<T> VectorBinarySearch<T>::binarySearch(VectorIterator<T> it_begin, VectorIterator<T> it_end, const T& e, const function<bool(const T&, const T&)>& cmp) {
+template <typename T, typename Container>
+VectorIterator<T> VectorBinarySearch<T, Container>::binarySearch(VectorIterator<T> it_begin, VectorIterator<T> it_end, const T& e, const Comparator<T>& cmp) {
     while (it_begin < it_end) {        // 保证it_begin左侧的元素不小于e，it_end及右侧的元素大于e
         auto it_mid = it_begin + (it_end - it_begin) / 2; // 取中点
         if (cmp(*it_mid, e)) {         // 如果e不小于中点 
