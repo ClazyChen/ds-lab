@@ -25,7 +25,7 @@ int main() {
         /* 当然，使用示例代码计算时间的时候精度只有三位小数 */
     // 在n充分大的时候，这个值是比较接近的
     for (int n : {100, 250, 400, 700, 800, 900, 1000}) {
-        t = calculateTime([=]() -> void { f(n); });
+        t = calculateTime([=]() { f(n); });
         r = t * 1e9 / (n*n*n*log2(n));
         cout << "time(" << setw(4) << n << ") = " << setw(6) << t << "\t";
         cout << "ratio = " << setw(10) << r << endl;

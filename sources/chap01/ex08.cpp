@@ -11,7 +11,7 @@ class PowerNaive : public PowerProblem {
 protected:
     int power(int a, int b) const {
         int prod = 1;
-        for (int i = 0; i < b; i++) {
+        for (int i : views::iota(0, b)) {
             prod *= a;
         }
         return prod;
