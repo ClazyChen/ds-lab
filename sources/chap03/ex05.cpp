@@ -4,7 +4,8 @@ using namespace clazy_framework;
 
 // 这个例子展示静态链表和动态链表的区别
 // 它们的主要区别在于内存池，动态链表使用的是OS的内存池，而静态链表从OS申请一块大的内存空间，然后手动进行分配
-// 静态链表的效率，是显著低于动态链表的（用户分配很难比得上OS分配），内部结构也比动态链表复杂
+// 静态链表在插入时的效率（不考虑扩容）是高于动态链表的
+// 而在删除时，由于额外需要维护一个内存池，效率比较低
 
 // 动态链表和静态链表
 template <typename T>
@@ -72,6 +73,10 @@ int main() {
 	>();
     vector<int> testData { 10, 10000, 1'000'000, 10'000'000, 20'000'000 };
 	int maxn = *max_element(begin(testData), end(testData));
+	cout << "Initializing" << endl;
+	for (auto algorithm : algorithms) { // 初始化，提前让静态链表完成扩容
+		algorithm->init(maxn, 0);
+	}
 	for (int n : testData) {
 		cout << "Testing n = " << n << endl;
 		cout << "Testing insert" << endl;
