@@ -6,6 +6,8 @@
 namespace clazy {
 
 // 共享栈
+// 这里实现的是基于向量的版本
+// 因为基于列表是没有必要的（列表不需要使用共享的形式来节约空间）
 template <typename T, typename Container = Vector<T>>
 requires (is_base_of_v<clazy_framework::AbstractVector<T>, Container>)
 class SharedStack : public clazy_framework::DataStructure<T> {
@@ -27,13 +29,13 @@ public:
     virtual void clear() {  // 清空共享栈
         V.clear();
         V.resize(V.capacity()); // 向量需要始终保持填满状态，只是其中的元素不一定都会被用到
-        topb = 0;
-        topf = V.size() - 1;
+        topf = 0;
+        topb = V.size() - 1;
     }
 
     class ForwardStack : public clazy_framework::AbstractStack<T> {
     protected:
-        const SharedStack* parent; // 依赖于的共享栈
+        SharedStack* parent; // 依赖于的共享栈
     public:
         virtual void clear() { parent->topf = 0; }
         virtual bool empty() const { return parent->topf == 0; }
@@ -45,15 +47,15 @@ public:
             }
             parent->V[parent->topf++] = e;
         }
-        ForwardStack(const SharedStack* parent): parent(parent) {}
+        ForwardStack(SharedStack* parent): parent(parent) {}
     };
 
     class BackwardStack : public clazy_framework::AbstractStack<T> {
     protected:
-        const SharedStack* parent;
+        SharedStack* parent;
     public:
-        virtual void clear() { parent->topb = V.size() - 1; }
-        virtual bool empty() const { return parent->topb == V.size() - 1; }
+        virtual void clear() { parent->topb = parent->V.size() - 1; }
+        virtual bool empty() const { return parent->topb == parent->V.size() - 1; }
         virtual T top() const { return parent->V[parent->topb+1]; }
         virtual T pop() { return parent->V[++parent->topb]; }
         virtual void push(const T& e) {
@@ -62,17 +64,48 @@ public:
             }
             parent->V[parent->topb--] = e;
         }
-        BackwardStack(const SharedStack* parent): parent(parent) {}
+        BackwardStack(SharedStack* parent): parent(parent) {}
     };
 
-    pair<ForwardStack, BackwardStack> getStacks() const { // 获取两个栈
+    pair<ForwardStack, BackwardStack> getStacks() { // 获取两个栈
         return {ForwardStack(this), BackwardStack(this)};
     }
 
     SharedStack() { clear(); } // 默认构造函数
-    SharedStack(const SharedStack<T, Container>& SS): C(SS.C), topb(SS.topb), topf(SS.topf) {} // 复制构造函数
+    SharedStack(const SharedStack<T, Container>& SS): V(SS.V), topb(SS.topb), topf(SS.topf) {} // 复制构造函数
 
+    template <typename T1, typename Container1> // 为了能够输出Container的内容，声明输出为友元函数
+    friend ostream& operator<< (ostream& out, const SharedStack<T1, Container1>& S);
 
 };
+
+template <typename T, typename Container>
+ostream& operator<< (ostream& out, const SharedStack<T, Container>& S) {
+    out << "Stack(shared)[";
+    auto it = begin(S.V);
+    for (bool first = true; int i : views::iota(0, S.topf)) {
+        if (first) {
+            first = false;
+        } else {
+            out << ", ";
+        }
+        out << *(it++);
+    }
+    out << " -> ";
+    if (int step = S.topb - S.topf + 1; step > 0) {
+        it += step;
+        out << "...(" << step << ")...";
+    }
+    out << " <- ";
+    for (bool first = true; it != end(S.V); ) {
+        if (first) {
+            first = false;
+        } else {
+            out << ", ";
+        }
+        out << *(it++);
+    }
+    return out << "]";
+}
 
 }

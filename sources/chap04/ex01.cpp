@@ -12,6 +12,8 @@ using Stack = clazy::Stack<T>;
 template <typename T>
 using Vector = clazy::Vector<T>;
 
+// 在这个例子中，处理三种类型的括号匹配情况
+
 // 用来从右括号映射到左括号，如果是左括号则映射到自身
 // 如果是非括号的字符，则映射到0
 char getLeft(char c) {
@@ -23,7 +25,6 @@ char getLeft(char c) {
     }
 }
 
-// 在这个例子中，只处理左右小括号匹配的情况，不包含其他类型的括号
 class ParenMatch : public Algorithm {
 public:
     virtual bool apply(const Vector<char>& V) = 0;

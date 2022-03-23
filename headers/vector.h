@@ -34,7 +34,6 @@ protected:
 public:
     Vector();                   // 默认构造函数，生成空向量
     Vector(int capacity);       // 生成指定规模的空向量
-    Vector(int n, T* data);     // 基于数组生成向量
     Vector(const Vector<T, Allocator>& V); // 复制构造函数，复制向量
     ~Vector() { delete[] _data; } // 析构函数
 
@@ -79,13 +78,6 @@ Vector<T, Allocator>::Vector(int capacity) {
     _capacity = max(capacity, default_min_capacity);
     _data = new T[_capacity];
     _size = 0;
-}
-
-template <typename T, typename Allocator>
-Vector<T, Allocator>::Vector(int n, T* data) {
-    _capacity = n;
-    _data = data;
-    _size = n;
 }
 
 template <typename T, typename Allocator>
@@ -139,7 +131,7 @@ T Vector<T, Allocator>::remove(Rank r) {
 // 无序向量查找
 template <typename T, typename Allocator>
 Rank Vector<T, Allocator>::find(const T& e) const {
-    for (Rank r = 0; r < _size; r++) {       // 检测每个元素是否等于e
+    for (Rank r : views::iota(0, size())) {       // 检测每个元素是否等于e
         if (_data[r] == e) {
             return r;                        // 如果找到就返回对应的秩
         }
@@ -151,7 +143,7 @@ Rank Vector<T, Allocator>::find(const T& e) const {
 template <typename T, typename Allocator>
 ostream& operator<< (ostream& out, const Vector<T, Allocator>& V) {
     out << "[";
-    for (Rank r = 0; r < V.size(); r++) {
+    for (Rank r : views::iota(0, V.size())) {
         if (r > 0) {
             out << ", ";
         }
