@@ -21,7 +21,7 @@ template <typename T, typename P = ListNodePos<T>, typename Node = ListNode<T>, 
 requires (is_base_of_v<clazy_framework::AbstractList<T, P, Node>, Container> && clazy_framework::is_listnode_type<T, Node>)
 class ListSequentialSearch : public ListSearch<T, P, Node, Container> {
 protected:
-    virtual SearchResult<ListNodePos<T>> search(Container& L, const T& e, const Comparator<T>& cmp) {
+    virtual SearchResult<ListNodePos<T>> search(Container& L, const T& e, const Comparator<T>& cmp) override {
         P cur = begin(L).base(), last = L.invalid();
         while (cur != end(L).base() && cmp(L.data(cur), e)) {
             last = cur;

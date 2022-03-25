@@ -1,6 +1,6 @@
 #pragma once
 
-#include "linear_framework.h"
+#include "framework.h"
 
 namespace clazy_framework {
 

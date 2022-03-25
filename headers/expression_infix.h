@@ -25,8 +25,8 @@ public:
 // 中缀表达式的类
 class InfixExpression : public LinearExpression {
 public:
-    virtual int getResult();
-    virtual void parse(string expr);
+    virtual int getResult() override;
+    virtual void parse(string expr) override;
 
     InfixExpression() {}
     InfixExpression(string expr) { parse(expr); }

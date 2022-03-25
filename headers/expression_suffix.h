@@ -11,8 +11,8 @@ protected:
     void infix2suffix(const InfixExpression& expr); // 中缀表达式转换为后缀表达式
 
 public:
-    virtual int getResult();
-    virtual void parse(string expr) {
+    virtual int getResult() override;
+    virtual void parse(string expr) override {
         removeElements();
         InfixExpression infixExpr(expr);
         infix2suffix(infixExpr);

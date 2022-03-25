@@ -12,7 +12,7 @@ requires (is_base_of_v<clazy_framework::AbstractList<T, P, Node>, Container> && 
 class ListMergeSort : public clazy_framework::Sort<T, Container> {
 protected:
     virtual void mergeSort(Container& L, P& pos_begin, P pos_end, int size, const Comparator<T>& cmp);
-    virtual void sort(Container& L, const Comparator<T>& cmp) {
+    virtual void sort(Container& L, const Comparator<T>& cmp) override {
         P pos_begin = begin(L).base();
         mergeSort(L, pos_begin, end(L).base(), L.size(), cmp);
     }

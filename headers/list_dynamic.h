@@ -42,8 +42,8 @@ protected:
 public:
     ForwardListNode() {}
     ForwardListNode(T _data): AbstractDynamicListNode<T>(_data) {}
-    virtual ListNodePos<T> succ() { return _succ; }
-    virtual void setSucc(ListNodePos<T> _succ) { this->_succ = _succ; }
+    virtual ListNodePos<T> succ() override { return _succ; }
+    virtual void setSucc(ListNodePos<T> _succ) override { this->_succ = _succ; }
     constexpr static bool isBidirectional() { return false; }
 };
 
@@ -55,8 +55,8 @@ protected:
 public:
     ListNode() {}
     ListNode(T _data): ForwardListNode<T>(_data) {}
-    virtual ListNodePos<T> pred() { return _pred; }
-    virtual void setPred(ListNodePos<T> _pred) { this->_pred = _pred; }
+    virtual ListNodePos<T> pred() override { return _pred; }
+    virtual void setPred(ListNodePos<T> _pred) override { this->_pred = _pred; }
     constexpr static bool isBidirectional() { return true; }
 };
 
@@ -66,28 +66,28 @@ requires (is_base_of_v<AbstractDynamicListNode<T>, Node> && clazy_framework::is_
 class DynamicList : public BasicList<T, ListNodePos<T>, Node> {
 public:
     // 重载找位置相关的函数
-    virtual T& data(ListNodePos<T> pos) const { return pos->data(); }
-    virtual ListNodePos<T> pred(ListNodePos<T> pos) const { return pos->pred(); }
-    virtual ListNodePos<T> succ(ListNodePos<T> pos) const { return pos->succ(); }
-    virtual ListNodePos<T> setPred(ListNodePos<T> pos, ListNodePos<T> _pred) { 
+    virtual T& data(ListNodePos<T> pos) const override { return pos->data(); }
+    virtual ListNodePos<T> pred(ListNodePos<T> pos) const override { return pos->pred(); }
+    virtual ListNodePos<T> succ(ListNodePos<T> pos) const override { return pos->succ(); }
+    virtual ListNodePos<T> setPred(ListNodePos<T> pos, ListNodePos<T> _pred) override { 
         if (pos != nullptr) {
             pos->setPred(_pred);
         }
         return pos;
     }
-    virtual ListNodePos<T> setSucc(ListNodePos<T> pos, ListNodePos<T> _succ) {
+    virtual ListNodePos<T> setSucc(ListNodePos<T> pos, ListNodePos<T> _succ) override {
         if (pos != nullptr) {
             pos->setSucc(_succ);
         }
         return pos;
     }
-    virtual ListNodePos<T> invalid() const { return nullptr; }
+    virtual ListNodePos<T> invalid() const override { return nullptr; }
 
     // 重载空间分配相关的函数
-    virtual ListNodePos<T> create() { return new Node(); }
-    virtual ListNodePos<T> create(const T& e) { return new Node(e); }
-    virtual void destroy(ListNodePos<T> pos) { delete pos; }
-    virtual void destroyAll();
+    virtual ListNodePos<T> create() override { return new Node(); }
+    virtual ListNodePos<T> create(const T& e) override { return new Node(e); }
+    virtual void destroy(ListNodePos<T> pos) override { delete pos; }
+    virtual void destroyAll() override;
 
     DynamicList() { this->createEmptyList(); } // 默认构造函数
     DynamicList(const DynamicList<T, Node>& L) { this->duplicateList(L); } // 复制构造函数

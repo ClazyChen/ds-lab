@@ -38,23 +38,23 @@ public:
     ~Vector() { delete[] _data; } // 析构函数
 
     // 实现获取容量和规模、修改规模的函数
-    virtual int capacity() const { return _capacity; }
-    virtual int size() const { return _size; }
-    virtual void resize(int size);
-    virtual void clear() { resize(0); }
+    virtual int capacity() const override { return _capacity; }
+    virtual int size() const override { return _size; }
+    virtual void resize(int size) override;
+    virtual void clear() override { resize(0); }
 
     // 实现获取起始位置和结束位置的函数
-    virtual VectorIterator<T> begin() const { return VectorIterator<T>(_data); }
-    virtual VectorIterator<T> end() const { return begin() + _size; }
+    virtual VectorIterator<T> begin() const override { return VectorIterator<T>(_data); }
+    virtual VectorIterator<T> end() const override { return begin() + _size; }
 
     // 插入元素，返回被插入元素的秩
-    virtual Rank insert(Rank r, const T& e);
+    virtual Rank insert(Rank r, const T& e) override;
     
     // 删除元素，返回被删除的元素
-    virtual T remove(Rank r);
+    virtual T remove(Rank r) override;
 
     // 查找元素，返回查找到的元素的秩，未找到返回-1
-    virtual Rank find(const T& e) const;
+    virtual Rank find(const T& e) const override;
 
     template <typename Container>
     requires (clazy_framework::is_linear_structure<T, Container>)

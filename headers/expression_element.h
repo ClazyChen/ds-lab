@@ -14,9 +14,9 @@ class Operand : public virtual clazy_framework::AbstractExpressionElement {
 protected:
     int operand;
 public:
-    virtual bool isOperand() const { return true; }
-    virtual int getOperand() const { return operand; }
-    virtual void setOperand(int operand) { this->operand = operand; }
+    virtual bool isOperand() const override { return true; }
+    virtual int getOperand() const override { return operand; }
+    virtual void setOperand(int operand) override { this->operand = operand; }
     Operand(int operand) : operand(operand) {}
 };
 
@@ -36,13 +36,13 @@ class Operator : public virtual clazy_framework::AbstractExpressionElement {
 protected:
     char operator_;
 public:
-    virtual bool isOperator() const { return true; }
-    virtual char getOperator() const { return operator_; }
-    virtual void setOperator(char operator_) { this->operator_ = operator_; }
+    virtual bool isOperator() const override { return true; }
+    virtual char getOperator() const override { return operator_; }
+    virtual void setOperator(char operator_) override { this->operator_ = operator_; }
     Operator(char operator_) : operator_(operator_) {}
     
     // 运算符左侧和右侧是否有操作数
-    virtual pair<bool, bool> operandPosition() const {
+    virtual pair<bool, bool> operandPosition() const override {
         static const map<char, pair<bool, bool>> m = {
             {'(', {false, true}}, // 左括号右侧有操作数
             {')', {true, false}}, // 右括号左侧有操作数
@@ -59,7 +59,7 @@ public:
     }
 
     // 运算符的计算结果，对于操作数，返回自身。如果是单目运算符，空着的一边参数不做要求
-    virtual int apply(int left, int right) const {
+    virtual int apply(int left, int right) const override {
         switch (this->getOperator()) {
             case '+': return left + right;
             case '-': return left - right;
@@ -74,7 +74,7 @@ public:
     }
 
     // 运算符的优先级，如果本身是操作数是未定义行为
-    virtual bool higherPriority(const AbstractExpressionElement& next) const {
+    virtual bool higherPriority(const AbstractExpressionElement& next) const override {
         static const map<char, pair<int, int>> m = { // 这里分别是，在左侧的优先级，在右侧的优先级
             {'(', {0, 6}}, // 左括号出现在右边的时候优先级最高，而出现在左边的时候优先级最低
             {')', {0, 0}}, // 右括号永远不会进栈，优先级是最低的

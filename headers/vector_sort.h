@@ -20,7 +20,7 @@ private:
     Container W;
 protected:
     virtual void mergeSort(VectorIterator<T> it_begin, VectorIterator<T> it_end, const Comparator<T>& cmp);
-    virtual void sort(Container& V, const Comparator<T>& cmp) {
+    virtual void sort(Container& V, const Comparator<T>& cmp) override {
         mergeSort(begin(V), end(V), cmp);
     }
 };

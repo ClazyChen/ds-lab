@@ -31,7 +31,7 @@ requires (is_data_structure<T, Container>)
 class OrderedSearch : public Search<T, P, Container> {
 protected:
     virtual SearchResult<P> search(Container& C, const T& e, const Comparator<T>& cmp) = 0;
-    virtual SearchResult<P> search(Container& C, const T& e) { // 默认
+    virtual SearchResult<P> search(Container& C, const T& e) override { // 默认
         return search(C, e, less_equal<T>());
     }
 public:

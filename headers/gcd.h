@@ -21,7 +21,7 @@ namespace clazy {
 // 经典的欧几里得辗转相除法（迭代版本）
 class Gcd : public clazy_framework::GcdProblem {
 protected:
-    int gcd(int a, int b) const {
+    int gcd(int a, int b) const override {
         while (b > 0) {
             int temp = a % b;
             a = b, b = temp;

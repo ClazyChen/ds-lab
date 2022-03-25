@@ -25,8 +25,8 @@ protected:
 
 public:
     virtual bool full() const { return topb + 1 == topf; } // 判断共享栈满
-    virtual bool empty() const { return topb == 0 && topf == V.size() - 1; } // 判断共享栈为空
-    virtual void clear() {  // 清空共享栈
+    virtual bool empty() const override { return topb == 0 && topf == V.size() - 1; } // 判断共享栈为空
+    virtual void clear() override {  // 清空共享栈
         V.clear();
         V.resize(V.capacity()); // 向量需要始终保持填满状态，只是其中的元素不一定都会被用到
         topf = 0;
@@ -37,11 +37,11 @@ public:
     protected:
         SharedStack* parent; // 依赖于的共享栈
     public:
-        virtual void clear() { parent->topf = 0; }
-        virtual bool empty() const { return parent->topf == 0; }
-        virtual T& top() const { return parent->V[parent->topf-1]; }
-        virtual T pop() { return parent->V[--parent->topf]; }
-        virtual void push(const T& e) {
+        virtual void clear() override { parent->topf = 0; }
+        virtual bool empty() const override { return parent->topf == 0; }
+        virtual T& top() const override { return parent->V[parent->topf-1]; }
+        virtual T pop() override { return parent->V[--parent->topf]; }
+        virtual void push(const T& e) override {
             if (parent->full()) {
                 parent->expand();
             }
@@ -54,11 +54,11 @@ public:
     protected:
         SharedStack* parent;
     public:
-        virtual void clear() { parent->topb = parent->V.size() - 1; }
-        virtual bool empty() const { return parent->topb == parent->V.size() - 1; }
-        virtual T& top() const { return parent->V[parent->topb+1]; }
-        virtual T pop() { return parent->V[++parent->topb]; }
-        virtual void push(const T& e) {
+        virtual void clear() override { parent->topb = parent->V.size() - 1; }
+        virtual bool empty() const override { return parent->topb == parent->V.size() - 1; }
+        virtual T& top() const override { return parent->V[parent->topb+1]; }
+        virtual T pop() override { return parent->V[++parent->topb]; }
+        virtual void push(const T& e) override {
             if (parent->full()) {
                 parent->expand();
             }
