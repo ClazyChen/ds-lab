@@ -39,7 +39,7 @@ public:
     public:
         virtual void clear() { parent->topf = 0; }
         virtual bool empty() const { return parent->topf == 0; }
-        virtual T top() const { return parent->V[parent->topf-1]; }
+        virtual T& top() const { return parent->V[parent->topf-1]; }
         virtual T pop() { return parent->V[--parent->topf]; }
         virtual void push(const T& e) {
             if (parent->full()) {
@@ -56,7 +56,7 @@ public:
     public:
         virtual void clear() { parent->topb = parent->V.size() - 1; }
         virtual bool empty() const { return parent->topb == parent->V.size() - 1; }
-        virtual T top() const { return parent->V[parent->topb+1]; }
+        virtual T& top() const { return parent->V[parent->topb+1]; }
         virtual T pop() { return parent->V[++parent->topb]; }
         virtual void push(const T& e) {
             if (parent->full()) {
