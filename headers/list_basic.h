@@ -60,20 +60,20 @@ protected:
 
 public:
     BasicList() { } // 默认构造函数
-    virtual int size() const { return _size; }
-    virtual void clear() { destroyAll(); createEmptyList(); }
-    virtual ListIterator<T, P, Node> begin() const { return ListIterator<T, P, Node>(succ(_head), this); }
-    virtual ListIterator<T, P, Node> end() const { return ListIterator<T, P, Node>(_tail, this); }
+    virtual int size() const override { return _size; }
+    virtual void clear() override { destroyAll(); createEmptyList(); }
+    virtual ListIterator<T, P, Node> begin() const override { return ListIterator<T, P, Node>(succ(_head), this); }
+    virtual ListIterator<T, P, Node> end() const override { return ListIterator<T, P, Node>(_tail, this); }
 
     // 插入元素（包括前插和后插）的接口，返回被插入元素的位置
-    virtual P insertAsPred(P pos, const T& e);
-    virtual P insertAsSucc(P pos, const T& e);
+    virtual P insertAsPred(P pos, const T& e) override;
+    virtual P insertAsSucc(P pos, const T& e) override;
     
     // 删除元素的接口，返回被删除的元素
-    virtual T remove(P pos);
+    virtual T remove(P pos) override;
 
     // 查找元素的接口，返回查找到的元素的位置，未找到则返回无效位置
-    virtual P find(const T& e) const;
+    virtual P find(const T& e) const override;
 };
 
 // 复制构造函数，这里和正常的复制构造函数设计的不一样

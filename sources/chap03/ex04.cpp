@@ -60,7 +60,7 @@ protected:
     Container C; // 用来进行排序的数据结构
     SortMethod sortAlgorithm;
 public:
-    virtual void init(int n, DataType dtype) {
+    virtual void init(int n, DataType dtype) override {
         C.clear();
         if (dtype == DataType::Increasing) {
             for (int i : views::iota(0, n)) {
@@ -72,10 +72,10 @@ public:
             }
         }
     }
-    virtual void applySort() {
+    virtual void applySort() override {
         sortAlgorithm.apply(C);
     }
-    virtual string getTypename() const { // 重载typename，短路到数据结构名上
+    virtual string getTypename() const override { // 重载typename，短路到数据结构名上
         return C.getTypename();
     }
 };

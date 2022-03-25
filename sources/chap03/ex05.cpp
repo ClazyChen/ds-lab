@@ -33,16 +33,16 @@ protected:
 	Container C;
 	Vector<P> pos;
 public:
-	virtual void init(int maxn, T dummy) {
+	virtual void init(int maxn, T dummy) override {
 		applyInsert(maxn, dummy);
 		C.clear();
 	}
-	virtual void applyInsert(int n, T dummy) {
+	virtual void applyInsert(int n, T dummy) override {
 		for (int i : views::iota(0, n)) {
 			C.push_back(dummy);
 		}
 	}
-	virtual void shufflePosition() {
+	virtual void shufflePosition() override {
 		pos.clear();
 		if constexpr (is_same_v<Rank, P>) { // 静态链表
 			for (int i : views::iota(0, C.size()) | views::reverse) {
@@ -55,12 +55,12 @@ public:
 			random_shuffle(begin(pos), end(pos));
 		}
 	}
-	virtual void applyRemove() {
+	virtual void applyRemove() override {
 		for (auto p : pos) {
 			C.remove(p);
 		}
 	}
-	virtual string getTypename() const {
+	virtual string getTypename() const override {
 		return C.getTypename();
 	}
 };

@@ -42,8 +42,8 @@ protected:
 public:
     ForwardStaticListNode() {}
     ForwardStaticListNode(T _data): AbstractStaticListNode<T>(_data) {}
-    virtual Rank succ() { return _succ; }
-    virtual void setSucc(Rank _succ) { this->_succ = _succ; }
+    virtual Rank succ() override { return _succ; }
+    virtual void setSucc(Rank _succ) override { this->_succ = _succ; }
     constexpr static bool isBidirectional() { return false; }
 };
 
@@ -55,8 +55,8 @@ protected:
 public:
     StaticListNode() {}
     StaticListNode(T _data): ForwardStaticListNode<T>(_data) {}
-    virtual Rank pred() { return _pred; }
-    virtual void setPred(Rank _pred) { this->_pred = _pred; }
+    virtual Rank pred() override { return _pred; }
+    virtual void setPred(Rank _pred) override { this->_pred = _pred; }
     constexpr static bool isBidirectional() { return true; }
 };
 
@@ -85,32 +85,32 @@ protected:
 
 public:
     // 重载找位置相关的函数
-    virtual T& data(Rank pos) const { return V[pos].data(); }
-    virtual Rank pred(Rank pos) const { return V[pos].pred(); }
-    virtual Rank succ(Rank pos) const { return V[pos].succ(); }
-    virtual Rank setPred(Rank pos, Rank _pred) { 
+    virtual T& data(Rank pos) const override { return V[pos].data(); }
+    virtual Rank pred(Rank pos) const override { return V[pos].pred(); }
+    virtual Rank succ(Rank pos) const override { return V[pos].succ(); }
+    virtual Rank setPred(Rank pos, Rank _pred) override { 
         if (pos != invalidRank) {
             V[pos].setPred(_pred);
         }
         return pos;
     }
-    virtual Rank setSucc(Rank pos, Rank _succ) { 
+    virtual Rank setSucc(Rank pos, Rank _succ) override { 
         if (pos != invalidRank) {
             V[pos].setSucc(_succ);
         }
         return pos;
     }
-    virtual Rank invalid() const { return invalidRank; }
+    virtual Rank invalid() const override { return invalidRank; }
 
     // 重载空间分配相关的函数
-    virtual Rank create() { return allocatePosition(); }
-    virtual Rank create(const T& e) {
+    virtual Rank create() override { return allocatePosition(); }
+    virtual Rank create(const T& e) override {
         Rank pos = allocatePosition();
         data(pos) = e;
         return pos;
     }
-    virtual void destroy(Rank pos) { S.push(pos); } // 将pos标记为可用
-    virtual void destroyAll() { V.clear(); S.clear(); } // 清空所有的元素
+    virtual void destroy(Rank pos) override { S.push(pos); } // 将pos标记为可用
+    virtual void destroyAll() override { V.clear(); S.clear(); } // 清空所有的元素
 
     StaticList() { this->createEmptyList(); } // 默认构造函数
     StaticList(const StaticList<T, Node>& L) { this->duplicateList(L); } // 复制构造函数

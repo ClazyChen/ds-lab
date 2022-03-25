@@ -18,7 +18,7 @@ using namespace clazy_framework;
 // 欧几里得算法（递归版本）
 class GcdEuclidRecursive : public GcdProblem {
 protected:
-    int gcd(int a, int b) const {
+    int gcd(int a, int b) const override {
         if (b == 0) {
             return a;
         } else {

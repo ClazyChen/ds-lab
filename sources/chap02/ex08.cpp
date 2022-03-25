@@ -25,7 +25,7 @@ public:
 template <typename T>
 class CyclicLeftShiftSwap : public CyclicLeftShift<T> {
 public:
-    virtual void apply(Vector<T>& V, int k) {
+    virtual void apply(Vector<T>& V, int k) override {
         auto B = make_unique<T[]>(k); // 辅助空间
         copy(begin(V), begin(V) + k, B.get());   // B[0:k] = V[0:k]
         copy(begin(V) + k, end(V), begin(V));    // V[0:n-k] = V[k:n]
@@ -40,7 +40,7 @@ protected:
     shared_ptr<GcdProblem> gcd;
 public:
     CyclicLeftShiftRing(): gcd(make_shared<Gcd>()) {}
-    virtual void apply(Vector<T>& V, int k) {
+    virtual void apply(Vector<T>& V, int k) override {
         int n = V.size();
         int d = gcd->apply(n, k);       // 计算最大公约数
         T temp;                         // 辅助空间，只需要1个（循环交换）
@@ -61,7 +61,7 @@ public:
 template <typename T>
 class CyclicLeftShiftReverse : public CyclicLeftShift<T> {
 public:
-    virtual void apply(Vector<T>& V, int k) {
+    virtual void apply(Vector<T>& V, int k) override {
         reverse(begin(V), begin(V) + k); // -> rV[0:k] + V[k:n]
         reverse(begin(V), end(V));       // -> rV[k:n] + V[0:k]
         reverse(begin(V), end(V) - k);   // -> V[k:n] + V[0:k]

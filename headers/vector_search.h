@@ -19,7 +19,7 @@ template <typename T, typename Container = Vector<T>>
 requires (is_base_of_v<clazy_framework::AbstractVector<T>, Container>)
 class VectorSequentialSearch : public VectorSearch<T, Container> {
 protected:
-    virtual SearchResult<Rank> search(Container& V, const T& e, const Comparator<T>& cmp) {
+    virtual SearchResult<Rank> search(Container& V, const T& e, const Comparator<T>& cmp) override {
         for (Rank r : views::iota(0, V.size()) | views::reverse) {
             if (cmp(V[r], e)) {
                 if (V[r] == e) {
@@ -39,7 +39,7 @@ requires (is_base_of_v<clazy_framework::AbstractVector<T>, Container>)
 class VectorBinarySearch : public VectorSearch<T, Container> {
 protected:
     virtual VectorIterator<T> binarySearch(VectorIterator<T> it_begin, VectorIterator<T> it_end, const T& e, const Comparator<T>& cmp);
-    virtual SearchResult<Rank> search(Container& V, const T& e, const Comparator<T>& cmp) {
+    virtual SearchResult<Rank> search(Container& V, const T& e, const Comparator<T>& cmp) override {
         auto pos = binarySearch(begin(V), end(V), e, cmp);
         if (pos > begin(V) && *(pos - 1) == e) {
             return {true, pos - begin(V) - 1};

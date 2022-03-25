@@ -22,7 +22,7 @@ namespace clazy {
 // 标准快速幂（迭代版本），时间O(logb)，空间O(1)
 class Power : public clazy_framework::PowerProblem {
 public:
-    int power(int a, int b) const {
+    int power(int a, int b) const override {
         int ans = 1;            // 记录部分积
         while (b > 0) {         // 每次计算b的一位
             if (b % 2 == 1) { 

@@ -58,16 +58,16 @@ protected:
     SortMethod sortAlgorithm;
     SearchMethod searchAlgorithm;
 public:
-    virtual void init(const clazy::Vector<T>& V) {
+    virtual void init(const clazy::Vector<T>& V) override {
         C.clear();
         for (auto x : V) {
             C.push_back(x);
         }
     }
-    virtual void applySort() {
+    virtual void applySort() override {
         sortAlgorithm.apply(C);
     }
-    virtual void applySearch(const clazy::Vector<T>& V) {
+    virtual void applySearch(const clazy::Vector<T>& V) override {
         if constexpr (!is_base_of_v<AbstractVector<T>, Container>) {
             if ((long long)C.size() * V.size() >= 10'000'000'000LL) {
                 cout << "(no action)"; return; // 如果查找次数太多，把列表的顺序查找屏蔽掉
@@ -77,10 +77,10 @@ public:
             searchAlgorithm.apply(C, x);
         }
     }
-    virtual void checkSort() {
+    virtual void checkSort() override {
         assert(is_sorted(begin(C), end(C)));
     }
-    virtual void checkSearch(const clazy::Vector<T>& V) {
+    virtual void checkSearch(const clazy::Vector<T>& V) override {
         C.clear();
         for (auto x : V) {
             auto [r, p] = searchAlgorithm.apply(C, x);
@@ -100,7 +100,7 @@ public:
         }
         checkSort();
     }
-    virtual string getTypename() const { // 重载typename，短路到数据结构名上
+    virtual string getTypename() const override { // 重载typename，短路到数据结构名上
         return C.getTypename();
     }
 };

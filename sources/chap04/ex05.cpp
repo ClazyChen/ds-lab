@@ -19,7 +19,7 @@ class Calculation : public CalculationProblem {
 protected:
     Expr expression;
 public:
-    virtual int apply(string expr) {
+    virtual int apply(string expr) override {
         expression.parse(expr);
         return expression.getResult();
     }

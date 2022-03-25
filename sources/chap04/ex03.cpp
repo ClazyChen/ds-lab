@@ -64,10 +64,10 @@ public:
 class Generate4Template : public TailRecursion<int> { // 输出结果到向量
 protected:
     vector<int>& ans;
-    virtual void commonProcedure(int x) {} // 空
-    virtual void borderProcedure(int x) { ans.push_back(x); } // 查找到符合条件的解，写入到结果向量中
-    virtual bool border(int x) { return 10'000'000 <= x && x < 100'000'000; } // 递归边界：8位数
-    virtual vector<tuple<int>> nextParameter(int x) { // 每层递归增加一位
+    virtual void commonProcedure(int x) override {} // 空
+    virtual void borderProcedure(int x) override { ans.push_back(x); } // 查找到符合条件的解，写入到结果向量中
+    virtual bool border(int x) override { return 10'000'000 <= x && x < 100'000'000; } // 递归边界：8位数
+    virtual vector<tuple<int>> nextParameter(int x) override { // 每层递归增加一位
         vector<tuple<int>> V;
         for (int y : views::iota(1, 9)) {
             V.push_back({x*10 + y});
@@ -82,7 +82,7 @@ class Generate4TemplateRecursive : public Generate4 {
 protected:
     Generate4Template gt;
 public:
-    virtual void apply() { gt.recursiveFunction(0); }
+    virtual void apply() override { gt.recursiveFunction(0); }
     Generate4TemplateRecursive(): gt(this->ans) {}
 };
 
@@ -90,7 +90,7 @@ class Generate4TemplateIterative : public Generate4 {
 protected:
     Generate4Template gt;
 public:
-    virtual void apply() { gt.interativeFunction(0); }
+    virtual void apply() override { gt.interativeFunction(0); }
     Generate4TemplateIterative(): gt(this->ans) {}
 };
 
@@ -107,7 +107,7 @@ protected:
         }
     }
 public:
-    virtual void apply() { solve(ans, 0); }
+    virtual void apply() override{ solve(ans, 0); }
 };
 
 class Generate4Iterative : public Generate4 {
@@ -127,7 +127,7 @@ protected:
         }
     }
 public:
-    virtual void apply() { solve(ans, 0); }
+    virtual void apply() override{ solve(ans, 0); }
 };
 
 int main() {

@@ -149,15 +149,15 @@ public:
     virtual P find(const T& e) const = 0;
 
     // 一些不需要您自己定义的接口
-    virtual bool empty() const {
+    virtual bool empty() const override {
         return begin() == end();
     }
 
-    virtual T& front() const {
+    virtual T& front() const override {
         return *begin();
     }
 
-    virtual T& back() const {
+    virtual T& back() const override {
         if constexpr (Node::isBidirectional()) {
             return *(end() - 1);
         } else /* forward list */ {
@@ -165,19 +165,19 @@ public:
         }
     }
 
-    virtual void push_front(const T& e) {
+    virtual void push_front(const T& e) override {
         insertAsPred(begin().base(), e);
     }
 
-    virtual void push_back(const T& e) {
+    virtual void push_back(const T& e) override {
         insertAsPred(end().base(), e);
     }
 
-    virtual T pop_front() {
+    virtual T pop_front() override {
         return remove(begin().base());
     }
 
-    virtual T pop_back() {
+    virtual T pop_back() override {
         if constexpr (Node::isBidirectional()) {
             return remove((end() - 1).base());
         } else /* forward list */ {

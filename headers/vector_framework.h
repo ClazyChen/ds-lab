@@ -141,31 +141,31 @@ public:
     virtual Rank find(const T& e) const = 0;
 
     // 一些不需要您自己定义的接口
-    virtual bool empty() const {
+    virtual bool empty() const override {
         return begin() == end();
     }
 
-    virtual T& front() const {
+    virtual T& front() const override {
         return *begin();
     }
 
-    virtual T& back() const {
+    virtual T& back() const override {
         return *(end() - 1);
     }
 
-    virtual void push_front(const T& e) {
+    virtual void push_front(const T& e) override {
         insert(0, e);
     }
 
-    virtual void push_back(const T& e) {
+    virtual void push_back(const T& e) override {
         insert(size(), e);
     }
 
-    virtual T pop_front() {
+    virtual T pop_front() override {
         return remove(0);
     }
 
-    virtual T pop_back() {
+    virtual T pop_back() override {
         return remove(size() - 1);
     }
 

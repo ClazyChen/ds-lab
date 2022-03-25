@@ -47,13 +47,13 @@ protected:
 	virtual void push_back(const T& e) = 0;
 	virtual void push_front(const T& e) = 0;
 public:
-	virtual void clear_n() { return reset(); }
-	virtual void push_back_n(int n) {
+	virtual void clear_n() override { return reset(); }
+	virtual void push_back_n(int n) override {
 		for (int i : views::iota(0, n)){
 			push_back(i);
 		}
 	}
-	virtual void push_front_n(int n) {
+	virtual void push_front_n(int n) override {
 		for (int i : views::iota(0, n)) {
 			push_front(i);
 		}
@@ -65,9 +65,9 @@ requires (is_base_of_v<AbstractLinearStructure<T>, Container>)
 class Push : public BatchedPushProblem<T> {
 protected:
 	Container C;
-	virtual void reset() { C.clear(); }
-	virtual void push_back(const T& e) { C.push_back(e); }
-	virtual void push_front(const T& e) { C.push_front(e); }
+	virtual void reset() override { C.clear(); }
+	virtual void push_back(const T& e) override { C.push_back(e); }
+	virtual void push_front(const T& e) override { C.push_front(e); }
 public:
 	virtual void push_front_n(int n) {
 		if constexpr (is_base_of_v<AbstractVector<T>, Container>) {

@@ -55,13 +55,13 @@ template <int ExpandRatio, int ShrinkRatio, int ShrinkThreshold = INT32_MAX, int
 requires (ShrinkThreshold > ExpandRatio && ShrinkThreshold >= ShrinkRatio && ShrinkRatio >= 1 && ExpandRatio > 1 && MinCapacity > 0)
 class RatioAllocator : public clazy_framework::AbstractAllocator {
 protected:
-    virtual pair<Result, int> expand(int capacity, int size) const {
+    virtual pair<Result, int> expand(int capacity, int size) const override {
         while (capacity < size) {     // 加倍扩容策略
             capacity *= ExpandRatio;
         }
         return {Result::Expand, capacity};
     }
-    virtual pair<Result, int> shrink(int capacity, int size) const {
+    virtual pair<Result, int> shrink(int capacity, int size) const override {
         if constexpr (ShrinkRatio > 1) { // 缩容倍率为1，表示永不缩容
             while (size < capacity / ShrinkThreshold && capacity > MinCapacity) { // 使用缩容阈值
                 capacity /= ShrinkRatio; // 折半缩容策略

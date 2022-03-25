@@ -14,7 +14,7 @@ using Stack = clazy::Stack<T>;
 // 递归方法
 class CombineRecursive : public CombineProblem {
 protected:
-    virtual int combine(int n, int m) {
+    virtual int combine(int n, int m) override {
         if (m == 0 || n == m) { // 递归边界
             return 1;
         } else {
@@ -27,7 +27,7 @@ protected:
 // 这个方法是上面的递归方法的直接改写
 class CombineStack : public CombineProblem {
 protected:
-    virtual int combine(int n, int m) {
+    virtual int combine(int n, int m) override {
         Stack<pair<int, int>> S; // 存储(n, m)
         int sum = 0;             // 目前为止累加的结果
         S.push({n, m});          // 初始的(n, m)

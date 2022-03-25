@@ -20,7 +20,7 @@ namespace clazy {
 class Combine : public clazy_framework::CombineProblem {
 protected:
     vector<vector<int>> C;
-    virtual int combine(int n, int m) {
+    virtual int combine(int n, int m) override {
         m = min(m, n - m);                     // 利用对称性，降低一半的存储量
         if (n < C.size() && m < C[n].size()) { // 如果记忆化可用
             return C[n][m];                    // 直接读取记忆化的结果

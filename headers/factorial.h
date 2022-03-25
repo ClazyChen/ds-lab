@@ -36,7 +36,7 @@ class Factorial : public clazy_framework::FactorialProblem {
 protected:
     constexpr static FactorialTable table = FactorialTable();
 public:
-    virtual int apply(int n) const {
+    virtual int apply(int n) const override {
         return table.table[n];
     }
 };

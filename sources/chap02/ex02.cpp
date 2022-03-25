@@ -43,7 +43,7 @@ class InsertTest : public Algorithm {
 protected:
     Vector<Allocator> V;
 public:
-    virtual string getTypename() const {
+    virtual string getTypename() const override {
         return typeid(Allocator).name(); // 使用Allocator的名字以降低长度
     }
     void apply(int n) {
