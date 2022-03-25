@@ -9,7 +9,7 @@ namespace clazy_framework {
 template <typename T>
 class AbstractStack : public DataStructure<T> {
 public:
-    virtual T top() const = 0; // 获取栈顶元素
+    virtual T& top() const = 0; // 获取栈顶元素
     virtual T pop() = 0; // 弹出栈顶元素并返回
     virtual void push(const T& e) = 0; // 将元素推入栈
 };
