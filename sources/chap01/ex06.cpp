@@ -16,7 +16,7 @@ public:
 // 如果您不熟悉，可以在学习《组成原理》之后再思考这个问题
 class Power2Directly : public Power2 {
 public:
-    bool test(int n) const {
+    bool test(int n) const override {
         return !(n & n-1);
     }
 };
@@ -24,7 +24,7 @@ public:
 // 递归的方法，时间O(logn)，空间O(logn)
 class Power2Recursive : public Power2 {
 public:
-    bool test(int n) const {
+    bool test(int n) const override {
         if (n % 2 == 1) {           // 奇数的情形
             return n == 1;          // 只有1是2的幂次
         } else /* n % 2 == 0 */ {   // 偶数的情形
@@ -44,7 +44,7 @@ public:
 // 区别2是区别1的结果，更加本质，它指示了时间复杂度渐进下界不同的原因
 class Power2Iterative : public Power2 {
 public:
-    bool test(int n) const {
+    bool test(int n) const override {
         int exp2 = 1;       // 找到第一个不小于n的2的幂次
         while (exp2 < n) {
             exp2 *= 2;

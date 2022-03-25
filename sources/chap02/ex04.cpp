@@ -32,7 +32,7 @@ public:
 template <typename T>
 class BatchRemoveSFSR : public BatchRemove<T> {
 protected:
-    virtual void batchRemove(Vector<T>& V, const function<bool(const T&)>& P) {
+    virtual void batchRemove(Vector<T>& V, const function<bool(const T&)>& P) override {
         Rank r = 0;
         while (r = find_if(begin(V), end(V), P) - begin(V), r < V.size()) { // 只要有满足条件的元素
             BatchRemove<T>::remove(V, r);  // 就把该元素删除（每轮循环找到一个、删除一个）
@@ -44,7 +44,7 @@ protected:
 template <typename T>
 class BatchRemoveGFSR : public BatchRemove<T> {
 protected:
-    virtual void batchRemove(Vector<T>& V, const function<bool(const T&)>& P) {        
+    virtual void batchRemove(Vector<T>& V, const function<bool(const T&)>& P) override {        
         Rank r = 0;
         while (r = find_if(begin(V) + r, end(V), P) - begin(V), r < V.size()) {
             BatchRemove<T>::remove(V, r);  // 改为从V[r]开始查找，因为之前的元素已经被找过一次了
@@ -56,7 +56,7 @@ protected:
 template <typename T>
 class BatchRemoveGFGR : public BatchRemove<T> {
 protected:
-    virtual void batchRemove(Vector<T>& V, const function<bool(const T&)>& P) {
+    virtual void batchRemove(Vector<T>& V, const function<bool(const T&)>& P) override {
         Rank r_last = 0, r = 0; // 需要记录上次的r，每次移动一个区间
         int offset = -1;        // 向前移动的偏移量
         do {
@@ -76,7 +76,7 @@ protected:
 template <typename T>
 class BatchRemoveGFGR_FSP : public BatchRemove<T> {
 protected:
-    virtual void batchRemove(Vector<T>& V, const function<bool(const T&)>& P) {
+    virtual void batchRemove(Vector<T>& V, const function<bool(const T&)>& P) override {
         auto it_assign = begin(V);  // 赋值指针（慢指针）
         for (auto it_find = begin(V); it_find != end(V); it_find++) { // 查找指针（快指针）
             if (!P(*it_find)) {     // 如果是不会被删除的元素

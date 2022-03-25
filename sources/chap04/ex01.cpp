@@ -42,7 +42,7 @@ class ParenMatchStack : public ParenMatch {
 protected:
     Stack<char> S;
 public:
-    virtual bool apply(const Vector<char>& V) {
+    virtual bool apply(const Vector<char>& V) override {
         S.clear(); // 初始化（清空栈）
         for (char c : V) {
             if (char left = getLeft(c); left == c) { // 如果c是左括号

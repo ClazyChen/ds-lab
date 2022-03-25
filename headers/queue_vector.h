@@ -25,7 +25,7 @@ public:
         this->C.clear();
         _front = 0; // 清空之后，还需要重置队头的秩
     }
-    virtual bool empty() override {
+    virtual bool empty() const override {
         return this->C.size() == _front; // 判断队列是否为空的条件变为了队头秩是否等于向量大小
     }
     virtual T& front() const override {
@@ -40,6 +40,8 @@ public:
     VectorQueue() {}
     VectorQueue(const VectorQueue& Q): Queue<T, Container>(Q), _front(Q._front) {}
 
+    template <typename T1, typename Container1, int R1>
+    friend ostream& operator<< (ostream& out, const VectorQueue<T1, Container1, R1>& Q);
 };
 
 template <typename T, typename Container, int R>
@@ -50,5 +52,23 @@ void VectorQueue<T, Container, R>::moveElements() {
         _front = 0;                                       // 重置队头的秩    
     }
 }
+
+template <typename T, typename Container, int R>
+ostream& operator<< (ostream& out, const VectorQueue<T, Container, R>& Q) {
+    out << "VectorQueue-{";
+    for (bool first = true; int i : views::iota(0, Q._front)) {
+        if (!first) out << ", ";
+        out << Q.C[i];
+        first = false;
+    }
+    out << "}<-[";
+    for (bool first = true; int i : views::iota(Q._front, Q.C.size())) {
+        if (!first) out << ", ";
+        out << Q.C[i];
+        first = false;
+    }
+    return out << "]<-";
+}
+
 
 }

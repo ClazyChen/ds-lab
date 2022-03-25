@@ -18,7 +18,7 @@ public:
 // 采用分治算法进行的求和
 class SumADnC : public SumA {
 public:
-    int apply(const int* A, int n) const {
+    int apply(const int* A, int n) const override {
         if (n == 0) { return 0; }
         if (n == 1) { return A[0]; }
         return apply(A, n/2) + apply(A + n/2, n - n/2);
@@ -29,7 +29,7 @@ public:
 // 用于对照试验，测试上述分治算法的正确性
 class SumAstd : public SumA {
 public:
-    int apply(const int* A, int n) const {
+    int apply(const int* A, int n) const override {
         return accumulate(A, A+n, 0);
     }
 };

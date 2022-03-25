@@ -24,7 +24,7 @@ public:
 // 经典方法：直接利用等差数列求和公式计算
 class SumNAP : public SumN {
 public:
-    int apply(int n) const {
+    int apply(int n) const override {
         return n * (n+1) / 2;
     }
 };
@@ -32,7 +32,7 @@ public:
 // 改进方法：判断奇偶性，调换运算次序
 class SumNAPM : public SumN {
 public:
-    int apply(int n) const {
+    int apply(int n) const override {
         if (n % 2 == 1) {
             return (n+1) / 2 * n;
         } else /* n % 2 == 0 */ {
@@ -47,7 +47,7 @@ public:
 class SumNAPT : public SumN {
     const int threshold = 0x00010000;
 public:
-    int apply(int n) const {
+    int apply(int n) const override {
         if (n >= threshold) {
             return INT32_MAX;
         } else /* n < threshold */ {

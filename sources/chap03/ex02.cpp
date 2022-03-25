@@ -31,14 +31,14 @@ protected:
     BidirectionalList<T> L;
     Vector<clazy::ListNodePos<T>> V;
 public:
-    virtual void initialize(int n) {
+    virtual void initialize(int n) override {
         L.clear();
         V.clear();
         for (int i : views::iota(0, n)) {
             V.push_back(L.insertAsPred(L.end().base(), i));
         }
     }
-    virtual void apply() {
+    virtual void apply() override {
         for (auto pos : V) {
             L.remove(pos);
         }
@@ -49,7 +49,7 @@ public:
 template <typename T>
 class RandomClear : public SequentialClear<T> {
 public:
-    virtual void initialize(int n) {
+    virtual void initialize(int n) override {
         SequentialClear<T>::initialize(n);
         random_shuffle(begin(this->V), end(this->V));
     }

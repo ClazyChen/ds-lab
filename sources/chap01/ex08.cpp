@@ -9,7 +9,7 @@ using namespace clazy_framework;
 // 普通累乘幂
 class PowerNaive : public PowerProblem {
 protected:
-    int power(int a, int b) const {
+    int power(int a, int b) const override {
         int prod = 1;
         for (int i : views::iota(0, b)) {
             prod *= a;
@@ -22,7 +22,7 @@ protected:
 // 这个算法的思路非常容易理解，就是 a^b = a^(b/2)^2
 class PowerRecursive : public PowerProblem {
 protected:
-    int power(int a, int b) const {
+    int power(int a, int b) const override {
         if (b == 1) {        // 递归边界
             return a;        // 如果允许b = 0，则需要再写一个边界
         }

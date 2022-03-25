@@ -28,7 +28,7 @@ public:
 template <typename T>
 class DirectDeduplicate : public Deduplicate<T> {
 public:
-    virtual int apply(Vector<T>& V) {
+    virtual int apply(Vector<T>& V) override {
         int oldSize = V.size();
         for (Rank r = 1; r < V.size(); ) {
             if (any_of(begin(V), begin(V) + r, [&](auto& x) { return x == V[r]; })) {
@@ -51,7 +51,7 @@ public:
 template <typename T>
 class SortedDeduplicate : public Deduplicate<T> {
 public:
-    virtual int apply(Vector<T>& V) {
+    virtual int apply(Vector<T>& V) override {
         auto it_assign = begin(V);         // 赋值指针（慢指针）
         for (auto it_find = begin(V); it_find != end(V); it_find++) {   // 查找指针（快指针）
             if (it_find == begin(V) || !(*it_find == *(it_find - 1))) { // 如果是不会被删除的元素
@@ -82,7 +82,7 @@ protected:
     shared_ptr<Deduplicate<E>> sortedDeduplicate;
 public:
     SortBasedDeduplicate(): sortAlgorithm(make_shared<SortAlgorithm<E>>()), sortedDeduplicate(make_shared<SortedDeduplicate<E>>()) {}
-    virtual int apply(Vector<T>& V) {
+    virtual int apply(Vector<T>& V) override {
         Vector<E> VE(V.size());                // 建立辅助向量
         for (int i : views::iota(0, V.size())) {
             VE.push_back({V[i], i});           // 记录每个元素的秩
