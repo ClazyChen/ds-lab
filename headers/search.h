@@ -10,15 +10,13 @@ template <typename P>
 using SearchResult = pair<bool, P>;
 
 // 基本的查找
-// 注意我们并不规定Container是const的
-// 因为一些结构（比如伸展树）有可能会在查找的过程中同时发生改变
 template <typename T, typename P, typename Container>
 requires (is_data_structure<T, Container>)
 class Search : public Algorithm {
 protected:
-    virtual SearchResult<P> search(Container& C, const T& e) = 0;
+    virtual SearchResult<P> search(const Container& C, const T& e) const = 0;
 public:
-    SearchResult<P> apply(Container& C, const T& e) {
+    SearchResult<P> apply(const Container& C, const T& e) const {
         return search(C, e);
     }
 };
@@ -30,12 +28,12 @@ template <typename T, typename P, typename Container>
 requires (is_data_structure<T, Container>)
 class OrderedSearch : public Search<T, P, Container> {
 protected:
-    virtual SearchResult<P> search(Container& C, const T& e, const Comparator<T>& cmp) = 0;
-    virtual SearchResult<P> search(Container& C, const T& e) override { // 默认
+    virtual SearchResult<P> search(const Container& C, const T& e, const Comparator<T>& cmp) const = 0;
+    virtual SearchResult<P> search(const Container& C, const T& e) const override { // 默认
         return search(C, e, less_equal<T>());
     }
 public:
-    SearchResult<P> apply(Container& C, const T& e, const Comparator<T>& cmp = less_equal<T>()) {
+    SearchResult<P> apply(const Container& C, const T& e, const Comparator<T>& cmp = less_equal<T>()) const {
         return search(C, e, cmp);
     }
 };

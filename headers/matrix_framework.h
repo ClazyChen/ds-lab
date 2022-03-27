@@ -16,8 +16,9 @@ class AbstractMatrix : public DataStructure<T> {
 public:
     constexpr int getRows() const { return R; }
     constexpr int getCols() const { return C; }
-    virtual T item(int r, int c) = 0; // 获取矩阵的某个元素
+    virtual T item(int r, int c) const = 0; // 获取矩阵的某个元素
     virtual void set(int r, int c, const T& v) = 0; // 设置矩阵的某个元素
+    virtual void unset(int r, int c) { set(r, c, 0); } // 取消矩阵的某个元素，设置为0
 
     // 矩阵没有清空的操作，也就始终认为是非空的
     virtual void clear() override {}

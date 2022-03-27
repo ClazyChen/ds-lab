@@ -11,12 +11,13 @@ class Triple {
 public:
     int r, c;
     T v;
+    Triple() {}
     Triple(int r, int c): r(r), c(c) {}
     Triple(int r, int c, const T& v): r(r), c(c), v(v) {}
     bool operator==(const Triple& other) const {
         return r == other.r && c == other.c;
     }
-    bool operator<=>(const Triple& other) const = default;
+    auto operator<=>(const Triple& other) const = default;
 };
 
 // 采用有序三元组的方法存储矩阵
@@ -27,7 +28,7 @@ protected:
     Vector<Triple<T>> data;
     VectorBinarySearch<Triple<T>> search;
 public:
-    virtual T item(int r, int c) override {
+    virtual T item(int r, int c) const override {
         auto [result, rank] = search.apply(data, Triple<T>(r, c));
         if (result) {
             return data[rank].v;

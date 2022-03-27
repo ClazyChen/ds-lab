@@ -11,7 +11,7 @@ class Matrix : public clazy_framework::AbstractMatrix<R, C, T> {
 protected:
     T data[R][C];
 public:
-    virtual T item(int r, int c) override {
+    virtual T item(int r, int c) const override {
         return data[r][c];
     }
 

@@ -19,7 +19,7 @@ class RowMajorMatrix : public clazy_framework::AbstractMatrix<R, C, T> {
 protected:
     T data[R * C];
 public:
-    virtual T item(int r, int c) override {
+    virtual T item(int r, int c) const override {
         return data[r * C + c];
     }
 
@@ -34,7 +34,7 @@ class ColMajorMatrix : public clazy_framework::AbstractMatrix<R, C, T> {
 protected:
     T data[R * C];
 public:
-    virtual T item(int r, int c) override {
+    virtual T item(int r, int c) const override {
         return data[c * R + r];
     }
 
@@ -49,7 +49,7 @@ class SymmetricMatrix : public clazy_framework::AbstractMatrix<N, N, T> {
 protected:
     T data[N * (N + 1) / 2];
 public:
-    virtual T item(int r, int c) override {
+    virtual T item(int r, int c) const override {
         if (r > c) {
             swap(r, c);
         }
@@ -71,7 +71,7 @@ class LowerTriangularMatrix : public clazy_framework::AbstractMatrix<N, N, T> {
 protected:
     T data[N * (N + 1) / 2];
 public:
-    virtual T item(int r, int c) override {
+    virtual T item(int r, int c) const override {
         if (r > c) { // 上三角区总是返回0
             return (T)0;
         }
@@ -87,21 +87,21 @@ public:
 
 // 上三角矩阵
 // 这里是一般的数学的上三角矩阵，也就是下三角区全是0的情况
-template <typename T, int N>
-class UpperTriangularMatrix : public clazy_framework::AbstractMatrix<T, N, N> {
+template <int N, typename T = int>
+class UpperTriangularMatrix : public clazy_framework::AbstractMatrix<N, N, T> {
 protected:
     T data[N * (N + 1) / 2];
 public:
-    virtual T item(int r, int c) override {
+    virtual T item(int r, int c) const override {
         if (r < c) { // 下三角区总是返回0
             return (T)0;
         }
-        return data[(r * (2 * N + 1 - r)) / 2 + c];
+        return data[(r * (2 * N - 1 - r)) / 2 + c];
     }
 
     virtual void set(int r, int c, const T& v) override { // 不允许对下三角区进行赋值
         if (r >= c) {
-            data[(r * (2 * N + 1 - r)) / 2 + c] = v;
+            data[(r * (2 * N - 1 - r)) / 2 + c] = v;
         }
     }
 };
@@ -112,7 +112,7 @@ class TridiagonalMatrix : public clazy_framework::AbstractMatrix<N, N, T> {
 protected:
     T data[3 * N - 2];
 public:
-    virtual T item(int r, int c) override {
+    virtual T item(int r, int c) const override {
         if (abs(r - c) > 1) {
             return (T)0;
         }

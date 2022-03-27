@@ -19,7 +19,7 @@ template <typename T, typename Container = Vector<T>>
 requires (is_base_of_v<clazy_framework::AbstractVector<T>, Container>)
 class VectorSequentialSearch : public VectorSearch<T, Container> {
 protected:
-    virtual SearchResult<Rank> search(Container& V, const T& e, const Comparator<T>& cmp) override {
+    virtual SearchResult<Rank> search(const Container& V, const T& e, const Comparator<T>& cmp) const override {
         for (Rank r : views::iota(0, V.size()) | views::reverse) {
             if (cmp(V[r], e)) {
                 if (V[r] == e) {
@@ -38,8 +38,8 @@ template <typename T, typename Container = Vector<T>>
 requires (is_base_of_v<clazy_framework::AbstractVector<T>, Container>)
 class VectorBinarySearch : public VectorSearch<T, Container> {
 protected:
-    virtual VectorIterator<T> binarySearch(VectorIterator<T> it_begin, VectorIterator<T> it_end, const T& e, const Comparator<T>& cmp);
-    virtual SearchResult<Rank> search(Container& V, const T& e, const Comparator<T>& cmp) override {
+    virtual VectorIterator<T> binarySearch(VectorIterator<T> it_begin, VectorIterator<T> it_end, const T& e, const Comparator<T>& cmp) const;
+    virtual SearchResult<Rank> search(const Container& V, const T& e, const Comparator<T>& cmp) const override {
         auto pos = binarySearch(begin(V), end(V), e, cmp);
         if (pos > begin(V) && *(pos - 1) == e) {
             return {true, pos - begin(V) - 1};
@@ -51,7 +51,7 @@ protected:
 
 // 迭代方法（对应邓俊辉《数据结构》形式C）
 template <typename T, typename Container>
-VectorIterator<T> VectorBinarySearch<T, Container>::binarySearch(VectorIterator<T> it_begin, VectorIterator<T> it_end, const T& e, const Comparator<T>& cmp) {
+VectorIterator<T> VectorBinarySearch<T, Container>::binarySearch(VectorIterator<T> it_begin, VectorIterator<T> it_end, const T& e, const Comparator<T>& cmp) const {
     while (it_begin < it_end) {        // 保证it_begin左侧的元素不小于e，it_end及右侧的元素大于e
         auto it_mid = it_begin + (it_end - it_begin) / 2; // 取中点
         if (cmp(*it_mid, e)) {         // 如果e不小于中点 
