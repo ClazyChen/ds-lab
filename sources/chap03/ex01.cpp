@@ -1,7 +1,6 @@
 #include "list.h"
 #include "vector.h"
 #include "random.h"
-#include <cassert>
 using namespace clazy_framework;
 
 // 这个例子展示了单向链表和双向链表的区别

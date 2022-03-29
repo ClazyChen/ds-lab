@@ -73,6 +73,19 @@ public:
 
     SharedStack() { clear(); } // 默认构造函数
     SharedStack(const SharedStack<T, Container>& SS): V(SS.V), topb(SS.topb), topf(SS.topf) {} // 复制构造函数
+    SharedStack(SharedStack<T, Container>&& SS): V(move(SS.V)), topb(SS.topb), topf(SS.topf) {} // 移动构造函数
+    SharedStack<T, Container>& operator=(const SharedStack<T, Container>& SS) { // 复制赋值
+        V = SS.V;
+        topb = SS.topb;
+        topf = SS.topf;
+        return *this;
+    }
+    SharedStack<T, Container>& operator=(SharedStack<T, Container>&& SS) { // 移动赋值
+        V = move(SS.V);
+        topb = SS.topb;
+        topf = SS.topf;
+        return *this;
+    }
 
     template <typename T1, typename Container1> // 为了能够输出Container的内容，声明输出为友元函数
     friend ostream& operator<< (ostream& out, const SharedStack<T1, Container1>& S);

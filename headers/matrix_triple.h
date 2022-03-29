@@ -14,6 +14,21 @@ public:
     Triple() {}
     Triple(int r, int c): r(r), c(c) {}
     Triple(int r, int c, const T& v): r(r), c(c), v(v) {}
+    Triple(const Triple<T>& other): r(other.r), c(other.c), v(other.v) {}
+    Triple(Triple<T>&& other): r(other.r), c(other.c), v(move(other.v)) {}
+    Triple& operator=(const Triple<T>& other) {
+        r = other.r;
+        c = other.c;
+        v = other.v;
+        return *this;
+    }
+    Triple& operator=(Triple<T>&& other) {
+        r = other.r;
+        c = other.c;
+        v = move(other.v);
+        return *this;
+    }
+
     bool operator==(const Triple& other) const {
         return r == other.r && c == other.c;
     }

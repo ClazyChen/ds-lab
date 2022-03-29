@@ -3,7 +3,6 @@
 #include "list_search.h"
 #include "vector_search.h"
 #include "random.h"
-#include <cassert>
 using namespace clazy_framework;
 
 // 这个例子将会讨论列表的排序和查找

@@ -1,6 +1,5 @@
 #include "stack.h"
 #include "random.h"
-#include <cassert>
 using namespace clazy_framework;
 
 // 这个例子展示了括号匹配问题

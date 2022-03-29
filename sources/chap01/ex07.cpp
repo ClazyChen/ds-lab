@@ -28,7 +28,7 @@ int main() {
     for (int n : {100, 250, 400, 700, 800, 900, 1000}) {
         t = calculateTime([&]() { temp = f(n); });
         r = t * 1e9 / (n*n*n*log2(n));
-        cout << "time(" << setw(4) << n << ") = " << setw(6) << t << "\t";
+        cout << "time(" << setw(4) << n << ") = " << setw(10) << fixed << setprecision(6) << t << "\t";
         cout << "ratio = " << setw(10) << r << "\t";
         cout << "answer = " << setw(10) << temp << endl;
     }

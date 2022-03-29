@@ -43,7 +43,7 @@ public:
     class Iterator {
     protected:
         P position;
-        const AbstractList<T, P, Node>* L;
+        const AbstractList<T, P, Node>& L;
     public:
         using iterator_category = bidirectional_iterator_tag;
         using value_type        = T;
@@ -51,7 +51,7 @@ public:
         using pointer           = P;
         using reference         = T&;
 
-        explicit Iterator(P position, const AbstractList<T, P, Node>* L): position(position), L(L) {}
+        explicit Iterator(P position, const AbstractList<T, P, Node>& L): position(position), L(L) {}
 
         bool operator==(Iterator other) {
             return (position == other.position);
@@ -62,7 +62,7 @@ public:
         }
 
         Iterator& operator++() {
-            position = L->succ(position);
+            position = L.succ(position);
             return *this;
         }
 
@@ -73,7 +73,7 @@ public:
         }
 
         Iterator& operator--() {
-            position = L->pred(position);
+            position = L.pred(position);
             return *this;
         }
 
@@ -110,7 +110,7 @@ public:
         }
 
         reference operator*() {
-            return L->data(position);
+            return L.data(position);
         }
 
         pointer operator->() {

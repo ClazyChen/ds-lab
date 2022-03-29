@@ -19,7 +19,10 @@ public:
     virtual void push(const T& e) override { C.push_back(e); } // 将元素推入栈
 
     Stack() {} // 默认构造函数
-    Stack(const Stack& S): C(S.C) {} // 复制构造函数
+    Stack(const Stack<T, Container>& S): C(S.C) {} // 复制构造函数
+    Stack(Stack<T, Container>&& S): C(move(S.C)) {} // 移动构造函数
+    auto& operator=(const Stack<T, Container>& S) { C = S.C; return *this; } // 复制赋值
+    auto& operator=(Stack<T, Container>&& S) { C = move(S.C); return *this; } // 移动赋值
 
     template <typename T1, typename Container1> // 为了能够输出Container的内容，声明输出为友元函数
     friend ostream& operator<< (ostream& out, const Stack<T1, Container1>& S);

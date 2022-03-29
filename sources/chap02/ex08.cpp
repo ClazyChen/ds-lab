@@ -1,6 +1,5 @@
 #include "vector.h"
 #include "gcd.h"
-#include <cassert>
 using namespace clazy_framework;
 
 // 这个例子讨论一个有趣的话题：循环位移
@@ -15,7 +14,7 @@ using Gcd = clazy::Gcd;
 template <typename T>
 class CyclicLeftShift : public Algorithm {
 public:
-    virtual void apply(Vector<T>& V, int k) = 0;
+    virtual void apply(Vector<T>& V, int k) const = 0;
 };
 
 // 这个算法应当有O(n)的时间复杂度
@@ -25,7 +24,7 @@ public:
 template <typename T>
 class CyclicLeftShiftSwap : public CyclicLeftShift<T> {
 public:
-    virtual void apply(Vector<T>& V, int k) override {
+    virtual void apply(Vector<T>& V, int k) const override {
         auto B = make_unique<T[]>(k); // 辅助空间
         copy(begin(V), begin(V) + k, B.get());   // B[0:k] = V[0:k]
         copy(begin(V) + k, end(V), begin(V));    // V[0:n-k] = V[k:n]
@@ -37,12 +36,11 @@ public:
 template <typename T>
 class CyclicLeftShiftRing : public CyclicLeftShift<T> {
 protected:
-    shared_ptr<GcdProblem> gcd;
+    Gcd gcd;
 public:
-    CyclicLeftShiftRing(): gcd(make_shared<Gcd>()) {}
-    virtual void apply(Vector<T>& V, int k) override {
+    virtual void apply(Vector<T>& V, int k) const override {
         int n = V.size();
-        int d = gcd->apply(n, k);       // 计算最大公约数
+        int d = gcd.apply(n, k);        // 计算最大公约数
         T temp;                         // 辅助空间，只需要1个（循环交换）
         for (Rank i : views::iota(0, d)) {
             temp = V[i];
@@ -61,7 +59,7 @@ public:
 template <typename T>
 class CyclicLeftShiftReverse : public CyclicLeftShift<T> {
 public:
-    virtual void apply(Vector<T>& V, int k) override {
+    virtual void apply(Vector<T>& V, int k) const override {
         reverse(begin(V), begin(V) + k); // -> rV[0:k] + V[k:n]
         reverse(begin(V), end(V));       // -> rV[k:n] + V[0:k]
         reverse(begin(V), end(V) - k);   // -> V[k:n] + V[0:k]
@@ -69,10 +67,14 @@ public:
 };
 
 int main() {
-    auto algorithms = generateInstances<CyclicLeftShift<int>, CyclicLeftShiftSwap<int>, CyclicLeftShiftRing<int>, CyclicLeftShiftReverse<int>>();
+    auto algorithms = generateInstances<
+        CyclicLeftShift<int>,
+        CyclicLeftShiftSwap<int>,
+        CyclicLeftShiftRing<int>,
+        CyclicLeftShiftReverse<int>>();
     pair<int, int> testData[] {
         {10, 2},                 // swap方法通常都能有更好的性能
-        {10'000'000, 1},         // 但是需要额外的O(k)空间
+        {10'000'000, 1},         // 但是需要额外的O(k)空间（对k的敏感度也比reverse高）
         {10'000'000, 100'00},    // reverse的性能居中，且不需要额外的空间
         {10'000'000, 100'07},    // 而ring方法，看似对数组元素的赋值次数最少（一步到位），但计算复杂且跳跃，反而最慢
         {10'000'000, 5'000'000}, // ring的效率，不但和k有关，还和(n,k)的最大公约数有关

@@ -83,6 +83,9 @@ protected:
         }
     }
 
+    // 列表之间的移动
+    void moveList(StaticList<T, Node, Container>&& L);
+
 public:
     // 重载找位置相关的函数
     virtual T& data(Rank pos) const override { return V[pos].data(); }
@@ -113,15 +116,34 @@ public:
     virtual void destroyAll() override { V.clear(); S.clear(); } // 清空所有的元素
 
     StaticList() { this->createEmptyList(); } // 默认构造函数
-    StaticList(const StaticList<T, Node>& L) { this->duplicateList(L); } // 复制构造函数
-
-    template <typename Container1>
-    requires (clazy_framework::is_linear_structure<T, Container1>)
-    auto& operator=(const Container1& L) {
-        this->duplicateList(L); 
+    StaticList(const StaticList<T, Node, Container>& L) { this->duplicateList(L); } // 复制构造函数
+    StaticList(StaticList<T, Node, Container>&& L) { this->moveList(L); } // 移动构造函数
+    StaticList<T, Node, Container>& operator=(const StaticList<T, Node, Container>& L) {
+        if (this != &L) {
+            this->destroyAll();
+            this->duplicateList(L);
+        }
         return *this;
-    } // 线性表类型转换
-
+    }
+    StaticList<T, Node, Container>& operator=(StaticList<T, Node, Container>&& L) {
+        if (this != &L) {
+            this->destroyAll();
+            this->moveList(L);
+        }
+        return *this;
+    }
 };
+
+template <typename T, typename Node, typename Container>
+void StaticList<T, Node, Container>::moveList(StaticList<T, Node, Container>&& L) {
+    V = move(L.V);
+    S = move(L.S);
+    this->_size = L._size;
+    this->_head = L._head;
+    this->_tail = L._tail;
+    L._size = 0;
+    L._head = invalidRank;
+    L._tail = invalidRank;
+}
 
 }

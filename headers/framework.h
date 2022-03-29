@@ -2,7 +2,7 @@
 
 // 这是一个用于进行测试的小型框架
 #include <iostream>
-#include <ctime>
+#include <chrono>
 #include <string>
 #include <vector>
 #include <memory>
@@ -12,6 +12,7 @@
 #include <typeinfo>
 #include <iomanip>
 #include <ranges>
+#include <cassert>
 using namespace std;
 
 namespace clazy_framework {
@@ -52,11 +53,10 @@ auto generateInstances() {
 
 // 统计执行函数f需要的时间
 double calculateTime(function<void()> f) {
-    clock_t start, end;
-    start = clock();
+    auto start = chrono::high_resolution_clock::now();
     f();
-    end = clock();
-    return (double)(end - start) / CLOCKS_PER_SEC;
+    auto end = chrono::high_resolution_clock::now();
+    return chrono::duration_cast<chrono::microseconds>(end - start).count() / 1e6;
 }
 
 constexpr const static int defaultWidth = 28;
@@ -66,7 +66,7 @@ template <typename BaseClass> requires (is_base_of_v<Algorithm, BaseClass>)
 void applyTest(shared_ptr<BaseClass> instance, const function<void(shared_ptr<BaseClass>)>& test, int width = defaultWidth) {
     cout << "TEST [" << setw(width) << instance->getTypename() << "]\t";
     double seconds = calculateTime([&]() { test(instance); });
-    cout << " (" << seconds << "s)" << endl;
+    cout << " (" << fixed << setprecision(6) << seconds << "s)" << endl;
 }
 
 // 进行对比测试
@@ -74,14 +74,17 @@ template <typename BaseClass> requires (is_base_of_v<Algorithm, BaseClass>)
 void applyTest(vector<shared_ptr<BaseClass>>& instances, const function<void(shared_ptr<BaseClass>)>& test) {
     int width = defaultWidth;
     for (auto instance : instances) {
-        width = max<int>(width, instance->getTypename().size() + 2);
+        width = max<int>(width, instance->getTypename().size());
     }
     for (auto instance : instances) {
         applyTest(instance, test, width);
     }
 }
 
+// 比较器
 template <typename T>
 using Comparator = function<bool(const T&, const T&)>;
+
+using Rank = int; // 索引的时候使用Rank代替int
 
 }

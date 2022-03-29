@@ -1,5 +1,4 @@
 #include "vector.h"
-#include <cassert>
 using namespace clazy_framework;
 using clazy::DefaultVectorAllocator;
 

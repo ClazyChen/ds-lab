@@ -7,9 +7,6 @@ using namespace std;
 // 这个文件给出了向量相关的基本框架
 namespace clazy_framework {
 
-// 定义秩的概念
-using Rank = int;
-
 // 向量的ADT接口
 template <typename T>
 class AbstractVector : public AbstractLinearStructure<T> {

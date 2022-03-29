@@ -22,12 +22,12 @@ public:
     virtual P pred(P pos) const = 0;
     virtual P succ(P pos) const = 0;
     virtual P setPred(P pos, P pred) = 0;
-    virtual P setSucc(P pos, P pred) = 0;
+    virtual P setSucc(P pos, P succ) = 0;
     virtual P invalid() const = 0;
 
-// 为效率起见，我没有在执行各种操作时判断位置是否有效
+// 为效率起见，我没有在下面的各种操作时判断位置是否有效
 // 如果需求鲁棒性，则可以进行这样的判断
-// 但在实现setPred和setSucc时，需要判断位置是否有效
+// 但在上面实现setPred和setSucc时，需要判断位置是否有效
 
 protected:
     P _head;   // 列表的首哨兵
@@ -37,6 +37,7 @@ protected:
     // 和内存管理有关的接口，在静态链表中，这些接口的实现是基于Container的
     // 而动态链表中，这些接口是通过new/delete实现的
     // 静态链表和动态链表的本质区别，是对申请和释放内存的区别
+    
     // 申请新的节点的接口
     virtual P create() = 0;
     virtual P create(const T& e) = 0;
@@ -53,7 +54,7 @@ protected:
         setSucc(_head, _tail);
         setPred(_tail, _head);
     }
-    // 复制列表，用于复制构造函数
+    // 在线性容器之间相互赋值
     template <typename Container>
     requires (clazy_framework::is_linear_structure<T, Container>)
     void duplicateList(const Container& L);
@@ -62,8 +63,8 @@ public:
     BasicList() { } // 默认构造函数
     virtual int size() const override { return _size; }
     virtual void clear() override { destroyAll(); createEmptyList(); }
-    virtual ListIterator<T, P, Node> begin() const override { return ListIterator<T, P, Node>(succ(_head), this); }
-    virtual ListIterator<T, P, Node> end() const override { return ListIterator<T, P, Node>(_tail, this); }
+    virtual ListIterator<T, P, Node> begin() const override { return ListIterator<T, P, Node>(succ(_head), *this); }
+    virtual ListIterator<T, P, Node> end() const override { return ListIterator<T, P, Node>(_tail, *this); }
 
     // 插入元素（包括前插和后插）的接口，返回被插入元素的位置
     virtual P insertAsPred(P pos, const T& e) override;
@@ -76,8 +77,7 @@ public:
     virtual P find(const T& e) const override;
 };
 
-// 复制构造函数，这里和正常的复制构造函数设计的不一样
-// 因为我们希望允许动态和静态链表之间、双向和单向链表之间相互赋值
+// 允许动态和静态链表之间、双向和单向链表之间相互赋值
 template <typename T, typename P, typename Node>
 template <typename Container>
 requires (clazy_framework::is_linear_structure<T, Container>)

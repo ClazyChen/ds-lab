@@ -1,5 +1,4 @@
 #include "stack.h"
-#include <cassert>
 using namespace clazy_framework;
 
 // 这个例子展示了如何使用栈消除尾递归

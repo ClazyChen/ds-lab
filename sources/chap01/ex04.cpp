@@ -16,14 +16,14 @@ class ZeroPoint : public Algorithm {
 protected:
     const double eps = 1e-6;
 public:
-    virtual double solve(const function<double(double)>& f, double l, double r) = 0;
+    virtual double solve(const function<double(double)>& f, double l, double r) const = 0;
 };
 
 // 经典的循环版本的二分求解算法
 // 高中数学必修3的内容
 class ZeroPointIterative : public ZeroPoint {
 public:
-    double solve(const function<double(double)>& f, double l, double r) override {
+    double solve(const function<double(double)>& f, double l, double r) const override {
         while (r - l > eps) {             // 循环直到满足误差限
             double mid = l + (r - l) / 2; // 每次取(l,r)的中点
             if (f(l) * f(mid) <= 0) {     // 判断零点是否在(l,mid]中
@@ -51,7 +51,7 @@ public:
 // 迭代的循环变量 直接对应于 递归参数
 class ZeroPointRecursive : public ZeroPoint {
 public:
-    double solve(const function<double(double)>& f, double l, double r) override {
+    double solve(const function<double(double)>& f, double l, double r) const override {
         if (r - l < eps) {
             return l;                   // 递归边界
         }

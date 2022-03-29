@@ -1,5 +1,4 @@
 #include "vector.h"
-#include <cassert>
 using namespace clazy_framework;
 
 // 这个例子讨论：如何在向量中进行批量删除？

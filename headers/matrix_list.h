@@ -13,6 +13,17 @@ requires (R > 0 && C > 0 && is_convertible_v<int, T>)
 class MatrixList : public clazy_framework::AbstractMatrix<R, C, T> {
 protected:
     ForwardList<pair<int, T>> data[R];
+    void copyMatrix(const MatrixList<R, C, T>& other) {
+        for (int r : views::iota(0, R)) {
+            data[r] = other.data[r];
+        }
+    }
+    void moveMatrix(MatrixList<R, C, T>&& other) {
+        for (int r : views::iota(0, R)) {
+            data[r] = move(other.data[r]);
+        }
+    }
+
 public:
     virtual T item(int r, int c) const override { // 在列表中查找c
         for (auto it = begin(data[r]); it != end(data[r]); it++) {
@@ -41,6 +52,23 @@ public:
             }
         }
     }
+
+    MatrixList() {}
+    MatrixList(const MatrixList<R, C, T>& other) {
+        copyMatrix(other);
+    }
+    MatrixList(MatrixList<R, C, T>&& other) {
+        moveMatrix(other);
+    }
+    auto& operator=(const MatrixList<R, C, T>& other) {
+        copyMatrix(other);
+        return *this;
+    }
+    auto& operator=(MatrixList<R, C, T>&& other) {
+        moveMatrix(other);
+        return *this;
+    }
+
 };
 
 }

@@ -38,7 +38,18 @@ public:
     }
     
     VectorQueue() {}
-    VectorQueue(const VectorQueue& Q): Queue<T, Container>(Q), _front(Q._front) {}
+    VectorQueue(const VectorQueue<T, Container, R>& Q): Queue<T, Container>(Q), _front(Q._front) {}
+    VectorQueue(VectorQueue<T, Container, R>&& Q): Queue<T, Container>(move(Q)), _front(Q._front) {}
+    VectorQueue<T, Container, R>& operator=(const VectorQueue<T, Container, R>& Q) {
+        this->C = Q.C;
+        _front = Q._front;
+        return *this;
+    }
+    VectorQueue<T, Container, R>& operator=(VectorQueue<T, Container, R>&& Q) {
+        this->C = move(Q.C);
+        _front = Q._front;
+        return *this;
+    }
 
     template <typename T1, typename Container1, int R1>
     friend ostream& operator<< (ostream& out, const VectorQueue<T1, Container1, R1>& Q);

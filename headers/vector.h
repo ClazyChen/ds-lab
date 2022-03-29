@@ -24,9 +24,7 @@ protected:
     T* _data;                // 向量的数据区
     int _capacity;           // 向量的容量
     int _size;               // 向量的规模
-
-    // 向量扩容缩容的策略
-    static clazy_framework::AbstractAllocator* allocator;
+    Allocator allocator;     // 向量扩容缩容的策略
 
     // 控制容量的函数
     virtual void setCapacity(int capacity);
@@ -35,6 +33,7 @@ public:
     Vector();                   // 默认构造函数，生成空向量
     Vector(int capacity);       // 生成指定规模的空向量
     Vector(const Vector<T, Allocator>& V); // 复制构造函数，复制向量
+    Vector(Vector<T, Allocator>&& V);      // 移动构造函数，移动向量
     ~Vector() { delete[] _data; } // 析构函数
 
     // 实现获取容量和规模、修改规模的函数
@@ -56,18 +55,29 @@ public:
     // 查找元素，返回查找到的元素的秩，未找到返回-1
     virtual Rank find(const T& e) const override;
 
+    // 实现赋值运算符
     template <typename Container>
     requires (clazy_framework::is_linear_structure<T, Container>)
     auto& operator=(const Container& L) {
-        resize(L.size());
-        copy(L.begin(), L.end(), begin());
+        if (this != &L) {
+            resize(L.size());
+            copy(L.begin(), L.end(), begin());
+        }
         return *this;
-    } // 线性表类型转换
-};
+    }
 
-// 以下是上述接口的实现部分
-template <typename T, typename Allocator>
-clazy_framework::AbstractAllocator* Vector<T, Allocator>::allocator = nullptr;
+    // 请注意需要判断this不等于V，避免在V = move(V)这种移动中错误释放空间
+    auto& operator=(Vector<T>&& V) {
+        if (this != &V) {
+            delete[] _data;
+            _data = V._data;
+            _capacity = V._capacity;
+            _size = V._size;
+            V._data = new T[default_min_capacity]; // 保证V的_data域不是空指针
+        }
+        return *this;
+    }
+};
 
 // 构造函数
 template <typename T, typename Allocator>
@@ -86,24 +96,29 @@ Vector<T, Allocator>::Vector(const Vector<T, Allocator>& V): Vector(V._capacity)
     copy(V.begin(), V.begin() + _size, begin());
 }
 
+template <typename T, typename Allocator>
+Vector<T, Allocator>::Vector(Vector<T, Allocator>&& V) {
+    _capacity = V._capacity;
+    _data = V._data;
+    _size = V._size;
+    V._data = nullptr;
+}
+
 // 重新设置容量，这里总是重新开辟一块空间，并复制进去
 template <typename T, typename Allocator>
 void Vector<T, Allocator>::setCapacity(int capacity) {
     _capacity = max(capacity, default_min_capacity); // 重新设置capacity
     auto temp = new T[_capacity];                   // 申请一块新的空间
-    _size = min(_size, _capacity);                  // size永远不能超过capacity，多余的元素弃掉
-    copy(begin(), begin() + _size, temp);       // 复制数据到新的空间里
-    delete[] _data;                             // 删除原有的数据区
-    _data = temp;                               // 指向新的数据区
+    _size = min(_size, _capacity);                  // size永远不能超过capacity，多余的元素弃掉 
+    copy(begin(), begin() + _size, temp);           // 复制数据到新的空间里
+    delete[] _data;                                 // 删除原有的数据区
+    _data = temp;                                   // 指向新的数据区
 }
 
 // 重新设置规模，这里要判断是否需要扩容或缩容
 template <typename T, typename Allocator>
 void Vector<T, Allocator>::resize(int size) {
-    if (allocator == nullptr) {
-        allocator = new Allocator();
-    }
-    auto [action, capacity] = allocator->apply(_capacity, size);
+    auto [action, capacity] = allocator.apply(_capacity, size);
     if (action != clazy_framework::AbstractAllocator::Result::NoAction) {
         setCapacity(capacity);              // 如果有必要，则进行扩容或者缩容
     }

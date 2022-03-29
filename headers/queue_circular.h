@@ -38,7 +38,24 @@ public:
         _rear = (_rear + 1) % this->C.size(); // 队尾移动到下一个位置
     }
     CircularQueue() { clear(); }
-    CircularQueue(const CircularQueue& Q): Queue<T, Container>(Q), _front(Q._front), _rear(Q._rear) {}
+    CircularQueue(const CircularQueue<T, Container>& Q): Queue<T, Container>(Q), _front(Q._front), _rear(Q._rear) {}
+    CircularQueue(CircularQueue<T, Container>&& Q): Queue<T, Container>(move(Q)), _front(Q._front), _rear(Q._rear) {}
+    CircularQueue<T, Container>& operator=(const CircularQueue<T, Container>& Q) {
+        if (this != &Q) {
+            this->C = Q.C;
+            _front = Q._front;
+            _rear = Q._rear;
+        }
+        return *this;
+    }
+    CircularQueue<T, Container>& operator=(CircularQueue<T, Container>&& Q) {
+        if (this != &Q) {
+            this->C = move(Q.C);
+            _front = Q._front;
+            _rear = Q._rear;
+        }
+        return *this;
+    }
 
     template <typename T1, typename Container1>
     friend ostream& operator<< (ostream& out, const CircularQueue<T1, Container1>& Q);
@@ -60,10 +77,6 @@ void CircularQueue<T, Container>::moveElements() {
 template<typename T, typename Container>
 ostream& operator<< (ostream& out, const CircularQueue<T, Container>& Q) {
     out << "CircularQueue[";
-    // for (Rank i = Q._front; i != Q._rear; i = (i + 1) % Q.C.size()) {
-    //     if (i != Q._front) out << ", ";
-    //     out << Q.C[i];
-    // }
     out << Q.C;
     return out << "]";
 }

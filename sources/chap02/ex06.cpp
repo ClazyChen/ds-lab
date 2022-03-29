@@ -1,7 +1,6 @@
 #include "vector_sort.h"
 #include "vector_search.h"
 #include "random.h"
-#include <cassert>
 using namespace clazy_framework;
 
 // 这个例子展示向量的排序
@@ -17,13 +16,14 @@ const int search_count = 100'000; // 查找操作的次数
 constexpr int rangeLimit(int n) {
     return n * random_ratio;
 }
-constexpr int testData[] {
-    10, 100, 1000, 10000, 100'000
-};
 
 int main() {
     shared_ptr<Sort<int, Vector<int>>> sortAlgorithm = make_shared<clazy::VectorMergeSort<int>>();
-    auto searchAlgorithms = generateInstances<clazy::VectorSearch<int, Vector<int>>, clazy::VectorSequentialSearch<int>, clazy::VectorBinarySearch<int>>();
+    auto searchAlgorithms = generateInstances<
+        clazy::VectorSearch<int, Vector<int>>,
+        clazy::VectorSequentialSearch<int>,
+        clazy::VectorBinarySearch<int>>();
+    int testData[] { 10, 100, 1000, 10000, 100'000 };
     for (int n : testData) {
         cout << "Testing n = " << n << endl;
         auto V = randomVector<Vector<int>>(n, 0, rangeLimit(n));
@@ -34,10 +34,10 @@ int main() {
         // 这里预先生成好要查找的元素，从而在比较时不需要考虑随机数的时间开销
         auto VF = randomVector<Vector<int>>(search_count, 0, rangeLimit(n));
         // 算法正确性验证，采用顺序查找作为参照物
-        auto basicSearch = make_shared<clazy::VectorSequentialSearch<int>>();
+        auto basicSearch = searchAlgorithms[0];
         for (int i : views::iota(0, (int)sqrt(VF.size()))) {
             auto [res_b, r_b] = basicSearch->apply(V, VF[i]);
-            for (auto search : searchAlgorithms) {
+            for (auto search : searchAlgorithms | views::drop(1)) {
                 auto [res, r] = search->apply(V, VF[i]);
                 assert(res == res_b && r == r_b);
             }

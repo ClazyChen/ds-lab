@@ -1,6 +1,5 @@
 #include "vector.h"
 #include "random.h"
-#include <cassert>
 using namespace clazy_framework;
 
 // 这个例子展示了向量的插入、删除和查找操作
@@ -18,7 +17,6 @@ const double insert_cdf = 0.5;  // 在连续操作序列中“插入”的占比
 const double remove_cdf = 0.7;  // 在连续操作序列中“插入”和“删除”的总占比
 const double find_cdf   = 1.0;  // 这里使用累计概率函数
 
-Random random;                  // 随机数发生器
 Vector<int> V;                  // 用于测试的向量（您实现的）
 vector<int> v;                  // 用于对比的向量（STL）
 
@@ -32,7 +30,7 @@ void check() {
 }
 
 void insert() {
-    Rank r = random.nextIntBetween(0, V.size()+1);
+    Rank r = Random::nextIntBetween(0, V.size()+1);
     V.insert(r, e);
     v.insert(begin(v) + r, e); // STL 向量的插入
     cout << "insert(" << e++ << " @ rank " << r << ")" << endl;
@@ -40,7 +38,7 @@ void insert() {
 }
 
 void remove() {
-    Rank r = random.nextIntBetween(0, V.size());
+    Rank r = Random::nextIntBetween(0, V.size());
     int Vx = V.remove(r);
     v.erase(begin(v) + r); // STL 向量的删除
     cout << "remove(" << Vx << " @ rank " << r << ")" << endl;
@@ -48,7 +46,7 @@ void remove() {
 }
 
 void find() {
-    int x = random.nextIntBetween(0, e);
+    int x = Random::nextIntBetween(0, e);
     Rank Vr = V.find(x);
     Rank vr = find(begin(v), end(v), x) - begin(v);     // STL 向量的查找
     assert((Vr == -1 && vr == V.size()) || (Vr == vr)); // STL 查找失败时会返回end(v)，和我们的语义不一样
@@ -61,7 +59,7 @@ int main() {
     }
     check();
     for (int i : views::iota(0, op_count)) { // 实验中，进行若干次随机操作
-        double x = random.nextDouble();
+        double x = Random::nextDouble();
         if (x < insert_cdf) {
             insert();
         } else if (x < remove_cdf && V.size() > 0) {

@@ -9,16 +9,13 @@ using namespace clazy_framework;
 template <typename T>
 using Vector = clazy::Vector<T>;
 
-// 全局随机数发生器
-Random random;
-
 // 置乱算法
 template <typename T>
 class Shuffle : public Algorithm {
 public:
     void apply(Vector<T>& V) {
         for (Rank i : views::iota(1, V.size()) | views::reverse) {
-            swap(V[i], V[random.nextIntBetween(0, i+1)]);
+            swap(V[i], V[Random::nextIntBetween(0, i+1)]);
         }
     }
 };

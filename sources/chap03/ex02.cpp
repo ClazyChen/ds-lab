@@ -67,7 +67,7 @@ int main() {
         for (auto clear : algorithms) {
             clear->initialize(n);
         }
-        applyTest<ClearProblem<int>>(algorithms, [&](auto clear) {
+        applyTest<ClearProblem<int>>(algorithms, [](auto clear) {
             clear->apply();
         });
     }

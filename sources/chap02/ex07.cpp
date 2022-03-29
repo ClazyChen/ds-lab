@@ -1,7 +1,6 @@
 #include "vector.h"
 #include "vector_sort.h"
 #include "random.h"
-#include <cassert>
 using namespace clazy_framework;
 
 // 这个例子研究向量唯一化的问题
@@ -81,7 +80,8 @@ protected:
     shared_ptr<clazy::VectorSort<E, Vector<E>>> sortAlgorithm;
     shared_ptr<Deduplicate<E>> sortedDeduplicate;
 public:
-    SortBasedDeduplicate(): sortAlgorithm(make_shared<SortAlgorithm<E>>()), sortedDeduplicate(make_shared<SortedDeduplicate<E>>()) {}
+    SortBasedDeduplicate(): sortAlgorithm(make_shared<SortAlgorithm<E>>()), 
+        sortedDeduplicate(make_shared<SortedDeduplicate<E>>()) {}
     virtual int apply(Vector<T>& V) override {
         Vector<E> VE(V.size());                // 建立辅助向量
         for (int i : views::iota(0, V.size())) {
@@ -142,7 +142,7 @@ Vector<Mint> markedRandomVector(int n, int lo, int hi) {
 }
 
 // 为了让元素有比较多的重复，这里规定一个ratio，选取数字的区间是规模乘上这个比例
-const double ratio = 0.5;
+const double compressRatio = 0.5;
 
 int main() {
     auto algorithms = generateInstances<Deduplicate<Mint>, DirectDeduplicate<Mint>, SortBasedDeduplicate<Mint>>();
@@ -150,13 +150,13 @@ int main() {
     for (int n : testData) {
         // 生成实验数据
         cout << "Testing n = " << n << endl;
-        auto V = markedRandomVector(n, 0, (int)(n * ratio));
+        auto V = markedRandomVector(n, 0, (int)(n * compressRatio));
         // 这里为了验证正确性，先不进行时间测量
         // 采取直接唯一化作为参照物
-        auto basicAlgorithm = make_shared<DirectDeduplicate<Mint>>();
+        auto basicAlgorithm = algorithms[0];
         auto V_b = V;
         int answer_b = basicAlgorithm->apply(V_b);
-        for (auto deduplicate : algorithms) {
+        for (auto deduplicate : algorithms | views::drop(1)) {
             auto V_t = V;
             int answer_t = deduplicate->apply(V_t);
             assert(answer_b == answer_t);
