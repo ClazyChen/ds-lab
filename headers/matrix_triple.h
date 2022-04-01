@@ -16,23 +16,23 @@ public:
     Triple(int r, int c, const T& v): r(r), c(c), v(v) {}
     Triple(const Triple<T>& other): r(other.r), c(other.c), v(other.v) {}
     Triple(Triple<T>&& other): r(other.r), c(other.c), v(move(other.v)) {}
-    Triple& operator=(const Triple<T>& other) {
+    Triple<T>& operator=(const Triple<T>& other) {
         r = other.r;
         c = other.c;
         v = other.v;
         return *this;
     }
-    Triple& operator=(Triple<T>&& other) {
+    Triple<T>& operator=(Triple<T>&& other) {
         r = other.r;
         c = other.c;
         v = move(other.v);
         return *this;
     }
 
-    bool operator==(const Triple& other) const {
+    bool operator==(const Triple<T>& other) const {
         return r == other.r && c == other.c;
     }
-    auto operator<=>(const Triple& other) const = default;
+    auto operator<=>(const Triple<T>& other) const = default;
 };
 
 // 采用有序三元组的方法存储矩阵
@@ -42,6 +42,13 @@ class MatrixTriple : public clazy_framework::AbstractMatrix<R, C, T> {
 protected:
     Vector<Triple<T>> data;
     VectorBinarySearch<Triple<T>> search;
+    void copyMatrix(const MatrixTriple<R, C, T>& other) {
+        data = other.data;
+    }
+    void moveMatrix(MatrixTriple<R, C, T>&& other) {
+        data = move(other.data);
+    }
+
 public:
     virtual T item(int r, int c) const override {
         auto [result, rank] = search.apply(data, Triple<T>(r, c));
@@ -61,6 +68,21 @@ public:
         }
     }
 
+    MatrixTriple() {}
+    MatrixTriple(const MatrixTriple<R, C, T>& other) {
+        copyMatrix(other);
+    }
+    MatrixTriple(MatrixTriple<R, C, T>&& other) {
+        moveMatrix(other);
+    }
+    MatrixTriple<R, C, T>& operator=(const MatrixTriple<R, C, T>& other) {
+        copyMatrix(other);
+        return *this;
+    }
+    MatrixTriple<R, C, T>& operator=(MatrixTriple<R, C, T>&& other) {
+        moveMatrix(other);
+        return *this;
+    }
 };
 
 
