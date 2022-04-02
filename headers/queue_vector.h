@@ -41,13 +41,17 @@ public:
     VectorQueue(const VectorQueue<T, Container, R>& Q): Queue<T, Container>(Q), _front(Q._front) {}
     VectorQueue(VectorQueue<T, Container, R>&& Q): Queue<T, Container>(move(Q)), _front(Q._front) {}
     VectorQueue<T, Container, R>& operator=(const VectorQueue<T, Container, R>& Q) {
-        this->C = Q.C;
-        _front = Q._front;
+        if (this != &Q) {
+            this->C = Q.C;
+            _front = Q._front;
+        }
         return *this;
     }
     VectorQueue<T, Container, R>& operator=(VectorQueue<T, Container, R>&& Q) {
-        this->C = move(Q.C);
-        _front = Q._front;
+        if (this != &Q) {
+            this->C = move(Q.C);
+            _front = Q._front;
+        }
         return *this;
     }
 

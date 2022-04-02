@@ -68,14 +68,7 @@ requires (is_base_of_v<AbstractDynamicListNode<T>, Node> && clazy_framework::is_
 class DynamicList : public BasicList<T, ListNodePos<T>, Node> {
 protected:
     // 列表之间的移动
-    void moveList(DynamicList<T, Node>&& L) {
-        this->_head = L._head;
-        this->_tail = L._tail;
-        this->_size = L._size;
-        L._head = nullptr;
-        L._tail = nullptr;
-        L._size = 0;
-    }
+    void moveList(DynamicList<T, Node>&& L);
 public:
     // 重载找位置相关的函数
     virtual T& data(ListNodePos<T> pos) const override { return pos->data(); }
@@ -119,6 +112,16 @@ public:
         return *this;
     }
 };
+
+template <typename T, typename Node>
+void DynamicList<T, Node>::moveList(DynamicList<T, Node>&& L) {
+    this->_size = L._size;
+    this->_head = L._head;
+    this->_tail = L._tail;
+    L._size = 0;
+    L._head = nullptr;
+    L._tail = nullptr;
+}
 
 template <typename T, typename Node>
 void DynamicList<T, Node>::destroyAll() {

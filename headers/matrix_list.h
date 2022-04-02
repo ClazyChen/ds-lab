@@ -14,13 +14,17 @@ class MatrixList : public clazy_framework::AbstractMatrix<R, C, T> {
 protected:
     ForwardList<pair<int, T>> data[R];
     void copyMatrix(const MatrixList<R, C, T>& other) {
-        for (int r : views::iota(0, R)) {
-            data[r] = other.data[r];
+        if (this != &other) {
+            for (int r : views::iota(0, R)) {
+                data[r] = other.data[r];
+            }
         }
     }
     void moveMatrix(MatrixList<R, C, T>&& other) {
-        for (int r : views::iota(0, R)) {
-            data[r] = move(other.data[r]);
+        if (this != &other) {
+            for (int r : views::iota(0, R)) {
+                data[r] = move(other.data[r]);
+            }
         }
     }
 

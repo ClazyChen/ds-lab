@@ -6,19 +6,20 @@
 namespace clazy_framework {
 
 // 基本的树的类，很多不做实现
-template <typename T>
+template <typename T, typename Node>
+requires (is_base_of_v<AbstractTreeNode<T>, Node>)
 class AbstractTree : public DataStructure<T> {
 public:
     // 您需要获取树的规模
     virtual int size() const = 0;
 
     // 创建节点
-    virtual TreeNodePos<T> create() = 0;
-    virtual TreeNodePos<T> create(const T& e) = 0;
+    virtual Node* create() = 0;
+    virtual Node* create(const T& e) = 0;
 
     // 您需要获取和设置树的根
-    virtual TreeNodePos<T> root() const = 0;
-    virtual void setRoot(TreeNodePos<T> root) = 0;
+    virtual Node* root() const = 0;
+    virtual void setRoot(Node* root) = 0;
 
     // 一些不需要您自己定义的接口
     virtual bool empty() const override {

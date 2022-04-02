@@ -43,6 +43,8 @@ public:
     // 构造函数
     AbstractTreeNode() {}
     AbstractTreeNode(const T& data) : _data(data) {}
+    AbstractTreeNode(const AbstractTreeNode<T>& other) : _data(other._data) {}
+    AbstractTreeNode(AbstractTreeNode<T>&& other) : _data(move(other._data)) {}
 
     // 比较接口
     bool operator==(const AbstractTreeNode<T>& other) const { return _data == other._data; }
@@ -60,18 +62,50 @@ class KTreeNode : public AbstractTreeNode<T> {
 protected:
     AbstractTreeNode<T>* _children[K] { nullptr };
     AbstractTreeNode<T>* _parent = nullptr;
+    void copyNode(const KTreeNode<T, K>& other) {
+        for (int i = 0; i < K; ++i) {
+            _children[i] = other._children[i];
+        }
+        _parent = other._parent;
+    }
 public:
     virtual int childCount() const override { // K个子节点中非nullptr的数量
         return count_if(_children, _children + K, [](auto child) { return child != nullptr; });
     }
     virtual AbstractTreeNode<T>* child(int index) const override { return _children[index]; }
     virtual AbstractTreeNode<T>* parent() const override { return _parent; }
-    virtual void setChild(AbstractTreeNode<T>* child, int index) override { _children[index] = child; }
+    virtual void setChild(AbstractTreeNode<T>* child, int index) override { 
+        _children[index] = child;
+        if (child != nullptr) {
+            child->setParent(this); // 在这里设置亲节点
+        }
+    }
     virtual void setParent(AbstractTreeNode<T>* parent) override { _parent = parent; }
 
     // 构造函数
     KTreeNode() {}
     KTreeNode(const T& data) : AbstractTreeNode<T>(data) {}
+    KTreeNode(const KTreeNode<T, K>& other) : AbstractTreeNode<T>(other) {
+        copyNode(other);
+    }
+    KTreeNode(KTreeNode<T, K>&& other) : AbstractTreeNode<T>(move(other)) {
+        copyNode(other);
+    }
+    auto& operator=(const KTreeNode<T, K>& other) {
+        if (this != &other) {
+            this->_data = other._data;
+            copyNode(other);
+        }
+        return *this;
+    }
+    auto& operator=(KTreeNode<T, K>&& other) {
+        if (this != &other) {
+            this->_data = move(other._data);
+            copyNode(other);
+        }
+        return *this;
+    }
+    
 };
 
 // 二叉节点，作为特殊的K叉节点而存在
@@ -83,21 +117,38 @@ private:
     virtual void setChild(AbstractTreeNode<T>* child, int index) override { KTreeNode<T, 2>::setChild(child, index); }
 public:
     // 获取和设置子节点、亲节点的接口
-    virtual AbstractTreeNode<T>* LC() const { return _children[0]; }
-    virtual AbstractTreeNode<T>* RC() const { return _children[1]; }
-    virtual bool hasLC() const { return LC() != nullptr; }
-    virtual bool hasRC() const { return RC() != nullptr; }
+    virtual AbstractTreeNode<T>* getLC() const { return _children[0]; }
+    virtual AbstractTreeNode<T>* getRC() const { return _children[1]; }
     virtual void setLC(AbstractTreeNode<T>* child) { setChild(child, 0); }
     virtual void setRC(AbstractTreeNode<T>* child) { setChild(child, 1); }
 
     // 判断是左子节点还是右子节点的接口
-    virtual bool isLC() const { return parent() != nullptr && parent()->LC() == this; }
-    virtual bool isRC() const { return parent() != nullptr && parent()->RC() == this; }
+    virtual bool isLC() const { return parent() != nullptr && parent()->getLC() == this; }
+    virtual bool isRC() const { return parent() != nullptr && parent()->getRC() == this; }
 
     // 构造函数
     BinaryTreeNode() {}
     BinaryTreeNode(const T& data) : KTreeNode<T, 2>(data) {}
+    BinaryTreeNode(const BinaryTreeNode<T>& other) : KTreeNode<T, 2>(other) {}
+    BinaryTreeNode(BinaryTreeNode<T>&& other) : KTreeNode<T, 2>(other) {}
+    auto& operator=(const BinaryTreeNode<T>& other) {
+        if (this != &other) {
+            this->_data = other._data;
+            copyNode(other);
+        }
+        return *this;
+    }
+    auto& operator=(BinaryTreeNode<T>&& other) {
+        if (this != &other) {
+            this->_data = move(other._data);
+            copyNode(other);
+        }
+        return *this;
+    }
 };
+
+template <typename T>
+using BinaryTreeNodePos = BinaryTreeNode<T>*;
 
 // 动态节点
 template <typename T, typename Container = clazy::Vector<AbstractTreeNode<T>*>>
@@ -106,21 +157,64 @@ class DynamicTreeNode : public AbstractTreeNode<T> {
 protected:
     Container _children;
     AbstractTreeNode<T>* _parent = nullptr;
+    void copyNode(const DynamicTreeNode<T, Container>& other) {
+        _children.clear();
+        for (auto child : other._children) {
+            _children.push_back(child);
+        }
+        _parent = other._parent;
+    }
 public:
     virtual int childCount() const override { return _children.size(); }
     virtual AbstractTreeNode<T>* child(int index) const override { return _children[index]; }
     virtual AbstractTreeNode<T>* parent() const override { return _parent; }
-    virtual void setChild(AbstractTreeNode<T>* child, int index) override { _children[index] = child; }
+    virtual void setChild(AbstractTreeNode<T>* child, int index) override {
+        _children[index] = child;
+        if (child != nullptr) {
+            child->setParent(this); // 在这里设置亲节点
+        }
+    }
     virtual void setParent(AbstractTreeNode<T>* parent) override { _parent = parent; }
 
+    // 插入一个子节点（移动它的后缀）
+    virtual void insertChild(AbstractTreeNode<T>* child, int index) override {
+        _children.insert(index, child);
+        if (child != nullptr) {
+            child->setParent(this); // 在这里设置亲节点
+        }
+    }
+    // 删除一个子节点（移动它的后缀）
+    virtual void removeChild(int index) override {
+        if (_children[index] != nullptr) {
+            _children[index]->setParent(nullptr); // 在这里设置亲节点
+        }
+        _children.remove(index);
+    }
+    
     // 构造函数
     DynamicTreeNode() {}
     DynamicTreeNode(const T& data) : AbstractTreeNode<T>(data) {}
+    DynamicTreeNode(const DynamicTreeNode<T, Container>& other) : AbstractTreeNode<T>(other) {
+        copyNode(other);
+    }
+    DynamicTreeNode(DynamicTreeNode<T, Container>&& other) : AbstractTreeNode<T>(move(other)) {
+        copyNode(other);
+    }
+    auto& operator=(const DynamicTreeNode<T, Container>& other) {
+        if (this != &other) {
+            this->_data = other._data;
+            copyNode(other);
+        }
+        return *this;
+    }
+    auto& operator=(DynamicTreeNode<T, Container>&& other) {
+        if (this != &other) {
+            this->_data = move(other._data);
+            copyNode(other);
+        }
+        return *this;
+    }
 
-    // 插入一个子节点（移动它的后缀）
-    virtual void insertChild(AbstractTreeNode<T>* child, int index) override { _children.insert(index, child); }
-    // 删除一个子节点（移动它的后缀）
-    virtual void removeChild(int index) override { _children.remove(index); }
 };
 
 }

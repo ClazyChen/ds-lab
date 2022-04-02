@@ -19,7 +19,7 @@ protected:
     }
 
 public:
-    ~LinearExpression() { removeElements(); }
+    virtual ~LinearExpression() { removeElements(); }
 };
 
 // 中缀表达式的类

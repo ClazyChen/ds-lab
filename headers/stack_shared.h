@@ -75,15 +75,19 @@ public:
     SharedStack(const SharedStack<T, Container>& SS): V(SS.V), topb(SS.topb), topf(SS.topf) {} // 复制构造函数
     SharedStack(SharedStack<T, Container>&& SS): V(move(SS.V)), topb(SS.topb), topf(SS.topf) {} // 移动构造函数
     SharedStack<T, Container>& operator=(const SharedStack<T, Container>& SS) { // 复制赋值
-        V = SS.V;
-        topb = SS.topb;
-        topf = SS.topf;
+        if (this != &SS) {
+            V = SS.V;
+            topb = SS.topb;
+            topf = SS.topf;
+        }
         return *this;
     }
     SharedStack<T, Container>& operator=(SharedStack<T, Container>&& SS) { // 移动赋值
-        V = move(SS.V);
-        topb = SS.topb;
-        topf = SS.topf;
+        if (this != &SS) {
+            V = move(SS.V);
+            topb = SS.topb;
+            topf = SS.topf;
+        }
         return *this;
     }
 

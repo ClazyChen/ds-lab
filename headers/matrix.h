@@ -11,16 +11,20 @@ class Matrix : public clazy_framework::AbstractMatrix<R, C, T> {
 protected:
     T data[R][C];
     void copyMatrix(const Matrix<R, C, T>& other) {
-        for (int r : views::iota(0, R)) {
-            for (int c : views::iota(0, C)) {
-                this->data[r][c] = other.data[r][c];
+        if (this != &other) {
+            for (int r : views::iota(0, R)) {
+                for (int c : views::iota(0, C)) {
+                    this->data[r][c] = other.data[r][c];
+                }
             }
         }
     }
     void moveMatrix(Matrix<R, C, T>&& other) {
-        for (int r : views::iota(0, R)) {
-            for (int c : views::iota(0, C)) {
-                this->data[r][c] = move(other.data[r][c]);
+        if (this != &other) {
+            for (int r : views::iota(0, R)) {
+                for (int c : views::iota(0, C)) {
+                    this->data[r][c] = std::move(other.data[r][c]);
+                }
             }
         }
     }

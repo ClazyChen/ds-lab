@@ -43,10 +43,16 @@ protected:
     Vector<Triple<T>> data;
     VectorBinarySearch<Triple<T>> search;
     void copyMatrix(const MatrixTriple<R, C, T>& other) {
-        data = other.data;
+        if (this != &other) {
+            data = other.data;
+            search = other.search;
+        }
     }
     void moveMatrix(MatrixTriple<R, C, T>&& other) {
-        data = move(other.data);
+        if (this != &other) {
+            data = move(other.data);
+            search = move(other.search);
+        }
     }
 
 public:
