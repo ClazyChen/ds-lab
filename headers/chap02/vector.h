@@ -110,7 +110,7 @@ auto& Vector<T, Alloc>::operator=(Vector&& V) {
 template <typename T, typename Alloc>
 void Vector<T, Alloc>::reserve(int capacity) {
     T* old_data = _data;
-    _capacity = max(capacity, _capacity);
+    _capacity = capacity;
     _size = min(_size, _capacity);
     if (_capacity > 0) {
         _data = new T[_capacity];

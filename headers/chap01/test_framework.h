@@ -65,9 +65,7 @@ public:
         }
     }
 
-    // 输出检验，用来判断各个实例的测试结果是否一致
-    // 检验方法是，首先计算第一个实例的结果
-    // 然后依次比较后续实例的结果是否和第一个实例一致
+    // 用给定的参数对所有实例进行测试
     // 这里存在两种情况：
     // 1. 各个测试实例运行过程中不会改动参数，如查找
     //    此时不需要制作参数的副本，可以直接调用
@@ -75,14 +73,32 @@ public:
     //    此时每次调用实例的时候，需要制作参数的副本
     // 这两种情况的区分，通过检查BaseClass的调用方法中，接受的是否是值（或const引用）还是普通引用
     template <typename... Args>
+    void apply(const Args&... args) {
+        constexpr bool directInvoke = is_invocable_v<BaseClass, Args...>;
+        constexpr bool referenceInvoke = !directInvoke && is_invocable_v<BaseClass, Args&...>;
+        static_assert(directInvoke || referenceInvoke, "BaseClass must have a valid invoke method");
+        auto invoke = [&](shared_ptr<BaseClass> instance) {
+            if constexpr (directInvoke) {
+                instance->apply(args...);
+            } else {
+                [&instance](Args... copied){ instance->apply(copied...); }(args...);
+            }
+        };
+        applyTest(invoke);
+    }
+
+    // 输出检验，用来判断各个实例的测试结果是否一致
+    // 检验方法是，首先计算第一个实例的结果
+    // 然后依次比较后续实例的结果是否和第一个实例一致
+    template <typename... Args>
     void check(const function<void(shared_ptr<BaseClass>)>& test, const Args&... args) {
         constexpr bool directInvoke = is_invocable_v<BaseClass, Args...>;
         constexpr bool referenceInvoke = !directInvoke && is_invocable_v<BaseClass, Args&...>;
-        static_assert(directInvoke || referenceInvoke, "TestFramework::check(): invalid function");
+        static_assert(directInvoke || referenceInvoke, "BaseClass must have a valid invoke method");
         auto invoke = [&](auto& instance) {
             if constexpr (directInvoke) {
                 return instance(args...);
-            } else if constexpr (referenceInvoke) {
+            } else {
                 return [&instance](Args... copied){ instance(copied...); }(args...);
             }
         };
