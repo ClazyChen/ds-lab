@@ -11,7 +11,7 @@ class VectorIterator : public LinearIterator<T, Rank, LS> {
 public:
     using iterator_category = random_access_iterator_tag;
     
-    VectorIterator(LS& ls, Rank pos) : LinearIterator<T, Rank, LS>(ls, pos) {}
+    VectorIterator(const LS& ls, Rank pos) : LinearIterator<T, Rank, LS>(ls, pos) {}
 
     // 需要重载加法和减法运算符，因为向量是连续存储的
     VectorIterator& operator+=(int offset) {

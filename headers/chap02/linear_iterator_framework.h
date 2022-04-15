@@ -12,7 +12,7 @@ template <typename T, typename P, typename LS>
 requires (is_base_of_v<AbstractLinearStructure<T, P>, LS>)
 class LinearIterator : public Object {
 protected:
-    LS& ls;
+    const LS& ls;
     P pos;
 public:
     using iterator_category = bidirectional_iterator_tag;
@@ -21,7 +21,7 @@ public:
     using pointer           = T*;
     using reference         = T&;
 
-    LinearIterator(LS& ls, P pos) : ls(ls), pos(pos) {}
+    LinearIterator(const LS& ls, P pos) : ls(ls), pos(pos) {}
 
     bool operator==(const LinearIterator& other) const {
         return (pos == other.pos);

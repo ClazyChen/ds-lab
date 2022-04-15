@@ -19,17 +19,19 @@ requires (ShrinkThreshold > ExpandRatio && ShrinkThreshold >= ShrinkRatio && Shr
 class RatioAllocator : public clazy_framework::AbstractAllocator {
 protected:
     virtual pair<Result, int> expand(int capacity, int size) const override {
-        while (capacity < size) {     // 加倍扩容策略
-            capacity *= ExpandRatio;
-        }
+        capacity *= ExpandRatio;               // 加倍扩容
+        capacity = max(capacity, size);        // 如果加倍不够，直接扩容到和规模一致
+        capacity = max(capacity, MinCapacity); // 规定最小容量
         return {Result::Expand, capacity};
     }
     virtual pair<Result, int> shrink(int capacity, int size) const override {
         if constexpr (ShrinkRatio > 1) { // 缩容倍率为1，表示永不缩容
-            while (size < capacity / ShrinkThreshold && capacity > MinCapacity) { // 使用缩容阈值
-                capacity /= ShrinkRatio; // 折半缩容策略
+            if (size < capacity / ShrinkThreshold) { // 装填因子低于阈值时，触发缩容
+                capacity /= ShrinkRatio; // 按比例缩容
+                capacity = min(capacity, size * ExpandRatio); // 如果缩容不够，则缩容到“刚扩容”的状态 
+                capacity = max(capacity, MinCapacity); // 规定最小容量
+                return {Result::Shrink, capacity};
             }
-            return {Result::Shrink, max(capacity, MinCapacity)}; 
         }
         return {Result::NoAction, capacity};
     }
