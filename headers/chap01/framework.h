@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <chrono>
+#include <cmath>
 #include <string>
 #include <vector>
 #include <memory>
