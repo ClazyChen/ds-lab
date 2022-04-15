@@ -77,14 +77,13 @@ public:
         constexpr bool directInvoke = is_invocable_v<BaseClass, Args...>;
         constexpr bool referenceInvoke = !directInvoke && is_invocable_v<BaseClass, Args&...>;
         static_assert(directInvoke || referenceInvoke, "BaseClass must have a valid invoke method");
-        auto invoke = [&](shared_ptr<BaseClass> instance) {
-            if constexpr (directInvoke) {
-                instance->apply(args...);
-            } else {
-                [&instance](Args... copied){ instance->apply(copied...); }(args...);
-            }
-        };
-        applyTest(invoke);
+        if constexpr (directInvoke) {
+            applyTest([&](auto& instance) { instance->apply(args...); });
+        } else {
+            [](Args... copied) {
+                applyTest([&](auto& instance) { instance->apply(copied...); });
+            }(args...);
+        }
     }
 
     // 输出检验，用来判断各个实例的测试结果是否一致

@@ -24,7 +24,7 @@ protected:
 
 public:
     Vector();                // 默认构造函数，生成空向量
-    Vector(int capacity);    // 生成指定规模的空向量
+    Vector(int size);        // 生成指定规模的空向量
     Vector(const Vector& V); // 复制构造函数，复制向量
     Vector(Vector&& V);      // 移动构造函数，移动向量
     ~Vector();               // 析构函数，释放向量占用的空间
@@ -51,10 +51,11 @@ Vector<T, Alloc>::Vector() {
 }
 
 template <typename T, typename Alloc>
-Vector<T, Alloc>::Vector(int capacity): Vector() {
-    if (capacity > 0) {
-        _data = new T[capacity];
-        _capacity = capacity;
+Vector<T, Alloc>::Vector(int size): Vector() {
+    if (size > 0) {
+        _data = new T[size];
+        _capacity = size;
+        _size = size;
     }
 }
 
@@ -65,7 +66,7 @@ Vector<T, Alloc>::Vector(const Vector& V): Vector(V.capacity()) {
 }
 
 template <typename T, typename Alloc>
-Vector<T, Alloc>::Vector(Vector&& V): Vector(V.capacity()) {
+Vector<T, Alloc>::Vector(Vector&& V): Vector() {
     _data = V._data;
     _capacity = V._capacity;
     _size = V._size;

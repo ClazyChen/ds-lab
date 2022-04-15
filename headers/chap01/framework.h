@@ -84,6 +84,9 @@ concept is_data_structure = is_base_of_v<DataStructure<T>, Container>;
 template <typename T>
 using Comparator = function<bool(const T&, const T&)>;
 
+template <typename T>
+using Predicate = function<bool(const T&)>;
+
 // 当表示索引的时候，用Rank代替int
 // 和邓俊辉《数据结构》保持一致
 
