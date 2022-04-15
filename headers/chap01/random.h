@@ -1,5 +1,10 @@
 #pragma once
 
+// 这个文件是对random_framework的简单扩展
+// 实现了一些特定的随机生成算法
+// 1. 随机生成向量
+// 2. 随机生成合法的栈操作序列
+
 #include "random_framework.h"
 
 namespace clazy {

@@ -1,6 +1,8 @@
 #pragma once
 
 // 这个文件用于生成测试用的随机数据
+// 我使用了random标准库里的随机数生成函数，进行了简单封装
+// 提供了类似于C#的随机数接口
 
 #include <random>
 #include <ctime>
