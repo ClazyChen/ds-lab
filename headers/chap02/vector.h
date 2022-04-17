@@ -168,7 +168,7 @@ Rank Vector<T, Alloc>::find(const T& e) const {
     while (pos < _size && _data[pos] != e) {
         ++pos;
     }
-    return pos < _size ? pos : -1;
+    return pos < _size ? pos : invalid();
 }
 
 // 利用<<输出

@@ -57,24 +57,6 @@ public:
         }
     }
 
-    // // 对单个实例进行测试
-    // void applyTest(shared_ptr<BaseClass> instance, const function<void(shared_ptr<BaseClass>)>& test, int width = defaultWidth) {
-    //     cout << "TEST [" << setw(width) << instance->getTypeName() << "] \t"; // 输出实例类型名
-    //     double seconds = calculateTime([&] { test(instance); }); // 计算测试所需时间
-    //     cout << " (" << fixed << setprecision(6) << seconds << "s)" << endl; // 输出测试所需时间      
-    // }
-
-    // // 对所有实例进行测试
-    // void applyTest(const function<void(shared_ptr<BaseClass>)>& test) {
-    //     int width = defaultWidth;
-    //     for (auto& instance : instances) {
-    //         width = max<int>(width, instance->getTypeName().size());
-    //     }
-    //     for (auto& instance : instances) {
-    //         applyTest(instance, test, width);
-    //     }
-    // }
-
     // 重置所有的实例
     void clear() {
         for (auto& instance : instances) {
@@ -95,14 +77,15 @@ public:
     template <typename... Args>
     void test(const Args&... args) {
         constexpr bool directInvoke = is_invocable_v<BaseClass, Args...>;
-        constexpr bool referenceInvoke = !directInvoke && is_invocable_v<BaseClass, Args&...>;
+        constexpr bool referenceInvoke = is_invocable_v<BaseClass, Args&...>;
         constexpr bool procedureInvoke = is_same_v<void, invoke_result_t<BaseClass, Args&...>>;
         static_assert(directInvoke || referenceInvoke, "BaseClass must have a valid invoke method");
+        constexpr bool noCopy = sizeof...(DerivedClass) <= 1 || directInvoke;
         int width = instanceNameWidth();
         auto invoke = [&](auto& instance) {
-            if constexpr (directInvoke) {
+            if constexpr (noCopy) {
                 return instance->apply(args...);
-            } else /* referenceInvoke */ {
+            } else /* need copy */ {
                 return [&instance](Args... copied){ return instance->apply(copied...); }(args...);
             }
         };
@@ -125,31 +108,6 @@ public:
             cout << " (" << fixed << setprecision(6) << seconds << "s)" << endl; // 输出测试所需时间 
         }
     }
-
-    // // 输出检验，用来判断各个实例的测试结果是否一致
-    // // 检验方法是，首先计算第一个实例的结果
-    // // 然后依次比较后续实例的结果是否和第一个实例一致
-    // template <typename... Args>
-    // void check(const function<void(shared_ptr<BaseClass>)>& test, const Args&... args) {
-    //     constexpr bool directInvoke = is_invocable_v<BaseClass, Args...>;
-    //     constexpr bool referenceInvoke = !directInvoke && is_invocable_v<BaseClass, Args&...>;
-    //     static_assert(directInvoke || referenceInvoke, "BaseClass must have a valid invoke method");
-    //     auto invoke = [&](auto& instance) {
-    //         if constexpr (directInvoke) {
-    //             return instance(args...);
-    //         } else {
-    //             return [&instance](Args... copied){ instance(copied...); }(args...);
-    //         }
-    //     };
-    //     auto result = invoke(instances[0]);
-    //     for (auto& instance : instances | views::drop(1)) {
-    //         if (invoke(instance) != result) {
-    //             cout << "CHECK FAILED" << endl;
-    //             return;
-    //         }
-    //     }
-    // }
-
 };
 
 }

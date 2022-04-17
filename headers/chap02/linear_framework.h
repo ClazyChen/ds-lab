@@ -14,6 +14,7 @@
 // 3. 从位置获取后一个元素的位置
 // 4. 获取第一个元素的位置
 // 5. 获取最后一个元素的位置
+// 6. 获取一个无效的位置
 
 #include "framework.h"
 
@@ -22,14 +23,14 @@ namespace clazy_framework {
 // 线性表的ADT接口
 template <typename T, typename P>
 class AbstractLinearStructure : public DataStructure<T> {
-protected:
+public:
     virtual T& get(P pos) const = 0;
     virtual P getPrev(P pos) const = 0;
     virtual P getNext(P pos) const = 0;
     virtual P getFrontPos() const = 0;
     virtual P getBackPos() const = 0;
+    virtual P invalid() const = 0;
 
-public:
     // 获取第一个、最后一个、任意位置的元素
     T& front() const {
         return get(getFrontPos());
@@ -48,5 +49,8 @@ public:
     virtual T pop_front() = 0;
 
 };
+
+template <typename T, typename P, typename Container>
+concept is_linear_structure = is_base_of_v<AbstractLinearStructure<T, P>, Container>;
 
 }

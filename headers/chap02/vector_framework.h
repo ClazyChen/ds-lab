@@ -74,6 +74,10 @@ public:
         return size() - 1;
     }
 
+    Rank invalid() const {
+        return -1;
+    }
+
     void push_back(const T& e) override {
         insert(getBackPos() + 1, e);
     }

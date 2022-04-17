@@ -1,6 +1,8 @@
+#include "vector.h"
+#include "random.h"
 #include "vector_sort.h"
 #include "vector_search.h"
-#include "random.h"
+#include "test_framework.h"
 using namespace clazy_framework;
 
 // 这个例子展示向量的排序
@@ -11,11 +13,59 @@ using namespace clazy_framework;
 template <typename T>
 using Vector = clazy::Vector<T>;
 
-const int random_ratio = 2;       // 从一定倍数的区间里随机选取，这样区间里有些数选不到
-const int search_count = 100'000; // 查找操作的次数
+const double random_ratio = 1.5;       // 从一定倍数的区间里随机选取，这样区间里有些数选不到
+const int search_count = 100'000;      // 查找操作的次数
 constexpr int rangeLimit(int n) {
-    return n * random_ratio;
+    return (int)(n * random_ratio);
 }
+
+
+// 下面描述实验框架，它接收一个数字n，表示要测试的数据量
+class Experiment : public Algorithm<void, int> {
+private:
+    // 用来做测试的向量
+    Vector<int> V;
+
+    // 向量的排序算法
+    TestFramework<AbstractSort<int, Vector<int>>,
+        clazy::VectorMergeSort<int, Vector<int>>> tf_sort;
+
+    // 向量的查找算法
+    TestFramework<AbstractSearch<int, Rank, Vector<int>>,
+        clazy::SequentialSearch<int, Rank, Vector<int>>,
+        clazy::BinarySearch<int, Vector<int>>> tf_search;
+
+public:
+    // 初始化：生成一个随机的乱序向量
+    void initialize(int n) {
+        auto v = clazy::RandomVector()(n);
+        V.resize(v.size());
+        for (int i = 0; i < v.size(); i++) {
+            V[i] = v[i] % rangeLimit(n);
+        }
+    }
+
+    // 第一个实验：排序，并验证排序结果是否正确
+    void sortExperiment() {
+        tf_sort.test(V);
+        assert(is_sorted(begin(V), end(V)));
+    }
+
+    // 第二个实验：查找，比较各个查找算法的性能
+    
+
+    // 
+    void apply(int n) override {
+
+    }
+
+    void clear() override {
+        V.clear();
+    }
+
+};
+
+int testData[] { 10, 100, 1000, 10000, 100'000 };
 
 int main() {
     shared_ptr<Sort<int, Vector<int>>> sortAlgorithm = make_shared<clazy::VectorMergeSort<int>>();
@@ -23,7 +73,7 @@ int main() {
         clazy::VectorSearch<int, Vector<int>>,
         clazy::VectorSequentialSearch<int>,
         clazy::VectorBinarySearch<int>>();
-    int testData[] { 10, 100, 1000, 10000, 100'000 };
+    
     for (int n : testData) {
         cout << "Testing n = " << n << endl;
         auto V = randomVector<Vector<int>>(n, 0, rangeLimit(n));
