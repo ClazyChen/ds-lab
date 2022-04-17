@@ -4,9 +4,7 @@
 // 这个文件研究如何实现阶乘函数
 namespace clazy_framework {
 
-class FactorialProblem : public Algorithm {
-public:
-    virtual int apply(int n) const = 0;
+class FactorialProblem : public Algorithm<int, int> {
 };
 
 }
@@ -36,7 +34,7 @@ class Factorial : public clazy_framework::FactorialProblem {
 protected:
     constexpr static FactorialTable table = FactorialTable();
 public:
-    virtual int apply(int n) const override {
+    virtual int apply(int n) override {
         return table.table[n];
     }
 };

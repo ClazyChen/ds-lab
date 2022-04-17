@@ -24,7 +24,7 @@ double calculateTime(function<void()> f) {
 // 生成一组DerivedClass的实例，用于对比测试
 
 template <typename BaseClass, typename... DerivedClass>
-requires (is_base_of_v<Object, BaseClass> && sizeof...(DerivedClass) > 0 && (is_base_of_v<BaseClass, DerivedClass> && ...))
+requires (is_base_of_v<Object, BaseClass> && (is_base_of_v<BaseClass, DerivedClass> && ...))
 class TestFramework : public Object {
 private:
     // 删除了拷贝构造函数、移动构造函数以及相应的赋值运算符
@@ -52,7 +52,9 @@ public:
     // 这里采用了不定参数的一个遍历形式
     // 通过生成一个伪数组，保证push_back行为是被正确执行的
     TestFramework() : instances{make_shared<DerivedClass>()...} {
-        // int _[] {(instances.push_back(make_shared<DerivedClass>()), 0)... };
+        if constexpr (sizeof...(DerivedClass) == 0) {
+            instances.push_back(make_shared<BaseClass>());
+        }
     }
 
     // // 对单个实例进行测试
