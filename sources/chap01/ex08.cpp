@@ -49,9 +49,7 @@ int main() {
     TestFramework<PowerProblem, PowerNaive, PowerRecursive, PowerIterative> tf;
     for (auto [a, b] : testData) {
         cout << "Testing " << a << "^" << b << endl;
-        tf.applyTest([a, b](auto algorithm) {
-            cout << "answer = " << setw(11) << algorithm->apply(a, b);
-        });
+        tf.test(a, b);
     }
     return 0;
 }

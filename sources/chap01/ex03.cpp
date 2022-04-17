@@ -47,9 +47,7 @@ int main() {
     for (int n : testSize) {
         cout << "Testing n = " << n << endl;
         auto data = clazy::RandomVector()(n);
-        tf.applyTest([&](auto algorithm) {
-            cout << "answer = " << setw(11) << algorithm->apply(data.data(), n);
-        });
+        tf.test(data.data(), n);
     }
     return 0;
 }

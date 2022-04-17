@@ -59,7 +59,6 @@ protected:
             }                   // 注意最后一段也需要移动，所以这里用了do-while循环，与前面不一样
             r_last = r++;       // 更新记录上次的r，并需要让r向前移动（因为V[r]并没有被实际删除）
         } while (r < V.size());
-        this->cnt = offset;     // 因为是直接copy移动的，没有调用remove，所以直接更新cnt
         V.resize(V.size() - offset); // 直接修改V的规模，丢弃后面的元素。因为后面不满足P的元素已经被移动到前面去了
     }                           // find_if加起来只遍历了V一次，copy加起来也只遍历了V一次
 };
@@ -76,7 +75,6 @@ protected:
                 *(it_assign++) = *it_find; // 则将其赋值到赋值指针的位置上
             }                       // 否则将其丢弃，赋值指针不移动
         }
-        this->cnt = end(V) - it_assign; // 快慢指针的距离就是被删除的元素数量
         V.resize(it_assign - begin(V)); // 修改V的规模，丢弃后面的元素
     }
 };
@@ -94,6 +92,6 @@ int main() {
         cout << "Testing n = " << n << endl;
         Vector<int> V(n);
         for (int i = 0; i < n; i++) V[i] = i;
-        tf.apply(V, is_even);
+        tf.test(V, is_even);
     }
 }

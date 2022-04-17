@@ -36,8 +36,6 @@ using Vector = clazy::Vector<int, Alloc>;
 // 下面讨论连续在末尾插入n个元素的情况，进行实验
 // 在末尾插入元素可以降低插入元素本身花费的时间，从而更明显地观察扩容的时间
 class InsertProblem : public Algorithm<void, int> {
-public:
-    virtual void reset() = 0; // 清空向量，重置状态
 };
 
 template <typename Alloc>
@@ -52,7 +50,8 @@ public:
         assert(V.size() == n);
     }
 
-    void reset() override {
+    // 重载清空函数，以便重置辅助数据结构
+    void clear() override {
         V.reserve(0);
     }
 
@@ -75,10 +74,8 @@ int main() {
     > tf;
     for (int n : testData) {
         cout << "Testing n = " << n << endl;
-        tf.apply(n);
-        for (auto& algorithm : tf.instances) {
-            algorithm->reset();
-        }
+        tf.clear();
+        tf.test(n);
     }
     return 0;
 }

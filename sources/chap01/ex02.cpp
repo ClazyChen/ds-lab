@@ -52,9 +52,7 @@ int main() {
     TestFramework<GcdProblem, GcdEuclidRecursive, GcdEuclidIterative> tf;
     for (auto [a, b] : testData) {
         cout << "Testing a = " << a << " b = " << b << endl;
-        tf.applyTest([a, b](auto algorithm) {
-            cout << "answer = " << setw(4) << algorithm->apply(a, b);
-        });
+        tf.test(a, b);
     }
     return 0;
 }

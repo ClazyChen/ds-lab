@@ -73,9 +73,7 @@ int main() {
     TestFramework<Power2, Power2Directly, Power2Recursive, Power2Iterative> tf;
     for (int n : testData) {
         cout << "Testing n = " << n << endl;
-        tf.applyTest([n](auto algorithm) {
-            cout << "answer = " << setw(5) << algorithm->apply(n);
-        });
+        tf.test(n);
     }
     return 0;
 }

@@ -34,18 +34,23 @@ namespace clazy_framework {
 // 这里得到的名字可能会在可读性上有一些缺陷
 // 比如，由于示例代码大量用到了模板，所以可能生成的名字会过于冗长
 // 解决这个问题的方法，是在final类中重载这个函数，返回一个更加可读的名字
-
+// 此外，这里留了一个clear接口表示，清除所有的状态，以便下次使用
+// 对于数据结构来说，clear就是删除所有的元素；对于算法来说则是重置所有的状态
+// 当算法需要用到一些辅助数据结构的时候，clear接口可以用来清除辅助数据结构
 class Object {
 public:
     virtual string getTypeName() const {
         return typeid(*this).name();
+    }
+    virtual void clear() {
+        // 默认：什么也不做
     }
 };
 
 // 所有的数据结构都基于这个DataStructure抽象基类
 // 对于一个基本的数据结构，它只有三个抽象接口
 // 1. 判空
-// 2. 清空
+// 2. 清空（Object里已经实现）
 // 3. 获取数据结构的规模（即存放在数据结构中的元素个数）
 //    尽管更加可读的做法是返回size_t类型，但为了避免signed/unsigned引起的不必要麻烦，这里让规模返回int
 
@@ -53,7 +58,6 @@ template <typename T>
 class DataStructure : public Object {
 public:
     virtual bool empty() const = 0;
-    virtual void clear() = 0;
     virtual int size() const = 0; 
 };
 
@@ -64,7 +68,6 @@ public:
 // 用户需要重载apply这个接口，以实现算法的具体实现
 // 我重载了函数运算符（括号），用来调用apply，使得Algorithm的派生类可以生成仿函数（functor）对象
 // 仿函数可以被赋值给std::function
-
 template <typename Result = void, typename... Args>
 class Algorithm : public Object {
 public:

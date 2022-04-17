@@ -107,9 +107,7 @@ int main() {
     TestFramework<TestFunction, TestFunction1, TestFunction2> functions;
     for (auto& function : functions.instances) {
         cout << "Testing f(x) = " << function->getTypeName() << endl;
-        tf.applyTest([&](auto algorithm) {
-            cout << "answer = " << setw(11) << algorithm->apply(bind(&TestFunction::apply, function, placeholders::_1));
-        });
+        tf.test(bind(&TestFunction::apply, function, placeholders::_1));
     }
     return 0;
 }

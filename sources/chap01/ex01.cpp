@@ -85,9 +85,7 @@ int main() {
     TestFramework<SumN, SumNAP, SumNAPM, SumNAPT> tf;
     for (int n : testData) {
         cout << "Testing n = " << n << endl;
-        tf.applyTest([n](auto algorithm) {
-            cout << "answer = " << setw(11) << algorithm->apply(n);
-        });
+        tf.test(n);
     }
     return 0;
 }
