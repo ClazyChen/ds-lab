@@ -57,8 +57,10 @@ public:
 template <typename T>
 class DataStructure : public Object {
 public:
-    virtual bool empty() const = 0;
     virtual int size() const = 0; 
+    virtual bool empty() const {
+        return size() == 0;
+    }
 };
 
 // 所有的算法都基于这个Algorithm抽象基类

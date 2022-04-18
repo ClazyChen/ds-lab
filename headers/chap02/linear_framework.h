@@ -25,11 +25,11 @@ template <typename T, typename P>
 class AbstractLinearStructure : public DataStructure<T> {
 public:
     virtual T& get(P pos) const = 0;
-    virtual P getPrev(P pos) const = 0;
-    virtual P getNext(P pos) const = 0;
+    virtual P getPred(P pos) const = 0;
+    virtual P getSucc(P pos) const = 0;
     virtual P getFrontPos() const = 0;
     virtual P getBackPos() const = 0;
-    virtual P invalid() const = 0;
+    virtual P invalidPos() const = 0;
 
     // 获取第一个、最后一个、任意位置的元素
     T& front() const {

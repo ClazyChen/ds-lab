@@ -46,10 +46,6 @@ public:
     virtual Rank find(const T& e) const = 0;
 
     // 实现基类的接口
-    bool empty() const override {
-        return size() == 0;
-    }
-
     void clear() override {
         resize(0);
     }
@@ -58,11 +54,11 @@ public:
         return data()[pos];
     } 
 
-    Rank getPrev(Rank pos) const override {
+    Rank getPred(Rank pos) const override {
         return pos - 1;
     }
 
-    Rank getNext(Rank pos) const override {
+    Rank getSucc(Rank pos) const override {
         return pos + 1;
     }
 
@@ -74,8 +70,8 @@ public:
         return size() - 1;
     }
 
-    Rank invalid() const override {
-        return -1;
+    Rank invalidPos() const override {
+        return -1; // 这里也可以改为size()，和STL一致
     }
 
     void push_back(const T& e) override {
