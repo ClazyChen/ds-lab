@@ -29,7 +29,7 @@ int rangeLimit(int n) {
 // 为了充分体现查找本身的性能，这里需要提前生成查找的数据
 // 查找的数据量是固定的，不随n的变化而变化
 // 接受的参数表示待查找的向量、待查找的数据组成的向量
-const int search_count = 65536;
+const int search_count = 100'000;
 
 class ExperimentalSearchProblem : public Algorithm<void, const Vector<int>&, const Vector<int>&> {
 
@@ -77,10 +77,7 @@ private:
 public:
     // 初始化：生成一个随机的乱序向量
     void initialize(Vector<int>& V, int n) {
-        V = clazy::RandomVector<int, Vector<int>>()(n);
-        for (int M = rangeLimit(n); int& x : V) {
-            x %= M;
-        }
+        V = clazy::RandomVector<int, Vector<int>>()(n, 0, rangeLimit(n));
     }
 
     // 第一个实验：排序
@@ -110,7 +107,7 @@ public:
 
 };
 
-int testData[] { 16, 256, 1024, 4096, 16384 };
+int testData[] { 10, 100, 1000, 10000 };
 
 int main() {
     Experiment experiment;

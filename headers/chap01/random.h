@@ -33,6 +33,27 @@ public:
         }
         return v;
     }
+
+    // 支持规定上下界
+    Container apply(int n, double lo, double hi) {
+        Container v(n);
+        for (int i = 0; i < n; i++) {
+            if constexpr (isInt) {
+                v[i] = clazy_framework::Random::nextIntBetween((int)lo, (int)hi);
+            } else if constexpr (isDouble) {
+                v[i] = clazy_framework::Random::nextDoubleBetween(lo, hi);
+            }
+        }
+        return v;
+    }
+
+    Container operator()(int n, double lo, double hi) {
+        return apply(n, lo, hi);
+    }
+
+    Container operator()(int n, int lo, int hi) {
+        return apply(n, lo, hi);
+    }
 };
 
 // 生成一个随机的合法栈操作序列

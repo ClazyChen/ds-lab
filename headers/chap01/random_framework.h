@@ -28,6 +28,8 @@ public:
     // 生成一个[lo,hi)范围内的随机整数
     // 包括lo，不包括hi
     static int nextIntBetween(int lo, int hi);
+
+    static double nextDoubleBetween(double lo, double hi);
 };
 
 double Random::nextDouble() {
@@ -45,6 +47,10 @@ uint32_t Random::nextUInt() {
 int Random::nextIntBetween(int lo, int hi) {
     int next = nextUInt() & 0x7fff'ffff;
     return next % (hi - lo) + lo;
+}
+
+double Random::nextDoubleBetween(double lo, double hi) {
+    return nextDouble() * (hi - lo) + lo;
 }
 
 default_random_engine Random::_random = default_random_engine(time(0));
