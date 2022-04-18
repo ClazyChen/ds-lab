@@ -47,6 +47,18 @@ private:
         return width;
     }
 
+    // 输出测试结果
+    void printResult(function<void(shared_ptr<BaseClass>&)> f) {
+        for (auto& instance : instances) {
+            int width = instanceNameWidth();
+            cout << "TEST [" << setw(width) << instance->getTypeName() << "] \t"; // 输出实例类型名
+            double seconds = calculateTime([&] {
+                f(instance);
+            });
+            cout << " (" << fixed << setprecision(6) << seconds << "s)" << endl; // 输出测试所需时间 
+        }
+    }
+
 public:
     // 在构造函数中，初始化一组实例（至少需要含有1个实例）
     // 这里采用了不定参数的一个遍历形式
@@ -80,8 +92,7 @@ public:
         constexpr bool referenceInvoke = is_invocable_v<BaseClass, Args&...>;
         constexpr bool procedureInvoke = is_same_v<void, invoke_result_t<BaseClass, Args&...>>;
         static_assert(directInvoke || referenceInvoke, "BaseClass must have a valid invoke method");
-        constexpr bool noCopy = sizeof...(DerivedClass) <= 1 || directInvoke;
-        int width = instanceNameWidth();
+        constexpr bool noCopy =  directInvoke;
         auto invoke = [&](auto& instance) {
             if constexpr (noCopy) {
                 return instance->apply(args...);
@@ -97,16 +108,20 @@ public:
                 return invoke(instance);
             }
         };
-        for (auto& instance : instances) {
-            cout << "TEST [" << setw(width) << instance->getTypeName() << "] \t"; // 输出实例类型名
-            double seconds = calculateTime([&] {
-                auto result = getResult(instance);
-                if constexpr (!procedureInvoke) {
-                    cout << "result = " << setw(11) << result << flush;
-                }
-            });
-            cout << " (" << fixed << setprecision(6) << seconds << "s)" << endl; // 输出测试所需时间 
-        }
+        printResult([&](auto& instance) {
+            auto result = getResult(instance);
+            if constexpr (!procedureInvoke) {
+                cout << "result = " << setw(11) << result << flush;
+            }
+        });
+    }
+
+    // 强制执行（传入引用）
+    template <typename... Args>
+    void apply(Args&... args) {
+        printResult([&](auto& instance) {
+            instance->apply(args...);
+        });
     }
 };
 

@@ -91,6 +91,17 @@ public:
         return pos;
     }
 
+    // 重载复制构造函数和移动构造函数
+    LinearIterator(const LinearIterator& other) : ls(other.ls), pos(other.pos) {}
+    LinearIterator(LinearIterator&& other) noexcept : ls(other.ls), pos(other.pos) {}
+    LinearIterator& operator=(const LinearIterator& other) {
+        pos = other.pos;
+        return *this;
+    }
+    LinearIterator& operator=(LinearIterator&& other) noexcept {
+        pos = other.pos;
+        return *this;
+    }
 };
 
 

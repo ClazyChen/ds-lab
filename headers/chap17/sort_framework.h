@@ -16,7 +16,7 @@ public:
     void apply(Container& C, const Comparator<T>& cmp = less_equal<T>()) override {
         sort(C, cmp);
     }
-    void operator()(Container& C, const Comparator<T>& cmp = less_equal<T>()) override {
+    void operator()(Container& C, const Comparator<T>& cmp = less_equal<T>()) {
         sort(C, cmp);
     }
 };

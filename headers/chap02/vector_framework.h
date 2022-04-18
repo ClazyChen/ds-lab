@@ -66,15 +66,15 @@ public:
         return pos + 1;
     }
 
-    Rank getFrontPos() const {
+    Rank getFrontPos() const override {
         return 0;
     }
 
-    Rank getBackPos() const {
+    Rank getBackPos() const override {
         return size() - 1;
     }
 
-    Rank invalid() const {
+    Rank invalid() const override {
         return -1;
     }
 
