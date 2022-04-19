@@ -149,7 +149,7 @@ T List<T>::remove(ListNodePos<T> pos) {
     p->setSucc(q);
     q->setPred(p);
     _size--;
-    auto e = pos->_data;
+    auto e = pos->data();
     delete pos;
     return e;
 }
@@ -161,18 +161,15 @@ ListNodePos<T> List<T>::find(const T& e) const {
     while (p != _tail && p->data() != e) {
         p = p->succ();
     }
-    return p == _tail ? invalidPos() : p;
+    return p == _tail ? this->invalidPos() : p;
 }
 
 // 利用<<输出
 template <typename T>
 ostream& operator<< (ostream& out, const List<T>& L) {
     out << "L(";
-    for (auto p = L.getFrontPos(); p != L.getBackPos(); p = p->succ()) {
-        out << p->data();
-        if (p->succ() != L.getBackPos()) {
-            out << ", ";
-        }
+    for (auto&& x : L) {
+        out << x << ", ";
     }
     out << ")";
     return out;

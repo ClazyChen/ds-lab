@@ -168,18 +168,15 @@ Rank Vector<T, Alloc>::find(const T& e) const {
     while (pos < _size && _data[pos] != e) {
         ++pos;
     }
-    return pos < _size ? pos : invalidPos();
+    return pos < _size ? pos : this->invalidPos();
 }
 
 // 利用<<输出
 template <typename T, typename Alloc>
 ostream& operator<< (ostream& out, const Vector<T, Alloc>& V) {
     out << "[";
-    for (int i = 0; i < V.size(); i++) {
-        out << V[i];
-        if (i < V.size() - 1) {
-            out << ", ";
-        }
+    for (auto&& x : V) {
+        out << x << ", ";
     }
     out << "]";
     return out;

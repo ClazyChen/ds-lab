@@ -38,9 +38,14 @@ public:
 
     // 单向链表的这两个指针需要重写，它们需要从前向后遍历才能找到
     ListNodePos<T> getBackPos() const override {
-        return getPrev(_tail);
+        return getPred(_tail);
     }
     ListNodePos<T> getPred(ListNodePos<T> pos) const override;
+    
+    // push_back也需要重写，否则需要O(n)的时间找到尾节点；而pop_back则无法这样解决，只能O(n)
+    void push_back(const T& e) override {
+        _tail = insertAsPred(_tail, e);
+    }
 
     ListNodePos<T> insertAsPred(ListNodePos<T> pos, const T& e) override;
     ListNodePos<T> insertAsSucc(ListNodePos<T> pos, const T& e) override;
@@ -120,12 +125,12 @@ auto& ForwardList<T>::operator=(ForwardList&& L) {
 template <typename T>
 void ForwardList<T>::clear() {
     auto p = getFrontPos();
-    while (p != invalidPos()) {
+    while (p != _tail) {
         auto q = p->succ();
         delete p;
         p = q;
     }
-    _head->setSucc(nullptr);
+    _head->setSucc(_tail);
     _size = 0;
 }
 
@@ -164,7 +169,7 @@ T ForwardList<T>::remove(ListNodePos<T> pos) {
 template <typename T>
 ListNodePos<T> ForwardList<T>::find(const T& e) const {
     auto p = getFrontPos();
-    while (p != invalidPos() && p->data() != e) {
+    while (p != this->invalidPos() && p->data() != e) {
         p = p->succ();
     }
     return p;
@@ -184,11 +189,8 @@ ListNodePos<T> ForwardList<T>::getPred(ListNodePos<T> pos) const {
 template <typename T>
 ostream& operator<< (ostream& out, const ForwardList<T>& L) {
     out << "FL(";
-    for (auto p = L.getFrontPos(); p->succ()->succ() != L.invalidPos(); p = p->succ()) {
-        out << p->data();
-        if (p->succ()->succ()->succ() != L.invalidPos()) {
-            out << ", ";
-        }
+    for (auto&& x : L) {
+        out << x << ", ";
     }
     out << ")";
     return out;

@@ -32,7 +32,7 @@ public:
     }
 
     LinearIterator& operator++() {
-        pos = ls.getNext(pos);
+        pos = ls.getSucc(pos);
         return *this;
     }
 
@@ -43,7 +43,7 @@ public:
     }
 
     LinearIterator& operator--() {
-        pos = ls.getPrev(pos);
+        pos = ls.getPred(pos);
         return *this;
     }
 

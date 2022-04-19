@@ -54,9 +54,9 @@ public:
         return nullptr;
     }
 
-    // 在继承的时候，可能需要重写这2个函数
+    // 在继承的时候，可能需要重写这几个函数
     // 因为这里是使用哨兵的写法，如果不使用哨兵的话，getBackPos()和getFrontPos()将在空表返回nullptr
-    // 此时需要重载push_back()和push_front()
+    // 另一方面，对于单向链表，getBackPos太慢，需要用尾哨兵定位才能实现push_back
     virtual void push_back(const T& e) override {
         insertAsSucc(getBackPos(), e);
     }
@@ -65,11 +65,11 @@ public:
         insertAsPred(getFrontPos(), e);
     }
 
-    T pop_back() override {
+    virtual T pop_back() override {
         return remove(getBackPos());
     }
 
-    T pop_front() override {
+    virtual T pop_front() override {
         return remove(getFrontPos());
     }
 };
@@ -81,19 +81,19 @@ protected:
     using Iterator = ListIterator<T, AbstractBidirectionalList<T>>;
 public:
     virtual Iterator begin() const {
-        return Iterator(*this, getFrontPos());
+        return Iterator(*this, this->getFrontPos());
     }
 
     virtual Iterator end() const {
-        return Iterator(*this, getBackPos()->succ());
+        return Iterator(*this, this->getBackPos()->succ());
     }
 
     virtual Iterator rbegin() const {
-        return Iterator(*this, getBackPos());
+        return Iterator(*this, this->getBackPos());
     }
 
     virtual Iterator rend() const {
-        return Iterator(*this, getFrontPos()->pred());
+        return Iterator(*this, this->getFrontPos()->pred());
     }
 };
 
@@ -103,11 +103,11 @@ protected:
     using Iterator = ForwardListIterator<T, AbstractForwardList<T>>;
 public:
     virtual Iterator begin() const {
-        return Iterator(*this, getFrontPos());
+        return Iterator(*this, this->getFrontPos());
     }
 
     virtual Iterator end() const {
-        return Iterator(*this, getBackPos()->succ());
+        return Iterator(*this, this->getBackPos()->succ());
     }
 };
 
