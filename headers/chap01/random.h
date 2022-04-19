@@ -65,11 +65,12 @@ public:
 // 这个算法来自高德纳《计算机程序设计艺术》第四卷，7.2.1.6
 // 关于其设计思路，请参见卡塔兰数的扩展版本：卡塔兰三角的递推公式
 // 它用来在栈这一部分生成随机测试样例
-template <typename T>
-class RandomStackOperation : public clazy_framework::Algorithm<vector<T>, int, const T&, const T&> {
+template <typename T, typename Container = vector<T>>
+requires (is_same_v<Container, vector<T>> || is_base_of_v<clazy_framework::AbstractVector<T>, Container>)
+class RandomStackOperation : public clazy_framework::Algorithm<Container, int, const T&, const T&> {
 public:
-    vector<T> apply(int n, const T& push, const T& pop) override {
-        vector<T> v(n);
+    Container apply(int n, const T& push, const T& pop) override {
+        Container v(n * 2);
         int p = n, q = n;
         for (int i = 0; i < n * 2; i++) {
             int r = clazy_framework::Random::nextIntBetween(0, (p+q) * (q-p+1));
@@ -84,22 +85,5 @@ public:
         return v;
     }
 };
-
-// // 生成一个随机的栈操作序列
-// template <typename T, typename Vector = clazy::Vector<T>>
-// requires (is_base_of_v<AbstractVector<T>, Vector>)
-// Vector randomStackOperation(int n, T push_e, T pop_e) {
-//     int p = n, q = n;
-//     Vector V;
-//     for (int i : views::iota(0, n * 2)) {
-//         int r = Random::nextIntBetween(0, (p+q) * (q-p+1));
-//         if (r < p * (q-p+2)) {
-//             V.push_back(push_e); p--;
-//         } else {
-//             V.push_back(pop_e); q--;
-//         }
-//     }
-//     return V;
-// }
 
 }

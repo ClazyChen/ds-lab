@@ -24,6 +24,8 @@ namespace clazy_framework {
 template <typename T, typename P>
 class AbstractLinearStructure : public DataStructure<T> {
 public:
+    using Position = P;
+
     virtual T& get(P pos) const = 0;
     virtual P getPred(P pos) const = 0;
     virtual P getSucc(P pos) const = 0;

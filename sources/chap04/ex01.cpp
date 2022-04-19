@@ -1,5 +1,6 @@
 #include "stack.h"
 #include "random.h"
+#include "test_framework.h"
 using namespace clazy_framework;
 
 // 这个例子展示了括号匹配问题
@@ -7,9 +8,6 @@ using namespace clazy_framework;
 
 template <typename T>
 using Stack = clazy::Stack<T>;
-
-template <typename T>
-using Vector = clazy::Vector<T>;
 
 // 在这个例子中，处理三种类型的括号匹配情况
 
@@ -24,15 +22,18 @@ char getLeft(char c) {
     }
 }
 
-class ParenMatch : public Algorithm {
+// 实验分为两部分：
+// 1. 对给定的测试数据进行验证
+// 2. 对随机生成的超大规模数据进行时间测试
+
+class ParenMatch : public Algorithm<bool, const vector<char>&>{
 public:
-    virtual bool apply(const Vector<char>& V) = 0;
-    virtual bool apply(string str) {
-        Vector<char> V;
+    virtual void check(string str, bool result) {
+        vector<char> v;
         for (char c : str) {
-            V.push_back(c);
+            v.push_back(c);
         }
-        return apply(V);
+        assert(apply(v) == result);
     }
 };
 
@@ -41,9 +42,9 @@ class ParenMatchStack : public ParenMatch {
 protected:
     Stack<char> S;
 public:
-    virtual bool apply(const Vector<char>& V) override {
+    virtual bool apply(const vector<char>& v) override {
         S.clear(); // 初始化（清空栈）
-        for (char c : V) {
+        for (char c : v) {
             if (char left = getLeft(c); left == c) { // 如果c是左括号
                 S.push(c);                           // 则将c入栈
             } else {
@@ -56,29 +57,29 @@ public:
     }
 };
 
+// 验证正确性的测试样例
+pair<string, bool> testCases[] {
+    {"()()()()()()()", true},
+    {"(((((())))))", true},
+    {"(((((()))))))", false},
+    {"((((((())))))", false},
+    {"([{}])", true},
+    {"([{]})", false}
+};
+
+// 计算时间的测试样例
+// 这里生成的必定是合法的括号序列，所以测试结果必定为1
+int testData[] { 10, 10'000, 1'000'000, 10'000'000 };
+
 int main() {
-    shared_ptr<ParenMatch> matcher = make_shared<ParenMatchStack>();
-    pair<string, bool> testCases[] { // 一些测试样例
-        {"()()()()()()()", true},
-        {"(((((())))))", true},
-        {"(((((()))))))", false},
-        {"((((((())))))", false},
-        {"([{}])", true},
-        {"([{]})", false}
-    };
+    TestFramework<ParenMatchStack> tf;  
     for (auto [str, res] : testCases) { // 测试正确性
-        cout << "Testing string = " << str << endl;
-        bool match_res = matcher->apply(str);
-        cout << "\tResult = " << match_res << endl;
-        assert(match_res == res);
+        tf.invoke(bind(&ParenMatch::check, placeholders::_1, str, res));
     }
-    int testData[] { 10'000, 1'000'000, 10'000'000 };
     for (int n : testData) { // 测试时间性能
         cout << "Testing n = " << n << endl;
-        auto V = randomStackOperation(n, '(', ')'); // 生成随机的括号序列
-        applyTest<ParenMatch>(matcher, [&](auto algorithm) {
-            cout << "answer = " << setw(5) << algorithm->apply(V);
-        });
+        auto v = clazy::RandomStackOperation<char>()(n, '(', ')'); // 生成随机的括号序列
+        tf.test(v);
     }
     return 0;
 }

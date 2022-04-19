@@ -43,7 +43,7 @@ public:
 };
 
 template <typename Container>
-requires (is_data_structure<int, Container>)
+requires (is_linear_structure<int, typename Container::Position, Container>)
 class SearchTest : public SearchProblem {
 private:
     Container C;
