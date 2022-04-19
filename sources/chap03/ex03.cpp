@@ -71,7 +71,7 @@ public:
     }
 };
 
-int testData[] { 10, 1000, 10000, 100'000, 1'000'000 };
+int testData[] { 10, 1000, 10000, 100'000, 1'000'000, 5'000'000 };
 
 int main() {
     TestFramework<SortProblem, SortTest<ForwardList<int>>, SortTest<BidirectionalList<int>>, SortTest<Vector<int>>> tf;
