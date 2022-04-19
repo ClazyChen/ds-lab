@@ -23,7 +23,7 @@ protected:
                 return {true, it.getPosition()};
             }
         }
-        return {false, C.invalid()};
+        return {false, C.invalidPos()};
     }
 };
 

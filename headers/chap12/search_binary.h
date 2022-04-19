@@ -7,6 +7,9 @@
 
 namespace clazy {
 
+using clazy_framework::Comparator;
+using clazy_framework::Rank;
+
 template <typename T, typename Container>
 class BinarySearch : public clazy_framework::AbstractBinarySearch<T, Container> {
 protected:

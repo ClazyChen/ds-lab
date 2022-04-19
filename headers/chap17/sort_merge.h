@@ -17,13 +17,13 @@ protected:
     void sort(Container& V, const Comparator<T>& cmp) override {
         if constexpr (is_base_of_v<clazy_framework::AbstractVector<T>, Container>) {
             VectorMergeSort<T, Container> sorter;
-            sorter.sort(V, cmp);
+            sorter(V, cmp);
         } else if constexpr (is_base_of_v<clazy_framework::AbstractBidirectionalList<T>, Container>) {
             ListMergeSort<T, Container> sorter;
-            sorter.sort(V, cmp);
+            sorter(V, cmp);
         } else if constexpr (is_base_of_v<clazy_framework::AbstractForwardList<T>, Container>) {
             ForwardListMergeSort<T, Container> sorter;
-            sorter.sort(V, cmp);
+            sorter(V, cmp);
         }
     }
 };
