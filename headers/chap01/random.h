@@ -54,6 +54,10 @@ public:
     Container operator()(int n, int lo, int hi) {
         return apply(n, lo, hi);
     }
+
+    Container operator()(int n) {
+        return apply(n);
+    }
 };
 
 // 生成一个随机的合法栈操作序列

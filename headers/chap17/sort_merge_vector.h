@@ -22,7 +22,7 @@ protected:
     void sort(Container& V, const Comparator<T>& cmp) override {
         mergeSort(V, cmp, 0, V.size());
     }
-
+public:
     void clear() override {
         W.clear();
     }

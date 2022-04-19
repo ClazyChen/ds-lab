@@ -76,6 +76,13 @@ public:
         }
     }
 
+    // 用给定的参数调用所有的实例的某个函数
+    void invoke(function<void(BaseClass*)> f) {
+        for (auto& instance : instances) {
+            f(instance.get());
+        }
+    }
+
     // 用给定的参数对所有实例进行测试
     // 这里存在两种情况：
     // 1. 各个测试实例运行过程中不会改动参数，如查找

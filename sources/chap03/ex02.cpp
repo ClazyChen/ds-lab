@@ -61,9 +61,7 @@ int main() {
     TestFramework<ClearProblem, SequentialClear, RandomClear> tf;
     for (int n : testData) {
         cout << "Testing n = " << n << endl;
-        for (auto&& instance : tf.instances) {
-            instance->initialize(n);
-        }
+        tf.invoke(bind(&ClearProblem::initialize, placeholders::_1, n));
         tf.test();
         tf.clear();
     }

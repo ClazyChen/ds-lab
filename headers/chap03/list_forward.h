@@ -21,6 +21,8 @@ protected:
     ListNodePos<T> _tail; // 列表的尾哨兵
     int _size;            // 列表的规模
 
+    using Iterator = clazy_framework::ForwardListIterator<T, clazy_framework::AbstractForwardList<T>>;
+
 public:
     ForwardList();
     ForwardList(const ForwardList& L);
@@ -44,13 +46,17 @@ public:
     
     // push_back也需要重写，否则需要O(n)的时间找到尾节点；而pop_back则无法这样解决，只能O(n)
     void push_back(const T& e) override {
-        _tail = insertAsPred(_tail, e);
+        _tail = insertAsPred(_tail, e)->succ();
     }
 
     ListNodePos<T> insertAsPred(ListNodePos<T> pos, const T& e) override;
     ListNodePos<T> insertAsSucc(ListNodePos<T> pos, const T& e) override;
     T remove(ListNodePos<T> pos) override;
     ListNodePos<T> find(const T& e) const override;
+
+    virtual Iterator end() const override {
+        return Iterator(*this, _tail);
+    }
 };
 
 // 构造函数、析构函数、赋值运算符重载
@@ -138,9 +144,9 @@ void ForwardList<T>::clear() {
 // 前插实际上是通过后插实现的，这里将会导致潜在的危险：原先指向pos的指针将会指向新插入的元素
 template <typename T>
 ListNodePos<T> ForwardList<T>::insertAsPred(ListNodePos<T> pos, const T& e) {
-    auto p = insertAsSucc(pos, pos->data());
-    p->data() = e;
-    return p;
+    insertAsSucc(pos, pos->data());
+    pos->data() = e;
+    return pos;
 }
 
 // 后插则和双向列表是一致的
@@ -154,13 +160,17 @@ ListNodePos<T> ForwardList<T>::insertAsSucc(ListNodePos<T> pos, const T& e) {
 }
 
 // 删除元素，这里面临的问题和前插一样，也同样会导致潜在的危险
-// 引入尾哨兵的目的就是为了能够删除最后一个元素
+// 引入尾哨兵的目的，就是为了能够删除最后一个元素
 template <typename T>
 T ForwardList<T>::remove(ListNodePos<T> pos) {
     auto p = pos->succ();
     pos->setSucc(p->succ());
     _size--;
-    auto e = p->data();
+    auto e = pos->data();
+    pos->data() = p->data();
+    if (p == _tail) {
+        _tail = pos;
+    }
     delete p;
     return e;
 }

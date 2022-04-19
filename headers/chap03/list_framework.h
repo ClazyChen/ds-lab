@@ -106,6 +106,7 @@ public:
         return Iterator(*this, this->getFrontPos());
     }
 
+    // 采用尾哨兵的情况下，需要重写end()
     virtual Iterator end() const {
         return Iterator(*this, this->getBackPos()->succ());
     }
