@@ -2,25 +2,24 @@
 
 #include "framework.h"
 
+// 这个文件考虑组合数的计算
+// 经典的组合计数问题解决方案是递推+记忆化的做法
+
 namespace clazy_framework {
 
-// 这个文件考虑组合数的计算
-class CombineProblem : public Algorithm {
-protected:
-    virtual int combine(int n, int m) = 0;
-public:
-    int apply(int n, int m) { return combine(n, m); }
+class CombineProblem : public Algorithm<int, int, int> {
+
 };
 
 }
 
 namespace clazy {
 
-// 经典的组合数递推+记忆化算法
 class Combine : public clazy_framework::CombineProblem {
-protected:
-    vector<vector<int>> C;
-    virtual int combine(int n, int m) override {
+private:
+    vector<vector<int>> C; // 存储组合数的结果
+public:
+    int apply(int n, int m) override {
         m = min(m, n - m);                     // 利用对称性，降低一半的存储量
         if (n < C.size() && m < C[n].size()) { // 如果记忆化可用
             return C[n][m];                    // 直接读取记忆化的结果
@@ -28,7 +27,7 @@ protected:
             while (C.size() <= n) {
                 C.push_back(vector<int> {1});  // 递推初始值
             }
-            for (int i : views::iota((int)C[n].size(), m+1)) { // 进行递推
+            for (int i = C[n].size(); i <= m; i++) { // 进行递推
                 C[n].push_back((long long)(n-i+1) * C[n].back() / i); // 为防止溢出使用long long
             }
             return C[n][m];
