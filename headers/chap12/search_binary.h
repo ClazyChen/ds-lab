@@ -4,13 +4,13 @@
 // 它基于邓俊辉《数据结构》里给出的实现C
 
 #include "search_binary_framework.h"
+#include "vector.h"
 
 namespace clazy {
 
 using clazy_framework::Comparator;
-using clazy_framework::Rank;
 
-template <typename T, typename Container>
+template <typename T, typename Container = Vector<T>>
 class BinarySearch : public clazy_framework::AbstractBinarySearch<T, Container> {
 protected:
     Rank binarySearch(const Container& C, const T& e, const Comparator<T>& cmp, Rank lo, Rank hi) override {
