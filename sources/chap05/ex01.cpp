@@ -1,5 +1,7 @@
+#include "queue.h"
 #include "queue_vector.h"
 #include "queue_circular.h"
+#include "test_framework.h"
 using namespace clazy_framework;
 
 // 这个例子比较三种队列的性能
@@ -13,14 +15,14 @@ using SequentialQueue = clazy::VectorQueue<T>;
 template <typename T>
 using CircularQueue = clazy::CircularQueue<T>;
 
-// 比较两种情况：连续插入和连续删除
-// 这不能体现出循环队列的搬移，因为操作序列太过简单
-// 循环队列的搬移操作的时间量级可以参考向量扩容
+// 这里设计的实验场景是n次enqueue+n次dequeue
+// 1. enqueue n/2 个元素
+// 2. dequeue n/4+1 个元素（触发一次搬移版本的搬移）
+// 3. enqueue n/2 个元素（触发一次循环版本的扩容时移动）
+// 4. dequeue 3n/4-1 个元素（触发若干次搬移版本的搬移）
+
 template <typename T>
-class EnqueueDequeueProblem : public Algorithm {
-public:
-    virtual void enqueue(int n, const T& dummy);
-    virtual void dequeue();
+class EnqueueDequeueProblem : public Algorithm<void, int> {
 };
 
 template <typename T, typename Queue>
@@ -29,41 +31,44 @@ class EnqueueDequeue : public EnqueueDequeueProblem<T> {
 protected:
     Queue Q;
 public:
-    virtual void enqueue(int n, const T& dummy) override {
-        for (int i : views::iota(0, n)) {
-            Q.enqueue(dummy);
+    void apply(int n) override {
+        for (int i = 0; i < n/2; i++) {
+            Q.enqueue(i);
         }
-    }
-    virtual void dequeue() override {
-        while (!Q.empty()) {
+        for (int i = 0; i < n/4+1; i++) {
+            Q.dequeue();
+        }
+        for (int i = 0; i < n/2; i++) {
+            Q.enqueue(i);
+        }
+        for (int i = n/4+1; i < n; i++) {
             Q.dequeue();
         }
     }
-    virtual string getTypename() const override {
+
+    void clear() override {
+        Q.clear();
+    }
+
+    string getTypeName() const override {
         return typeid(Queue).name();
     }
 };
 
+int testData[] { 10, 1000, 100'000, 1'000'000, 10'000'000, 20'000'000 };
+
 int main() {
-    auto algorithms = generateInstances<
+    TestFramework<
         EnqueueDequeueProblem<int>,
         EnqueueDequeue<int, LinkedQueue<int>>,
         EnqueueDequeue<int, SequentialQueue<int>>,
-        EnqueueDequeue<int, CircularQueue<int>>>();
-    int testData[] { 10, 1000, 100'000, 1'000'000, 10'000'000, 20'000'000 };
+        EnqueueDequeue<int, CircularQueue<int>>> tf;
     for (int n : testData) {
         cout << "Testing n = " << n << endl;
-        cout << "Testing Enqueue" << endl;
-        applyTest<EnqueueDequeueProblem<int>>(algorithms, [n] (auto algorithm) {
-            algorithm->enqueue(n, 0);
-        });
-        cout << "Testing Dequeue" << endl;
-        applyTest<EnqueueDequeueProblem<int>>(algorithms, [n] (auto algorithm) {
-            algorithm->dequeue();
-        });
+        tf.test(n);
     }
 }
 
-// 向量实现的队列（基于搬移），效率显著地高于其他两种
-// 向量和列表的性能差异毋庸赘述，而在循环队列中，每次操作都需要取模运算，因而对性能造成了一定影响
-// 可以预见，循环队列考虑最坏情况的搬移，性能仍然明显高于链式队列
+// 向量实现的队列效率显著高于列表实现的队列
+// 两种向量实现的队列各有优劣，基于搬移的做法相对于基于循环的做法，不需要进行取模运算，性能会更高一些
+// 其缺点在于向量扩容虽然分摊复杂度是O(1)的，但是不分摊的情况下最坏复杂度是O(n)的，造成了性能的不稳定

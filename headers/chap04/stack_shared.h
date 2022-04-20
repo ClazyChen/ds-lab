@@ -65,6 +65,8 @@ public:
         return Sb.size() + Sf.size();  
     }
     virtual void clear() override{
+        V.clear();
+        V.resize(V.capacity()); // 保证向量被填满，如果用的我的参考实现，则不需要这一步
         Sb.clear();
         Sf.clear();
     }
