@@ -41,7 +41,6 @@ private:
 public:
     T item(int r, int c) const override {
         auto [result, rank] = BinarySearch<Triple>()(_data, Triple(r, c));
-        cout << rank << endl;
         if (result) {
             return _data[rank].v;
         } else {
@@ -70,7 +69,6 @@ public:
     }
 
     void clear() override {
-        cout << _data << endl;
         _data.clear();
     }
 };

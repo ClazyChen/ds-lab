@@ -16,10 +16,10 @@ protected:
     virtual Rank binarySearch(const Container& C, const T& e, const Comparator<T>& cmp, Rank lo, Rank hi) = 0;
     SearchResult<Rank> search(const Container& C, const T& e, const Comparator<T>& cmp) override {
         Rank r = binarySearch(C, e, cmp, 0, C.size());
-        if (0 < r && r < C.size() && C[r] == e) {
+        if (0 <= r && r < C.size() && C[r] == e) {
             return {true, r};
         } else {
-            return {false, r};
+            return {false, r + 1};
         }
     }
 };

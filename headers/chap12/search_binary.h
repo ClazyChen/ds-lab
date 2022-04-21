@@ -22,7 +22,7 @@ protected:
                 hi = mi;
             }
         }
-        return lo;
+        return lo - 1;
     }
 };
 

@@ -84,12 +84,12 @@ public:
         if (r > c) { // 下三角区总是返回0
             return 0;
         }
-        return this->_data[(r * (2 * N + 1 - r)) / 2 + c];
+        return this->_data[(r * (2 * N - 1 - r)) / 2 + c];
     }
 
     void set(int r, int c, const T& v) override { // 不允许对下三角区进行赋值
         if (r <= c) {
-            this->_data[(r * (2 * N + 1 - r)) / 2 + c] = v;
+            this->_data[(r * (2 * N - 1 - r)) / 2 + c] = v;
         }
     }
 };
