@@ -1,5 +1,5 @@
 #include "queue.h"
-#include "queue_vector.h"
+#include "queue_linked.h"
 #include "queue_circular.h"
 #include "test_framework.h"
 using namespace clazy_framework;
@@ -7,10 +7,10 @@ using namespace clazy_framework;
 // 这个例子比较三种队列的性能
 
 template <typename T>
-using LinkedQueue = clazy::Queue<T>;
+using LinkedQueue = clazy::LinkedQueue<T>;
 
 template <typename T>
-using SequentialQueue = clazy::VectorQueue<T>;
+using SequentialQueue = clazy::Queue<T>;
 
 template <typename T>
 using CircularQueue = clazy::CircularQueue<T>;
