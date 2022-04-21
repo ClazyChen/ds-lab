@@ -2,6 +2,7 @@
 #include "matrix_list.h"
 #include "matrix_triple.h"
 #include "matrix_compressed.h"
+#include "test_framework.h"
 using namespace clazy_framework;
 
 // 这个例子展示了如何使用矩阵的基本操作
@@ -10,43 +11,41 @@ using namespace clazy_framework;
 
 constexpr const int N = 5; // 矩阵的边长
 
-class MatrixFillProblem : public Algorithm {
+class MatrixFillProblem : public Algorithm<> {
 public:
-    virtual void set(); // 设置矩阵的值
-    virtual void unset(); // 清零矩阵的值
-    virtual void display(); // 展示矩阵的值
+    virtual void set() = 0;     // 设置矩阵的值
+    virtual void unset() = 0;   // 清零矩阵的值
+    virtual void print() = 0;   // 展示矩阵的值
+    void apply() override {}    // 没有实际意义的调用函数
 };
 
 template <typename Matrix>
-requires (is_base_of_v<clazy_framework::AbstractMatrix<N, N, int>, Matrix>)
+requires (is_base_of_v<AbstractMatrix<N, N, int>, Matrix>)
 class MatrixFill : public MatrixFillProblem {
 protected:
     Matrix m;
 public:
-    virtual void set() override {
-        for (int i : views::iota(0, N)) {
-            for (int j : views::iota(0, N)) {
-                m.set(i, j, i * N + j + 1);
+    void set() override {
+        for (int r = 0; r < N; r++) {
+            for (int c = 0; c < N; c++) {
+                m.set(r, c, r * N + c + 1);
             }
         }
     }
-    virtual void unset() override {
-        for (int i : views::iota(0, N)) {
-            for (int j : views::iota(0, N)) {
-                m.unset(i, j);
-            }
-        }
+    void unset() override {
+        m.clear();
     }
-    virtual void display() override {
+    void print() override {
+        cout << getTypeName() << endl;
         cout << m << endl;
     }
-    virtual string getTypename() const override {
+    string getTypeName() const override {
         return typeid(Matrix).name();
     }
 };
 
 int main() {
-    auto algorithms = generateInstances<
+    TestFramework<
         MatrixFillProblem,
         MatrixFill<clazy::Matrix<N>>,
         MatrixFill<clazy::MatrixList<N>>, 
@@ -57,17 +56,11 @@ int main() {
         MatrixFill<clazy::LowerTriangularMatrix<N>>,
         MatrixFill<clazy::UpperTriangularMatrix<N>>,
         MatrixFill<clazy::TridiagonalMatrix<N>>
-    >();
+    > tf;
     cout << "Test Set-Matrix" << endl;
-    for (auto algorithm : algorithms) {
-        cout << algorithm->getTypename() << endl;
-        algorithm->set();
-        algorithm->display();
-    }
+    tf.invoke(bind(&MatrixFillProblem::set, placeholders::_1));
+    tf.invoke(bind(&MatrixFillProblem::print, placeholders::_1));
     cout << "Test Unset-Matrix" << endl;
-    for (auto algorithm : algorithms) {
-        cout << algorithm->getTypename() << endl;
-        algorithm->unset();
-        algorithm->display();
-    }
+    tf.invoke(bind(&MatrixFillProblem::unset, placeholders::_1));
+    tf.invoke(bind(&MatrixFillProblem::print, placeholders::_1));
 }

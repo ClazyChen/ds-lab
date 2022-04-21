@@ -1,17 +1,15 @@
-// 问题1.8 - 幂
-// 输入：正整数a、b
-// 输出：a的b次幂
-
-#include <iostream>
 #include "power.h"
+#include "test_framework.h"
 using namespace clazy_framework;
+
+// 这个例子对比了普通的累乘的求幂算法和快速幂
 
 // 普通累乘幂
 class PowerNaive : public PowerProblem {
-protected:
-    int power(int a, int b) const override {
+public:
+    int apply(int a, int b) override {
         int prod = 1;
-        for (int i : views::iota(0, b)) {
+        for (int i = 0; i < b; i++) {
             prod *= a;
         }
         return prod;
@@ -19,39 +17,39 @@ protected:
 };
 
 // 快速幂（递归版本）
-// 这个算法的思路非常容易理解，就是 a^b = a^(b/2)^2
+// 这个算法的思路非常容易理解，就是 a^b = (a^2)^(b/2)
 class PowerRecursive : public PowerProblem {
-protected:
-    int power(int a, int b) const override {
-        if (b == 1) {        // 递归边界
-            return a;        // 如果允许b = 0，则需要再写一个边界
+public:
+    int apply(int a, int b) override {
+        if (b == 0) {
+            return 1;
         }
-        int temp = power(a, b/2); // 计算a^(b/2)
-        if (b % 2 == 1) {    // 注意因为整数除法是整除，这里需要区分奇偶性
-            return temp * temp * a;
-        } else /* b % 2 == 0 */ {
-            return temp * temp;
+        if (b % 2 == 0) {
+            return apply(a * a, b / 2);
+        } else {
+            return a * apply(a * a, b / 2);
         }
     }
 };
 
 // 快速幂（迭代版本）
+// 容易发现，这个算法和上面的递归版本是对应的
 using PowerIterative = clazy::Power;
 
+// 您可以自己尝试实现另一个思路
+// 即a^b = (a^(b/2))^2 这个角度实现的快速幂
+// 它和上面的迭代版本是不对应的，并且不容易改写成迭代版本
+
+pair<int, int> testData[] {
+    {3, 4}, {2, 30}, {-3, 3}, // 一些常规问题
+    {1, 1'000'000'000} // 当b很大时，效率差异明显
+};
+
 int main() {
-    auto algorithms = generateInstances<PowerProblem, PowerNaive, PowerRecursive, PowerIterative>();
-    auto test = [&](int a, int b) {
-        cout << "Testing a = " << a << " b = " << b << endl;
-        applyTest<PowerProblem>(algorithms, [a, b](auto power) {
-            cout << "answer = " << setw(11) << power->apply(a, b);
-        });
-    };
-    pair<int, int> testData[] {
-        {3, 4}, {2, 30}, {-3, 3}, // 一些常规问题
-        {1, 1'000'000'000} // 当b很大时，效率差异明显
-    };
+    TestFramework<PowerProblem, PowerNaive, PowerRecursive, PowerIterative> tf;
     for (auto [a, b] : testData) {
-        test(a, b);
+        cout << "Testing " << a << "^" << b << endl;
+        tf.test(a, b);
     }
     return 0;
 }

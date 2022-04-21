@@ -1,7 +1,7 @@
 #include "vector.h"
 #include "random.h"
 #include "factorial.h"
-#include <cmath>
+#include "test_framework.h"
 using namespace clazy_framework;
 
 // 这个例子展示置乱的算法
@@ -9,57 +9,81 @@ using namespace clazy_framework;
 template <typename T>
 using Vector = clazy::Vector<T>;
 
-// 全局随机数发生器
-Random random;
-
 // 置乱算法
 template <typename T>
-class Shuffle : public Algorithm {
+class Shuffle : public Algorithm<void, Vector<T>&>{
 public:
-    void apply(Vector<T>& V) {
-        for (Rank i : views::iota(1, V.size()) | views::reverse) {
-            swap(V[i], V[random.nextIntBetween(0, i+1)]);
+    void apply(Vector<T>& V) override {
+        for (int i = V.size() - 1; i > 0; i--) {
+            swap(V[i], V[Random::nextIntBetween(0, i+1)]);
         }
     }
 };
 
-// 在这个实验中，将验证随机打乱的等概率性
-// 当然，绝对等概率是不可能的，因为2^31的随机空间不能被n!(n>2)整除
-// 下面这个函数用于计算V的字典序序数
 clazy::Factorial factorial;
-int getFingerprint(const Vector<int>& V) {
-    int result = 0;
-    for (Rank i : views::iota(0, V.size())) {
-        result += (V[i] - count_if(begin(V), begin(V) + i, [&](int x) { return x < V[i]; })) * factorial.apply(V.size() - 1 - i);     
+Shuffle<int> shuffle_vector;
+
+// 进行times次随机置乱
+class ShuffleProblem : public Algorithm<void> {
+
+};
+
+template <int n> requires (n > 0)
+class ShuffleTest : public ShuffleProblem {
+private:
+    Vector<int> V;
+
+public:
+    void clear() override {
+        V.clear();
+        V.resize(n);
+        for (int i = 0; i < n; i++) {
+            V[i] = i;
+        }
     }
-    return result;
+
+    void apply() override {
+        shuffle_vector(V);
+    }
+
+    // 在这个实验中，还将验证随机打乱的等概率性
+    // 当然，绝对等概率是不可能的，因为2^31的随机空间不能被n!(n>2)整除
+    // 下面这个函数用于计算V的字典序序数
+    int getFingerprint() {
+        int result = 0;
+        for (int i = 0; i < V.size(); i++) {
+            result += (V[i] - count_if(begin(V), begin(V) + i, [&](int x) { return x < V[i]; })) \
+                    * factorial(V.size() - 1 - i);
+        }
+        return result;
+    }
+};
+
+// 第一个实验，测试置乱算法的效率
+void experiment1() {
+    TestFramework<ShuffleProblem, 
+        ShuffleTest<10>, 
+        ShuffleTest<1000>, 
+        ShuffleTest<100'000>, 
+        ShuffleTest<1'000'000>, 
+        ShuffleTest<10'000'000>> tf;
+    tf.clear();
+    tf.test();
 }
 
-const int n              = 4;            // 进行随机打乱的向量规模
-const int shuffle_number = 100'000'000;  // 进行随机打乱的次数
-
-int main() {
-    Vector<int> V;
-    for (int i : views::iota(0, n)) {
-        V.push_back(i);
-    }
-    auto algorithm = make_shared<Shuffle<int>>();
-    // 首先进行时间实验，这里不做统计
-    applyTest<Shuffle<int>>(algorithm, [&](auto shuffle) {
-        cout << "shuffling timing test ... ";
-        for (int i : views::iota(0, shuffle_number)) {
-            shuffle->apply(V);
-        }
-    });
-    // 其次进行统计实验，观察随机打乱的近似等概率性
-    int permutation = factorial.apply(n);
+// 第二个实验，测试置乱算法的等概率性
+void experiment2() {
+    constexpr static int n = 4;
+    constexpr static int shuffle_number = 10'000'000;
+    ShuffleTest<n> test;
+    test.clear();
+    int permutation = factorial(n);
     Vector<int> counter(permutation);
-    counter.resize(permutation);
     fill(begin(counter), end(counter), 0);
-    cout << "shuffling result test ... " << endl;
-    for (int i : views::iota(0, shuffle_number)) {
-        algorithm->apply(V);
-        counter[getFingerprint(V)] ++;
+    for (int i = 0; i < shuffle_number; i++) {
+        test.apply();
+        int fingerprint = test.getFingerprint();
+        counter[fingerprint]++;
     }
     cout << "statistics: " << counter << endl;
     double average = (double)shuffle_number / permutation;
@@ -70,5 +94,10 @@ int main() {
     }
     // 平均的相对误差应当是非常小的
     cout << "average bias: " << bias / permutation  << endl;
+}
+
+int main() {
+    experiment1();
+    experiment2();
     return 0;
 }
