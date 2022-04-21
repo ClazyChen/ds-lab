@@ -1,6 +1,6 @@
 #pragma once
 
-#include "binary_tree_node_framework.h"
+#include "binary_tree_iterator_framework.h"
 
 // 这个文件给出了二叉树的基本框架
 // 它需要实现二叉树的下列基本操作
@@ -46,6 +46,27 @@ public:
 
     bool operator!=(const AbstractBinaryTree<T>& t) const {
         return !(*this == t);
+    }
+
+    // 迭代器接口
+    template <typename IA>
+    virtual BinaryTreeIterator<T, IA> begin() const {
+        return BinaryTreeIterator<T, IA>(IA().first(root()));
+    }
+
+    template <typename IA>
+    virtual BinaryTreeIterator<T, IA> end() const {
+        return BinaryTreeIterator<T, IA>(nullptr);
+    }
+
+    template <typename IA>
+    virtual BinaryTreeIterator<T, IA> rbegin() const {
+        return BinaryTreeIterator<T, IA>(IA().last(root()));
+    }
+
+    template <typename IA>
+    virtual BinaryTreeIterator<T, IA> rend() const {
+        return BinaryTreeIterator<T, IA>(nullptr);
     }
 };
 

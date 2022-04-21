@@ -52,7 +52,7 @@ public:
     int getFingerprint() {
         int result = 0;
         for (int i = 0; i < V.size(); i++) {
-            result += (V[i] - count_if(begin(V), begin(V) + i, [&](int x) { return x < V[i]; })) \
+            result += (V[i] - count_if(V.begin(), V.begin() + i, [&](int x) { return x < V[i]; })) \
                     * factorial(V.size() - 1 - i);
         }
         return result;

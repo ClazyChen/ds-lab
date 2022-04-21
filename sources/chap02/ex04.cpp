@@ -27,7 +27,7 @@ class BatchRemoveSFSR : public BatchRemove<T> {
 protected:
     virtual void batchRemove(Vector<T>& V, const Predicate<T>& P) override {
         Rank r = 0;
-        while (r = find_if(begin(V), end(V), P) - begin(V), r < V.size()) { // 只要有满足条件的元素
+        while (r = find_if(V.begin(), V.end(), P) - V.begin(), r < V.size()) { // 只要有满足条件的元素
             V.remove(r);                   // 就把该元素删除（每轮循环找到一个、删除一个）
         }                                  // 直到没有满足条件的元素为止
     }
@@ -39,7 +39,7 @@ class BatchRemoveGFSR : public BatchRemove<T> {
 protected:
     virtual void batchRemove(Vector<T>& V, const Predicate<T>& P) override {        
         Rank r = 0;
-        while (r = find_if(begin(V) + r, end(V), P) - begin(V), r < V.size()) {
+        while (r = find_if(V.begin() + r, V.end(), P) - V.begin(), r < V.size()) {
             V.remove(r);                   // 改为从V[r]开始查找，因为之前的元素已经被找过一次了
         }                                  // 这样find_if加起来，总共也只遍历了V一次
     }
@@ -53,9 +53,9 @@ protected:
         Rank r_last = 0, r = 0; // 需要记录上次的r，每次移动一个区间
         int offset = -1;        // 向前移动的偏移量
         do {
-            r = find_if(begin(V) + r, end(V), P) - begin(V);
+            r = find_if(V.begin() + r, V.end(), P) - V.begin();
             if (++offset > 0) { // 删除一个元素之后，下一个区间移动偏移量+1
-				copy(begin(V) + r_last + 1, begin(V) + r, begin(V) + r_last + 1 - offset);
+				copy(V.begin() + r_last + 1, V.begin() + r, V.begin() + r_last + 1 - offset);
             }                   // 注意最后一段也需要移动，所以这里用了do-while循环，与前面不一样
             r_last = r++;       // 更新记录上次的r，并需要让r向前移动（因为V[r]并没有被实际删除）
         } while (r < V.size());
@@ -69,13 +69,13 @@ template <typename T>
 class BatchRemoveGFGR_FSP : public BatchRemove<T> {
 protected:
     virtual void batchRemove(Vector<T>& V, const Predicate<T>& P) override {
-        auto it_assign = begin(V);  // 赋值指针（慢指针）
-        for (auto it_find = begin(V); it_find != end(V); it_find++) { // 查找指针（快指针）
+        auto it_assign = V.begin();  // 赋值指针（慢指针）
+        for (auto it_find = V.begin(); it_find != V.end(); it_find++) { // 查找指针（快指针）
             if (!P(*it_find)) {     // 如果是不会被删除的元素
                 *(it_assign++) = *it_find; // 则将其赋值到赋值指针的位置上
             }                       // 否则将其丢弃，赋值指针不移动
         }
-        V.resize(it_assign - begin(V)); // 修改V的规模，丢弃后面的元素
+        V.resize(it_assign - V.begin()); // 修改V的规模，丢弃后面的元素
     }
 };
 

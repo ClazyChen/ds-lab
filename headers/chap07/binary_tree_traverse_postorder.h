@@ -87,4 +87,19 @@ protected:
     }
 };
 
+// 使用迭代器得到的递归方法
+// II - Iterator Iterative
+template<typename T, typename Container = BinaryTree<T>>
+class PostOrderTraverseII : public clazy_framework::BinaryTreeTraverse<T, Container> {
+protected:
+    using IA = PostOrderIterator<T>;
+    using Iterator = clazy_framework::BinaryTreeIterator<T, IA>;
+
+    void traverse(BinaryTreeNodePos<T> pos, const function<void(T&)>& visit) override {
+        for (auto it = Iterator(IA().first(pos)); it.getPosition() != nullptr; it++) {
+            visit(*it);
+        }
+    }
+};
+
 }

@@ -29,7 +29,7 @@ protected:
 
 public:
     T item(int r, int c) const override { // 在列表中查找c
-        if (auto it = find_if(begin(_data[r]), end(_data[r]), [c](auto& p) { return p.first == c; }); it != end(_data[r])) {
+        if (auto it = find_if(_data[r].begin(), _data[r].end(), [c](auto& p) { return p.first == c; }); it != _data[r].end()) {
             return it->second;
         } else {
             return 0;
@@ -37,7 +37,7 @@ public:
     }
 
     void set(int r, int c, const T& v) override {
-        if (auto it = find_if(begin(_data[r]), end(_data[r]), [c](auto& p) { return p.first == c; }); it != end(_data[r])) {
+        if (auto it = find_if(_data[r].begin(), _data[r].end(), [c](auto& p) { return p.first == c; }); it != _data[r].end()) {
             it->second = v;
         } else {
             _data[r].push_back({c, v});
@@ -45,7 +45,7 @@ public:
     }
 
     void unset(int r, int c) override { // 重载unset，不需要的元素就直接删除
-        remove_if(begin(_data[r]), end(_data[r]), [c](auto& p) { return p.first == c; });
+        remove_if(_data[r].begin(), _data[r].end(), [c](auto& p) { return p.first == c; });
     }
 
     int size() const override {

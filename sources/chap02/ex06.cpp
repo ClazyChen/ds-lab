@@ -84,7 +84,7 @@ public:
     void experiment1() {
         tf_sort.clear();
         tf_sort.apply(V);
-        assert(is_sorted(begin(V), end(V)));
+        assert(is_sorted(V.begin(), V.end()));
     }
 
     // 第二个实验：查找，比较各个查找算法的性能

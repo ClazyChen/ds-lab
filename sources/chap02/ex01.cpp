@@ -32,7 +32,7 @@ void check() {
 void insert() {
     Rank r = Random::nextIntBetween(0, V.size()+1);
     V.insert(r, e);
-    v.insert(begin(v) + r, e); // STL 向量的插入
+    v.insert(v.begin() + r, e); // STL 向量的插入
     cout << "insert(" << e++ << " @ rank " << r << ")" << endl;
     cout << "\t V = " << V << endl;
 }
@@ -40,7 +40,7 @@ void insert() {
 void remove() {
     Rank r = Random::nextIntBetween(0, V.size());
     int Vx = V.remove(r);
-    v.erase(begin(v) + r); // STL 向量的删除
+    v.erase(v.begin() + r); // STL 向量的删除
     cout << "remove(" << Vx << " @ rank " << r << ")" << endl;
     cout << "\t V = " << V << endl;
 }
@@ -48,8 +48,8 @@ void remove() {
 void find() {
     int x = Random::nextIntBetween(0, e);
     Rank Vr = V.find(x);
-    Rank vr = find(begin(v), end(v), x) - begin(v);     // STL 向量的查找
-    assert((Vr == -1 && vr == V.size()) || (Vr == vr)); // STL 查找失败时会返回end(v)，和我们的语义不一样
+    Rank vr = find(v.begin(), v.end(), x) - v.begin();     // STL 向量的查找
+    assert((Vr == -1 && vr == V.size()) || (Vr == vr)); // STL 查找失败时会返回V.end()，和我们的语义不一样
     cout << "find(" << x << ") = " << Vr << endl;
 }
 

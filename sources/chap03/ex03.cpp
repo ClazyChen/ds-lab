@@ -63,7 +63,7 @@ public:
     }
 
     void check() const override {
-        assert(is_sorted(begin(C), end(C)));
+        assert(is_sorted(C.begin(), C.end()));
     }
 
     void clear() override {

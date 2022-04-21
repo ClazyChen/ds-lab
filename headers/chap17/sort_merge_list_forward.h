@@ -17,8 +17,8 @@ class ForwardListMergeSort : public clazy_framework::AbstractSort<T, Container> 
 protected:
     void mergeSort(Container& L, const Comparator<T>& cmp, ListNodePos<T> lo, ListNodePos<T>& hi, int size);
     void sort(Container& L, const Comparator<T>& cmp) override {
-        auto pos_begin = begin(L).getPosition();
-        auto pos_end = end(L).getPosition();
+        auto pos_begin = L.begin().getPosition();
+        auto pos_end = L.end().getPosition();
         mergeSort(L, cmp, pos_begin, pos_end, L.size());
     }
 };

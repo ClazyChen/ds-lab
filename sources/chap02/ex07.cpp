@@ -29,7 +29,7 @@ public:
     virtual int apply(Vector<T>& V) override {
         int oldSize = V.size();
         for (Rank r = 1; r < V.size(); ) {
-            if (any_of(begin(V), begin(V) + r, [&](auto& x) { return x == V[r]; })) {
+            if (any_of(V.begin(), V.begin() + r, [&](auto& x) { return x == V[r]; })) {
                 V.remove(r); // r已经被删掉了，所以不需要向后移动
             } else {
                 r++;
@@ -50,14 +50,14 @@ template <typename T>
 class SortedDeduplicate : public DeduplicateProblem<T> {
 public:
     virtual int apply(Vector<T>& V) override {
-        auto it_assign = begin(V);         // 赋值指针（慢指针）
-        for (auto it_find = begin(V); it_find != end(V); it_find++) {   // 查找指针（快指针）
-            if (it_find == begin(V) || !(*it_find == *(it_find - 1))) { // 如果是不会被删除的元素
+        auto it_assign = V.begin();         // 赋值指针（慢指针）
+        for (auto it_find = V.begin(); it_find != V.end(); it_find++) {   // 查找指针（快指针）
+            if (it_find == V.begin() || !(*it_find == *(it_find - 1))) { // 如果是不会被删除的元素
                 *(it_assign++) = *it_find; // 则将其赋值到赋值指针的位置上
             }                              // 否则将其丢弃，赋值指针不移动
         }
-        int removed = end(V) - it_assign;  // 快慢指针的距离就是被删除的元素数量
-        V.resize(it_assign - begin(V));    // 修改V的规模，丢弃后面的元素
+        int removed = V.end() - it_assign;  // 快慢指针的距离就是被删除的元素数量
+        V.resize(it_assign - V.begin());    // 修改V的规模，丢弃后面的元素
         return removed;
     }
 };

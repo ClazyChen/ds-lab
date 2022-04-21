@@ -38,6 +38,20 @@ public:
         return this->parent() != nullptr && this->parent()->right() == this;
     }
 
+    // 判断是否有左姊妹或右姊妹，并获取之
+    bool hasLeftSibling() const {
+        return this->isRight() && this->parent()->left() != nullptr;
+    }
+    bool hasRightSibling() const {
+        return this->isLeft() && this->parent()->right() != nullptr;
+    }
+    P leftSibling() const {
+        return this->hasLeftSibling() ? this->parent()->left() : nullptr;
+    }
+    P rightSibling() const {
+        return this->hasRightSibling() ? this->parent()->right() : nullptr;
+    }
+
     // 判断是否是根节点或叶节点
     bool isRoot() const {
         return this->parent() == nullptr;

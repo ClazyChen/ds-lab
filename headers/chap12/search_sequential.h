@@ -15,7 +15,7 @@ requires (clazy_framework::is_linear_structure<T, P, Container>)
 class SequentialSearch : public clazy_framework::AbstractOrderedSearch<T, P, Container> {
 protected:
     SearchResult<P> search(const Container& C, const T& e, const Comparator<T>& cmp) override {
-        for (auto it = begin(C); it != end(C); it++) {
+        for (auto it = C.begin(); it != C.end(); it++) {
             if (!cmp(*it, e)) {
                 return {false, it.getPosition()};
             }

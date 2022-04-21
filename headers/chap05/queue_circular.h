@@ -73,7 +73,7 @@ void CircularQueue<T, Container>::moveElements() {
     V.resize(V.capacity() + 1);
     V.resize(V.capacity());
     if (_rear < _front) { // Q[d:n,0:d]移动为Q[d:n+d]
-        copy(begin(V), begin(V) + _rear, begin(V) + old_capacity);
+        copy(V.begin(), V.begin() + _rear, V.begin() + old_capacity);
         _rear += old_capacity;
     }
 }

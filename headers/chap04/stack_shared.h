@@ -96,7 +96,7 @@ void SharedStack<T, Container>::expand() {
     int old_capacity = V.capacity();
     V.resize(V.capacity() + 1);
     V.resize(V.capacity());
-    copy_backward(begin(V) + topb + 1, begin(V) + old_capacity, end(V)); // 整体移动整个反向栈
+    copy_backward(V.begin() + topb + 1, V.begin() + old_capacity, V.end()); // 整体移动整个反向栈
     topb += V.capacity() - old_capacity; // 更新反向栈的栈顶
 }
 

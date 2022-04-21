@@ -26,9 +26,9 @@ class CyclicLeftShiftSwap : public CyclicLeftShift<T> {
 public:
     void apply(Vector<T>& V, int k) override {
         auto B = make_unique<T[]>(k); // 辅助空间
-        copy(begin(V), begin(V) + k, B.get());   // B[0:k] = V[0:k]
-        copy(begin(V) + k, end(V), begin(V));    // V[0:n-k] = V[k:n]
-        copy(B.get(), B.get() + k, end(V) - k);  // V[n-k:n] = B[0:k]
+        copy(V.begin(), V.begin() + k, B.get());   // B[0:k] = V[0:k]
+        copy(V.begin() + k, V.end(), V.begin());    // V[0:n-k] = V[k:n]
+        copy(B.get(), B.get() + k, V.end() - k);  // V[n-k:n] = B[0:k]
     }
 };
 
@@ -59,9 +59,9 @@ template <typename T>
 class CyclicLeftShiftReverse : public CyclicLeftShift<T> {
 public:
     void apply(Vector<T>& V, int k) override {
-        reverse(begin(V), begin(V) + k); // -> rV[0:k] + V[k:n]
-        reverse(begin(V), end(V));       // -> rV[k:n] + V[0:k]
-        reverse(begin(V), end(V) - k);   // -> V[k:n] + V[0:k]
+        reverse(V.begin(), V.begin() + k); // -> rV[0:k] + V[k:n]
+        reverse(V.begin(), V.end());       // -> rV[k:n] + V[0:k]
+        reverse(V.begin(), V.end() - k);   // -> V[k:n] + V[0:k]
     }
 };
 
@@ -90,7 +90,7 @@ int main() {
         for (int i = 0; i < n; i++) {
             V[i] = i;
         }
-        random_shuffle(begin(V), end(V));  // 生成实验数据
+        random_shuffle(V.begin(), V.end());  // 生成实验数据
         tf.test(V, k);
     }
     return 0;

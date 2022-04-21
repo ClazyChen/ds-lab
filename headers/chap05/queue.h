@@ -58,7 +58,7 @@ public:
 
 template <typename T, typename Container, int R>
 void Queue<T, Container, R>::moveElements() {
-    copy(begin(V) + _front, end(V), begin(V)); // 将向量中的元素前移
+    copy(V.begin() + _front, V.end(), V.begin()); // 将向量中的元素前移
     V.resize(size());                          // 重置向量的规模
     _front = 0;                                // 将队头移到向量的开头
 }
