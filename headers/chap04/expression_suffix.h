@@ -20,13 +20,12 @@ public:
     }
     int getResult() const override;
 
-    void print() const override {
-        cout << V << endl;
-    }
-
     void clear() override {
         V.clear();
     }
+
+    friend ostream& operator<< (ostream& out, const SuffixExpression& expr);
+    friend class ExpressionTree;   // 表达式树需要从后缀表达式转
 };
 
 // 中缀表达式转换为后缀表达式
@@ -66,5 +65,12 @@ int SuffixExpression::getResult() const {
     }
     return S.pop();
 }
+
+// 输出后缀表达式
+ostream& operator<< (ostream& out, const SuffixExpression& expr) {
+    out << expr.V;
+    return out;
+}
+
 
 }

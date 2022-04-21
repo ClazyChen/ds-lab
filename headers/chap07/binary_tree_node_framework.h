@@ -123,6 +123,20 @@ public:
 
     BinaryTreeNodePos<T> parent() const override { return _parent; }
     void setParent(BinaryTreeNodePos<T> parent) override { _parent = parent; }
+
+    void setLeft(BinaryTreeNodePos<T> left) override { 
+        ForwardBinaryTreeNode<T>::setLeft(left);
+        if (left != nullptr) {
+            left->setParent(this);
+        }
+    }
+
+    void setRight(BinaryTreeNodePos<T> right) override {
+        ForwardBinaryTreeNode<T>::setRight(right);
+        if (right != nullptr) {
+            right->setParent(this);
+        }
+    }
 };
 
 }

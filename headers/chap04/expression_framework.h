@@ -12,7 +12,6 @@ class AbstractExpression : public Algorithm<int, string> {
 public:
     virtual void parse(string expr) = 0;
     virtual int getResult() const = 0;
-    virtual void print() const = 0; // 输出表达式
 
     int apply(string expr) override {
         parse(expr);

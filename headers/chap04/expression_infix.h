@@ -18,14 +18,11 @@ public:
     void parse(string expr) override;
     int getResult() const override;
 
-    void print() const override {
-        cout << V << endl;
-    }
-
     void clear() override {
         V.clear();
     }
 
+    friend ostream& operator<< (ostream& out, const InfixExpression& expr);
     friend class SuffixExpression; // 后缀表达式那里需要实现中缀转后缀的功能
 };
 
@@ -78,6 +75,12 @@ int InfixExpression::getResult() const {
         }
     }
     return S.pop().getOperand();                 // 取出栈顶元素（一开始加进去的空元素），即为计算结果
+}
+
+// 输出中缀表达式
+ostream& operator<< (ostream& out, const InfixExpression& expr) {
+    out << expr.V;
+    return out;
 }
 
 }
