@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\Framework">
+      <UniqueIdentifier>{3ff05168-3077-49e5-89ad-f16308747c07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Sort">
+      <UniqueIdentifier>{074a2f99-066c-42e1-9f31-9f5d0d2cb4cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Vector">
+      <UniqueIdentifier>{e5e16ede-36d3-4323-9268-6071d73c9115}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Search">
+      <UniqueIdentifier>{487a63fd-2e9f-4eb5-b688-2d39b0c1bc78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\List">
+      <UniqueIdentifier>{77720ec9-d5ac-4fc7-8655-8f7902eaab74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Stack">
+      <UniqueIdentifier>{ca522a3b-cef2-44c2-a9dd-d7f705e2d981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Framework">
+      <UniqueIdentifier>{402d6cd5-b44e-4b6e-8fa9-a4c14f2ccbaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Vector">
+      <UniqueIdentifier>{43ea09cf-6eaf-48fa-bbf3-05618481ffd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\List">
+      <UniqueIdentifier>{93447142-024c-4011-9d03-740ae148becf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Stack">
+      <UniqueIdentifier>{1dc5e1db-e577-4d10-b114-14c094e4d263}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="modules\Framework\Algorithm.ixx">
+      <Filter>Resource Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Framework\DataStructure.ixx">
+      <Filter>Resource Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\framework\Framework.ixx">
+      <Filter>Resource Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\framework\Object.ixx">
+      <Filter>Resource Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Framework\TestFramework.ixx">
+      <Filter>Resource Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Sort\AbstractSort.ixx">
+      <Filter>Resource Files\Sort</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Sort\MergeSort.ixx">
+      <Filter>Resource Files\Sort</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Sort\Sort.ixx">
+      <Filter>Resource Files\Sort</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Vector\AbstractVector.ixx">
+      <Filter>Resource Files\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Vector\Vector.ixx">
+      <Filter>Resource Files\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Vector\VectorAllocator\VectorAllocator.ixx">
+      <Filter>Resource Files\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Vector\VectorIterator.ixx">
+      <Filter>Resource Files\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Search\AbstractSearch.ixx">
+      <Filter>Resource Files\Search</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Search\BinarySearch.ixx">
+      <Filter>Resource Files\Search</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Search\Search.ixx">
+      <Filter>Resource Files\Search</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Framework\Utility\Factorial.ixx">
+      <Filter>Resource Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Framework\Utility\Gcd.ixx">
+      <Filter>Resource Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Framework\Utility\Power.ixx">
+      <Filter>Resource Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Sort\ListMergeSort.ixx">
+      <Filter>Resource Files\Sort</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Vector\VectorAllocator\AbstractVectorAllocator.ixx">
+      <Filter>Resource Files\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Vector\LinearList\AbstractLinearList.ixx">
+      <Filter>Resource Files\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Vector\LinearList\LinearList.ixx">
+      <Filter>Resource Files\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\List\ForwardList\AbstractForwardList.ixx">
+      <Filter>Resource Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\List\ForwardList\ForwardList.ixx">
+      <Filter>Resource Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\List\ForwardList\ForwardListIterator.ixx">
+      <Filter>Resource Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\List\ForwardList\ForwardListNode.ixx">
+      <Filter>Resource Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\List\AbstractList.ixx">
+      <Filter>Resource Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\List\List.ixx">
+      <Filter>Resource Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\List\ListNode.ixx">
+      <Filter>Resource Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\List\ListIterator.ixx">
+      <Filter>Resource Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\List\StaticList\AbstractStaticList.ixx">
+      <Filter>Resource Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\List\StaticList\StaticListNode.ixx">
+      <Filter>Resource Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\List\StaticList\StaticListIterator.ixx">
+      <Filter>Resource Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\List\StaticList\StaticList.ixx">
+      <Filter>Resource Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Stack\AbstractStack.ixx">
+      <Filter>Resource Files\Stack</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Stack\Stack.ixx">
+      <Filter>Resource Files\Stack</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Stack\RandomStackOperation.ixx">
+      <Filter>Resource Files\Stack</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Stack\Expression\AbstractExpressionElement.ixx">
+      <Filter>Resource Files\Stack</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Stack\Expression\ExpressionElement.ixx">
+      <Filter>Resource Files\Stack</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Stack\Expression\Expression.ixx">
+      <Filter>Resource Files\Stack</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Framework\Utility\Combine.ixx">
+      <Filter>Resource Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Stack\SharedStack.ixx">
+      <Filter>Resource Files\Stack</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Framework\ArraySum.cpp">
+      <Filter>Source Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Framework\ComplexityIntegral.cpp">
+      <Filter>Source Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Framework\Gcd.cpp">
+      <Filter>Source Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Framework\IsPower2.cpp">
+      <Filter>Source Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Framework\Power.cpp">
+      <Filter>Source Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Framework\Sum.cpp">
+      <Filter>Source Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Framework\ZeroPoint.cpp">
+      <Filter>Source Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Vector\CyclicShift.cpp">
+      <Filter>Source Files\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Vector\Shuffle.cpp">
+      <Filter>Source Files\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Vector\VectorConcat.cpp">
+      <Filter>Source Files\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Vector\VectorInsert.cpp">
+      <Filter>Source Files\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Vector\VectorRemove.cpp">
+      <Filter>Source Files\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Vector\VectorSearch.cpp">
+      <Filter>Source Files\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Vector\VectorUnique.cpp">
+      <Filter>Source Files\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\List\ListInsert.cpp">
+      <Filter>Source Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\List\ListMergeSort.cpp">
+      <Filter>Source Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\List\ListRemove.cpp">
+      <Filter>Source Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Stack\Combine.cpp">
+      <Filter>Source Files\Stack</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Stack\Expression.cpp">
+      <Filter>Source Files\Stack</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Stack\Generate4.cpp">
+      <Filter>Source Files\Stack</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Stack\ParenMatch.cpp">
+      <Filter>Source Files\Stack</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
