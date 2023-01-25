@@ -123,6 +123,24 @@ public:
         --m_size;
         return e;
     }
+
+    void push_back(const T& e) override {
+        if (m_size == m_capacity) {
+            reserve(Alloc {}(m_capacity, m_size));
+        }
+        m_data[m_size++] = e;
+    }
+
+    void push_back(T&& e) override {
+        if (m_size == m_capacity) {
+            reserve(Alloc {}(m_capacity, m_size));
+        }
+        m_data[m_size++] = std::move(e);
+    }
+
+    T pop_back() override {
+        return std::move(m_data[--m_size]);
+    }
 };
 
 template <typename T>

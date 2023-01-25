@@ -43,6 +43,12 @@
     <Filter Include="Source Files\Stack">
       <UniqueIdentifier>{1dc5e1db-e577-4d10-b114-14c094e4d263}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Queue">
+      <UniqueIdentifier>{ed973d9f-74b5-42b4-a785-eeb8aae3de7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Queue">
+      <UniqueIdentifier>{7606051b-ae5f-4c88-b47b-905be4fcfb14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="modules\Framework\Algorithm.ixx">
@@ -233,6 +239,33 @@
     </ClCompile>
     <ClCompile Include="labs\Stack\ParenMatch.cpp">
       <Filter>Source Files\Stack</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Queue\AbstractQueue.ixx">
+      <Filter>Resource Files\Queue</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Queue\Queue.ixx">
+      <Filter>Resource Files\Queue</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Queue\CircularQueue.ixx">
+      <Filter>Resource Files\Queue</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Queue\LinkedQueue.ixx">
+      <Filter>Resource Files\Queue</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Queue\AbstractDeque.ixx">
+      <Filter>Resource Files\Queue</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Queue\LinkedDeque.ixx">
+      <Filter>Resource Files\Queue</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Queue\CircularDeque.ixx">
+      <Filter>Resource Files\Queue</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Queue\Deque.ixx">
+      <Filter>Resource Files\Queue</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Queue\QueueTest.cpp">
+      <Filter>Source Files\Queue</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
