@@ -1,5 +1,7 @@
 module;
 #include <algorithm>
+#include <format>
+#include <iostream>
 
 export module Stack.SharedStack;
 
@@ -19,8 +21,7 @@ class SharedStack : public DataStructure<T> {
     }
     void expand() {
         size_t oldsize { V.size() };
-        V.resize(V.capacity() + 1);
-        V.resize(V.capacity());
+        V.resize(std::max(V.capacity() + 1, V.capacity() * 2));
         std::move_backward(V.begin() + m_topb + 1, V.begin() + oldsize, V.end());
         m_topb += V.size() - oldsize;
     }
@@ -102,7 +103,27 @@ public:
     std::pair<AbstractStack<T>&, AbstractStack<T>&> getStacks() {
         return { Sb, Sf };
     }
+
+    template <typename T1, template<typename> typename V1>
+    friend std::ostream& operator<<(std::ostream& os, const SharedStack<T1, V1>& S);
 };
 
+template <typename T, template<typename> typename Vec>
+std::ostream& operator<<(std::ostream& os, const SharedStack<T, Vec>& S) {
+    os << "STACK(Shared)[";
+    for (size_t i { 0 }; i < S.m_topf; ++i) {
+        os << S.V[i] << ", ";
+    }
+    os << "-> ";
+    if (auto step = S.m_topb - S.m_topf + 1; step > 0) {
+        os << std::format("...({})...", step);
+    }
+    os << " <-";
+    for (size_t i { S.m_topb + 1 }; i < S.V.size(); ++i) {
+        os << ", " << S.V[i];
+    }
+    os << "]";
+    return os;
+}
 
 }

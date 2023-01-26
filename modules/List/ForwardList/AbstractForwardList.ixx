@@ -47,6 +47,10 @@ public:
         p->data() = e;
     }
 
+    void set(ForwardListNode<T>* p, T&& e) override {
+        p->data() = std::move(e);
+    }
+
     ForwardListNode<T>* first() const override {
         return head()->next().get();
     }

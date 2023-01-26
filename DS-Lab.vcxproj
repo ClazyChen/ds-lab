@@ -141,8 +141,11 @@
     <ClCompile Include="labs\List\ListRemove.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="labs\Stack\Combine.cpp">
+    <ClCompile Include="labs\Queue\QueueTest.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="labs\Stack\Combine.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Stack\Expression.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -195,6 +198,24 @@
     <ClCompile Include="modules\List\StaticList\StaticList.ixx" />
     <ClCompile Include="modules\List\StaticList\StaticListIterator.ixx" />
     <ClCompile Include="modules\List\StaticList\StaticListNode.ixx" />
+    <ClCompile Include="modules\Matrix\AbstractCompressedMatrix.ixx" />
+    <ClCompile Include="modules\Matrix\AbstractMatrix.ixx" />
+    <ClCompile Include="modules\Matrix\ColumnMajorMatrix.ixx" />
+    <ClCompile Include="modules\Matrix\Matrix.ixx" />
+    <ClCompile Include="modules\Matrix\RowMajorMatrix.ixx" />
+    <ClCompile Include="modules\Matrix\SymmetricMatrix.ixx" />
+    <ClCompile Include="modules\Matrix\TriangularMatrix.ixx" />
+    <ClCompile Include="modules\Matrix\TridiagonalMatrix.ixx" />
+    <ClCompile Include="modules\Matrix\Triple.ixx" />
+    <ClCompile Include="modules\Matrix\TripleMatrix.ixx" />
+    <ClCompile Include="modules\Queue\AbstractDeque.ixx" />
+    <ClCompile Include="modules\Queue\AbstractQueue.ixx" />
+    <ClCompile Include="modules\Queue\CircularDeque.ixx" />
+    <ClCompile Include="modules\Queue\CircularQueue.ixx" />
+    <ClCompile Include="modules\Queue\Deque.ixx" />
+    <ClCompile Include="modules\Queue\LinkedDeque.ixx" />
+    <ClCompile Include="modules\Queue\LinkedQueue.ixx" />
+    <ClCompile Include="modules\Queue\Queue.ixx" />
     <ClCompile Include="modules\Search\AbstractSearch.ixx" />
     <ClCompile Include="modules\Search\BinarySearch.ixx" />
     <ClCompile Include="modules\Search\Search.ixx" />

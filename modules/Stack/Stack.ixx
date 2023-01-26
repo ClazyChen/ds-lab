@@ -1,6 +1,6 @@
 module;
 #include <iostream>
-#include <type_traits>
+#include <concepts>
 
 export module Stack;
 
@@ -18,13 +18,6 @@ template <typename T, template<typename> typename Linear = DefaultVector>
 class Stack : public AbstractStack<T> {
     Linear<T> L;
 public:
-    Stack() = default;
-    Stack(const Stack& rhs) : L(rhs.L) {}
-    Stack(Stack&& rhs) : L(std::move(rhs.L)) {}
-    Stack& operator=(const Stack& rhs) { L = rhs.L; return *this; }
-    Stack& operator=(Stack&& rhs) { L = std::move(rhs.L); return *this; }
-    virtual ~Stack() = default;
-
     constexpr static bool is_vector = std::is_base_of_v<AbstractVector<T>, Linear<T>>;
     
     void push(const T& e) override {

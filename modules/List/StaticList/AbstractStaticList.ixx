@@ -52,6 +52,10 @@ public:
         getNode(p).data() = e;
     }
 
+    void set(Rank p, T&& e) override {
+        getNode(p).data() = std::move(e);
+    }
+
     Rank first() const override {
         return next(head());
     }
