@@ -6,7 +6,7 @@ import Vector;
 using namespace dslab;
 using namespace std;
 
-class VectorInsertProblem : public Algorithm<int, int> {
+class VectorInsertProblem : public Algorithm<size_t, int> {
 public:
     virtual void reset() = 0;
 };
@@ -16,7 +16,7 @@ template <typename Vec>
 class VectorInsertBasic : public VectorInsertProblem {
     Vec V;
 public:
-    int operator()(int n) override {
+    size_t operator()(int n) override {
         for (size_t i { 0 }; i < n; ++i) {
             V.insert(V.size(), i);
         }

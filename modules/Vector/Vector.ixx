@@ -94,7 +94,7 @@ public:
         if (m_size == m_capacity) {
             reserve(Alloc {}(m_capacity, m_size));
         }
-        std::copy_backward(m_data.get() + r, m_data.get() + m_size, m_data.get() + m_size + 1);
+        std::move_backward(m_data.get() + r, m_data.get() + m_size, m_data.get() + m_size + 1);
         m_data[r] = e;
         ++m_size;
         return r;
@@ -104,7 +104,7 @@ public:
         if (m_size == m_capacity) {
             reserve(Alloc {}(m_capacity, m_size));
         }
-        std::copy_backward(m_data.get() + r, m_data.get() + m_size, m_data.get() + m_size + 1);
+        std::move_backward(m_data.get() + r, m_data.get() + m_size, m_data.get() + m_size + 1);
         m_data[r] = std::move(e);
         ++m_size;
         return r;
@@ -121,7 +121,7 @@ public:
     
     T remove(Rank r) override {
         T e { std::move(m_data[r]) };
-        std::copy(m_data.get() + r + 1, m_data.get() + m_size, m_data.get() + r);
+        std::move(m_data.get() + r + 1, m_data.get() + m_size, m_data.get() + r);
         --m_size;
         return e;
     }
