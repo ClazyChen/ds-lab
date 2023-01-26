@@ -30,7 +30,9 @@ public:
         rhs.m_capacity = 0;
         rhs.m_size = 0;
     }
-    Vector(std::initializer_list<T> ilist) : Vector(ilist.size()) { std::copy(ilist.begin(), ilist.end(), m_data.get()); }
+    Vector(std::initializer_list<T> ilist) : Vector(ilist.size()) { 
+        std::move(ilist.begin(), ilist.end(), m_data.get()); 
+    }
     virtual ~Vector() = default;
 
     Vector& operator=(const Vector& rhs) {
@@ -65,7 +67,7 @@ public:
     void reserve(size_t n) override {
         if (n > m_capacity) {
             auto tmp { std::make_unique<T[]>(n) };
-            std::copy_n(m_data.get(), m_size, tmp.get());
+            std::move(m_data.get(), m_data.get() + m_size, tmp.get());
             m_data = std::move(tmp);
             m_capacity = n;
         }
