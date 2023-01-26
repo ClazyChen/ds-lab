@@ -49,6 +49,9 @@
     <Filter Include="Source Files\Queue">
       <UniqueIdentifier>{7606051b-ae5f-4c88-b47b-905be4fcfb14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Matrix">
+      <UniqueIdentifier>{41bfd719-debb-4940-abc5-6488ab0ee88a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="modules\Framework\Algorithm.ixx">
@@ -266,6 +269,36 @@
     </ClCompile>
     <ClCompile Include="labs\Queue\QueueTest.cpp">
       <Filter>Source Files\Queue</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\AbstractMatrix.ixx">
+      <Filter>Resource Files\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\Matrix.ixx">
+      <Filter>Resource Files\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\RowMajorMatrix.ixx">
+      <Filter>Resource Files\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\ColumnMajorMatrix.ixx">
+      <Filter>Resource Files\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\AbstractCompressedMatrix.ixx">
+      <Filter>Resource Files\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\SymmetricMatrix.ixx">
+      <Filter>Resource Files\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\TriangularMatrix.ixx">
+      <Filter>Resource Files\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\TridiagonalMatrix.ixx">
+      <Filter>Resource Files\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\TripleMatrix.ixx">
+      <Filter>Resource Files\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\Triple.ixx">
+      <Filter>Resource Files\Matrix</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

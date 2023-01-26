@@ -14,6 +14,7 @@ class AbstractLinearList : public DataStructure<T> {
 public:
     virtual T& get(Pos p) = 0; // 取出位置p处的元素
     virtual void set(Pos p, const T& e) = 0; // 将位置p处的元素设置为e
+    virtual void set(Pos p, T&& e) = 0; // 将位置p处的元素设置为e
 
     virtual Pos insert(Pos p, const T& e) = 0; // 在位置p处插入元素e
     virtual Pos insert(Pos p, T&& e) = 0; // 在位置p处插入元素e

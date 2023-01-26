@@ -46,6 +46,10 @@ public:
         p->data() = e;
     }
 
+    void set(ListNode<T>* p, T&& e) override {
+        p->data() = std::move(e);
+    }
+
     ListNode<T>* first() const override {
         return head()->next().get();
     }

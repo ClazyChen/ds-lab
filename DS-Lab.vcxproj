@@ -198,6 +198,16 @@
     <ClCompile Include="modules\List\StaticList\StaticList.ixx" />
     <ClCompile Include="modules\List\StaticList\StaticListIterator.ixx" />
     <ClCompile Include="modules\List\StaticList\StaticListNode.ixx" />
+    <ClCompile Include="modules\Matrix\AbstractCompressedMatrix.ixx" />
+    <ClCompile Include="modules\Matrix\AbstractMatrix.ixx" />
+    <ClCompile Include="modules\Matrix\ColumnMajorMatrix.ixx" />
+    <ClCompile Include="modules\Matrix\Matrix.ixx" />
+    <ClCompile Include="modules\Matrix\RowMajorMatrix.ixx" />
+    <ClCompile Include="modules\Matrix\SymmetricMatrix.ixx" />
+    <ClCompile Include="modules\Matrix\TriangularMatrix.ixx" />
+    <ClCompile Include="modules\Matrix\TridiagonalMatrix.ixx" />
+    <ClCompile Include="modules\Matrix\Triple.ixx" />
+    <ClCompile Include="modules\Matrix\TripleMatrix.ixx" />
     <ClCompile Include="modules\Queue\AbstractDeque.ixx" />
     <ClCompile Include="modules\Queue\AbstractQueue.ixx" />
     <ClCompile Include="modules\Queue\CircularDeque.ixx" />

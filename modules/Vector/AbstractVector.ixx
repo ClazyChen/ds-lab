@@ -32,6 +32,10 @@ public:
         data()[r] = e;
     }
 
+    void set(Rank r, T&& e) override {
+        data()[r] = std::move(e);
+    }
+
     void clear() override {
         resize(0);
     }
