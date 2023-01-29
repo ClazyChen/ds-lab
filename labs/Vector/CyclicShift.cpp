@@ -54,12 +54,10 @@ public:
 vector<pair<int, int>> testData {
     {10, 2},
     {10'000'000, 1},
-    {10'000'000, 100'00},
+    {10'000'000, 10000},
+    {10'000'000, 10007},
     {10'000'000, 5'000'000},
-    {100'000'000, 1},
-    {100'000'000, 100},
-    {100'000'000, 100'000},
-    {100'000'000, 50'000'000}
+    {10'000'000, 9'000'000}
 };
 
 TestFramework<CyclicShift<int>, CyclicShiftMove<int>, CyclicShiftSwap<int>, CyclicShiftReverse<int>> test;

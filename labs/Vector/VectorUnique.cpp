@@ -41,7 +41,7 @@ public:
         Rank r { 0 }, s { 0 };
         while (++s < V.size()) {
             if (V[r] != V[s]) {
-                V[++r] = V[s];
+                V[++r] = move(V[s]);
             }
         }
         V.resize(++r);

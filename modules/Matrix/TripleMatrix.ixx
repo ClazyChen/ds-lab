@@ -14,9 +14,9 @@ template <typename T, size_t R, size_t C = R, template<typename>typename Lis = F
     requires (R >= 0 && C >= 0) && std::is_base_of_v<AbstractForwardList<Triple<T>>, Lis<Triple<T>>>
 class TripleMatrix : public AbstractMatrix<T, R, C> {
     Lis<Triple<T>> L;
-    using Pos = typename Lis<Triple<T>>::position_type;
     Triple<T>& find(size_t r, size_t c) {
-        while (auto p { L.first() }; !L.end(p)) {
+        auto p { L.first() };
+        while (!L.end(p)) {
             auto& t { L.get(p) };
             if (t.row() == r && t.col() == c) {
                 return t;

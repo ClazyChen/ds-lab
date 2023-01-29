@@ -300,5 +300,8 @@
     <ClCompile Include="modules\Matrix\Triple.ixx">
       <Filter>Resource Files\Matrix</Filter>
     </ClCompile>
+    <ClCompile Include="labs\Vector\VectorMergeSort.cpp">
+      <Filter>Source Files\Vector</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

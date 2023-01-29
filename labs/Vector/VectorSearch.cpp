@@ -187,8 +187,7 @@ TestFramework<BinarySearchTestProblem,
 > test;
 
 int main() {
-    Vector<int> V {};
-    for (auto n : testData) {
+    for (Vector<int> V; auto n : testData) {
         cout << format("n = {}", n) << endl;
         test.run([&V, n](BinarySearchTestProblem& problem) {
             problem.initialize(ref(V), n, lo, hi);

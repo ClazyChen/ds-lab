@@ -4,12 +4,12 @@ import Framework.Algorithm;
 
 export namespace dslab {
 
-class AbstractVectorAllocator : public Algorithm<int, int, int> {
+class AbstractVectorAllocator : public Algorithm<size_t, size_t, size_t> {
 protected:
-    virtual int expand(int capacity, int size) const = 0;
-    virtual int shrink(int capacity, int size) const = 0;
+    virtual size_t expand(size_t capacity, size_t size) const = 0;
+    virtual size_t shrink(size_t capacity, size_t size) const = 0;
 public:
-    int operator()(int capacity, int size) override {
+    size_t operator()(size_t capacity, size_t size) override {
         if (capacity <= size) {
             return expand(capacity, size);
         } else {

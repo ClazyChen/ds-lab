@@ -30,7 +30,9 @@ public:
         rhs.m_capacity = 0;
         rhs.m_size = 0;
     }
-    Vector(std::initializer_list<T> ilist) : Vector(ilist.size()) { std::copy(ilist.begin(), ilist.end(), m_data.get()); }
+    Vector(std::initializer_list<T> ilist) : Vector(ilist.size()) { 
+        std::move(ilist.begin(), ilist.end(), m_data.get()); 
+    }
     virtual ~Vector() = default;
 
     Vector& operator=(const Vector& rhs) {
@@ -65,7 +67,7 @@ public:
     void reserve(size_t n) override {
         if (n > m_capacity) {
             auto tmp { std::make_unique<T[]>(n) };
-            std::copy_n(m_data.get(), m_size, tmp.get());
+            std::move(m_data.get(), m_data.get() + m_size, tmp.get());
             m_data = std::move(tmp);
             m_capacity = n;
         }
@@ -92,7 +94,7 @@ public:
         if (m_size == m_capacity) {
             reserve(Alloc {}(m_capacity, m_size));
         }
-        std::copy_backward(m_data.get() + r, m_data.get() + m_size, m_data.get() + m_size + 1);
+        std::move_backward(m_data.get() + r, m_data.get() + m_size, m_data.get() + m_size + 1);
         m_data[r] = e;
         ++m_size;
         return r;
@@ -102,7 +104,7 @@ public:
         if (m_size == m_capacity) {
             reserve(Alloc {}(m_capacity, m_size));
         }
-        std::copy_backward(m_data.get() + r, m_data.get() + m_size, m_data.get() + m_size + 1);
+        std::move_backward(m_data.get() + r, m_data.get() + m_size, m_data.get() + m_size + 1);
         m_data[r] = std::move(e);
         ++m_size;
         return r;
@@ -119,7 +121,7 @@ public:
     
     T remove(Rank r) override {
         T e { std::move(m_data[r]) };
-        std::copy(m_data.get() + r + 1, m_data.get() + m_size, m_data.get() + r);
+        std::move(m_data.get() + r + 1, m_data.get() + m_size, m_data.get() + r);
         --m_size;
         return e;
     }
