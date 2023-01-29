@@ -14,6 +14,7 @@ export namespace dslab {
 
 template <typename T, template<typename> typename Linear, typename Comparator = std::less<T>>
 class MergeSort : public AbstractSort<T, Linear, Comparator> {
+protected:
     Vector<T> W;
     Comparator cmp;
     using Iterator = typename Linear<T>::iterator;
@@ -40,7 +41,7 @@ class MergeSort : public AbstractSort<T, Linear, Comparator> {
     }
 public:
     void operator()(Linear<T>& L) override {
-        mergeSort(L.begin(), L.end(), L.size());
+        mergeSort(std::begin(L), std::end(L), L.size());
     }
 };
 

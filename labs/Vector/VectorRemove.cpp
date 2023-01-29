@@ -16,7 +16,7 @@ public:
         batchRemove(e);
         return n - V.size();
     }
-    void initialize(int n) {
+    void initialize(size_t n) {
         V.resize(n);
         for (size_t i { 0 }; i < n; ++i) {
             V[i] = i % 2;
@@ -52,7 +52,7 @@ protected:
             if (V[r] == e) {
                 ++k;
             } else {
-                V[r - k] = V[r];
+                V[r - k] = move(V[r]);
             }
         }
         V.resize(V.size() - k);
