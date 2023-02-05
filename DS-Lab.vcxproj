@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="labs\BinaryTree\Rebuild.cpp" />
     <ClCompile Include="labs\Framework\ArraySum.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -157,7 +158,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Vector\CyclicShift.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Vector\Shuffle.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -180,6 +181,17 @@
     <ClCompile Include="labs\Vector\VectorUnique.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="modules\BinaryTree\AbstractBinaryTree.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTree.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreeInorderIterator.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreeInorderTraverse.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreeIterator.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreeNode.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreePostorderIterator.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreePostorderTraverse.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreePreorderIterator.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreePreorderTraverse.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreeTraverse.ixx" />
     <ClCompile Include="modules\Framework\Algorithm.ixx" />
     <ClCompile Include="modules\Framework\DataStructure.ixx" />
     <ClCompile Include="modules\framework\Framework.ixx" />
