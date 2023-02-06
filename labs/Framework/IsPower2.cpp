@@ -1,4 +1,4 @@
-#include <vector>
+ï»¿#include <vector>
 #include <format>
 #include <bit>
 #include <iostream>
@@ -6,10 +6,10 @@ import Framework;
 using namespace dslab;
 using namespace std;
 
-// ÅĞ¶ÏÊÇ·ñÊÇ2µÄÃİ´Î
+// åˆ¤æ–­æ˜¯å¦æ˜¯2çš„å¹‚æ¬¡
 class IsPower2 : public Algorithm<bool, int> {};
 
-// Ö±½ÓÅĞ¶¨µÄ·½·¨
+// ç›´æ¥åˆ¤å®šçš„æ–¹æ³•
 class IsPower2Basic : public IsPower2 {
 public:
     bool operator()(int n) override {
@@ -17,7 +17,7 @@ public:
     }
 };
 
-// ÀûÓÃstd::has_single_bit
+// åˆ©ç”¨std::has_single_bit
 class IsPower2SingleBit : public IsPower2 {
 public:
     bool operator()(int n) override {
@@ -25,7 +25,7 @@ public:
     }
 };
 
-// µİ¹éµÄ·½·¨
+// é€’å½’çš„æ–¹æ³•
 class IsPower2Recursive : public IsPower2 {
 public:
     bool operator()(int n) override {
@@ -37,7 +37,7 @@ public:
     }
 };
 
-// µü´úµÄ·½·¨
+// è¿­ä»£çš„æ–¹æ³•
 class IsPower2Iterative : public IsPower2 {
 public:
     bool operator()(int n) override {
@@ -51,13 +51,13 @@ public:
 
 vector testData {
     1, 2, 4, 6, 256, 65536,
-    0x80000, 0x88888, 0x08'00'00'00 // ÒÔÉÏÊÇ¼¸×é³£¹æÊı¾İ
-    // ,0x7f'ff'ff'ff // ½Ï´óµÄÊı¾İ£¬µ«ÊÇ»áÈÃÉÏÃæµÄµü´ú°æ±¾ÏİÈëÎŞÏŞÑ­»·
-    // ,0             // ÎŞÒâÒåÊı¾İ£¬µ«ÊÇ»áÈÃÉÏÃæµÄµİ¹é°æ±¾ÏİÈëÎŞÏŞµİ¹é
-    // ,-1            // ÎŞÒâÒåÊı¾İ£¬µ«ÊÇ»áÈÃÉÏÃæµÄµİ¹é°æ±¾ÏİÈëÎŞÏŞµİ¹é
+    0x80000, 0x88888, 0x08'00'00'00 // ä»¥ä¸Šæ˜¯å‡ ç»„å¸¸è§„æ•°æ®
+    // ,0x7f'ff'ff'ff // è¾ƒå¤§çš„æ•°æ®ï¼Œä½†æ˜¯ä¼šè®©ä¸Šé¢çš„è¿­ä»£ç‰ˆæœ¬é™·å…¥æ— é™å¾ªç¯
+    // ,0             // æ— æ„ä¹‰æ•°æ®ï¼Œä½†æ˜¯ä¼šè®©ä¸Šé¢çš„é€’å½’ç‰ˆæœ¬é™·å…¥æ— é™é€’å½’
+    // ,-1            // æ— æ„ä¹‰æ•°æ®ï¼Œä½†æ˜¯ä¼šè®©ä¸Šé¢çš„é€’å½’ç‰ˆæœ¬é™·å…¥æ— é™é€’å½’
 };
 
-// ¿ÉÒÔ½«ÄúµÄÊµÏÖ¼ÓÈëµ½²âÊÔ¿ò¼ÜµÄ²ÎÊıÁĞ±íÖĞ
+// å¯ä»¥å°†æ‚¨çš„å®ç°åŠ å…¥åˆ°æµ‹è¯•æ¡†æ¶çš„å‚æ•°åˆ—è¡¨ä¸­
 TestFramework<IsPower2, IsPower2Basic, IsPower2SingleBit, IsPower2Recursive, IsPower2Iterative> test;
 
 int main() {

@@ -105,12 +105,16 @@
       <EnableModules>true</EnableModules>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <Optimization>MaxSpeed</Optimization>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="labs\BinaryTree\Rebuild.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="labs\Framework\ArraySum.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -132,6 +136,7 @@
     <ClCompile Include="labs\Framework\ZeroPoint.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="labs\List\CircularListIterate.cpp" />
     <ClCompile Include="labs\List\ListInsert.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -157,7 +162,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Vector\CyclicShift.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Vector\Shuffle.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -180,6 +185,17 @@
     <ClCompile Include="labs\Vector\VectorUnique.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="modules\BinaryTree\AbstractBinaryTree.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTree.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreeInorderIterator.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreeInorderTraverse.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreeIterator.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreeNode.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreePostorderIterator.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreePostorderTraverse.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreePreorderIterator.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreePreorderTraverse.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreeTraverse.ixx" />
     <ClCompile Include="modules\Framework\Algorithm.ixx" />
     <ClCompile Include="modules\Framework\DataStructure.ixx" />
     <ClCompile Include="modules\framework\Framework.ixx" />
@@ -190,6 +206,8 @@
     <ClCompile Include="modules\Framework\Utility\Gcd.ixx" />
     <ClCompile Include="modules\Framework\Utility\Power.ixx" />
     <ClCompile Include="modules\List\AbstractList.ixx" />
+    <ClCompile Include="modules\List\CircularList\AbstractCircularList.ixx" />
+    <ClCompile Include="modules\List\CircularList\CircularList.ixx" />
     <ClCompile Include="modules\List\ForwardList\AbstractForwardList.ixx" />
     <ClCompile Include="modules\List\ForwardList\ForwardList.ixx" />
     <ClCompile Include="modules\List\ForwardList\ForwardListIterator.ixx" />

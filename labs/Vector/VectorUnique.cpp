@@ -1,4 +1,4 @@
-#include <vector>
+﻿#include <vector>
 #include <format>
 #include <numeric>
 #include <functional>
@@ -129,9 +129,9 @@ int main() {
     cout << "worst case scenario" << endl;
     testCase([](size_t n) {
         Vector<int> V(n);
-        iota(begin(V), end(V), 0);
-        return V;
-    });
+    iota(begin(V), end(V), 0);
+    return V;
+        });
     cout << "best case scenario" << endl;
     testCase([](size_t n) { return Vector<int>(n); });
     return 0;

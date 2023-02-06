@@ -52,6 +52,12 @@
     <Filter Include="Resource Files\Matrix">
       <UniqueIdentifier>{41bfd719-debb-4940-abc5-6488ab0ee88a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\BinaryTree">
+      <UniqueIdentifier>{4e1791e1-2066-4680-a098-d0013e64c6a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BinaryTree">
+      <UniqueIdentifier>{ea1eff47-794c-4963-a6c6-9d819c13cc28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="modules\Framework\Algorithm.ixx">
@@ -302,6 +308,51 @@
     </ClCompile>
     <ClCompile Include="labs\Vector\VectorMergeSort.cpp">
       <Filter>Source Files\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\AbstractBinaryTree.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTree.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTreeInorderIterator.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTreeInorderTraverse.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTreeIterator.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTreeNode.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTreePostorderTraverse.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTreePreorderIterator.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTreePreorderTraverse.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTreeTraverse.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\BinaryTree\Rebuild.cpp">
+      <Filter>Source Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTreePostorderIterator.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\List\CircularList\AbstractCircularList.ixx">
+      <Filter>Resource Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\List\CircularList\CircularList.ixx">
+      <Filter>Resource Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\List\CircularListIterate.cpp">
+      <Filter>Source Files\List</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

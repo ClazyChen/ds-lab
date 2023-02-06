@@ -1,4 +1,4 @@
-export module Vector.VectorAllocator.AbstractVectorAllocator;
+﻿export module Vector.VectorAllocator.AbstractVectorAllocator;
 
 import Framework.Algorithm;
 

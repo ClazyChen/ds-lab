@@ -1,4 +1,4 @@
-#include <vector>
+ï»¿#include <vector>
 #include <span>
 #include <format>
 #include <iostream>
@@ -7,11 +7,11 @@ import Framework;
 using namespace dslab;
 using namespace std;
 
-// Êı×éÇóºÍÎÊÌâ
+// æ•°ç»„æ±‚å’Œé—®é¢˜
 class ArraySum : public Algorithm<int, span<const int>> {};
 
-// ÆÕÍ¨·½·¨ÇóºÍ£¬ÓÃÓÚÑéÖ¤ÕıÈ·ĞÔ
-// ÕâÀïÊ¹ÓÃÁËSTLÌá¹©µÄÇóºÍº¯Êıstd::accumulateºÍstd::reduce
+// æ™®é€šæ–¹æ³•æ±‚å’Œï¼Œç”¨äºéªŒè¯æ­£ç¡®æ€§
+// è¿™é‡Œä½¿ç”¨äº†STLæä¾›çš„æ±‚å’Œå‡½æ•°std::accumulateå’Œstd::reduce
 class ArraySumBasic : public ArraySum {
 public:
     int operator()(span<const int> data) override {
@@ -26,7 +26,7 @@ public:
     }
 };
 
-// ·ÖÖÎ·¨ÇóºÍ
+// åˆ†æ²»æ³•æ±‚å’Œ
 class ArraySumDivideAndConquer : public ArraySum {
 public:
     int operator()(span<const int> data) override {
@@ -43,7 +43,7 @@ public:
 
 vector testSize { 1, 5, 100, 10000, 1'000'000, 100'000'000 };
 
-// ¿ÉÒÔ½«ÄúµÄÊµÏÖ¼ÓÈëµ½²âÊÔ¿ò¼ÜµÄ²ÎÊıÁĞ±íÖĞ
+// å¯ä»¥å°†æ‚¨çš„å®ç°åŠ å…¥åˆ°æµ‹è¯•æ¡†æ¶çš„å‚æ•°åˆ—è¡¨ä¸­
 TestFramework<ArraySum, ArraySumBasic, ArraySumReduce, ArraySumDivideAndConquer> test;
 
 int main() {

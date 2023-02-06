@@ -1,4 +1,4 @@
-module;
+﻿module;
 #include <array>
 
 export module Matrix.ColumnMajorMatrix;

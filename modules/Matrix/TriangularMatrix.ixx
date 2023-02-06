@@ -1,4 +1,4 @@
-module;
+﻿module;
 #include <stdexcept>
 
 export module Matrix.TriangularMatrix;

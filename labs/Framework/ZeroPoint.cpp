@@ -1,4 +1,4 @@
-#include <vector>
+ï»¿#include <vector>
 #include <format>
 #include <functional>
 #include <iostream>
@@ -7,7 +7,7 @@ import Framework;
 using namespace dslab;
 using namespace std;
 
-// ÁãµãÎÊÌâ
+// é›¶ç‚¹é—®é¢˜
 class ZeroPoint : public Algorithm<double, function<double(double)>> {
     static constexpr double limit_l { -1.0 };
     static constexpr double limit_r { 1.0 };
@@ -20,7 +20,7 @@ public:
     }
 };
 
-// ¾­µäµÄ¶ş·Öµü´úËã·¨
+// ç»å…¸çš„äºŒåˆ†è¿­ä»£ç®—æ³•
 class ZeroPointIterative : public ZeroPoint {
 protected:
     double apply(function<double(double)> f, double l, double r) override {
@@ -36,7 +36,7 @@ protected:
     }
 };
 
-// ½«µü´ú×ª»»Îªµİ¹é
+// å°†è¿­ä»£è½¬æ¢ä¸ºé€’å½’
 class ZeroPointRecursive : public ZeroPoint {
 protected:
     double apply(function<double(double)> f, double l, double r) override {
@@ -53,7 +53,7 @@ protected:
     }
 };
 
-// ÏÂÃæÊÇÓÃÀ´²âÊÔµÄº¯Êı£¬Äú¿ÉÒÔ×ÔĞĞÌí¼Ó
+// ä¸‹é¢æ˜¯ç”¨æ¥æµ‹è¯•çš„å‡½æ•°ï¼Œæ‚¨å¯ä»¥è‡ªè¡Œæ·»åŠ 
 class TestFunctor : public Algorithm<double, double> {
 public:
     virtual string name() const = 0;
@@ -95,7 +95,7 @@ vector<shared_ptr<TestFunctor>> testFunctor {
     make_shared<TestFunctor3>()
 };
 
-// ¿ÉÒÔ½«ÄúµÄÊµÏÖ¼ÓÈëµ½²âÊÔ¿ò¼ÜµÄ²ÎÊıÁĞ±íÖĞ
+// å¯ä»¥å°†æ‚¨çš„å®ç°åŠ å…¥åˆ°æµ‹è¯•æ¡†æ¶çš„å‚æ•°åˆ—è¡¨ä¸­
 TestFramework<ZeroPoint, ZeroPointIterative, ZeroPointRecursive> test;
 
 int main() {

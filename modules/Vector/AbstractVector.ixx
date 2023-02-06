@@ -1,4 +1,4 @@
-module;
+ï»¿module;
 #include <iterator>
 #include <iostream>
 
@@ -14,15 +14,15 @@ using Rank = size_t;
 template <typename T>
 class AbstractVector : public AbstractLinearList<T, Rank> {
 protected:
-    virtual T* data() = 0; // ·µ»ØÏòÁ¿µÄÊ×µØÖ·
+    virtual T* data() = 0; // è¿”å›å‘é‡çš„é¦–åœ°å€
     virtual const T* data() const {
         return const_cast<AbstractVector*>(this)->data();
     }
 public:
-    virtual size_t capacity() const = 0; // ·µ»ØÏòÁ¿µÄÈİÁ¿
-    virtual void reserve(size_t n) = 0; // ÉêÇëÈİÁ¿ÎªnµÄÏòÁ¿
-    virtual size_t size() const = 0; // ·µ»ØÏòÁ¿µÄ¹æÄ£
-    virtual void resize(size_t n) = 0; // ÖØÖÃÏòÁ¿µÄ¹æÄ£Îªn
+    virtual size_t capacity() const = 0; // è¿”å›å‘é‡çš„å®¹é‡
+    virtual void reserve(size_t n) = 0; // ç”³è¯·å®¹é‡ä¸ºnçš„å‘é‡
+    virtual size_t size() const = 0; // è¿”å›å‘é‡çš„è§„æ¨¡
+    virtual void resize(size_t n) = 0; // é‡ç½®å‘é‡çš„è§„æ¨¡ä¸ºn
 
     T& get(Rank r) override {
         return data()[r];

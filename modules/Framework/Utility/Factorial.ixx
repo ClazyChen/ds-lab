@@ -1,4 +1,4 @@
-export module Factorial;
+﻿export module Factorial;
 
 import Framework.Algorithm;
 

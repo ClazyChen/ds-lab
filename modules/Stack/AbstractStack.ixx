@@ -1,4 +1,4 @@
-export module Stack.AbstractStack;
+ï»¿export module Stack.AbstractStack;
 
 import Framework.DataStructure;
 
@@ -7,10 +7,10 @@ export namespace dslab {
 template <typename T>
 class AbstractStack : public DataStructure<T> {
 public:
-    virtual void push(const T& e) = 0; // ÈëÕ»
-    virtual void push(T&& e) = 0; // ÈëÕ»
-    virtual T pop() = 0; // ³öÕ»
-    virtual T& top() = 0; // È¡Õ»¶¥ÔªËØ
+    virtual void push(const T& e) = 0; // å…¥æ ˆ
+    virtual void push(T&& e) = 0; // å…¥æ ˆ
+    virtual T pop() = 0; // å‡ºæ ˆ
+    virtual T& top() = 0; // å–æ ˆé¡¶å…ƒç´ 
     virtual const T& top() const {
         return const_cast<AbstractStack*>(this)->top();
     }

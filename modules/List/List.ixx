@@ -1,10 +1,11 @@
-module;
+﻿module;
 #include <memory>
 
 export module List;
 
 export import List.AbstractList;
 export import List.ListNode;
+export import List.CircularList;
 
 export namespace dslab {
 
@@ -13,7 +14,7 @@ class List : public AbstractList<T> {
     std::unique_ptr<ListNode<T>> m_head { nullptr };
     ListNode<T>* m_tail { nullptr };
     size_t m_size { 0 };
-    
+
     void initialize() {
         m_head = std::make_unique<ListNode<T>>();
         m_head->next() = std::make_unique<ListNode<T>>();
@@ -21,12 +22,12 @@ class List : public AbstractList<T> {
         m_tail->prev() = m_head.get();
         m_size = 0;
     }
-    
+
 public:
     ListNode<T>* head() override { return m_head.get(); }
     ListNode<T>* tail() override { return m_tail; }
     size_t size() const override { return m_size; }
-    
+
     List() { initialize(); }
     List(const List& list) : List() {
         for (auto& item : list) {
@@ -59,7 +60,7 @@ public:
     }
 
     List(std::initializer_list<T> ilist) : List() {
-        for (auto& item : ilist) {
+        for (auto&& item : ilist) {
             push_back(item);
         }
     }

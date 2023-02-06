@@ -1,4 +1,4 @@
-export module Queue.AbstractQueue;
+ï»¿export module Queue.AbstractQueue;
 
 import Framework.DataStructure;
 
@@ -7,10 +7,10 @@ export namespace dslab {
 template <typename T>
 class AbstractQueue : public DataStructure<T> {
 public:
-    virtual void enqueue(const T& e) = 0; // Èë¶Ó
-    virtual void enqueue(T&& e) = 0; // Èë¶Ó
-    virtual T dequeue() = 0; // ³ö¶Ó
-    virtual T& front() = 0; // È¡¶ÓÊ×ÔªËØ
+    virtual void enqueue(const T& e) = 0; // å…¥é˜Ÿ
+    virtual void enqueue(T&& e) = 0; // å…¥é˜Ÿ
+    virtual T dequeue() = 0; // å‡ºé˜Ÿ
+    virtual T& front() = 0; // å–é˜Ÿé¦–å…ƒç´ 
     virtual const T& front() const {
         return const_cast<AbstractQueue*>(this)->front();
     }

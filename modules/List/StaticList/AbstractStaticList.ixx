@@ -1,4 +1,4 @@
-module;
+ï»¿module;
 #include <iostream>
 #include <iterator>
 
@@ -19,18 +19,18 @@ protected:
     const StaticListNode<T>& getNode(Rank r) const {
         return const_cast<AbstractStaticList*>(this)->getNode(r);
     }
-    
+
 public:
-    virtual Rank head() const = 0; // ·µ»ØÊ×ÉÚ±ø½Úµã
-    virtual Rank tail() const = 0; // ·µ»ØÎ²ÉÚ±ø½Úµã
-    virtual size_t size() const = 0; // ·µ»ØÁĞ±íµÄ¹æÄ£
-    virtual Rank insertAsNext(Rank p, const T& e) = 0; // ½«eµ±×÷pµÄºó¼Ì²åÈë
-    virtual Rank insertAsNext(Rank p, T&& e) = 0; // ½«eµ±×÷pµÄºó¼Ì²åÈë
-    virtual Rank insertAsPrev(Rank p, const T& e) = 0; // ½«eµ±×÷pµÄÇ°Çı²åÈë
-    virtual Rank insertAsPrev(Rank p, T&& e) = 0; // ½«eµ±×÷pµÄÇ°Çı²åÈë
-    virtual Rank find(const T& e) const = 0; // ²éÕÒÔªËØe
-    virtual T remove(Rank p) = 0; // É¾³ıÎ»ÖÃp´¦µÄÔªËØ
-    virtual void clear() = 0; // Çå¿ÕÁĞ±í
+    virtual Rank head() const = 0; // è¿”å›é¦–å“¨å…µèŠ‚ç‚¹
+    virtual Rank tail() const = 0; // è¿”å›å°¾å“¨å…µèŠ‚ç‚¹
+    virtual size_t size() const = 0; // è¿”å›åˆ—è¡¨çš„è§„æ¨¡
+    virtual Rank insertAsNext(Rank p, const T& e) = 0; // å°†eå½“ä½œpçš„åç»§æ’å…¥
+    virtual Rank insertAsNext(Rank p, T&& e) = 0; // å°†eå½“ä½œpçš„åç»§æ’å…¥
+    virtual Rank insertAsPrev(Rank p, const T& e) = 0; // å°†eå½“ä½œpçš„å‰é©±æ’å…¥
+    virtual Rank insertAsPrev(Rank p, T&& e) = 0; // å°†eå½“ä½œpçš„å‰é©±æ’å…¥
+    virtual Rank find(const T& e) const = 0; // æŸ¥æ‰¾å…ƒç´ e
+    virtual T remove(Rank p) = 0; // åˆ é™¤ä½ç½®på¤„çš„å…ƒç´ 
+    virtual void clear() = 0; // æ¸…ç©ºåˆ—è¡¨
 
     Rank insert(Rank p, const T& e) override {
         return insertAsPrev(p, e);
@@ -71,7 +71,7 @@ public:
     Rank prev(Rank p) const override {
         return getNode(p).prev();
     }
-    
+
     bool end(Rank p) const override {
         return p == tail();
     }
@@ -147,7 +147,8 @@ public:
     }
 };
 
-std::ostream& operator<<(std::ostream& os, const AbstractStaticList<int>& list) {
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const AbstractStaticList<T>& list) {
     os << "SL[";
     for (auto it { list.begin() }; it != list.end(); ++it) {
         os << *it << ", ";

@@ -1,4 +1,4 @@
-#include <vector>
+﻿#include <vector>
 #include <format>
 #include <iostream>
 #include <random>
@@ -117,7 +117,7 @@ TestFramework<MergeSortTestProblem, MergeSortBasicTest, MergeSortLimitTest, Merg
 default_random_engine engine;
 
 int main() {
-    for (Vector<int> V(N); auto& [lo, hi] : testCases) {
+    for (Vector<int> V(N); auto & [lo, hi] : testCases) {
         cout << format("Testing with range [{}, {})\n", lo, hi);
         iota(begin(V), end(V), 0);
         shuffle(begin(V) + lo, begin(V) + hi, engine);

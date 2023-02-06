@@ -1,4 +1,4 @@
-module;
+﻿module;
 #include <type_traits>
 
 export module Search.AbstractSearch;

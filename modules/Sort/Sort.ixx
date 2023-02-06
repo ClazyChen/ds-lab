@@ -1,4 +1,4 @@
-export module Sort;
+﻿export module Sort;
 
 export import Sort.AbstractSort;
 export import Sort.MergeSort;

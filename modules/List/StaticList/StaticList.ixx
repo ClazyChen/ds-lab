@@ -1,4 +1,4 @@
-module;
+﻿module;
 #include <memory>
 
 export module List.StaticList;
@@ -47,13 +47,13 @@ public:
         }
         return *this;
     }
-    StaticList(std::initializer_list<T> list) : StaticList() {
-        for (auto& item : list) {
+    StaticList(std::initializer_list<T> ilist) : StaticList() {
+        for (auto&& item : ilist) {
             push_back(item);
         }
     }
-    StaticList& operator=(std::initializer_list<T> list) {
-        StaticList tmp { list };
+    StaticList& operator=(std::initializer_list<T> ilist) {
+        StaticList tmp { ilist };
         *this = std::move(tmp);
         return *this;
     }
