@@ -1,4 +1,4 @@
-#include <vector>
+﻿#include <vector>
 #include <format>
 #include <iostream>
 #include <algorithm>
@@ -53,7 +53,7 @@ class ShuffleTest : public ShuffleTestProblem {
         }
         return rank;
     }
-    
+
 public:
     void operator()() override {
         m_vector.resize(N);
@@ -77,7 +77,7 @@ public:
     }
 };
 
-TestFramework<ShuffleTestProblem, 
+TestFramework<ShuffleTestProblem,
     ShuffleTest<4, 1'000'000, ShuffleBasic>,
     ShuffleTest<4, 1'000'000, ShuffleStd>> test;
 

@@ -1,4 +1,4 @@
-module;
+﻿module;
 #include <iostream>
 #include <concepts>
 
@@ -19,7 +19,7 @@ class Stack : public AbstractStack<T> {
     Linear<T> L;
 public:
     constexpr static bool is_vector = std::is_base_of_v<AbstractVector<T>, Linear<T>>;
-    
+
     void push(const T& e) override {
         if constexpr (is_vector) {
             L.push_back(e);
@@ -27,7 +27,7 @@ public:
             L.push_front(e);
         }
     }
-    
+
     void push(T&& e) override {
         if constexpr (is_vector) {
             L.push_back(std::move(e));
@@ -51,7 +51,7 @@ public:
             return L.front();
         }
     }
-    
+
     size_t size() const override { return L.size(); }
 
     template <typename T1, template<typename> typename L1>

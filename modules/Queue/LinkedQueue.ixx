@@ -1,4 +1,4 @@
-module;
+﻿module;
 #include <iostream>
 
 export module Queue.LinkedQueue;

@@ -1,4 +1,4 @@
-export module Matrix.AbstractMatrix;
+﻿export module Matrix.AbstractMatrix;
 
 import Framework.DataStructure;
 

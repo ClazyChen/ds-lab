@@ -1,4 +1,4 @@
-module;
+﻿module;
 #include <memory>
 
 export module BinaryTree;
@@ -28,7 +28,7 @@ class BinaryTree : public AbstractBinaryTree<T, Node> {
         }
         return newNode;
     }
-    
+
 public:
     Node<T>* root() override { return m_root.get(); }
     size_t size() const override { return m_size; }
@@ -62,7 +62,7 @@ public:
         }
         return 1 + size(node->left().get()) + size(node->right().get());
     }
-    
+
     Node<T>* insertAsLeftChild(Node<T>* node, const T& e) override {
         auto newNode { std::make_unique<Node<T>>(e) };
         newNode->parent() = node;
@@ -126,7 +126,7 @@ public:
         node->right()->parent() = node;
         return node->right().get();
     }
-    
+
     Node<T>* find(const T& e) override {
         auto node { m_root.get() };
         while (node != nullptr) {

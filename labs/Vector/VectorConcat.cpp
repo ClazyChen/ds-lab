@@ -1,4 +1,4 @@
-#include <vector>
+﻿#include <vector>
 #include <format>
 #include <iostream>
 import Framework;
@@ -40,10 +40,10 @@ public:
 };
 
 vector<tuple<size_t, size_t, Rank>> testData {
-    {100000, 100, 0},         // ��������Ԫ�ص���ͷ
-    {100000, 100000, 0},      // �������Ԫ�ص���ͷ
-    {100000, 100, 100000},    // ��������Ԫ�ص���β
-    {100000, 100000, 100000}  // �������Ԫ�ص���β
+    {100000, 100, 0},         // 插入少量元素到开头
+    {100000, 100000, 0},      // 插入大量元素到开头
+    {100000, 100, 100000},    // 插入少量元素到结尾
+    {100000, 100000, 100000}  // 插入大量元素到结尾
 };
 
 TestFramework<VectorConcat, VectorConcatBasic, VectorConcatFast> test;

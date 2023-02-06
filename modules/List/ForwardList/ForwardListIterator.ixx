@@ -1,4 +1,4 @@
-module;
+﻿module;
 #include <type_traits>
 #include <iterator>
 
@@ -42,7 +42,7 @@ public:
             ++(*this);
         return *this;
     }
-    
+
     ConstForwardListIterator operator+(difference_type n) const {
         ConstForwardListIterator tmp(*this);
         return tmp += n;

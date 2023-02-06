@@ -1,4 +1,4 @@
-#include <vector>
+ï»¿#include <vector>
 #include <format>
 #include <iostream>
 import Framework;
@@ -35,7 +35,7 @@ public:
     }
 };
 
-// Ò»Ğ©ÑéÖ¤ÕıÈ·ĞÔµÄÑùÀı
+// ä¸€äº›éªŒè¯æ­£ç¡®æ€§çš„æ ·ä¾‹
 vector<pair<string, bool>> testCases {
     {"()()()()()()()"s, true},
     {"(((((())))))"s, true},
@@ -45,7 +45,7 @@ vector<pair<string, bool>> testCases {
     {"([{]})"s, false}
 };
 
-// Ê¹ÓÃ×Ô¶¯Éú³ÉµÃµ½µÄÀ¨ºÅĞòÁĞ
+// ä½¿ç”¨è‡ªåŠ¨ç”Ÿæˆå¾—åˆ°çš„æ‹¬å·åºåˆ—
 vector testData { 10, 10'000, 1'000'000, 10'000'000 };
 
 TestFramework<ParenMatch, ParenMatchStack> test;

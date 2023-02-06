@@ -1,4 +1,4 @@
-module;
+﻿module;
 #include <vector>
 #include <chrono>
 #include <memory>
@@ -29,7 +29,7 @@ double reportProcedureTime(std::function<void()> f) {
 }
 
 template <typename BaseClass, typename... DerivedClass>
-    requires (std::is_base_of_v<BaseClass, DerivedClass> && ...) && std::is_base_of_v<Object, BaseClass> &&
+    requires (std::is_base_of_v<BaseClass, DerivedClass> && ...) && std::is_base_of_v<Object, BaseClass>&&
     requires { typename BaseClass::Output; }
 class TestFramework {
     using Output = typename BaseClass::Output;
@@ -66,7 +66,7 @@ public:
             }
         }
     }
-    
+
     template <typename... InputType>
         requires std::is_same_v<Output, void> || std::is_invocable_r_v<Output, BaseClass, InputType...>
     void operator()(InputType... inputs) {

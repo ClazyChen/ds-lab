@@ -1,4 +1,4 @@
-module;
+﻿module;
 #include <iostream>
 #include <variant>
 #include <unordered_map>
@@ -17,7 +17,7 @@ public:
     ExpressionElement() = default;
     ExpressionElement(char op) : m_element(op) {}
     ExpressionElement(int num) : m_element(num) {}
-    
+
     char getOperator() const override {
         return std::get<char>(m_element);
     }
@@ -55,7 +55,7 @@ public:
             switch (getOperator()) {
             case '(': return { false, true };
             case ')': case '!': return { true, false };
-            case '+': case '-': 
+            case '+': case '-':
             case '*': case '/':
             case '%': case '^': return { true, true };
             }
@@ -77,7 +77,7 @@ public:
         }
         return getOperand();
     }
-    
+
     inline static const std::unordered_map<char, int> priority_left {
         {'(', 0}, {')', 0}, {'^', 3}, {'!', 4},
         {'+', 1}, {'-', 1}, {'*', 2}, {'/', 2}, {'%', 2}

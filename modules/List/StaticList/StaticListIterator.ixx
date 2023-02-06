@@ -1,4 +1,4 @@
-module;
+﻿module;
 #include <type_traits>
 #include <iterator>
 
@@ -43,7 +43,7 @@ public:
         m_index = m_list->prev(m_index);
         return *this;
     }
-    
+
     ConstStaticListIterator operator--(int) {
         ConstStaticListIterator tmp(*this);
         m_index = m_list->prev(m_index);
@@ -55,7 +55,7 @@ public:
             ++(*this);
         return *this;
     }
-    
+
     ConstStaticListIterator& operator-=(difference_type n) {
         for (difference_type i = 0; i < n; ++i)
             --(*this);
@@ -75,7 +75,7 @@ public:
     reference operator*() const {
         return m_list->get(m_index);
     }
-    
+
     pointer operator->() const {
         return &m_list->get(m_index);
     }
@@ -105,12 +105,12 @@ public:
 
     StaticListIterator() = default;
     StaticListIterator(StaticList* list, Rank index) : m_list(list), m_index(index) {}
-    
+
     StaticListIterator& operator++() {
         m_index = m_list->next(m_index);
         return *this;
     }
-    
+
     StaticListIterator operator++(int) {
         StaticListIterator tmp(*this);
         m_index = m_list->next(m_index);
@@ -161,7 +161,7 @@ public:
     bool operator==(const StaticListIterator& other) const {
         return m_index == other.m_index;
     }
-    
+
     auto operator<=>(const StaticListIterator& other) const {
         return m_index <=> other.m_index;
     }

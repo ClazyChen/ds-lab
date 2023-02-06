@@ -1,4 +1,4 @@
-#include <vector>
+﻿#include <vector>
 #include <format>
 #include <iostream>
 import Framework;
@@ -83,7 +83,7 @@ public:
 };
 
 template <typename R, typename Pred, typename Bound, typename Next, typename... Args>
-    requires is_invocable_r_v<bool, Pred, Args...> && is_invocable_r_v<R, Bound, Args...> && is_invocable_r_v<tuple<Args...>, Next, Args...>
+    requires is_invocable_r_v<bool, Pred, Args...>&& is_invocable_r_v<R, Bound, Args...>&& is_invocable_r_v<tuple<Args...>, Next, Args...>
 class TailRecursive : public Algorithm<R, Args...> {
 protected:
     unique_ptr<Pred> pred { nullptr };
@@ -179,7 +179,7 @@ vector testData {
 
 constexpr int lo { 0 }, hi { 5 };
 
-TestFramework<BinarySearchTestProblem, 
+TestFramework<BinarySearchTestProblem,
     BinarySearchTest<BinarySearchRecursive<int>>,
     BinarySearchTest<BinarySearchIterative<int>>,
     BinarySearchTest<BinarySearchRecursiveTemplate<int>>,

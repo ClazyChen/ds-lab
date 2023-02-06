@@ -1,4 +1,4 @@
-module;
+﻿module;
 #include <memory>
 
 export module ForwardList.ForwardListNode;
@@ -25,7 +25,7 @@ public:
     ForwardListNode& operator=(const ForwardListNode&) = delete;
     ForwardListNode(ForwardListNode&&) = delete;
     ForwardListNode& operator=(ForwardListNode&&) = delete;
-    
+
     T& data() { return m_data; }
     const T& data() const { return m_data; }
     std::unique_ptr<ForwardListNode>& next() { return m_next; }

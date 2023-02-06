@@ -1,4 +1,4 @@
-export module Framework.DataStructure;
+﻿export module Framework.DataStructure;
 
 import Framework.Object;
 

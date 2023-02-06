@@ -1,4 +1,4 @@
-module;
+﻿module;
 #include <memory>
 #include <iterator>
 
@@ -42,7 +42,7 @@ public:
     static BinaryTreeConstIterator end(Node<T>* node) {
         return BinaryTreeConstIterator(it.end(node));
     }
-    
+
     BinaryTreeConstIterator& operator++() {
         node = it(node);
         return *this;
@@ -64,7 +64,7 @@ public:
         BinaryTreeConstIterator tmp(*this);
         return tmp += n;
     }
-    
+
     reference operator*() const { return node->data(); }
     pointer operator->() const { return &node->data(); }
 

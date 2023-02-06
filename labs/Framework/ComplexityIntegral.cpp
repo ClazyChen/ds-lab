@@ -1,4 +1,4 @@
-#include <vector>
+ï»¿#include <vector>
 #include <format>
 #include <iostream>
 import Framework;
@@ -6,9 +6,9 @@ import Power;
 using namespace dslab;
 using namespace std;
 
-// Ò»¸öÊ¾Àıº¯Êı
-// ÔÚÕâ¸öº¯ÊıÖĞ£¬ÎÒÃÇ¿ÉÒÔ¿´µ½£¬ËüµÄ¸´ÔÓ¶ÈÊÇO(n^3 * log(n))
-// Çë²»Òª¿ªÆôO2ÓÅ»¯£¬·ñÔò±àÒëÆ÷ÓÅ»¯»áÓ°Ïìµ½ÎÒÃÇµÄ²âÊÔ½á¹û
+// ä¸€ä¸ªç¤ºä¾‹å‡½æ•°
+// åœ¨è¿™ä¸ªå‡½æ•°ä¸­ï¼Œæˆ‘ä»¬å¯ä»¥çœ‹åˆ°ï¼Œå®ƒçš„å¤æ‚åº¦æ˜¯O(n^3 * log(n))
+// è¯·ä¸è¦å¼€å¯O2ä¼˜åŒ–ï¼Œå¦åˆ™ç¼–è¯‘å™¨ä¼˜åŒ–ä¼šå½±å“åˆ°æˆ‘ä»¬çš„æµ‹è¯•ç»“æœ
 int f(int n) {
     int result = 0;
     for (int i { 1 }; i <= n; ++i) {

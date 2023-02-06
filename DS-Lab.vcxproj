@@ -105,13 +105,16 @@
       <EnableModules>true</EnableModules>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <Optimization>MaxSpeed</Optimization>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="labs\BinaryTree\Rebuild.cpp" />
+    <ClCompile Include="labs\BinaryTree\Rebuild.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="labs\Framework\ArraySum.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -133,6 +136,7 @@
     <ClCompile Include="labs\Framework\ZeroPoint.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="labs\List\CircularListIterate.cpp" />
     <ClCompile Include="labs\List\ListInsert.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -202,6 +206,8 @@
     <ClCompile Include="modules\Framework\Utility\Gcd.ixx" />
     <ClCompile Include="modules\Framework\Utility\Power.ixx" />
     <ClCompile Include="modules\List\AbstractList.ixx" />
+    <ClCompile Include="modules\List\CircularList\AbstractCircularList.ixx" />
+    <ClCompile Include="modules\List\CircularList\CircularList.ixx" />
     <ClCompile Include="modules\List\ForwardList\AbstractForwardList.ixx" />
     <ClCompile Include="modules\List\ForwardList\ForwardList.ixx" />
     <ClCompile Include="modules\List\ForwardList\ForwardListIterator.ixx" />

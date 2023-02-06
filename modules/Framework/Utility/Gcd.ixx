@@ -1,4 +1,4 @@
-export module Gcd;
+﻿export module Gcd;
 
 import Framework.Algorithm;
 export namespace dslab {

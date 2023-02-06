@@ -1,4 +1,4 @@
-#include <vector>
+ï»¿#include <vector>
 #include <format>
 #include <iostream>
 import Framework;
@@ -6,10 +6,10 @@ import Power;
 using namespace dslab;
 using namespace std;
 
-// ÇóÃİÎÊÌâ
-// »ùÀà²Î¼ûPower.ixx
+// æ±‚å¹‚é—®é¢˜
+// åŸºç±»å‚è§Power.ixx
 
-// Ö±½Ó¼ÆËãµÄ·½·¨
+// ç›´æ¥è®¡ç®—çš„æ–¹æ³•
 class PowerBasic : public PowerProblem {
 public:
     int operator()(int a, int b) override {
@@ -21,7 +21,7 @@ public:
     }
 };
 
-// ¿ìËÙÃİ£¨µİ¹é°æ±¾£©
+// å¿«é€Ÿå¹‚ï¼ˆé€’å½’ç‰ˆæœ¬ï¼‰
 class PowerFastRecursive : public PowerProblem {
 public:
     int operator()(int a, int b) override {
@@ -37,13 +37,13 @@ public:
 
 using PowerFastIterative = Power;
 
-// ²âÊÔÊı¾İ
+// æµ‹è¯•æ•°æ®
 vector<pair<int, int>> testData {
-    {3, 4}, {2, 30}, {-3, 3}, // Ò»Ğ©³£¹æÎÊÌâ
-    {1, 1'000'000'000} // µ±bºÜ´óÊ±£¬Ğ§ÂÊ²îÒìÃ÷ÏÔ
+    {3, 4}, {2, 30}, {-3, 3}, // ä¸€äº›å¸¸è§„é—®é¢˜
+    {1, 1'000'000'000} // å½“bå¾ˆå¤§æ—¶ï¼Œæ•ˆç‡å·®å¼‚æ˜æ˜¾
 };
 
-// ¿ÉÒÔ½«ÄúµÄÊµÏÖ¼ÓÈëµ½²âÊÔ¿ò¼ÜµÄ²ÎÊıÁĞ±íÖĞ
+// å¯ä»¥å°†æ‚¨çš„å®ç°åŠ å…¥åˆ°æµ‹è¯•æ¡†æ¶çš„å‚æ•°åˆ—è¡¨ä¸­
 TestFramework<PowerProblem, PowerBasic, PowerFastRecursive, PowerFastIterative> test;
 
 int main() {

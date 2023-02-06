@@ -1,4 +1,4 @@
-module;
+﻿module;
 #include <algorithm>
 #include <format>
 #include <iostream>
@@ -25,7 +25,7 @@ class SharedStack : public DataStructure<T> {
         std::move_backward(V.begin() + m_topb + 1, V.begin() + oldsize, V.end());
         m_topb += V.size() - oldsize;
     }
-    
+
     class BackwardStack : public AbstractStack<T> {
         SharedStack& S;
     public:

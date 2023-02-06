@@ -1,4 +1,4 @@
-#include <vector>
+ï»¿#include <vector>
 #include <limits>
 #include <iostream>
 #include <format>
@@ -52,13 +52,13 @@ public:
 };
 
 vector testData {
-    10    ,    // ¶¼ÄÜÊä³öÕıÈ·µÄÖµ
-    50'000,    // APÒç³ö£¬AP2ÕıÈ·
-    70'000,    // È«²¿Òç³ö£¬µ«AP2LimitedÄÜ·µ»Ø±¥ºÍÖµ
-    -8         // ¸ºÊäÈë£¬AP2LimitedÄÜ·µ»Ø0
+    10    ,    // éƒ½èƒ½è¾“å‡ºæ­£ç¡®çš„å€¼
+    50'000,    // APæº¢å‡ºï¼ŒAP2æ­£ç¡®
+    70'000,    // å…¨éƒ¨æº¢å‡ºï¼Œä½†AP2Limitedèƒ½è¿”å›é¥±å’Œå€¼
+    -8         // è´Ÿè¾“å…¥ï¼ŒAP2Limitedèƒ½è¿”å›0
 };
 
-// ¿ÉÒÔ½«ÄúµÄÊµÏÖ¼ÓÈëµ½²âÊÔ¿ò¼ÜµÄ²ÎÊıÁĞ±íÖĞ
+// å¯ä»¥å°†æ‚¨çš„å®ç°åŠ å…¥åˆ°æµ‹è¯•æ¡†æ¶çš„å‚æ•°åˆ—è¡¨ä¸­
 TestFramework<Sum, SumBasic, SumAP, SumAP2, SumAP2Limited> test;
 
 int main() {

@@ -1,4 +1,4 @@
-module;
+ï»¿module;
 #include <iostream>
 #include <iterator>
 
@@ -13,27 +13,27 @@ export namespace dslab {
 template <typename T>
 class AbstractList : public AbstractLinearList<T, ListNode<T>*> {
 public:
-    virtual ListNode<T>* head() = 0; // ·µ»ØÊ×ÉÚ±ø½Úµã
+    virtual ListNode<T>* head() = 0; // è¿”å›é¦–å“¨å…µèŠ‚ç‚¹
     virtual const ListNode<T>* head() const {
         return const_cast<AbstractList*>(this)->head();
     }
-    virtual ListNode<T>* tail() = 0; // ·µ»ØÎ²ÉÚ±ø½Úµã
+    virtual ListNode<T>* tail() = 0; // è¿”å›å°¾å“¨å…µèŠ‚ç‚¹
     virtual const ListNode<T>* tail() const {
         return const_cast<AbstractList*>(this)->tail();
     }
-    virtual size_t size() const = 0; // ·µ»ØÁĞ±íµÄ¹æÄ£
-    virtual ListNode<T>* insertAsNext(ListNode<T>* p, const T& e) = 0; // ½«eµ±×÷pµÄºó¼Ì²åÈë
-    virtual ListNode<T>* insertAsNext(ListNode<T>* p, T&& e) = 0; // ½«eµ±×÷pµÄºó¼Ì²åÈë
-    virtual ListNode<T>* insertAsPrev(ListNode<T>* p, const T& e) = 0; // ½«eµ±×÷pµÄÇ°Çı²åÈë
-    virtual ListNode<T>* insertAsPrev(ListNode<T>* p, T&& e) = 0; // ½«eµ±×÷pµÄÇ°Çı²åÈë
-    virtual ListNode<T>* find(const T& e) const = 0; // ²éÕÒÔªËØe
-    virtual T remove(ListNode<T>* p) = 0; // É¾³ıÎ»ÖÃp´¦µÄÔªËØ
-    virtual void clear() = 0; // Çå¿ÕÁĞ±í
+    virtual size_t size() const = 0; // è¿”å›åˆ—è¡¨çš„è§„æ¨¡
+    virtual ListNode<T>* insertAsNext(ListNode<T>* p, const T& e) = 0; // å°†eå½“ä½œpçš„åç»§æ’å…¥
+    virtual ListNode<T>* insertAsNext(ListNode<T>* p, T&& e) = 0; // å°†eå½“ä½œpçš„åç»§æ’å…¥
+    virtual ListNode<T>* insertAsPrev(ListNode<T>* p, const T& e) = 0; // å°†eå½“ä½œpçš„å‰é©±æ’å…¥
+    virtual ListNode<T>* insertAsPrev(ListNode<T>* p, T&& e) = 0; // å°†eå½“ä½œpçš„å‰é©±æ’å…¥
+    virtual ListNode<T>* find(const T& e) const = 0; // æŸ¥æ‰¾å…ƒç´ e
+    virtual T remove(ListNode<T>* p) = 0; // åˆ é™¤ä½ç½®på¤„çš„å…ƒç´ 
+    virtual void clear() = 0; // æ¸…ç©ºåˆ—è¡¨
 
     ListNode<T>* insert(ListNode<T>* p, const T& e) override {
         return insertAsPrev(p, e);
     }
-    
+
     ListNode<T>* insert(ListNode<T>* p, T&& e) override {
         return insertAsPrev(p, std::move(e));
     }
@@ -69,7 +69,7 @@ public:
     bool end(ListNode<T>* p) const override {
         return p == tail();
     }
-    
+
     void push_back(const T& e) override {
         insertAsPrev(tail(), e);
     }
@@ -85,14 +85,14 @@ public:
     void push_front(T&& e) override {
         insertAsNext(head(), std::move(e));
     }
-    
+
     using iterator = ListIterator<AbstractList>;
     using const_iterator = ConstListIterator<AbstractList>;
 
     iterator begin() noexcept {
         return iterator { this, first() };
     }
-    
+
     iterator end() noexcept {
         return iterator { this, tail() };
     }
@@ -141,7 +141,8 @@ public:
     }
 };
 
-std::ostream& operator<<(std::ostream& os, const AbstractList<int>& list) {
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const AbstractList<T>& list) {
     os << "L[";
     for (auto it { list.begin() }; it != list.end(); ++it) {
         os << *it << ", ";

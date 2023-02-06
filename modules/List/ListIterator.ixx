@@ -1,4 +1,4 @@
-module;
+﻿module;
 #include <type_traits>
 #include <iterator>
 
@@ -9,6 +9,7 @@ import List.ListNode;
 export namespace dslab {
 
 template <typename T> class AbstractList;
+template <typename T> class AbstractCircularList;
 
 template <typename List>
     requires std::is_base_of_v<AbstractList<typename List::value_type>, List>
@@ -63,10 +64,10 @@ public:
         ConstListIterator tmp(*this);
         return tmp -= n;
     }
-    
+
     reference operator*() const { return m_node->data(); }
     pointer operator->() const { return &m_node->data(); }
-    
+
     bool operator==(const ConstListIterator& rhs) const { return m_node == rhs.m_node; }
     auto operator<=>(const ConstListIterator& rhs) const { return m_node <=> rhs.m_node; }
 };

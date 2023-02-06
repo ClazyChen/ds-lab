@@ -1,4 +1,4 @@
-export module Power;
+﻿export module Power;
 
 import Framework.Algorithm;
 export namespace dslab {

@@ -1,4 +1,4 @@
-module;
+ï»¿module;
 #include <utility>
 
 export module LinearList.AbstractLinearList;
@@ -7,26 +7,26 @@ import Framework.DataStructure;
 
 export namespace dslab {
 
-// ³éÏóÏßĞÔ±í
-// T±íÊ¾ÔªËØÀàĞÍ£¬Pos±íÊ¾ÔªËØµÄÎ»ÖÃÀàĞÍ
+// æŠ½è±¡çº¿æ€§è¡¨
+// Tè¡¨ç¤ºå…ƒç´ ç±»å‹ï¼ŒPosè¡¨ç¤ºå…ƒç´ çš„ä½ç½®ç±»å‹
 template <typename T, typename Pos>
 class AbstractLinearList : public DataStructure<T> {
 public:
-    virtual T& get(Pos p) = 0; // È¡³öÎ»ÖÃp´¦µÄÔªËØ
-    virtual void set(Pos p, const T& e) = 0; // ½«Î»ÖÃp´¦µÄÔªËØÉèÖÃÎªe
-    virtual void set(Pos p, T&& e) = 0; // ½«Î»ÖÃp´¦µÄÔªËØÉèÖÃÎªe
+    virtual T& get(Pos p) = 0; // å–å‡ºä½ç½®på¤„çš„å…ƒç´ 
+    virtual void set(Pos p, const T& e) = 0; // å°†ä½ç½®på¤„çš„å…ƒç´ è®¾ç½®ä¸ºe
+    virtual void set(Pos p, T&& e) = 0; // å°†ä½ç½®på¤„çš„å…ƒç´ è®¾ç½®ä¸ºe
 
-    virtual Pos insert(Pos p, const T& e) = 0; // ÔÚÎ»ÖÃp´¦²åÈëÔªËØe
-    virtual Pos insert(Pos p, T&& e) = 0; // ÔÚÎ»ÖÃp´¦²åÈëÔªËØe
-    virtual Pos find(const T& e) const = 0; // ²éÕÒÔªËØe
-    virtual T remove(Pos p) = 0; // É¾³ıÎ»ÖÃp´¦µÄÔªËØ
-    virtual void clear() = 0; // Çå¿ÕÏßĞÔ±í
+    virtual Pos insert(Pos p, const T& e) = 0; // åœ¨ä½ç½®på¤„æ’å…¥å…ƒç´ e
+    virtual Pos insert(Pos p, T&& e) = 0; // åœ¨ä½ç½®på¤„æ’å…¥å…ƒç´ e
+    virtual Pos find(const T& e) const = 0; // æŸ¥æ‰¾å…ƒç´ e
+    virtual T remove(Pos p) = 0; // åˆ é™¤ä½ç½®på¤„çš„å…ƒç´ 
+    virtual void clear() = 0; // æ¸…ç©ºçº¿æ€§è¡¨
 
-    virtual Pos first() const = 0; // ·µ»ØÏßĞÔ±íµÄµÚÒ»¸öÔªËØµÄÎ»ÖÃ
-    virtual Pos last() const = 0; // ·µ»ØÏßĞÔ±íµÄ×îºóÒ»¸öÔªËØµÄÎ»ÖÃ
-    virtual Pos next(Pos p) const = 0; // ·µ»ØÎ»ÖÃpµÄºó¼ÌÎ»ÖÃ
-    virtual Pos prev(Pos p) const = 0; // ·µ»ØÎ»ÖÃpµÄÇ°ÇıÎ»ÖÃ
-    virtual bool end(Pos p) const = 0; // ÅĞ¶ÏÎ»ÖÃpÊÇ·ñÊÇ±íÎ²
+    virtual Pos first() const = 0; // è¿”å›çº¿æ€§è¡¨çš„ç¬¬ä¸€ä¸ªå…ƒç´ çš„ä½ç½®
+    virtual Pos last() const = 0; // è¿”å›çº¿æ€§è¡¨çš„æœ€åä¸€ä¸ªå…ƒç´ çš„ä½ç½®
+    virtual Pos next(Pos p) const = 0; // è¿”å›ä½ç½®pçš„åç»§ä½ç½®
+    virtual Pos prev(Pos p) const = 0; // è¿”å›ä½ç½®pçš„å‰é©±ä½ç½®
+    virtual bool end(Pos p) const = 0; // åˆ¤æ–­ä½ç½®pæ˜¯å¦æ˜¯è¡¨å°¾
 
     virtual T& operator[](Pos p) {
         return get(p);

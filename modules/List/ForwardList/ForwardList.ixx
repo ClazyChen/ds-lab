@@ -1,4 +1,4 @@
-module;
+﻿module;
 #include <memory>
 
 export module ForwardList;
@@ -13,7 +13,7 @@ class ForwardList : public AbstractForwardList<T> {
     std::unique_ptr<ForwardListNode<T>> m_head { nullptr };
     ForwardListNode<T>* m_tail { nullptr };
     size_t m_size { 0 };
-    
+
     void initialize() {
         m_head = std::make_unique<ForwardListNode<T>>();
         m_head->next() = std::make_unique<ForwardListNode<T>>();
@@ -25,7 +25,7 @@ public:
     ForwardListNode<T>* head() override { return m_head.get(); }
     ForwardListNode<T>* tail() override { return m_tail; }
     size_t size() const override { return m_size; }
-    
+
     ForwardList() { initialize(); }
     ForwardList(const ForwardList& list) : ForwardList() {
         for (auto& item : list) {
@@ -56,9 +56,9 @@ public:
         }
         return *this;
     }
-    
+
     ForwardList(std::initializer_list<T> ilist) : ForwardList() {
-        for (auto& item : ilist) {
+        for (auto&& item : ilist) {
             push_back(item);
         }
     }
@@ -70,9 +70,9 @@ public:
         std::swap(m_size, tmp.m_size);
         return *this;
     }
-    
+
     virtual ~ForwardList() = default;
-    
+
     void clear() override {
         m_head->next() = std::make_unique<ForwardListNode<T>>();
         m_tail = m_head->next().get();

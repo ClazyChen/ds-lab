@@ -345,5 +345,14 @@
     <ClCompile Include="modules\BinaryTree\BinaryTreePostorderIterator.ixx">
       <Filter>Resource Files\BinaryTree</Filter>
     </ClCompile>
+    <ClCompile Include="modules\List\CircularList\AbstractCircularList.ixx">
+      <Filter>Resource Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\List\CircularList\CircularList.ixx">
+      <Filter>Resource Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\List\CircularListIterate.cpp">
+      <Filter>Source Files\List</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

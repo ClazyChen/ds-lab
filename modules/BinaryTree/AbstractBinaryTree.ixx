@@ -1,4 +1,4 @@
-module;
+﻿module;
 #include <memory>
 
 export module BinaryTree.AbstractBinaryTree;

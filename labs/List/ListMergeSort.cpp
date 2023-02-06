@@ -1,4 +1,4 @@
-#include <vector>
+ï»¿#include <vector>
 #include <format>
 #include <numeric>
 #include <random>
@@ -17,7 +17,7 @@ public:
 };
 
 template <template<typename> typename Linear, template<typename, template<typename> typename, typename> typename SortAlgo, typename Comparator = std::less<int>>
-    requires std::is_base_of_v<AbstractLinearList<int, typename Linear<int>::position_type>, Linear<int>> && std::is_base_of_v<AbstractSort<int, Linear, Comparator>, SortAlgo<int, Linear, Comparator>>
+    requires std::is_base_of_v<AbstractLinearList<int, typename Linear<int>::position_type>, Linear<int>>&& std::is_base_of_v<AbstractSort<int, Linear, Comparator>, SortAlgo<int, Linear, Comparator>>
 class SortImpl : public SortProblem {
     Linear<int> L;
     SortAlgo<int, Linear, Comparator> sort;
@@ -34,7 +34,7 @@ public:
     }
 };
 
-// ÖØÔØtype_nameÒÔÓÅ»¯Êä³ö
+// é‡è½½type_nameä»¥ä¼˜åŒ–è¾“å‡º
 class VectorSort : public SortImpl<DefaultVector, MergeSort> {
 public:
     static string type_name() {
@@ -55,7 +55,6 @@ public:
         return "MergeSort(List Ptr)";
     }
 };
-
 
 vector testData { 10, 1000, 10000, 100'000, 1'000'000 };
 

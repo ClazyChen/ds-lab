@@ -1,4 +1,4 @@
-export module Matrix;
+﻿export module Matrix;
 
 export import Matrix.AbstractMatrix;
 export import Matrix.RowMajorMatrix;

@@ -1,4 +1,4 @@
-export module Framework.Algorithm;
+﻿export module Framework.Algorithm;
 
 import Framework.Object;
 

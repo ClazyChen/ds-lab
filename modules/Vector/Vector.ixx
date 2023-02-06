@@ -1,4 +1,4 @@
-module;
+﻿module;
 #include <ratio>
 #include <memory>
 
@@ -21,7 +21,7 @@ class Vector : public AbstractVector<T> {
 public:
     size_t capacity() const override { return m_capacity; }
     size_t size() const override { return m_size; }
-    
+
     Vector() = default;
     Vector(size_t n) : m_data { std::make_unique<T[]>(n) }, m_capacity { n }, m_size { n } {}
     Vector(size_t n, const T& value) : Vector(n) { std::fill_n(m_data.get(), n, value); }
@@ -30,8 +30,8 @@ public:
         rhs.m_capacity = 0;
         rhs.m_size = 0;
     }
-    Vector(std::initializer_list<T> ilist) : Vector(ilist.size()) { 
-        std::move(ilist.begin(), ilist.end(), m_data.get()); 
+    Vector(std::initializer_list<T> ilist) : Vector(ilist.size()) {
+        std::move(ilist.begin(), ilist.end(), m_data.get());
     }
     virtual ~Vector() = default;
 
@@ -109,7 +109,7 @@ public:
         ++m_size;
         return r;
     }
-    
+
     Rank find(const T& e) const override {
         for (size_t i { 0 }; i < m_size; ++i) {
             if (m_data[i] == e) {
@@ -118,7 +118,7 @@ public:
         }
         return m_size;
     }
-    
+
     T remove(Rank r) override {
         T e { std::move(m_data[r]) };
         std::move(m_data.get() + r + 1, m_data.get() + m_size, m_data.get() + r);

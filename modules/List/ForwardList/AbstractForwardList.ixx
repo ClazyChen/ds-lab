@@ -1,4 +1,4 @@
-module;
+锘縨odule;
 #include <iostream>
 #include <iterator>
 #include <stdexcept>
@@ -34,11 +34,11 @@ public:
     ForwardListNode<T>* insert(ForwardListNode<T>* p, const T& e) override {
         return insertAsPrev(p, e);
     }
-    
+
     ForwardListNode<T>* insert(ForwardListNode<T>* p, T&& e) override {
         return insertAsPrev(p, std::move(e));
     }
-    
+
     T& get(ForwardListNode<T>* p) override {
         return p->data();
     }
@@ -59,16 +59,16 @@ public:
         return p->next().get();
     }
 
-private: 
-    // 单向链表不支持从后向前的访问
+private:
+    // 鍗曞悜閾捐〃涓嶆敮鎸佷粠鍚庡悜鍓嶇殑璁块棶
     [[noreturn]] ForwardListNode<T>* last() const override {
         throw std::logic_error("AbstractForwardList::last() is not implemented");
     }
-    
+
     [[noreturn]] ForwardListNode<T>* prev(ForwardListNode<T>* p) const override {
         throw std::logic_error("AbstractForwardList::prev() is not implemented");
     }
-    
+
     [[noreturn]] T pop_back() override {
         throw std::logic_error("AbstractForwardList::pop_back() is not implemented");
     }
@@ -80,7 +80,7 @@ private:
     [[noreturn]] const T& back() const override {
         throw std::logic_error("AbstractForwardList::back() is not implemented");
     }
-        
+
 public:
     bool end(ForwardListNode<T>* p) const override {
         return p == tail();
@@ -106,17 +106,17 @@ public:
     using const_iterator = ConstForwardListIterator<AbstractForwardList<T>>;
 
     iterator begin() noexcept {
-        return iterator { this, first() }; 
+        return iterator { this, first() };
     }
 
     iterator end() noexcept {
-        return iterator { this, tail()};
+        return iterator { this, tail() };
     }
-    
+
     const_iterator begin() const noexcept {
         return const_iterator { this, first() };
     }
-    
+
     const_iterator end() const noexcept {
         return const_iterator { this, const_cast<AbstractForwardList*>(this)->tail() };
     }
@@ -130,7 +130,8 @@ public:
     }
 };
 
-std::ostream& operator<<(std::ostream& os, const AbstractForwardList<int>& list) {
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const AbstractForwardList<T>& list) {
     os << "FL[";
     for (auto it { list.begin() }; it != list.end(); ++it) {
         os << *it << ", ";
