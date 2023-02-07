@@ -11,7 +11,7 @@ import Sort;
 using namespace dslab;
 using namespace std;
 
-class SortProblem : public Algorithm<bool> {
+class SortProblem : public Algorithm<bool()> {
 public:
     virtual void initialize(const Vector<int>& V0) = 0;
 };

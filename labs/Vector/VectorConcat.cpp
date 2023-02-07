@@ -6,7 +6,7 @@ import Vector;
 using namespace dslab;
 using namespace std;
 
-class VectorConcat : public Algorithm<Vector<int>&, Rank> {
+class VectorConcat : public Algorithm<Vector<int>&(Rank)> {
 protected:
     Vector<int> V, V1;
 public:

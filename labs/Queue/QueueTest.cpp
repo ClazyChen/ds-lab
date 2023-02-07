@@ -7,7 +7,7 @@ using namespace dslab;
 using namespace std;
 
 template <typename T>
-class QueueTestProblem : public Algorithm<void, size_t> {
+class QueueTestProblem : public Algorithm<void(size_t)> {
 public:
     virtual void initialize() = 0;
 };

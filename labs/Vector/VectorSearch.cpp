@@ -46,7 +46,7 @@ public:
 };
 
 template <typename T>
-class SearchPred : public Algorithm<bool, Rank, Rank> {
+class SearchPred : public Algorithm<bool(Rank, Rank)> {
 public:
     bool operator()(Rank lo, Rank hi) override {
         return hi - lo <= 1;
@@ -54,7 +54,7 @@ public:
 };
 
 template <typename T, typename Comparator = std::less<T>>
-class SearchBound : public Algorithm<Rank, Rank, Rank> {
+class SearchBound : public Algorithm<Rank(Rank, Rank)> {
     Comparator cmp;
     const Vector<T>& V;
     const T& e;
@@ -66,7 +66,7 @@ public:
 };
 
 template <typename T, typename Comparator = std::less<T>>
-class SearchNext : public Algorithm<std::tuple<Rank, Rank>, Rank, Rank> {
+class SearchNext : public Algorithm<std::tuple<Rank, Rank>(Rank, Rank)> {
     Comparator cmp;
     const Vector<T>& V;
     const T& e;
@@ -84,7 +84,7 @@ public:
 
 template <typename R, typename Pred, typename Bound, typename Next, typename... Args>
     requires is_invocable_r_v<bool, Pred, Args...>&& is_invocable_r_v<R, Bound, Args...>&& is_invocable_r_v<tuple<Args...>, Next, Args...>
-class TailRecursive : public Algorithm<R, Args...> {
+class TailRecursive : public Algorithm<R(Args...)> {
 protected:
     unique_ptr<Pred> pred { nullptr };
     unique_ptr<Bound> bound { nullptr };
@@ -101,7 +101,7 @@ public:
 
 template <typename R, typename Pred, typename Bound, typename Next, typename... Args>
     requires is_invocable_r_v<bool, Pred, Args...>&& is_invocable_r_v<R, Bound, Args...>&& is_invocable_r_v<tuple<Args...>, Next, Args...>
-class TailRecursiveIterator : public Algorithm<R, Args...> {
+class TailRecursiveIterator : public Algorithm<R(Args...)> {
 protected:
     unique_ptr<Pred> pred { nullptr };
     unique_ptr<Bound> bound { nullptr };
@@ -142,7 +142,7 @@ public:
     }
 };
 
-class BinarySearchTestProblem : public Algorithm<Rank, const Vector<int>&, const int&> {
+class BinarySearchTestProblem : public Algorithm<Rank(const Vector<int>&, const int&)> {
 public:
     void initialize(Vector<int>& V, size_t n, int lo, int hi) {
         V.resize(n);

@@ -7,7 +7,7 @@ import Stack;
 using namespace dslab;
 using namespace std;
 
-class ParenMatch : public Algorithm<bool, const string&> {
+class ParenMatch : public Algorithm<bool(const string&)> {
 protected:
     char left(char c) {
         switch (c) {

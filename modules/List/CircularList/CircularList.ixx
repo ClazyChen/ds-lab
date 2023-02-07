@@ -21,7 +21,7 @@ public:
     CircularList() = default;
     CircularList(const CircularList& list) : CircularList() {
         for (auto& item : std::views::counted(std::begin(list), list.size())) {
-            push_back(item);
+            this->push_back(item);
         }
     }
     CircularList(CircularList&& list) {
@@ -49,7 +49,7 @@ public:
 
     CircularList(std::initializer_list<T> ilist) : CircularList() {
         for (auto&& item : ilist) {
-            push_back(item);
+            this->push_back(item);
         }
     }
     CircularList& operator=(std::initializer_list<T> ilist) {

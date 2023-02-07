@@ -10,7 +10,7 @@ import Factorial;
 using namespace dslab;
 using namespace std;
 
-class Shuffle : public Algorithm<void, Vector<int>&> {};
+class Shuffle : public Algorithm<void(Vector<int>&)> {};
 
 class ShuffleBasic : public Shuffle {
 public:

@@ -30,8 +30,9 @@ public:
 
     List() { initialize(); }
     List(const List& list) : List() {
-        for (auto& item : list) {
-            push_back(item);
+        auto p { head() };
+        for (auto&& item : list) {
+            p = this->insertAsNext(p, item);
         }
     }
     List(List&& list) {
@@ -60,8 +61,9 @@ public:
     }
 
     List(std::initializer_list<T> ilist) : List() {
+        auto p { head() };
         for (auto&& item : ilist) {
-            push_back(item);
+            p = this->insertAsNext(p, item);
         }
     }
 

@@ -4,7 +4,7 @@ import Framework.Algorithm;
 
 export namespace dslab {
 
-class AbstractVectorAllocator : public Algorithm<size_t, size_t, size_t> {
+class AbstractVectorAllocator : public Algorithm<size_t(size_t, size_t)> {
 protected:
     virtual size_t expand(size_t capacity, size_t size) const = 0;
     virtual size_t shrink(size_t capacity, size_t size) const = 0;

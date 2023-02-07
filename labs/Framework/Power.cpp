@@ -35,6 +35,7 @@ public:
     }
 };
 
+// 在Power.ixx里有一个迭代版本
 using PowerFastIterative = Power;
 
 // 测试数据

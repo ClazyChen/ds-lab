@@ -6,7 +6,7 @@ import Vector;
 using namespace dslab;
 using namespace std;
 
-class VectorRemove : public Algorithm<size_t, int> {
+class VectorRemove : public Algorithm<size_t(int)> {
 protected:
     Vector<int> V {};
     virtual void batchRemove(int e) = 0;

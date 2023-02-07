@@ -112,7 +112,7 @@ public:
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
     reverse_iterator rbegin() noexcept {
-        return reverse_iterator { iterator { this, last() } };
+        return reverse_iterator { iterator { this, first() } };
     }
 
     reverse_iterator rend() noexcept {
@@ -120,7 +120,7 @@ public:
     }
 
     const_reverse_iterator rbegin() const noexcept {
-        return const_reverse_iterator { const_iterator { this, last() } };
+        return const_reverse_iterator { const_iterator { this, first() } };
     }
 
     const_reverse_iterator rend() const noexcept {
@@ -128,7 +128,7 @@ public:
     }
 
     const_reverse_iterator crbegin() const noexcept {
-        return const_reverse_iterator { const_iterator { this, last() } };
+        return const_reverse_iterator { const_iterator { this, first() } };
     }
 
     const_reverse_iterator crend() const noexcept {

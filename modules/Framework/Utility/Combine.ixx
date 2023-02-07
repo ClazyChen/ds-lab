@@ -6,7 +6,7 @@ export module Combine;
 import Framework.Algorithm;
 export namespace dslab {
 
-class CombineProblem : public Algorithm<int, int, int> {};
+class CombineProblem : public Algorithm<int(int, int)> {};
 
 class Combine : public CombineProblem {
     std::vector<std::vector<int>> C;

@@ -6,17 +6,17 @@ import Vector;
 using namespace dslab;
 using namespace std;
 
-class VectorInsertProblem : public Algorithm<size_t, int> {
+class VectorInsertProblem : public Algorithm<size_t(size_t)> {
 public:
     virtual void reset() = 0;
 };
 
 template <typename Vec>
-    requires is_base_of_v<AbstractVector<int>, Vec>
+    requires is_base_of_v<AbstractVector<size_t>, Vec>
 class VectorInsertBasic : public VectorInsertProblem {
     Vec V;
 public:
-    size_t operator()(int n) override {
+    size_t operator()(size_t n) override {
         for (size_t i { 0 }; i < n; ++i) {
             V.insert(V.size(), i);
         }
@@ -29,7 +29,7 @@ public:
 
 template <typename Alloc>
     requires is_base_of_v<AbstractVectorAllocator, Alloc>
-class VectorInsert : public VectorInsertBasic<Vector<int, Alloc>> {
+class VectorInsert : public VectorInsertBasic<Vector<size_t, Alloc>> {
 public:
     string type_name() const override {
         return Alloc {}.type_name();

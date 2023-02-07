@@ -3,7 +3,7 @@
 import Framework.Algorithm;
 export namespace dslab {
 
-class GcdProblem : public Algorithm<int, int, int> {};
+class GcdProblem : public Algorithm<int(int, int)> {};
 
 class Gcd : public GcdProblem {
 public:

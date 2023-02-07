@@ -49,7 +49,7 @@ public:
     }
     StaticList(std::initializer_list<T> ilist) : StaticList() {
         for (auto&& item : ilist) {
-            push_back(item);
+            this->push_back(item);
         }
     }
     StaticList& operator=(std::initializer_list<T> ilist) {

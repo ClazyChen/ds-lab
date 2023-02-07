@@ -15,8 +15,12 @@ void printList(size_t N, size_t M) {
     L<size_t> list {};
     ranges::copy(views::iota(0) | views::take(N), back_inserter(list));
     cout << format("Test {} : ", list.type_name()) << endl;
-    cout << list << endl;
+    cout << "\t" << list << endl << "\t";
     for (auto& item : views::counted(begin(list), M)) {
+        cout << format("{}, ", item);
+    }
+    cout << endl << "\t";
+    for (auto& item : views::counted(rbegin(list), M)) {
         cout << format("{}, ", item);
     }
     cout << endl;

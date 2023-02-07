@@ -28,8 +28,9 @@ public:
 
     ForwardList() { initialize(); }
     ForwardList(const ForwardList& list) : ForwardList() {
-        for (auto& item : list) {
-            push_back(item);
+        auto p { head() };
+        for (auto&& item : list) {
+            p = this->insertAsNext(p, item);
         }
     }
     ForwardList(ForwardList&& list) {
@@ -58,8 +59,9 @@ public:
     }
 
     ForwardList(std::initializer_list<T> ilist) : ForwardList() {
+        auto p { head() };
         for (auto&& item : ilist) {
-            push_back(item);
+            p = this->insertAsNext(p, item);
         }
     }
 

@@ -41,7 +41,7 @@ public:
         Stack<pair<int, int>> S;
         S.push({ n, m });
         while (!S.empty()) {
-            auto [n, m] = S.pop();
+            auto [n, m] { S.pop() };
             if (m == 0 || m == n) {
                 ++sum;
             } else {
@@ -57,7 +57,7 @@ class CombineMemorySearch : public CombineProblem {
     vector<vector<int>> C;
     void initialize(size_t n) {
         C.resize(n + 1);
-        for (size_t i = 0; i <= n; ++i) {
+        for (size_t i { 0 }; i <= n; ++i) {
             C[i].resize(i + 1, 0);
             C[i][0] = C[i][i] = 1;
         }

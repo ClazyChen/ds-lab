@@ -6,7 +6,7 @@ import Framework;
 using namespace dslab;
 using namespace std;
 
-class CalExpr : public Algorithm<int, const string&> {};
+class CalExpr : public Algorithm<int(const string&)> {};
 
 class CalExprSuffix : public CalExpr {
 public:
@@ -43,7 +43,7 @@ int main() {
     for (int n : testTimes) {
         cout << format("(1+(1+(1+..+(1+1))..), {} times", n) << endl;
         string expr(4 * n - 3, '1');
-        for (size_t i = 0; i < static_cast<size_t>(n) - 1; ++i) {
+        for (size_t i { 0 }; i < static_cast<size_t>(n) - 1; ++i) {
             expr[3 * i] = '(';
             expr[3 * i + 2] = '+';
             expr[4 * (static_cast<size_t>(n) - 1) - i] = ')';

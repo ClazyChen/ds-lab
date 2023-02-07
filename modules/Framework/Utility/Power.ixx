@@ -3,7 +3,7 @@
 import Framework.Algorithm;
 export namespace dslab {
 
-class PowerProblem : public Algorithm<int, int, int> {};
+class PowerProblem : public Algorithm<int(int, int)> {};
 
 class Power : public PowerProblem {
 public:
