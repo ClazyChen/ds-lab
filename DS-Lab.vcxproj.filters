@@ -357,5 +357,8 @@
     <ClCompile Include="labs\Vector\VectorTest.cpp">
       <Filter>Source Files\Vector</Filter>
     </ClCompile>
+    <ClCompile Include="modules\Framework\StructureTestFramework.ixx">
+      <Filter>Resource Files\Framework</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

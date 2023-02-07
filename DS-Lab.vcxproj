@@ -140,7 +140,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\List\ListInsert.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\List\ListMergeSort.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -203,6 +203,7 @@
     <ClCompile Include="modules\Framework\DataStructure.ixx" />
     <ClCompile Include="modules\framework\Framework.ixx" />
     <ClCompile Include="modules\framework\Object.ixx" />
+    <ClCompile Include="modules\Framework\StructureTestFramework.ixx" />
     <ClCompile Include="modules\Framework\TestFramework.ixx" />
     <ClCompile Include="modules\Framework\Utility\Combine.ixx" />
     <ClCompile Include="modules\Framework\Utility\Factorial.ixx" />
