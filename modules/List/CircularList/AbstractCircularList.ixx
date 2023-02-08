@@ -64,13 +64,25 @@ private:
         throw std::logic_error("Circular List does not have a tail");
     }
 
+    [[noreturn]] const ListNode<T>* tail() const override {
+        throw std::logic_error("Circular List does not have a tail");
+    }
+
 public:
     void push_back(const T& e) override {
-        this->insertAsPrev(this->head(), e);
+        if (auto h { this->head() }; h) {
+            this->insertAsNext(h->prev(), e);
+        } else {
+            this->insertAsNext(h, e);
+        }
     }
 
     void push_back(T&& e) override {
-        this->insertAsPrev(this->head(), std::move(e));
+        if (auto h { this->head() }; h) {
+            this->insertAsNext(h->prev(), std::move(e));
+        } else {
+            this->insertAsNext(h, std::move(e));
+        }
     }
 
     void push_front(const T& e) override {

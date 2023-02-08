@@ -23,7 +23,9 @@ class ForwardList : public AbstractForwardList<T> {
 
 public:
     ForwardListNode<T>* head() override { return m_head.get(); }
+    const ForwardListNode<T>* head() const override { return m_head.get(); }
     ForwardListNode<T>* tail() override { return m_tail; }
+    const ForwardListNode<T>* tail() const override { return m_tail; }
     size_t size() const override { return m_size; }
 
     ForwardList() { initialize(); }
@@ -102,6 +104,9 @@ public:
         node->next() = std::move(p->next());
         p->next() = std::move(node);
         p->data() = e;
+        if (m_tail == p) {
+            m_tail = p->next().get();
+        }
         ++m_size;
         return p;
     }
@@ -111,6 +116,9 @@ public:
         node->next() = std::move(p->next());
         p->next() = std::move(node);
         p->data() = std::move(e);
+        if (m_tail == p) {
+            m_tail = p->next().get();
+        }
         ++m_size;
         return p;
     }

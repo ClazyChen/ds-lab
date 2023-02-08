@@ -5,7 +5,6 @@ export module List;
 
 export import List.AbstractList;
 export import List.ListNode;
-export import List.CircularList;
 
 export namespace dslab {
 
@@ -25,7 +24,9 @@ class List : public AbstractList<T> {
 
 public:
     ListNode<T>* head() override { return m_head.get(); }
+    const ListNode<T>* head() const override { return m_head.get(); }
     ListNode<T>* tail() override { return m_tail; }
+    const ListNode<T>* tail() const override { return m_tail; }
     size_t size() const override { return m_size; }
 
     List() { initialize(); }

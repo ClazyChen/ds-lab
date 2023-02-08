@@ -12,6 +12,43 @@ import Framework.DataStructure;
 
 export namespace dslab {
 
+// 用于进行测试的元素类型
+class TestItem {
+public:
+    size_t m_value { 0 };
+    static size_t s_copyCount;
+    static size_t s_moveCount;
+    TestItem() = default;
+    TestItem(size_t value) : m_value(value) {}
+    TestItem(const TestItem& other) : m_value(other.m_value) {
+        ++s_copyCount;
+    }
+    TestItem(TestItem&& other) : m_value(other.m_value) {
+        ++s_moveCount;
+    }
+    TestItem& operator=(const TestItem& other) {
+        m_value = other.m_value;
+        ++s_copyCount;
+        return *this;
+    }
+    TestItem& operator=(TestItem&& other) {
+        m_value = other.m_value;
+        ++s_moveCount;
+        return *this;
+    }
+    bool operator==(const TestItem& other) const {
+        return m_value == other.m_value;
+    }
+    auto operator<=>(const TestItem& other) const = default;
+};
+
+size_t TestItem::s_copyCount { 0 };
+size_t TestItem::s_moveCount { 0 };
+
+std::ostream& operator<<(std::ostream& os, const TestItem& item) {
+    return os << std::format("{}", item.m_value);
+}
+
 template <template <typename> typename Structure, typename T, typename... Functors>
     requires std::is_base_of_v<DataStructure<T>, Structure<T>> && (std::is_base_of_v<Algorithm<void(Structure<T>&)>, Functors> && ...)
 class StructureTestFramework : public Algorithm<void(Structure<T>&)> {

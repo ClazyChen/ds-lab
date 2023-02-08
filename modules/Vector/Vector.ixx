@@ -16,8 +16,9 @@ class Vector : public AbstractVector<T> {
     std::unique_ptr<T[]> m_data { nullptr };
     size_t m_capacity { 0 };
     size_t m_size { 0 };
-
+    
     T* data() override { return m_data.get(); }
+    const T* data() const override { return m_data.get(); }
 public:
     size_t capacity() const override { return m_capacity; }
     size_t size() const override { return m_size; }

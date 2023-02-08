@@ -16,6 +16,7 @@ class CircularList : public AbstractCircularList<T> {
 
 public:
     ListNode<T>* head() override { return m_head; }
+    const ListNode<T>* head() const override { return m_head; }
     size_t size() const override { return m_size; }
 
     CircularList() = default;
@@ -89,7 +90,11 @@ public:
 
     ListNode<T>* insertAsPrev(ListNode<T>* p, const T& e) override {
         auto q { p ? p->prev() : nullptr };
-        return insertAsNext(q, e);
+        auto node { insertAsNext(q, e) };
+        if (p == m_head) {
+            m_head = node;
+        }
+        return node;
     }
 
     ListNode<T>* insertAsNext(ListNode<T>* p, T&& e) override {
@@ -111,7 +116,11 @@ public:
 
     ListNode<T>* insertAsPrev(ListNode<T>* p, T&& e) override {
         auto q { p ? p->prev() : nullptr };
-        return insertAsNext(q, std::move(e));
+        auto node { insertAsNext(q, std::move(e)) };
+        if (p == m_head) {
+            m_head = node;
+        }
+        return node;
     }
 
     ListNode<T>* find(const T& e) const override {

@@ -360,5 +360,17 @@
     <ClCompile Include="modules\Framework\StructureTestFramework.ixx">
       <Filter>Resource Files\Framework</Filter>
     </ClCompile>
+    <ClCompile Include="labs\List\ListTest.cpp">
+      <Filter>Source Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\List\ForwardListTest.cpp">
+      <Filter>Source Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\List\StaticListTest.cpp">
+      <Filter>Source Files\List</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\List\CircularListTest.cpp">
+      <Filter>Source Files\List</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -42,6 +42,9 @@ public:
     const Rank& prev() const { return m_prev; }
     Rank& next() { return m_next; }
     const Rank& next() const { return m_next; }
+
+    bool operator==(const StaticListNode& node) const { return m_data == node.m_data; }
+    auto operator<=>(const StaticListNode& node) const { return m_data <=> node.m_data; }
 };
 
 }

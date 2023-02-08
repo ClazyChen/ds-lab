@@ -16,10 +16,7 @@ template <typename T>
 class AbstractStaticList : public AbstractLinearList<T, Rank> {
 protected:
     virtual StaticListNode<T>& getNode(Rank r) = 0;
-    const StaticListNode<T>& getNode(Rank r) const {
-        return const_cast<AbstractStaticList*>(this)->getNode(r);
-    }
-
+    virtual const StaticListNode<T>& getNode(Rank r) const = 0;
 public:
     virtual Rank head() const = 0; // 返回首哨兵节点
     virtual Rank tail() const = 0; // 返回尾哨兵节点
