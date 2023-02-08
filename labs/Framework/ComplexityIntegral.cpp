@@ -26,8 +26,8 @@ vector testData {
 
 int main() {
     for (auto n : testData) {
-        auto [result, time] = reportTime<int>([&] { return f(n); });
-        auto relative = time * 1e9 / (n * n * n * log2(n));
+        auto [result, time] { reportTime<int>([&] { return f(n); }) };
+        auto relative { time * 1e9 / (n * n * n * log2(n)) };
         cout << format("f({:>4}) = {:>12} ({:.6f}s, {:.6f}ns/n^3logn)", n, result, time, relative) << endl;
     }
 }

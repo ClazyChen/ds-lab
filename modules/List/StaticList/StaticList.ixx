@@ -22,6 +22,10 @@ class StaticList : public AbstractStaticList<T> {
         return m_data[r];
     }
 
+    const StaticListNode<T>& getNode(Rank r) const override {
+        return const_cast<StaticList*>(this)->getNode(r);
+    }
+    
 public:
     Rank head() const override { return HEAD; }
     Rank tail() const override { return TAIL; }
@@ -31,7 +35,7 @@ public:
 
     StaticList() { clear(); }
     StaticList(const StaticList& list) : m_data(list.m_data) {}
-    StaticList(StaticList&& list) : m_data(std::move(list.m_data)) {
+    StaticList(StaticList&& list) noexcept : m_data(std::move(list.m_data)) {
         list.clear();
     }
     StaticList& operator=(const StaticList& list) {
@@ -40,7 +44,7 @@ public:
         }
         return *this;
     }
-    StaticList& operator=(StaticList&& list) {
+    StaticList& operator=(StaticList&& list) noexcept {
         if (this != &list) {
             m_data = std::move(list.m_data);
             list.clear();
@@ -49,7 +53,7 @@ public:
     }
     StaticList(std::initializer_list<T> ilist) : StaticList() {
         for (auto&& item : ilist) {
-            push_back(item);
+            this->push_back(item);
         }
     }
     StaticList& operator=(std::initializer_list<T> ilist) {
@@ -97,7 +101,7 @@ public:
         return r;
     }
 
-    Rank find(const T& e) override {
+    Rank find(const T& e) const override {
         Rank r { getNode(HEAD).next() };
         while (r != TAIL) {
             if (getNode(r).data() == e) {
@@ -114,9 +118,9 @@ public:
         getNode(getNode(r).next()).prev() = getNode(r).prev();
         Rank s { m_data.size() - 1 };
         if (r != s) {
-            getNode(r).data() = std::move(getNode(s).data());
-            getNode(getNode(s).prev()).next() = r;
-            getNode(getNode(s).next()).prev() = r;
+            getNode(r) = std::move(getNode(s));
+            getNode(getNode(r).prev()).next() = r;
+            getNode(getNode(r).next()).prev() = r;
         }
         m_data.pop_back();
         return e;

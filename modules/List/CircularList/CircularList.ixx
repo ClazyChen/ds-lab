@@ -16,15 +16,16 @@ class CircularList : public AbstractCircularList<T> {
 
 public:
     ListNode<T>* head() override { return m_head; }
+    const ListNode<T>* head() const override { return m_head; }
     size_t size() const override { return m_size; }
 
     CircularList() = default;
     CircularList(const CircularList& list) : CircularList() {
         for (auto& item : std::views::counted(std::begin(list), list.size())) {
-            push_back(item);
+            this->push_back(item);
         }
     }
-    CircularList(CircularList&& list) {
+    CircularList(CircularList&& list) noexcept {
         m_head = list.m_head;
         m_size = list.m_size;
         list.m_head = nullptr;
@@ -38,7 +39,7 @@ public:
         }
         return *this;
     }
-    CircularList& operator=(CircularList&& list) {
+    CircularList& operator=(CircularList&& list) noexcept {
         if (this != &list) {
             CircularList tmp { std::move(list) };
             std::swap(m_head, tmp.m_head);
@@ -49,7 +50,7 @@ public:
 
     CircularList(std::initializer_list<T> ilist) : CircularList() {
         for (auto&& item : ilist) {
-            push_back(item);
+            this->push_back(item);
         }
     }
     CircularList& operator=(std::initializer_list<T> ilist) {
@@ -89,7 +90,11 @@ public:
 
     ListNode<T>* insertAsPrev(ListNode<T>* p, const T& e) override {
         auto q { p ? p->prev() : nullptr };
-        return insertAsNext(q, e);
+        auto node { insertAsNext(q, e) };
+        if (p == m_head) {
+            m_head = node;
+        }
+        return node;
     }
 
     ListNode<T>* insertAsNext(ListNode<T>* p, T&& e) override {
@@ -111,7 +116,11 @@ public:
 
     ListNode<T>* insertAsPrev(ListNode<T>* p, T&& e) override {
         auto q { p ? p->prev() : nullptr };
-        return insertAsNext(q, std::move(e));
+        auto node { insertAsNext(q, std::move(e)) };
+        if (p == m_head) {
+            m_head = node;
+        }
+        return node;
     }
 
     ListNode<T>* find(const T& e) const override {

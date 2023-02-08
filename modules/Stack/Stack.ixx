@@ -20,6 +20,10 @@ class Stack : public AbstractStack<T> {
 public:
     constexpr static bool is_vector = std::is_base_of_v<AbstractVector<T>, Linear<T>>;
 
+    Stack() = default;
+    Stack(const T& e) : L({ e }) {}
+    Stack(T&& e) : L({ std::move(e) }) {}
+
     void push(const T& e) override {
         if constexpr (is_vector) {
             L.push_back(e);

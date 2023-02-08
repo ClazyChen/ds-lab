@@ -9,7 +9,7 @@ using namespace dslab;
 using namespace std;
 
 template <typename T>
-class VectorUnique : public Algorithm<void, Vector<T>&> {};
+class VectorUnique : public Algorithm<void(Vector<T>&)> {};
 
 template <typename T>
 class VectorUniqueBasic : public VectorUnique<T> {
@@ -86,7 +86,7 @@ public:
     }
 };
 
-class VectorUniqueTestProblem : public Algorithm<size_t> {
+class VectorUniqueTestProblem : public Algorithm<size_t()> {
 protected:
     Vector<int> V;
 public:
@@ -129,9 +129,9 @@ int main() {
     cout << "worst case scenario" << endl;
     testCase([](size_t n) {
         Vector<int> V(n);
-    iota(begin(V), end(V), 0);
-    return V;
-        });
+        iota(begin(V), end(V), 0);
+        return V;
+    });
     cout << "best case scenario" << endl;
     testCase([](size_t n) { return Vector<int>(n); });
     return 0;

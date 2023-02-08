@@ -9,7 +9,7 @@ import Framework;
 using namespace dslab;
 using namespace std;
 
-class Generate4 : public Algorithm<size_t, size_t> {
+class Generate4 : public Algorithm<size_t(size_t)> {
 protected:
     Vector<size_t> V;
 public:
@@ -18,7 +18,7 @@ public:
     }
 };
 
-class Generate4Solver : public Algorithm<void, Vector<size_t>&, size_t> {
+class Generate4Solver : public Algorithm<void(Vector<size_t>&, size_t)> {
 protected:
     size_t minn, maxn;
 public:
@@ -59,7 +59,7 @@ public:
     }
 };
 
-class Generate4Pred : public Algorithm<bool, size_t> {
+class Generate4Pred : public Algorithm<bool(size_t)> {
     size_t minn, maxn;
 public:
     Generate4Pred(size_t w) : minn(Power {}(10, w - 1)), maxn(Power {}(10, w) - 1) {}
@@ -68,7 +68,7 @@ public:
     }
 };
 
-class Generate4Bound : public Algorithm<void, size_t> {
+class Generate4Bound : public Algorithm<void(size_t)> {
     Vector<size_t>& V;
 public:
     Generate4Bound(Vector<size_t>& V) : V(V) {}
@@ -77,7 +77,7 @@ public:
     }
 };
 
-class Generate4Next : public Algorithm<vector<tuple<size_t>>, size_t> {
+class Generate4Next : public Algorithm<vector<tuple<size_t>>(size_t)> {
 public:
     vector<tuple<size_t>> operator()(size_t n) override {
         return { { n * 10 + 1 }, { n * 10 + 2 }, { n * 10 + 3 }, { n * 10 + 4 } };
@@ -86,7 +86,7 @@ public:
 
 template <typename Pred, typename Bound, typename Next, typename... Args>
     requires is_invocable_r_v<bool, Pred, Args...>&& is_invocable_r_v<void, Bound, Args...>&& is_invocable_r_v<vector<tuple<Args...>>, Next, Args...>
-class TailRecursive : public Algorithm<void, Args...> {
+class TailRecursive : public Algorithm<void(Args...)> {
 protected:
     unique_ptr<Pred> pred { nullptr };
     unique_ptr<Bound> bound { nullptr };
@@ -106,7 +106,7 @@ public:
 
 template <typename Pred, typename Bound, typename Next, typename... Args>
     requires is_invocable_r_v<bool, Pred, Args...>&& is_invocable_r_v<void, Bound, Args...>&& is_invocable_r_v<vector<tuple<Args...>>, Next, Args...>
-class TailRecursiveIterator : public Algorithm<void, Args...> {
+class TailRecursiveIterator : public Algorithm<void(Args...)> {
 protected:
     unique_ptr<Pred> pred { nullptr };
     unique_ptr<Bound> bound { nullptr };
@@ -122,7 +122,7 @@ public:
                 (*bound)(args...);
             } else {
                 for (auto&& nextArgs : (*next)(args...) | views::reverse) {
-                    S.push(std::move(nextArgs));
+                    S.push(move(nextArgs));
                 }
             }
         }

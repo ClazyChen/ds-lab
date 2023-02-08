@@ -7,7 +7,7 @@ import Stack;
 using namespace dslab;
 using namespace std;
 
-class ParenMatch : public Algorithm<bool, const string&> {
+class ParenMatch : public Algorithm<bool(const string&)> {
 protected:
     char left(char c) {
         switch (c) {
@@ -24,7 +24,7 @@ public:
     bool operator()(const string& expr) {
         Stack<char> S;
         for (char c : expr) {
-            if (char l = left(c); l == c) {
+            if (char l { left(c) }; l == c) {
                 S.push(c);
             } else if (l) {
                 if (S.empty() || S.top() != l) return false;
@@ -53,8 +53,8 @@ RandomStackOperation<char, string> randop;
 
 int main() {
     cout << "Case test:" << endl;
-    for (auto& [seq, ans] : testCases) {
-        cout << format("  {} -> {}", seq, ans) << endl;
+    for (const auto& [seq, ans] : testCases) {
+        cout << format("  {:15} -> {:6}", seq, ans) << endl;
         test(seq);
     }
     cout << "Random test:" << endl;

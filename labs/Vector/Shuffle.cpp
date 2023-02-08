@@ -10,7 +10,8 @@ import Factorial;
 using namespace dslab;
 using namespace std;
 
-class Shuffle : public Algorithm<void, Vector<int>&> {};
+
+class Shuffle : public Algorithm<void(Vector<int>&)> {};
 
 class ShuffleBasic : public Shuffle {
 public:
@@ -30,7 +31,7 @@ public:
     }
 };
 
-class ShuffleTestProblem : public Algorithm<void> {};
+class ShuffleTestProblem : public Algorithm<void()> {};
 
 template <size_t N, size_t Times, typename Shuf>
     requires (N > 0 && Times > 0 && std::is_base_of_v<Shuffle, Shuf>)
@@ -73,14 +74,16 @@ public:
             error += abs(m_counter[i] - avg);
         }
         error /= m_factorial(N);
-        cout << format("Average: {:10.2f} Error: {:5.2f}%", avg, 100.0 * error / avg) << endl;
+        // TODO: 这里直接使用 std::format 会报错，需要调查
+        // 怀疑是Visual Studio 2022存在的BUG
+        cout << vformat("Average: {:10.2f} Error: {:5.2f}%", std::make_format_args(avg, 100.0 * error / avg)) << endl;
     }
 };
 
 TestFramework<ShuffleTestProblem,
     ShuffleTest<4, 1'000'000, ShuffleBasic>,
     ShuffleTest<4, 1'000'000, ShuffleStd>> test;
-
+    
 int main() {
     test();
     return 0;

@@ -9,7 +9,7 @@ using namespace dslab;
 using namespace std;
 
 template <typename T>
-class CyclicShift : public Algorithm<void, Vector<T>&, size_t> {};
+class CyclicShift : public Algorithm<void(Vector<T>&, size_t)> {};
 
 template <typename T>
 class CyclicShiftMove : public CyclicShift<T> {

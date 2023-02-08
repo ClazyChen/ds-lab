@@ -9,7 +9,7 @@ using namespace dslab;
 using namespace std;
 
 template <typename T>
-class Rebuild : public Algorithm<BinaryTree<T>, const Vector<T>&, const Vector<T>&> {};
+class Rebuild : public Algorithm<BinaryTree<T>(const Vector<T>&, const Vector<T>&)> {};
 
 template <typename T>
 class RebuildBasic : public Rebuild<T> {

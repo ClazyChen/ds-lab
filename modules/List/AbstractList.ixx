@@ -14,13 +14,9 @@ template <typename T>
 class AbstractList : public AbstractLinearList<T, ListNode<T>*> {
 public:
     virtual ListNode<T>* head() = 0; // 返回首哨兵节点
-    virtual const ListNode<T>* head() const {
-        return const_cast<AbstractList*>(this)->head();
-    }
+    virtual const ListNode<T>* head() const = 0; // 返回首哨兵节点
     virtual ListNode<T>* tail() = 0; // 返回尾哨兵节点
-    virtual const ListNode<T>* tail() const {
-        return const_cast<AbstractList*>(this)->tail();
-    }
+    virtual const ListNode<T>* tail() const = 0; // 返回尾哨兵节点
     virtual size_t size() const = 0; // 返回列表的规模
     virtual ListNode<T>* insertAsNext(ListNode<T>* p, const T& e) = 0; // 将e当作p的后继插入
     virtual ListNode<T>* insertAsNext(ListNode<T>* p, T&& e) = 0; // 将e当作p的后继插入

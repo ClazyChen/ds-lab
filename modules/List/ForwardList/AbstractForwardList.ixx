@@ -15,13 +15,9 @@ template <typename T>
 class AbstractForwardList : public AbstractLinearList<T, ForwardListNode<T>*> {
 public:
     virtual ForwardListNode<T>* head() = 0;
-    virtual const ForwardListNode<T>* head() const {
-        return const_cast<AbstractForwardList*>(this)->head();
-    }
     virtual ForwardListNode<T>* tail() = 0;
-    virtual const ForwardListNode<T>* tail() const {
-        return const_cast<AbstractForwardList*>(this)->tail();
-    }
+    virtual const ForwardListNode<T>* head() const = 0;
+    virtual const ForwardListNode<T>* tail() const = 0;
     virtual size_t size() const = 0;
     virtual ForwardListNode<T>* insertAsNext(ForwardListNode<T>* p, const T& e) = 0;
     virtual ForwardListNode<T>* insertAsNext(ForwardListNode<T>* p, T&& e) = 0;

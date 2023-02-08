@@ -62,7 +62,7 @@ public:
                     std::cout << std::format("Result: {0}, Time: {1:.6f} s", result, time) << std::endl;
                 }
             } catch (const std::exception& e) {
-                std::cout << "Error: " << e.what() << std::endl;
+                std::cout << std::format("Error: {}", e.what()) << std::endl;
             }
         }
     }

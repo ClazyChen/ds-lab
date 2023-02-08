@@ -14,10 +14,9 @@ using Rank = size_t;
 template <typename T>
 class AbstractVector : public AbstractLinearList<T, Rank> {
 protected:
+    // TODO: C++23中，使用this捕获来避免const重载
     virtual T* data() = 0; // 返回向量的首地址
-    virtual const T* data() const {
-        return const_cast<AbstractVector*>(this)->data();
-    }
+    virtual const T* data() const = 0;
 public:
     virtual size_t capacity() const = 0; // 返回向量的容量
     virtual void reserve(size_t n) = 0; // 申请容量为n的向量

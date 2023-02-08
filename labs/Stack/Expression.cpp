@@ -6,7 +6,7 @@ import Framework;
 using namespace dslab;
 using namespace std;
 
-class CalExpr : public Algorithm<int, const string&> {};
+class CalExpr : public Algorithm<int(const string&)> {};
 
 class CalExprSuffix : public CalExpr {
 public:
@@ -31,7 +31,7 @@ vector<pair<string, int>> testData {
     {"(-1-(2+3*(45/6-7!))+8)*9"s, 135936}
 };
 
-vector testTimes { 1000, 10000, 100'000, 300'000 };
+vector<size_t> testTimes { 1000, 10000, 100'000, 300'000 };
 
 TestFramework<CalExpr, CalExprSuffix, CalExprInfix> test;
 
@@ -40,13 +40,13 @@ int main() {
         cout << format("Expression: {}, Result: {}", expr, result) << endl;
         test(expr);
     }
-    for (int n : testTimes) {
+    for (auto n : testTimes) {
         cout << format("(1+(1+(1+..+(1+1))..), {} times", n) << endl;
         string expr(4 * n - 3, '1');
-        for (size_t i = 0; i < static_cast<size_t>(n) - 1; ++i) {
+        for (size_t i { 0 }; i < n - 1; ++i) {
             expr[3 * i] = '(';
             expr[3 * i + 2] = '+';
-            expr[4 * (static_cast<size_t>(n) - 1) - i] = ')';
+            expr[4 * (n - 1) - i] = ')';
         }
         test(expr);
     }

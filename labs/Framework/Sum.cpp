@@ -6,7 +6,8 @@ import Framework;
 using namespace dslab;
 using namespace std;
 
-class Sum : public Algorithm<int, int> {};
+// 从1加到N的结果
+class Sum : public Algorithm<int(int)> {};
 
 class SumBasic : public Sum {
 public:
@@ -63,7 +64,7 @@ TestFramework<Sum, SumBasic, SumAP, SumAP2, SumAP2Limited> test;
 
 int main() {
     for (auto data : testData) {
-        std::cout << std::format("Input: {}", data) << std::endl;
+        cout << format("Input: {}", data) << endl;
         test(data);
     }
     return 0;

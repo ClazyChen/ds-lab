@@ -8,7 +8,7 @@ using namespace dslab;
 using namespace std;
 
 // 零点问题
-class ZeroPoint : public Algorithm<double, function<double(double)>> {
+class ZeroPoint : public Algorithm<double(function<double(double)>)> {
     static constexpr double limit_l { -1.0 };
     static constexpr double limit_r { 1.0 };
 protected:
@@ -54,7 +54,7 @@ protected:
 };
 
 // 下面是用来测试的函数，您可以自行添加
-class TestFunctor : public Algorithm<double, double> {
+class TestFunctor : public Algorithm<double(double)> {
 public:
     virtual string name() const = 0;
 };

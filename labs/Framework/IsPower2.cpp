@@ -7,7 +7,7 @@ using namespace dslab;
 using namespace std;
 
 // 判断是否是2的幂次
-class IsPower2 : public Algorithm<bool, int> {};
+class IsPower2 : public Algorithm<bool(int)> {};
 
 // 直接判定的方法
 class IsPower2Basic : public IsPower2 {

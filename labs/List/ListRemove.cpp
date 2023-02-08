@@ -9,14 +9,14 @@ using namespace dslab;
 using namespace std;
 
 template <typename T>
-class ContinuousPop : public Algorithm<void> {
+class ContinuousPop : public Algorithm<void()> {
 protected:
     List<T> L;
     Vector<ListNode<T>*> V;
 public:
     virtual void initialize(size_t n) = 0;
     void operator()() override {
-        for (auto p : V) {
+        for (auto&& p : V) {
             L.remove(p);
         }
     }

@@ -5,7 +5,6 @@ export module List;
 
 export import List.AbstractList;
 export import List.ListNode;
-export import List.CircularList;
 
 export namespace dslab {
 
@@ -25,16 +24,19 @@ class List : public AbstractList<T> {
 
 public:
     ListNode<T>* head() override { return m_head.get(); }
+    const ListNode<T>* head() const override { return m_head.get(); }
     ListNode<T>* tail() override { return m_tail; }
+    const ListNode<T>* tail() const override { return m_tail; }
     size_t size() const override { return m_size; }
 
     List() { initialize(); }
     List(const List& list) : List() {
-        for (auto& item : list) {
-            push_back(item);
+        auto p { head() };
+        for (auto&& item : list) {
+            p = this->insertAsNext(p, item);
         }
     }
-    List(List&& list) {
+    List(List&& list) noexcept {
         m_head = std::move(list.m_head);
         m_tail = list.m_tail;
         m_size = list.m_size;
@@ -49,7 +51,7 @@ public:
         }
         return *this;
     }
-    List& operator=(List&& list) {
+    List& operator=(List&& list) noexcept {
         if (this != &list) {
             List tmp { std::move(list) };
             std::swap(m_head, tmp.m_head);
@@ -60,8 +62,9 @@ public:
     }
 
     List(std::initializer_list<T> ilist) : List() {
+        auto p { head() };
         for (auto&& item : ilist) {
-            push_back(item);
+            p = this->insertAsNext(p, item);
         }
     }
 

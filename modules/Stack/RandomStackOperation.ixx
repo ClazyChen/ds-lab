@@ -13,7 +13,7 @@ export namespace dslab {
 
 template <typename T, typename Vec>
     requires std::is_base_of_v<AbstractVector<T>, Vec> || (std::is_same_v<T, char> && std::is_same_v<Vec, std::string>)
-class RandomStackOperation : public Algorithm<Vec, size_t, const T&, const T&> {
+class RandomStackOperation : public Algorithm<Vec(size_t, const T&, const T&)> {
 protected:
     std::default_random_engine m_engine {};
     std::uniform_int_distribution<size_t> m_distribution { 0, std::numeric_limits<size_t>::max() };

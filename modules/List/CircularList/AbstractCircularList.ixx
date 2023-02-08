@@ -64,13 +64,25 @@ private:
         throw std::logic_error("Circular List does not have a tail");
     }
 
+    [[noreturn]] const ListNode<T>* tail() const override {
+        throw std::logic_error("Circular List does not have a tail");
+    }
+
 public:
     void push_back(const T& e) override {
-        this->insertAsPrev(this->head(), e);
+        if (auto h { this->head() }; h) {
+            this->insertAsNext(h->prev(), e);
+        } else {
+            this->insertAsNext(h, e);
+        }
     }
 
     void push_back(T&& e) override {
-        this->insertAsPrev(this->head(), std::move(e));
+        if (auto h { this->head() }; h) {
+            this->insertAsNext(h->prev(), std::move(e));
+        } else {
+            this->insertAsNext(h, std::move(e));
+        }
     }
 
     void push_front(const T& e) override {
@@ -112,7 +124,7 @@ public:
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
     reverse_iterator rbegin() noexcept {
-        return reverse_iterator { iterator { this, last() } };
+        return reverse_iterator { iterator { this, first() } };
     }
 
     reverse_iterator rend() noexcept {
@@ -120,7 +132,7 @@ public:
     }
 
     const_reverse_iterator rbegin() const noexcept {
-        return const_reverse_iterator { const_iterator { this, last() } };
+        return const_reverse_iterator { const_iterator { this, first() } };
     }
 
     const_reverse_iterator rend() const noexcept {
@@ -128,7 +140,7 @@ public:
     }
 
     const_reverse_iterator crbegin() const noexcept {
-        return const_reverse_iterator { const_iterator { this, last() } };
+        return const_reverse_iterator { const_iterator { this, first() } };
     }
 
     const_reverse_iterator crend() const noexcept {

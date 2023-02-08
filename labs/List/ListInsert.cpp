@@ -11,7 +11,7 @@ import ForwardList;
 using namespace dslab;
 using namespace std;
 
-class ContinuousPush : public Algorithm<void, size_t> {
+class ContinuousPush : public Algorithm<void(size_t)> {
 public:
     virtual void initialize() = 0;
 };
@@ -40,7 +40,7 @@ class ContinuousPushFront : public ContinuousPush {
     Linear<int> m_container;
 public:
     void initialize() override {
-        m_container = Linear<int> {};
+        m_container = {};
     }
     void operator()(size_t n) override {
         if constexpr (is_base_of_v<AbstractVector<int>, Linear<int>>) {
@@ -57,7 +57,7 @@ public:
     }
 };
 
-vector testData { 10, 1000, 10'000, 100'000, 1'000'000, 10'000'000 };
+vector testData { 10, 1000, 10'000, 100'000, 1'000'000, 3'000'000 };
 
 TestFramework<ContinuousPush, ContinuousPushBack<DefaultVector>, ContinuousPushBack<List>, ContinuousPushBack<ForwardList>> test_back;
 TestFramework<ContinuousPush, ContinuousPushFront<DefaultVector>, ContinuousPushFront<List>, ContinuousPushFront<ForwardList>> test_front;

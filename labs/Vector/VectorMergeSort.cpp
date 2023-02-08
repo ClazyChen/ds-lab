@@ -57,7 +57,7 @@ public:
     }
 };
 
-class MergeSortTestProblem : public Algorithm<bool> {
+class MergeSortTestProblem : public Algorithm<bool()> {
 public:
     virtual void initialize(const Vector<int>& V) = 0;
 };
