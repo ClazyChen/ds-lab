@@ -35,7 +35,7 @@ public:
 
     StaticList() { clear(); }
     StaticList(const StaticList& list) : m_data(list.m_data) {}
-    StaticList(StaticList&& list) : m_data(std::move(list.m_data)) {
+    StaticList(StaticList&& list) noexcept : m_data(std::move(list.m_data)) {
         list.clear();
     }
     StaticList& operator=(const StaticList& list) {
@@ -44,7 +44,7 @@ public:
         }
         return *this;
     }
-    StaticList& operator=(StaticList&& list) {
+    StaticList& operator=(StaticList&& list) noexcept {
         if (this != &list) {
             m_data = std::move(list.m_data);
             list.clear();

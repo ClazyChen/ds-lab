@@ -36,7 +36,7 @@ public:
             p = this->insertAsNext(p, item);
         }
     }
-    List(List&& list) {
+    List(List&& list) noexcept {
         m_head = std::move(list.m_head);
         m_tail = list.m_tail;
         m_size = list.m_size;
@@ -51,7 +51,7 @@ public:
         }
         return *this;
     }
-    List& operator=(List&& list) {
+    List& operator=(List&& list) noexcept {
         if (this != &list) {
             List tmp { std::move(list) };
             std::swap(m_head, tmp.m_head);

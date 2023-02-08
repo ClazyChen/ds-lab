@@ -25,7 +25,7 @@ public:
             this->push_back(item);
         }
     }
-    CircularList(CircularList&& list) {
+    CircularList(CircularList&& list) noexcept {
         m_head = list.m_head;
         m_size = list.m_size;
         list.m_head = nullptr;
@@ -39,7 +39,7 @@ public:
         }
         return *this;
     }
-    CircularList& operator=(CircularList&& list) {
+    CircularList& operator=(CircularList&& list) noexcept {
         if (this != &list) {
             CircularList tmp { std::move(list) };
             std::swap(m_head, tmp.m_head);

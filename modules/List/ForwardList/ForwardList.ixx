@@ -35,7 +35,7 @@ public:
             p = this->insertAsNext(p, item);
         }
     }
-    ForwardList(ForwardList&& list) {
+    ForwardList(ForwardList&& list) noexcept {
         m_head = std::move(list.m_head);
         m_tail = list.m_tail;
         m_size = list.m_size;
@@ -50,7 +50,7 @@ public:
         }
         return *this;
     }
-    ForwardList& operator=(ForwardList&& list) {
+    ForwardList& operator=(ForwardList&& list) noexcept {
         if (this != &list) {
             ForwardList tmp { std::move(list) };
             std::swap(m_head, tmp.m_head);

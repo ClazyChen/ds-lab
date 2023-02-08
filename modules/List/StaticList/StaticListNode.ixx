@@ -19,7 +19,7 @@ public:
     StaticListNode(const T& data, Rank prev, Rank next) : m_data(data), m_prev(prev), m_next(next) {}
     StaticListNode(T&& data, Rank prev, Rank next) : m_data(std::move(data)), m_prev(prev), m_next(next) {}
     StaticListNode(const StaticListNode& node) : m_data(node.m_data), m_prev(node.m_prev), m_next(node.m_next) {}
-    StaticListNode(StaticListNode&& node) : m_data(std::move(node.m_data)), m_prev(node.m_prev), m_next(node.m_next) {}
+    StaticListNode(StaticListNode&& node) noexcept : m_data(std::move(node.m_data)), m_prev(node.m_prev), m_next(node.m_next) {}
     StaticListNode& operator=(const StaticListNode& node) {
         if (this != &node) {
             m_data = node.m_data;
@@ -28,7 +28,7 @@ public:
         }
         return *this;
     }
-    StaticListNode& operator=(StaticListNode&& node) {
+    StaticListNode& operator=(StaticListNode&& node) noexcept {
         if (this != &node) {
             m_data = std::move(node.m_data);
             m_prev = node.m_prev;
