@@ -24,6 +24,12 @@ public:
     Stack(const T& e) : L({ e }) {}
     Stack(T&& e) : L({ std::move(e) }) {}
 
+    Stack(std::initializer_list<T> ilist) : L(ilist) {}
+    Stack& operator=(std::initializer_list<T> ilist) {
+        L = ilist;
+        return *this;
+    }
+
     void push(const T& e) override {
         if constexpr (is_vector) {
             L.push_back(e);

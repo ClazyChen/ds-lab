@@ -152,7 +152,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\List\ListRemove.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\List\ListTest.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -172,6 +172,7 @@
     <ClCompile Include="labs\Stack\Generate4.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="labs\Stack\Generate4Sum.cpp" />
     <ClCompile Include="labs\Stack\ParenMatch.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -266,6 +267,7 @@
     <ClCompile Include="modules\Stack\Expression\AbstractExpressionElement.ixx" />
     <ClCompile Include="modules\Stack\Expression\Expression.ixx" />
     <ClCompile Include="modules\Stack\Expression\ExpressionElement.ixx" />
+    <ClCompile Include="modules\Stack\MinStack.ixx" />
     <ClCompile Include="modules\Stack\RandomStackOperation.ixx" />
     <ClCompile Include="modules\Stack\SharedStack.ixx" />
     <ClCompile Include="modules\Stack\Stack.ixx" />

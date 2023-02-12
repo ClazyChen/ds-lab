@@ -38,8 +38,7 @@ class CombineIterative : public CombineProblem {
 public:
     int operator()(int n, int m) override {
         int sum { 0 };
-        Stack<pair<int, int>> S;
-        S.push({ n, m });
+        Stack<pair<int, int>> S { {n, m} };
         while (!S.empty()) {
             auto [n, m] { S.pop() };
             if (m == 0 || m == n) {
