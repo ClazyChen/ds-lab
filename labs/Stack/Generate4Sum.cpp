@@ -68,23 +68,23 @@ public:
     }
 };
 
-class Generate4HasNext : public Algorithm<bool(vector<size_t>&, size_t)> {
+class Generate4HasNext : public Algorithm<bool(const vector<size_t>&, size_t)> {
 public:
-    bool operator()(vector<size_t>& V, size_t n) override {
+    bool operator()(const vector<size_t>& V, size_t n) override {
         return V.size() < 4;
     }
 };
 
-class Generate4Next : public Algorithm<tuple<size_t>(vector<size_t>&, size_t)> {
+class Generate4Next : public Algorithm<tuple<size_t>(const vector<size_t>&, size_t)> {
 public:
-    tuple<size_t> operator()(vector<size_t>& V, size_t n) override {
+    tuple<size_t> operator()(const vector<size_t>& V, size_t n) override {
         return { n * 10 + V.size() + 1 };
     }
 };
 
-class Generate4Finalize : public Algorithm<size_t(vector<size_t>&, size_t)> {
+class Generate4Finalize : public Algorithm<size_t(const vector<size_t>&, size_t)> {
 public:
-    size_t operator()(vector<size_t>& V, size_t n) override {
+    size_t operator()(const vector<size_t>& V, size_t n) override {
         return V[0] + V[1] + V[2] + V[3];
     }
 };
@@ -92,9 +92,9 @@ public:
 template <typename R, typename Pred, typename Bound, typename HasNext, typename Next, typename Finalize, typename... Args>
     requires is_invocable_r_v<bool, Pred, Args...>
 && is_invocable_r_v<R, Bound, Args...>
-&& is_invocable_r_v<bool, HasNext, vector<R>&, Args...>
-&& is_invocable_r_v<tuple<Args...>, Next, vector<R>&, Args...>
-&& is_invocable_r_v<R, Finalize, vector<R>&, Args...>
+&& is_invocable_r_v<bool, HasNext, const vector<R>&, Args...>
+&& is_invocable_r_v<tuple<Args...>, Next, const vector<R>&, Args...>
+&& is_invocable_r_v<R, Finalize, const vector<R>&, Args...>
 class Recursive : public Algorithm<R(Args...)> {
 protected:
     unique_ptr<Pred> pred { nullptr };
@@ -126,9 +126,9 @@ public:
 template <typename R, typename Pred, typename Bound, typename HasNext, typename Next, typename Finalize, typename... Args>
     requires is_invocable_r_v<bool, Pred, Args...>
 && is_invocable_r_v<R, Bound, Args...>
-&& is_invocable_r_v<bool, HasNext, vector<R>&, Args...>
-&& is_invocable_r_v<tuple<Args...>, Next, vector<R>&, Args...>
-&& is_invocable_r_v<R, Finalize, vector<R>&, Args...>
+&& is_invocable_r_v<bool, HasNext, const vector<R>&, Args...>
+&& is_invocable_r_v<tuple<Args...>, Next, const vector<R>&, Args...>
+&& is_invocable_r_v<R, Finalize, const vector<R>&, Args...>
 class Iterative : public Algorithm<R(Args...)> {
 protected:
     unique_ptr<Pred> pred { nullptr };

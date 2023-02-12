@@ -114,7 +114,7 @@ vector<pair<Rank, Rank>> testCases {
 
 TestFramework<MergeSortTestProblem, MergeSortBasicTest, MergeSortLimitTest, MergeSortCondTest> test;
 
-default_random_engine engine;
+default_random_engine engine { random_device{}() };
 
 int main() {
     for (Vector<int> V(N); auto & [lo, hi] : testCases) {

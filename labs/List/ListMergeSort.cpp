@@ -59,7 +59,7 @@ public:
 vector testData { 10, 1000, 10000, 100'000, 1'000'000 };
 
 TestFramework<SortProblem, VectorSort, ListSort, ListSortPtr> test;
-default_random_engine engine;
+default_random_engine engine { random_device{}() };
 
 int main() {
     for (auto n : testData) {

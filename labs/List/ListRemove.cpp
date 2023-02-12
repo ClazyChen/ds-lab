@@ -34,7 +34,7 @@ public:
 };
 
 class RandomPop : public SequentialPop {
-    default_random_engine m_engine;
+    default_random_engine m_engine { random_device {}() };
 public:
     void initialize(size_t n) override {
         SequentialPop::initialize(n);

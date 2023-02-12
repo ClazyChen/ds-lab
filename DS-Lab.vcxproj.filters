@@ -378,5 +378,14 @@
     <ClCompile Include="labs\Stack\Generate4Sum.cpp">
       <Filter>Source Files\Stack</Filter>
     </ClCompile>
+    <ClCompile Include="labs\Stack\StackTest.cpp">
+      <Filter>Source Files\Stack</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Stack\SharedStackTest.cpp">
+      <Filter>Source Files\Stack</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Stack\MinStackTest.cpp">
+      <Filter>Source Files\Stack</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -6,7 +6,6 @@ export module Stack;
 
 export import Stack.AbstractStack;
 export import Stack.RandomStackOperation;
-export import Stack.SharedStack;
 
 import Vector;
 import LinearList;
@@ -16,6 +15,7 @@ export namespace dslab {
 template <typename T, template<typename> typename Linear = DefaultVector>
     requires std::is_base_of_v<AbstractLinearList<T, typename Linear<T>::position_type>, Linear<T>>
 class Stack : public AbstractStack<T> {
+protected:
     Linear<T> L;
 public:
     constexpr static bool is_vector = std::is_base_of_v<AbstractVector<T>, Linear<T>>;
@@ -60,6 +60,10 @@ public:
         } else {
             return L.front();
         }
+    }
+
+    const T& top() const {
+        return const_cast<Stack*>(this)->top();
     }
 
     size_t size() const override { return L.size(); }

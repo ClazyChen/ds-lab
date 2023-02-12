@@ -15,7 +15,7 @@ template <typename T, template<typename> typename Vec = DefaultVector>
     requires std::is_base_of_v<AbstractVector<T>, Vec<T>>
 class SharedStack : public DataStructure<T> {
     Vec<T> V {};
-    Rank m_topb { -1 }, m_topf { 0 };
+    Rank m_topb { static_cast<Rank>(-1) }, m_topf {0};
     bool full() const {
         return V.size() == 0 || m_topb + 1 == m_topf;
     }
@@ -100,8 +100,31 @@ public:
     }
     virtual ~SharedStack() = default;
 
+    SharedStack(std::initializer_list<std::initializer_list<T>> ilist) : SharedStack() {
+        if (ilist.size() != 2) {
+            throw std::invalid_argument("SharedStack: initializer list must have 2 elements");
+        }
+        auto ilist0 { std::move(begin(ilist)[0]) };
+        auto ilist1 { std::move(begin(ilist)[1]) };
+        V.resize(ilist0.size() + ilist1.size());
+        m_topb = ilist0.size() - 1;
+        m_topf = ilist0.size();
+        std::move(begin(ilist0), end(ilist0), begin(V));
+        std::move(begin(ilist1), end(ilist1), rbegin(V));
+    }
+
+    SharedStack& operator=(std::initializer_list<std::initializer_list<T>> ilist) {
+        SharedStack tmp { ilist };
+        *this = std::move(tmp);
+        return *this;
+    }
+
     std::pair<AbstractStack<T>&, AbstractStack<T>&> getStacks() {
         return { Sb, Sf };
+    }
+
+    size_t size() const override {
+        return Sb.size() + Sf.size();
     }
 
     template <typename T1, template<typename> typename V1>
