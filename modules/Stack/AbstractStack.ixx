@@ -11,9 +11,6 @@ public:
     virtual void push(T&& e) = 0; // 入栈
     virtual T pop() = 0; // 出栈
     virtual T& top() = 0; // 取栈顶元素
-    virtual const T& top() const {
-        return const_cast<AbstractStack*>(this)->top();
-    }
 };
 
 }

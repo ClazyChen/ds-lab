@@ -44,8 +44,7 @@ class Generate4IterativeSolver : public Generate4Solver {
 public:
     Generate4IterativeSolver(size_t w) : Generate4Solver(w) {}
     void operator()(Vector<size_t>& V, size_t n) override {
-        Stack<size_t> S;
-        S.push(n);
+        Stack<size_t> S { n };
         while (!S.empty()) {
             n = S.pop();
             if (minn <= n && n <= maxn) {
@@ -114,8 +113,7 @@ protected:
 public:
     TailRecursiveIterator(Pred&& pred, Bound&& bound, Next&& next) : pred { make_unique<Pred>(pred) }, bound { make_unique<Bound>(bound) }, next { make_unique<Next>(next) } {}
     void operator()(Args... args) override {
-        Stack<tuple<Args...>> S;
-        S.push({ args... });
+        Stack<tuple<Args...>> S { { args... } };
         while (!S.empty()) {
             tie(args...) = S.pop();
             if ((*pred)(args...)) {
