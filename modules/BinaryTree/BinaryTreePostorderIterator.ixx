@@ -4,15 +4,14 @@
 
 export module BinaryTree.BinaryTreePostorderIterator;
 
-import BinaryTree.BinaryTreeNode;
+import BinaryTree.AbstractBinaryTreeNode;
 import BinaryTree.BinaryTreeIterator;
 
 export namespace dslab {
 
-template <typename T, template <typename> typename Node = BinaryTreeNode>
-    requires std::is_base_of_v<BinaryTreeNode<T>, Node<T>>
-class BinaryTreePostorderIterate : public BinaryTreeIterate<T, Node> {
-    Node<T>* findLeftMost(Node<T>* node) {
+template <typename T>
+class BinaryTreePostorderIterate : public BinaryTreeIterate<T> {
+    AbstractBinaryTreeNode<T>* findLeftMost(AbstractBinaryTreeNode<T>* node) {
         while (!node->isLeaf()) {
             if (node->left() != nullptr) {
                 node = node->left().get();
@@ -23,10 +22,10 @@ class BinaryTreePostorderIterate : public BinaryTreeIterate<T, Node> {
         return node;
     }
 public:
-    Node<T>* begin(Node<T>* node) override {
+    AbstractBinaryTreeNode<T>* begin(AbstractBinaryTreeNode<T>* node) override {
         return findLeftMost(node);
     }
-    Node<T>* operator()(Node<T>* node) override {
+    AbstractBinaryTreeNode<T>* next(AbstractBinaryTreeNode<T>* node) override {
         if (node == nullptr) {
             return nullptr;
         }

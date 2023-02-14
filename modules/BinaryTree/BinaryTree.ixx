@@ -4,6 +4,7 @@
 export module BinaryTree;
 
 export import BinaryTree.BinaryTreeNode;
+export import BinaryTree.AbstractBinaryTreeNode;
 export import BinaryTree.AbstractBinaryTree;
 export import BinaryTree.BinaryTreeTraverse;
 export import BinaryTree.BinaryTreeInorderTraverse;
@@ -13,13 +14,13 @@ export import BinaryTree.BinaryTreePreorderTraverse;
 export namespace dslab {
 
 template <typename T, template <typename> typename Node = BinaryTreeNode>
-    requires std::is_base_of_v<BinaryTreeNode<T>, Node<T>>
+    requires std::is_base_of_v<AbstractBinaryTreeNode<T>, Node<T>>
 class BinaryTree : public AbstractBinaryTree<T, Node> {
-    std::unique_ptr<Node<T>> m_root { nullptr };
+    std::unique_ptr<AbstractBinaryTreeNode<T>> m_root { nullptr };
     size_t m_size { 0 };
 
-    std::unique_ptr<Node<T>> clone(Node<T>* node) const {
-        auto newNode { std::make_unique<Node<T>>(node->data()) };
+    std::unique_ptr<AbstractBinaryTreeNode<T>> clone(const Node<T>* node) const {
+        std::unique_ptr<AbstractBinaryTreeNode<T>> newNode { std::make_unique<Node<T>>(node->data()) };
         if (node->left() != nullptr) {
             newNode->left() = clone(node->left().get());
         }
@@ -29,8 +30,24 @@ class BinaryTree : public AbstractBinaryTree<T, Node> {
         return newNode;
     }
 
+    Node<T>* get(std::unique_ptr<AbstractBinaryTreeNode<T>>& node) {
+        return static_cast<Node<T>*>(node.get());
+    }
+    Node<T>* get(AbstractBinaryTreeNode<T>* node) {
+        return static_cast<Node<T>*>(node);
+    }
+    const Node<T>* get(const std::unique_ptr<AbstractBinaryTreeNode<T>>& node) const {
+        return static_cast<const Node<T>*>(node.get());
+    }
+    const Node<T>* get(const AbstractBinaryTreeNode<T>* node) const {
+        return static_cast<const Node<T>*>(node);
+    }
+
 public:
-    Node<T>* root() override { return m_root.get(); }
+    Node<T>* root() override { return get(m_root); }
+    const Node<T>* root() const {
+        return const_cast<BinaryTree*>(this)->root();
+    }
     size_t size() const override { return m_size; }
 
     BinaryTree() = default;
@@ -52,94 +69,98 @@ public:
         }
         return *this;
     }
-    BinaryTree(std::unique_ptr<Node<T>> root) : m_root { std::move(root) } {
-        m_size = size(m_root.get());
+    BinaryTree(std::unique_ptr<AbstractBinaryTreeNode<T>> root) : m_root { std::move(root) } {
+        m_size = size(root());
     }
 
-    size_t size(Node<T>* node) const {
+    size_t size(const Node<T>* node) const {
         if (node == nullptr) {
             return 0;
         }
-        return 1 + size(node->left().get()) + size(node->right().get());
+        return 1 + size(get(node->left())) + size(get(node->right()));
     }
 
     Node<T>* insertAsLeftChild(Node<T>* node, const T& e) override {
-        auto newNode { std::make_unique<Node<T>>(e) };
+        std::unique_ptr<AbstractBinaryTreeNode<T>> newNode { std::make_unique<Node<T>>(e) };
         newNode->parent() = node;
-        m_size -= size(node->left().get());
+        m_size -= size(get(node->left()));
         node->left() = std::move(newNode);
         ++m_size;
-        return node->left().get();
+        return get(node->left());
     }
 
     Node<T>* insertAsRightChild(Node<T>* node, const T& e) override {
-        auto newNode { std::make_unique<Node<T>>(e) };
+        std::unique_ptr<AbstractBinaryTreeNode<T>> newNode { std::make_unique<Node<T>>(e) };
         newNode->parent() = node;
-        m_size -= size(node->right().get());
+        m_size -= size(get(node->right()));
         node->right() = std::move(newNode);
         ++m_size;
-        return node->right().get();
+        return get(node->right());
     }
 
     Node<T>* insertAsLeftChild(Node<T>* node, T&& e) override {
-        auto newNode { std::make_unique<Node<T>>(std::move(e)) };
+        std::unique_ptr<AbstractBinaryTreeNode<T>> newNode { std::make_unique<Node<T>>(std::move(e)) };
         newNode->parent() = node;
-        m_size -= size(node->left().get());
+        m_size -= size(get(node->left()));
         node->left() = std::move(newNode);
         ++m_size;
-        return node->left().get();
+        return get(node->left());
     }
 
     Node<T>* insertAsRightChild(Node<T>* node, T&& e) override {
-        auto newNode { std::make_unique<Node<T>>(std::move(e)) };
+        std::unique_ptr<AbstractBinaryTreeNode<T>> newNode { std::make_unique<Node<T>>(std::move(e)) };
         newNode->parent() = node;
-        m_size -= size(node->right().get());
+        m_size -= size(get(node->right()));
         node->right() = std::move(newNode);
         ++m_size;
-        return node->right().get();
+        return get(node->right());
     }
 
     Node<T>* insertAsRoot(const T& e) override {
         m_root = std::make_unique<Node<T>>(e);
         m_size = 1;
-        return m_root.get();
+        return root();
     }
 
     Node<T>* insertAsRoot(T&& e) override {
         m_root = std::make_unique<Node<T>>(std::move(e));
         m_size = 1;
-        return m_root.get();
+        return root();
     }
 
     Node<T>* attachAsLeftChild(Node<T>* node, AbstractBinaryTree<T, Node>* tree) override {
-        m_size -= size(node->left().get());
+        m_size -= size(get(node->left()));
         m_size += tree->size();
         node->left() = std::move(tree->detach(tree->root()));
         node->left()->parent() = node;
-        return node->left().get();
+        return get(node->left());
     }
 
     Node<T>* attachAsRightChild(Node<T>* node, AbstractBinaryTree<T, Node>* tree) override {
-        m_size -= size(node->right().get());
+        m_size -= size(get(node->right()));
         m_size += tree->size();
         node->right() = std::move(tree->detach(tree->root()));
         node->right()->parent() = node;
-        return node->right().get();
+        return get(node->right());
     }
 
     Node<T>* find(const T& e) override {
-        auto node { m_root.get() };
+        auto node { root() };
         while (node != nullptr) {
             if (node->data() == e) {
                 return node;
             }
             if (node->data() < e) {
-                node = node->right().get();
+                node = get(node->right());
             } else {
-                node = node->left().get();
+                node = get(node->left());
             }
         }
         return nullptr;
+    }
+
+    const Node<T>* find(const T& e) const {
+        return const_cast<BinaryTree*>(this)->find(e);
     }
 
     T remove(Node<T>* node) override {
@@ -147,7 +168,7 @@ public:
         m_size -= size(node);
         if (auto parent { node->parent() }; parent == nullptr) {
             m_root = nullptr;
-        } else if (parent->left().get() == node) {
+        } else if (get(parent->left()) == node) {
             parent->left() = nullptr;
         } else {
             parent->right() = nullptr;
@@ -155,12 +176,12 @@ public:
         return data;
     }
 
-    std::unique_ptr<Node<T>> detach(Node<T>* node) override {
-        std::unique_ptr<Node<T>> detached { nullptr };
+    std::unique_ptr<AbstractBinaryTreeNode<T>> detach(Node<T>* node) override {
+        std::unique_ptr<AbstractBinaryTreeNode<T>> detached { nullptr };
         m_size -= size(node);
         if (auto parent { node->parent() }; parent == nullptr) {
             detached = std::move(m_root);
-        } else if (parent->left().get() == node) {
+        } else if (get(parent->left()) == node) {
             detached = std::move(parent->left());
         } else {
             detached = std::move(parent->right());

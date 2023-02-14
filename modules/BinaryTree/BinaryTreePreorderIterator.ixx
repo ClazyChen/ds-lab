@@ -4,19 +4,18 @@
 
 export module BinaryTree.BinaryTreePreorderIterator;
 
-import BinaryTree.BinaryTreeNode;
+import BinaryTree.AbstractBinaryTreeNode;
 import BinaryTree.BinaryTreeIterator;
 
 export namespace dslab {
 
-template <typename T, template <typename> typename Node = BinaryTreeNode>
-    requires std::is_base_of_v<BinaryTreeNode<T>, Node<T>>
-class BinaryTreePreorderIterate : public BinaryTreeIterate<T, Node> {
+template <typename T>
+class BinaryTreePreorderIterate : public BinaryTreeIterate<T> {
 public:
-    Node<T>* begin(Node<T>* node) override {
+    AbstractBinaryTreeNode<T>* begin(AbstractBinaryTreeNode<T>* node) override {
         return node;
     }
-    Node<T>* operator()(Node<T>* node) override {
+    AbstractBinaryTreeNode<T>* next(AbstractBinaryTreeNode<T>* node) override {
         if (node == nullptr) {
             return nullptr;
         }

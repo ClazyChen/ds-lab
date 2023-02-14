@@ -5,16 +5,16 @@
 export module BinaryTree.BinaryTreePreorderTraverse;
 
 import BinaryTree.BinaryTreeNode;
+import BinaryTree.AbstractBinaryTreeNode;
 import BinaryTree.AbstractBinaryTree;
 import BinaryTree.BinaryTreeTraverse;
 import Stack;
 
 export namespace dslab {
 
-template <typename T, template <typename> typename Node = BinaryTreeNode>
-    requires std::is_base_of_v<BinaryTreeNode<T>, Node<T>>
-class BinaryTreePreorderTraverse : public BinaryTreeTraverse<T, Node> {
-    void operator()(const Node<T>* node, std::function<void(const T&)> visit) override {
+template <typename T>
+class BinaryTreePreorderTraverse : public BinaryTreeTraverse<T> {
+    void operator()(const AbstractBinaryTreeNode<T>* node, std::function<void(const T&)> visit) override {
         if (node == nullptr) {
             return;
         }
@@ -24,12 +24,10 @@ class BinaryTreePreorderTraverse : public BinaryTreeTraverse<T, Node> {
     }
 };
 
-template <typename T, template <typename> typename Node = BinaryTreeNode>
-    requires std::is_base_of_v<BinaryTreeNode<T>, Node<T>>
-class BinaryTreePreorderTraverseSemilinear : public BinaryTreeTraverse<T, Node> {
-    void operator()(const Node<T>* node, std::function<void(const T&)> visit) override {
-        Stack<Node<T>*> S;
-        S.push(node);
+template <typename T>
+class BinaryTreePreorderTraverseSemilinear : public BinaryTreeTraverse<T> {
+    void operator()(const AbstractBinaryTreeNode<T>* node, std::function<void(const T&)> visit) override {
+        Stack<const AbstractBinaryTreeNode<T>*> S { node };
         while (!S.empty()) {
             if (auto t { S.pop() }; t != nullptr) {
                 visit(t->data());
@@ -40,12 +38,10 @@ class BinaryTreePreorderTraverseSemilinear : public BinaryTreeTraverse<T, Node> 
     }
 };
 
-template <typename T, template <typename> typename Node = BinaryTreeNode>
-    requires std::is_base_of_v<BinaryTreeNode<T>, Node<T>>
-class BinaryTreePreorderTraverseLinear : public BinaryTreeTraverse<T, Node> {
-    void operator()(const Node<T>* node, std::function<void(const T&)> visit) override {
-        Stack<Node<T>*> S;
-        S.push(node);
+template <typename T>
+class BinaryTreePreorderTraverseLinear : public BinaryTreeTraverse<T> {
+    void operator()(const AbstractBinaryTreeNode<T>* node, std::function<void(const T&)> visit) override {
+        Stack<const AbstractBinaryTreeNode<T>*> S { node };
         while (!S.empty()) {
             for (auto t { S.pop() }; t != nullptr; t = t->left().get()) {
                 visit(t->data());
@@ -55,10 +51,9 @@ class BinaryTreePreorderTraverseLinear : public BinaryTreeTraverse<T, Node> {
     }
 };
 
-template <typename T, template <typename> typename Node = BinaryTreeNode>
-    requires std::is_base_of_v<BinaryTreeNode<T>, Node<T>>
-class BinaryTreePreorderTraverseLinearRecursive : public BinaryTreeTraverse<T, Node> {
-    void operator()(const Node<T>* node, std::function<void(const T&)> visit) override {
+template <typename T>
+class BinaryTreePreorderTraverseLinearRecursive : public BinaryTreeTraverse<T> {
+    void operator()(const AbstractBinaryTreeNode<T>* node, std::function<void(const T&)> visit) override {
         if (node == nullptr) {
             return;
         }
