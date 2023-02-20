@@ -59,13 +59,23 @@ public:
     virtual string name() const = 0;
 };
 
+// [0, 1] mid = 0.5
+// <=:
+// [0, 0.5] mid = 0.25
+// [0.25, 0.5]
+// ... 结果为 0.5
+// <:
+// [0.5, 1] mid = 0.75
+// [0.75, 1] ---> 会逐渐偏离正确的零点
+// ... 结果为 1 错误！
+
 class TestFunctor1 : public TestFunctor {
 public:
     double operator()(double x) override {
-        return x * x - 2;
+        return x * x * x - 0.125;
     }
     string name() const override {
-        return "x^2 - 2";
+        return "x^3 - 1/8";
     }
 };
 
