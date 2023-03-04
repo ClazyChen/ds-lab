@@ -49,6 +49,25 @@ public:
     }
 };
 
+// 减治法求和，先算前n-1项再相加，以阻碍编译器自动进行尾递归优化
+// 注意如果n非常大会引发stack overflow，这里我们选择当n达到10^5的时候抛出异常
+// 具体引发stack overflow的节点需要我们根据实际情况而定
+class ArraySumReduceAndConquer : public ArraySum {
+public:
+    int operator()(span<const int> data) override {
+        if (data.size() == 0) {
+            return 0;
+        } else if (data.size() == 1) {
+            return data[0];
+        } else {
+            if (data.size() > 100'000) {
+                throw runtime_error("stack overflow");
+            }
+            return (*this)(data.first(data.size() - 1)) + data[data.size() - 1];
+        }
+    }
+};
+
 // 分治法求和，无论如何都很慢
 class ArraySumDivideAndConquer : public ArraySum {
 public:
@@ -67,7 +86,7 @@ public:
 vector testSize { 1, 5, 100, 10000, 1'000'000, 100'000'000 };
 
 // 可以将您的实现加入到测试框架的参数列表中
-TestFramework<ArraySum, ArraySumBasic, ArraySumReduce, ArraySumIterative, ArraySumDivideAndConquer> test;
+TestFramework<ArraySum, ArraySumBasic, ArraySumReduce, ArraySumIterative, ArraySumReduceAndConquer, ArraySumDivideAndConquer> test;
 
 int main() {
     for (auto n : testSize) {

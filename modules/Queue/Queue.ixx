@@ -24,6 +24,16 @@ class Queue : public AbstractQueue<T> {
         m_front = 0;
     }
 public:
+    Queue() = default;
+    Queue(const T& e) : V({ e }) {}
+    Queue(T&& e) : V({ std::move(e) }) {}
+
+    Queue(std::initializer_list<T> ilist) : V(ilist) {}
+    Queue& operator=(std::initializer_list<T> ilist) {
+        V = ilist;
+        return *this;
+    }
+
     size_t size() const override {
         return V.size() - m_front;
     }

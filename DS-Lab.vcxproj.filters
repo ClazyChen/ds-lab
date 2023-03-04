@@ -387,5 +387,14 @@
     <ClCompile Include="labs\Stack\MinStackTest.cpp">
       <Filter>Source Files\Stack</Filter>
     </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTreeLevelOrderTraverse.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\ThreadedBinaryTreeNode.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\AbstractBinaryTreeNode.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -11,9 +11,7 @@ export namespace dslab {
 template <typename T>
 class MinStack : public Stack<T> {
     Stack<T> minStack;
-public:
-    void push(const T& e) override {
-        Stack<T>::push(e);
+    void update() {
         if (minStack.empty()) {
             minStack.push(this->top());
         } else if (auto t { minStack.top() }; t < this->top()) {
@@ -22,16 +20,15 @@ public:
             minStack.push(this->top());
         }
     }
+public:
+    void push(const T& e) override {
+        Stack<T>::push(e);
+        update();
+    }
 
     void push(T&& e) override {
         Stack<T>::push(std::move(e));
-        if (minStack.empty()) {
-            minStack.push(this->top());
-        } else if (auto t { minStack.top() }; t < this->top()) {
-            minStack.push(t);
-        } else {
-            minStack.push(this->top());
-        }
+        update();
     }
 
     T pop() override {

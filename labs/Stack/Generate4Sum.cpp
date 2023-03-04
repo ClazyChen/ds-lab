@@ -10,6 +10,9 @@ import Framework;
 using namespace dslab;
 using namespace std;
 
+// 这个例子和Generate4一样生成一系列的数
+// 不同的是，我们计算这些生成的数的和，而不是它们的数量
+
 class Generate4Sum : public Algorithm<size_t(size_t)> {};
 
 class Generate4SumSolver : public Algorithm<size_t(size_t)> {
