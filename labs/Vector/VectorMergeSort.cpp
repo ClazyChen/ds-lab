@@ -84,6 +84,13 @@ public:
     }
 };
 
+class MergeSortUpwardTest : public MergeSortTest<MergeSortUpward> {
+    public:
+    string type_name() const override {
+        return "MergeSortUpward";
+    }
+};
+
 class MergeSortLimitTest : public MergeSortTest<MergeSortLimit> {
 public:
     string type_name() const override {
@@ -95,6 +102,14 @@ class MergeSortCondTest : public MergeSortTest<MergeSortCond> {
 public:
     string type_name() const override {
         return "MergeSortCond";
+    }
+};
+
+// 这里让TimSort也参与测试。关于TimSort见《排序》章对应小节
+class TimSortTest : public MergeSortTest<TimSort> {
+public:
+    string type_name() const override {
+        return "TimSort";
     }
 };
 
@@ -112,7 +127,7 @@ vector<pair<Rank, Rank>> testCases {
     {90000, 100000}
 };
 
-TestFramework<MergeSortTestProblem, MergeSortBasicTest, MergeSortLimitTest, MergeSortCondTest> test;
+TestFramework<MergeSortTestProblem, MergeSortBasicTest, MergeSortUpwardTest, MergeSortLimitTest, MergeSortCondTest, TimSortTest> test;
 
 default_random_engine engine { random_device{}() };
 

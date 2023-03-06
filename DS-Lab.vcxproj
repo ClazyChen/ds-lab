@@ -116,7 +116,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Framework\ArraySum.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Framework\ComplexityIntegral.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -154,6 +154,7 @@
     <ClCompile Include="labs\List\ListRemove.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="labs\List\ListReverse.cpp" />
     <ClCompile Include="labs\List\ListTest.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -274,9 +275,11 @@
     <ClCompile Include="modules\Search\BinarySearch.ixx" />
     <ClCompile Include="modules\Search\Search.ixx" />
     <ClCompile Include="modules\Sort\AbstractSort.ixx" />
+    <ClCompile Include="modules\Sort\InsertionSort.ixx" />
     <ClCompile Include="modules\Sort\ListMergeSort.ixx" />
     <ClCompile Include="modules\Sort\MergeSort.ixx" />
     <ClCompile Include="modules\Sort\Sort.ixx" />
+    <ClCompile Include="modules\Sort\TimSort.ixx" />
     <ClCompile Include="modules\Stack\AbstractStack.ixx" />
     <ClCompile Include="modules\Stack\Expression\AbstractExpressionElement.ixx" />
     <ClCompile Include="modules\Stack\Expression\Expression.ixx" />

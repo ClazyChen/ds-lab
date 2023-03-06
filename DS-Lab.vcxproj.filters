@@ -396,5 +396,14 @@
     <ClCompile Include="modules\BinaryTree\AbstractBinaryTreeNode.ixx">
       <Filter>Resource Files\BinaryTree</Filter>
     </ClCompile>
+    <ClCompile Include="modules\Sort\InsertionSort.ixx">
+      <Filter>Resource Files\Sort</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Sort\TimSort.ixx">
+      <Filter>Resource Files\Sort</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\List\ListReverse.cpp">
+      <Filter>Source Files\List</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

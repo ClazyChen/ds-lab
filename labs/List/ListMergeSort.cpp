@@ -49,6 +49,13 @@ public:
     }
 };
 
+class ListSortUpward : public SortImpl<List, MergeSortUpward> {
+public:
+    static string type_name() {
+        return "MergeSort(List Val Upw)";
+    }
+};
+
 class ListSortPtr : public SortImpl<List, ListMergeSort> {
 public:
     static string type_name() {
@@ -58,7 +65,7 @@ public:
 
 vector testData { 10, 1000, 10000, 100'000, 1'000'000 };
 
-TestFramework<SortProblem, VectorSort, ListSort, ListSortPtr> test;
+TestFramework<SortProblem, VectorSort, ListSort, ListSortUpward, ListSortPtr> test;
 default_random_engine engine { random_device{}() };
 
 int main() {
