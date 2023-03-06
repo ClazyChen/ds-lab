@@ -53,18 +53,21 @@ public:
 // 注意如果n非常大会引发stack overflow，这里我们选择当n达到10^5的时候抛出异常
 // 具体引发stack overflow的节点需要我们根据实际情况而定
 class ArraySumReduceAndConquer : public ArraySum {
-public:
-    int operator()(span<const int> data) override {
+    int cal(span<const int> data) {
         if (data.size() == 0) {
             return 0;
         } else if (data.size() == 1) {
             return data[0];
         } else {
-            if (data.size() > 100'000) {
-                throw runtime_error("stack overflow");
-            }
             return (*this)(data.first(data.size() - 1)) + data[data.size() - 1];
         }
+    }
+public:
+    int operator()(span<const int> data) override {
+        if (data.size() > 10000) {
+            throw runtime_error { "stack overflow" };
+        }
+        return cal(data);
     }
 };
 
