@@ -13,13 +13,13 @@ import Vector;
 
 export namespace dslab {
 
-template <typename T, template<typename> typename Vec = DefaultVector, typename Q = std::ratio<1, 2>>
+template <typename T, template<typename> typename Vec = DefaultVector, typename Q = std::ratio<3, 4>>
     requires std::is_base_of_v<AbstractVector<T>, Vec<T>> && (Q::num > 0) && (Q::num <= Q::den)
 class Queue : public AbstractQueue<T> {
     Vec<T> V;
     Rank m_front { 0 };
     void moveElements() {
-        std::move(V.begin() + m_front, V.end(), V.begin());
+        std::move(std::begin(V) + m_front, std::end(V), std::begin(V));
         V.resize(V.size() - m_front);
         m_front = 0;
     }

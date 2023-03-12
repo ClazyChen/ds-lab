@@ -405,5 +405,8 @@
     <ClCompile Include="labs\List\ListReverse.cpp">
       <Filter>Source Files\List</Filter>
     </ClCompile>
+    <ClCompile Include="modules\Queue\StackQueue.ixx">
+      <Filter>Resource Files\Queue</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
