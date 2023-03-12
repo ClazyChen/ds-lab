@@ -18,9 +18,8 @@ class CircularQueue : public AbstractQueue<T> {
         return m_size == V.capacity();
     }
     void expandQueue() {
-        size_t oldSize { V.size() };
         V.resize(std::max(V.capacity() + 1, V.capacity() * 2));
-        std::move(V.begin(), V.begin() + m_front, V.begin() + oldSize);
+        std::move_backward(std::begin(V) + m_front, std::begin(V) + m_front + m_size, std::end(V));
     }
 
 public:
