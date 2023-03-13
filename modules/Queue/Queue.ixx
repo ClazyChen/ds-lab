@@ -25,8 +25,6 @@ class Queue : public AbstractQueue<T> {
     }
 public:
     Queue() = default;
-    Queue(const T& e) : V({ e }) {}
-    Queue(T&& e) : V({ std::move(e) }) {}
 
     Queue(std::initializer_list<T> ilist) : V(ilist) {}
     Queue& operator=(std::initializer_list<T> ilist) {
@@ -39,19 +37,21 @@ public:
     }
 
     void enqueue(const T& e) override {
+        if (m_front >= V.capacity() * Q::num / Q::den) {
+            moveElements();
+        }
         V.push_back(e);
     }
 
     void enqueue(T&& e) override {
+        if (m_front >= V.capacity() * Q::num / Q::den) {
+            moveElements();
+        }
         V.push_back(std::move(e));
     }
 
     T dequeue() override {
-        T e { std::move(V[m_front++]) };
-        if (m_front >= V.size() * Q::num / Q::den) {
-            moveElements();
-        }
-        return e;
+        return std::move(V[m_front++]);
     }
 
     T& front() override {

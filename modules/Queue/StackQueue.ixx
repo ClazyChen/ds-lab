@@ -14,13 +14,21 @@ template <typename T, template<typename> typename Vec = DefaultVector>
 class StackQueue : public AbstractQueue<T> {
     SharedStack<T, Vec> SS;
     auto& backStack() {
-        return SS.getStacks().second;
+        return SS.getStacks().second; 
     }
     auto& frontStack() {
         return SS.getStacks().first;
     }
 
 public:
+    StackQueue() = default;
+    
+    StackQueue(std::initializer_list<T> ilist) : SS { ilist, {} } {}
+    StackQueue& operator=(std::initializer_list<T> ilist) {
+        SS = { ilist, {} };
+        return *this;
+    }
+
     void enqueue(const T& e) override {
         backStack().push(e);
     }
@@ -54,7 +62,7 @@ public:
 
 template <typename T, template<typename> typename Vec>
 std::ostream& operator<<(std::ostream& os, const StackQueue<T, Vec>& q) {
-    os << "QUEUE(" << q.SS << ")";
+    return os << "QUEUE(" << q.SS << ")";
 }
 
 }

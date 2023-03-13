@@ -14,6 +14,14 @@ template <typename T, template<typename> typename Linear = ForwardList>
 class LinkedQueue : public AbstractQueue<T> {
     Linear<T> L;
 public:
+    LinkedQueue() = default;
+
+    LinkedQueue(std::initializer_list<T> ilist) : L(ilist) {}
+    LinkedQueue& operator=(std::initializer_list<T> ilist) {
+        L = ilist;
+        return *this;
+    }
+
     void enqueue(const T& e) override {
         L.push_back(e);
     }

@@ -1,162 +1,117 @@
 ﻿#include <vector>
-#include <queue>
 #include <format>
 #include <iostream>
+import Framework;
 import Queue;
 import Queue.StackQueue;
-import Framework;
-import Vector;
-import Stack.RandomStackOperation;
-using namespace dslab;
 using namespace std;
 
-// 对双栈队列进行优化，不采用共享栈，以降低判断和移动的次数
-template <typename T, template<typename> typename Vec = DefaultVector>
-    requires std::is_base_of_v<AbstractVector<T>, Vec<T>>
-class DualStackQueue : public AbstractQueue<T> {
-    Vec<T> backStack;
-    Vec<T> frontStack;
-public:
-    void enqueue(const T& e) override {
-        backStack.push_back(e);
-    }
-    void enqueue(T&& e) override {
-        backStack.push_back(e);
-    }
-    T dequeue() override {
-        if (frontStack.empty()) {
-            frontStack.resize(backStack.size());
-            move(rbegin(backStack), rend(backStack), begin(frontStack));
-            backStack.clear();
-        }
-        return frontStack.pop_back();
-    }
-    T& front() override {
-        if (frontStack.empty()) {
-            frontStack.resize(backStack.size());
-            move(rbegin(backStack), rend(backStack), begin(frontStack));
-            backStack.clear();
-        }
-        return frontStack.back();
-    }
-    size_t size() const override {
-        return backStack.size() + frontStack.size();
-    }
-};
+using dslab::Algorithm;
+using dslab::TestItem;
 
-// C++ STL中的队列，用于对比
-// std::queue默认是基于std::deque实现的，比较慢
+// 这个实验用于展示和验证队列的基本操作
+// 您可以将下面的队列替换为自己实现的队列参与测试
+// 顺序队列（整体搬移、循环或双栈）、链式队列都可以
 template <typename T>
-class QueueStd : public AbstractQueue<T> {
-    std::queue<T> Q;
+using Queue = dslab::Queue<T>;
+
+// 测试流程：
+// 1. 创建一个空队列，规模=0
+// 2. 在队尾插入N个元素（复制），规模=N
+// 3. 在队尾插入N个元素（移动），要求不触发复制，规模=2N
+// 4. 在队头删除2N个元素，要求不触发复制，规模=0
+
+constexpr size_t N { 5 };
+
+// 使用std::vector和我们自己实现的队列进行对拍
+vector<size_t> stdVector {};
+
+void check(Queue<TestItem>& Q) {
+    if (Q.empty() != stdVector.empty()) {
+        throw runtime_error("empty not match");
+    }
+    if (!Q.empty()) {
+        if (Q.front().m_value != stdVector.front()) {
+            throw runtime_error("front not match");
+        }
+    }
+}
+
+class CreateQueue : public Algorithm<void(Queue<TestItem>&)> {
 public:
-void enqueue(const T& e) override {
-        Q.push(e);
-    }
-    void enqueue(T&& e) override {
-        Q.push(e);
-    }
-    T dequeue() override {
-        T e = Q.front();
-        Q.pop();
-        return e;
-    }
-    T& front() override {
-        return Q.front();
-    }
-    size_t size() const override {
-        return Q.size();
+    void operator()(Queue<TestItem>& Q) override {
+        Q = {};
+        stdVector = {};
+        check(Q);
     }
 };
 
-template <typename T>
-class QueueTestProblem : public Algorithm<void(size_t)> {
+class PushCopyQueue : public Algorithm<void(Queue<TestItem>&)> {
 public:
-    virtual void initialize() = 0;
+    void operator()(Queue<TestItem>& Q) override {
+        TestItem::s_copyCount = 0;
+        TestItem::s_moveCount = 0;
+        TestItem tmp { 0 };
+        for (size_t i { 0 }; i < N; i++) {
+            tmp.m_value = i;
+            Q.enqueue(tmp);
+            stdVector.push_back(i);
+            cout << format("push {} -> ", i) << Q << endl;
+            check(Q);
+        }
+        if (Q.size() != N) {
+            throw runtime_error("size != N");
+        }
+    }
 };
 
-template <typename T, typename Que>
-    requires is_base_of_v<AbstractQueue<T>, Que>
-class QueueTest : public QueueTestProblem<T> {
-protected:
-    Que Q;
+class PushMoveQueue : public Algorithm<void(Queue<TestItem>&)> {
 public:
-    void initialize() override {
-        while (!Q.empty()) {
+    void operator()(Queue<TestItem>& Q) override {
+        TestItem::s_copyCount = 0;
+        TestItem::s_moveCount = 0;
+        for (size_t i { 0 }; i < N; i++) {
+            Q.enqueue(TestItem { i + N });
+            stdVector.push_back(i + N);
+            cout << format("push {} -> ", i + N) << Q << endl;
+            check(Q);
+        }
+        if (TestItem::s_copyCount != 0) {
+            throw runtime_error("copyCount != 0");
+        }
+        if (Q.size() != 2 * N) {
+            throw runtime_error("size != 2 * N");
+        }
+    }
+};
+
+class PopQueue : public Algorithm<void(Queue<TestItem>&)> {
+public:
+    void operator()(Queue<TestItem>& Q) override {
+        TestItem::s_copyCount = 0;
+        TestItem::s_moveCount = 0;
+        for (size_t i { 0 }; i < 2 * N; i++) {
             Q.dequeue();
+            stdVector.erase(stdVector.begin());
+            cout << format("pop -> ") << Q << endl;
+            check(Q);
         }
-    }
-
-    string type_name() const override {
-        return Q.type_name();
-    }
-};
-
-template <typename T, typename Que>
-    requires is_base_of_v<AbstractQueue<T>, Que>
-class EnqueueTest : public QueueTest<T, Que> {
-public:
-    void operator()(size_t n) override {
-        for (size_t i { 0 }; i < n; ++i) {
-            this->Q.enqueue(i);
+        if (TestItem::s_copyCount != 0) {
+            throw runtime_error("copyCount != 0");
+        }
+        if (Q.size() != 0) {
+            throw runtime_error("size != 0");
         }
     }
 };
 
-RandomStackOperation<char, string> randop;
-string opstr;
-
-template <typename T, typename Que>
-    requires is_base_of_v<AbstractQueue<T>, Que>
-class EnqueueDequeueTest : public QueueTest<T, Que> {
-public:
-    void operator()(size_t n) override {
-        for (char c : opstr) {
-            if (c == '(') {
-                this->Q.enqueue(1);
-            } else {
-                this->Q.dequeue();
-            }
-        }
-    }
-};
-
-vector testData { 10, 1000, 10000, 100'000, 1'000'000, 10'000'000 };
-
-TestFramework<QueueTestProblem<int>,
-    EnqueueTest<int, Queue<int, DefaultVector, ratio<1,2>>>,
-    EnqueueTest<int, Queue<int>>,
-    EnqueueTest<int, Queue<int, DefaultVector, ratio<1>>>,
-    EnqueueTest<int, LinkedQueue<int>>,
-    EnqueueTest<int, CircularQueue<int>>,
-    EnqueueTest<int, StackQueue<int>>,
-    EnqueueTest<int, DualStackQueue<int>>,
-    EnqueueTest<int, QueueStd<int>>
-> test_enq;
-
-TestFramework <QueueTestProblem<int>,
-    EnqueueDequeueTest<int, Queue<int, DefaultVector, ratio<1, 2>>>,
-    EnqueueDequeueTest<int, Queue<int>>,
-    EnqueueDequeueTest<int, Queue<int, DefaultVector, ratio<1>>>,
-    EnqueueDequeueTest<int, LinkedQueue<int>>,
-    EnqueueDequeueTest<int, CircularQueue<int>>,
-    EnqueueDequeueTest<int, StackQueue<int>>,
-    EnqueueDequeueTest<int, DualStackQueue<int>>,
-    EnqueueDequeueTest<int, QueueStd<int>>
-> test_enq_deq;
+dslab::StructureTestFramework<
+    Queue, TestItem,
+    CreateQueue, PushCopyQueue, PushMoveQueue, PopQueue> test;
 
 int main() {
-    cout << "Enqueue n times test:" << endl;
-    for (auto n : testData) {
-        cout << format("n = {}", n) << endl;
-        test_enq.run(&QueueTestProblem<int>::initialize);
-        test_enq(n);
-    }
-    cout << "Enqueue n & Dequeue n times test:" << endl;
-    for (auto n : testData) {
-        cout << format("n = {}", n) << endl;
-        opstr = randop(n, '(', ')');
-        test_enq_deq.run(&QueueTestProblem<int>::initialize);
-        test_enq_deq(n);
-    }
+    Queue<TestItem> Q {};
+    test.initialize();
+    test(Q);
+    return 0;
 }

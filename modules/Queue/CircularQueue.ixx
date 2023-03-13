@@ -23,6 +23,15 @@ class CircularQueue : public AbstractQueue<T> {
     }
 
 public:
+    CircularQueue() = default;
+
+    CircularQueue(std::initializer_list<T> ilist) : V(ilist), m_size { ilist.size() } {}
+    CircularQueue& operator=(std::initializer_list<T> ilist) {
+        V = ilist;
+        m_size = ilist.size();
+        return *this;
+    }
+
     void enqueue(const T& e) override {
         if (full()) {
             expandQueue();
