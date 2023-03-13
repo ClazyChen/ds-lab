@@ -11,6 +11,8 @@ export import Deque.LinkedDeque;
 
 import Vector;
 
+// TODO: Implement a Deque using a Chunk List (replace the current Vector implementation)
+
 export namespace dslab {
 
 template <typename T, template<typename> typename Vec = DefaultVector>

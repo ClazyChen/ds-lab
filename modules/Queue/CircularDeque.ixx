@@ -18,11 +18,19 @@ class CircularDeque : public AbstractDeque<T> {
         return m_size == V.capacity();
     }
     void expandDeque() {
-        size_t oldSize { V.size() };
         V.resize(std::max(V.capacity() + 1, V.capacity() * 2));
-        std::move(V.begin(), V.begin() + m_front, V.begin() + oldSize);
+        std::move_backward(std::begin(V) + m_front, std::begin(V) + m_front + m_size, std::end(V));
     }
 public:
+    CircularDeque() = default;
+
+    CircularDeque(std::initializer_list<T> ilist) : V(ilist), m_size { ilist.size() } {}
+    CircularDeque& operator=(std::initializer_list<T> ilist) {
+        V = ilist;
+        m_size = ilist.size();
+        return *this;
+    }
+
     void push_back(const T& e) override {
         if (full()) {
             expandDeque();

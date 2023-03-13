@@ -14,6 +14,14 @@ template <typename T, template<typename> typename Lis = List>
 class LinkedDeque : public AbstractDeque<T> {
     Lis<T> L;
 public:
+    LinkedDeque() = default;
+
+    LinkedDeque(std::initializer_list<T> ilist) : L(ilist) {}
+    LinkedDeque& operator=(std::initializer_list<T> ilist) {
+        L = ilist;
+        return *this;
+    }
+
     void push_back(const T& e) override { L.push_back(e); }
     void push_back(T&& e) override { L.push_back(std::move(e)); }
     void push_front(const T& e) override { L.push_front(e); }
