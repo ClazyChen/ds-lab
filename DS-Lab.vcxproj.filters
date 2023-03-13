@@ -273,7 +273,7 @@
     <ClCompile Include="modules\Queue\Deque.ixx">
       <Filter>Resource Files\Queue</Filter>
     </ClCompile>
-    <ClCompile Include="labs\Queue\QueueTest.cpp">
+    <ClCompile Include="labs\Queue\QueueEvaluation.cpp">
       <Filter>Source Files\Queue</Filter>
     </ClCompile>
     <ClCompile Include="modules\Matrix\AbstractMatrix.ixx">
@@ -407,6 +407,9 @@
     </ClCompile>
     <ClCompile Include="modules\Queue\StackQueue.ixx">
       <Filter>Resource Files\Queue</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Queue\QueueTest.cpp">
+      <Filter>Source Files\Queue</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

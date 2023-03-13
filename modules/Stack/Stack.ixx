@@ -21,8 +21,6 @@ public:
     constexpr static bool is_vector = std::is_base_of_v<AbstractVector<T>, Linear<T>>;
 
     Stack() = default;
-    Stack(const T& e) : L({ e }) {}
-    Stack(T&& e) : L({ std::move(e) }) {}
 
     Stack(std::initializer_list<T> ilist) : L(ilist) {}
     Stack& operator=(std::initializer_list<T> ilist) {
