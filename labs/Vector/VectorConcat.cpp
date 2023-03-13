@@ -33,8 +33,8 @@ class VectorConcatFast : public VectorConcat {
 public:
     Vector<int>& operator()(Rank r) override {
         V.resize(V.size() + V1.size());
-        std::move_backward(V.begin() + r, V.end() - V1.size(), V.end());
-        std::move(V1.begin(), V1.end(), V.begin() + r);
+        move_backward(begin(V) + r, end(V) - V1.size(), end(V));
+        move(begin(V1), end(V1), begin(V) + r);
         return V;
     }
 };

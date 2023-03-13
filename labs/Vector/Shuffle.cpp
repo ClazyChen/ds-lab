@@ -27,7 +27,7 @@ class ShuffleStd : public Shuffle {
     default_random_engine m_engine { random_device {}() };
 public:
     void operator()(Vector<int>& V) override {
-        shuffle(V.begin(), V.end(), m_engine);
+        shuffle(begin(V), end(V), m_engine);
     }
 };
 
