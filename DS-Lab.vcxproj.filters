@@ -58,6 +58,9 @@
     <Filter Include="Source Files\BinaryTree">
       <UniqueIdentifier>{ea1eff47-794c-4963-a6c6-9d819c13cc28}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Matrix">
+      <UniqueIdentifier>{3e802a82-51d0-4618-8e8f-fcef2f6a4023}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="modules\Framework\Algorithm.ixx">
@@ -410,6 +413,9 @@
     </ClCompile>
     <ClCompile Include="labs\Queue\QueueTest.cpp">
       <Filter>Source Files\Queue</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Matrix\MatrixMultiply.cpp">
+      <Filter>Source Files\Matrix</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
