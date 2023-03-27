@@ -44,7 +44,7 @@ public:
         }
     }
 
-    /*void infix2suffix() {
+    void infix2suffix() {
         Stack<ExpressionElement> S;
         Expression suffix;
         for (auto& e : *this) {
@@ -104,7 +104,7 @@ public:
             }
         }
         return Sr.pop();
-    }*/
+    }
 };
 
 }
