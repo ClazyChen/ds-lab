@@ -45,25 +45,25 @@ public:
     }
 
     void infix2suffix() {
-        Stack<ExpressionElement> S;
-        Expression suffix;
-        for (auto& e : *this) {
-            if (e.isOperand()) {
-                suffix.push_back(std::move(e));
-            } else {
-                while (!S.empty() && S.top().prior(e.getOperator())) {
-                    if (auto op { S.pop() }; op != '(') {
-                        suffix.push_back(std::move(op));
-                    } else {
-                        break;
-                    }
-                }
-                if (e != ')') {
-                    S.push(std::move(e));
-                }
-            }
-        }
-        *this = std::move(suffix);
+        //Stack<ExpressionElement> S;
+        //Expression suffix;
+        //for (auto& e : *this) {
+        //    if (e.isOperand()) {
+        //        suffix.push_back(std::move(e));
+        //    } else {
+        //        while (!S.empty() && S.top().prior(e.getOperator())) {
+        //            if (auto op { S.pop() }; op != '(') {
+        //                suffix.push_back(std::move(op));
+        //            } else {
+        //                break;
+        //            }
+        //        }
+        //        if (e != ')') {
+        //            S.push(std::move(e));
+        //        }
+        //    }
+        //}
+        //*this = std::move(suffix);
     }
 
     int calSuffix() const {
@@ -82,28 +82,29 @@ public:
     }
 
     int calInfix() const {
-        Stack<int> Sr;
-        Stack<ExpressionElement> So;
-        for (auto& e : *this) {
-            if (e.isOperand()) {
-                Sr.push(e.getOperand());
-            } else {
-                while (!So.empty() && So.top().prior(e.getOperator())) {
-                    if (auto op { So.pop() }; op != '(') {
-                        auto [l, r] { op.operandPosition() };
-                        int rhs { r ? Sr.pop() : 0 };
-                        int lhs { l ? Sr.pop() : 0 };
-                        Sr.push(op.apply(lhs, rhs));
-                    } else {
-                        break;
-                    }
-                }
-                if (e != ')') {
-                    So.push(e);
-                }
-            }
-        }
-        return Sr.pop();
+        return 0;
+        //Stack<int> Sr;
+        //Stack<ExpressionElement> So;
+        //for (auto& e : *this) {
+        //    if (e.isOperand()) {
+        //        Sr.push(e.getOperand());
+        //    } else {
+        //        while (!So.empty() && So.top().prior(e.getOperator())) {
+        //            if (auto op { So.pop() }; op != '(') {
+        //                auto [l, r] { op.operandPosition() };
+        //                int rhs { r ? Sr.pop() : 0 };
+        //                int lhs { l ? Sr.pop() : 0 };
+        //                Sr.push(op.apply(lhs, rhs));
+        //            } else {
+        //                break;
+        //            }
+        //        }
+        //        if (e != ')') {
+        //            So.push(e);
+        //        }
+        //    }
+        //}
+        //return Sr.pop();
     }
 };
 
