@@ -36,14 +36,8 @@ public:
     const T& get(size_t r, size_t c) const {
         return m_data[r * C + c];
     }
-    void set(size_t r, size_t c, const T& e) override {
-        m_data[r * C + c] = e;
-    }
-    void set(size_t r, size_t c, T&& e) override {
-        m_data[r * C + c] = std::move(e);
-    }
-    consteval size_t size() const override {
-        return R * C;
+    void clear() override {
+        m_data.fill(T{});
     }
 };
 

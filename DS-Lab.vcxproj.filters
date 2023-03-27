@@ -59,7 +59,7 @@
       <UniqueIdentifier>{ea1eff47-794c-4963-a6c6-9d819c13cc28}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Matrix">
-      <UniqueIdentifier>{3e802a82-51d0-4618-8e8f-fcef2f6a4023}</UniqueIdentifier>
+      <UniqueIdentifier>{5de148bc-dd4c-4cb5-8fad-f3a1f36f6a48}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -276,9 +276,6 @@
     <ClCompile Include="modules\Queue\Deque.ixx">
       <Filter>Resource Files\Queue</Filter>
     </ClCompile>
-    <ClCompile Include="labs\Queue\QueueEvaluation.cpp">
-      <Filter>Source Files\Queue</Filter>
-    </ClCompile>
     <ClCompile Include="modules\Matrix\AbstractMatrix.ixx">
       <Filter>Resource Files\Matrix</Filter>
     </ClCompile>
@@ -414,8 +411,11 @@
     <ClCompile Include="labs\Queue\QueueTest.cpp">
       <Filter>Source Files\Queue</Filter>
     </ClCompile>
-    <ClCompile Include="labs\Matrix\MatrixMultiply.cpp">
+    <ClCompile Include="labs\Matrix\NaiveMatrixMultiply.cpp">
       <Filter>Source Files\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Queue\QueueEvaluation.cpp">
+      <Filter>Source Files\Queue</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
