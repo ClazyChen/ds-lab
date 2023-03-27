@@ -15,8 +15,11 @@ public:
     T& get(size_t r, size_t c) override {
         return m_data[c * R + r];
     }
-    const T& get(size_t r, size_t c) const override {
+    const T& get(size_t r, size_t c) const {
         return m_data[c * R + r];
+    }
+    void clear() override {
+        m_data.fill(T{});
     }
 };
 

@@ -20,8 +20,15 @@ public:
     virtual void set(size_t r, size_t c, T&& e) {
         get(r, c) = std::move(e);
     }
-    consteval size_t size() const override {
+    size_t size() const override {
         return R * C;
+    }
+    virtual void clear() = 0;
+    T& operator[](std::pair<size_t, size_t> p) {
+        return get(p.first, p.second);
+    }
+    const T& operator[](std::pair<size_t, size_t> p) const {
+        return const_cast<AbstractMatrix*>(this)->get(p.first, p.second);
     }
 };
 
