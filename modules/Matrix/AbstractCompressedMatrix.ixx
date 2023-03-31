@@ -14,17 +14,18 @@ class AbstractCompressedMatrix : public AbstractMatrix<T, R, C> {
 protected:
     virtual size_t index(size_t r, size_t c) const = 0;
 public:
-    consteval size_t size() const override {
+    consteval size_t df() const { return D; }
+    size_t size() const override {
         return D;
     }
     T& get(size_t r, size_t c) override {
         return m_data[index(r, c)];
     }
-    void set(size_t r, size_t c, const T& e) override {
-        m_data[index(r, c)] = e;
+    const T& get(size_t r, size_t c) const override {
+        return m_data[index(r, c)];
     }
-    void set(size_t r, size_t c, T&& e) override {
-        m_data[index(r, c)] = std::move(e);
+    void clear() override {
+        m_data.fill(T{});
     }
 };
 

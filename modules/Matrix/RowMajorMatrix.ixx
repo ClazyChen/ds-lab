@@ -33,7 +33,7 @@ public:
     T& get(size_t r, size_t c) override {
         return m_data[r * C + c];
     }
-    const T& get(size_t r, size_t c) const {
+    const T& get(size_t r, size_t c) const override {
         return m_data[r * C + c];
     }
     void clear() override {

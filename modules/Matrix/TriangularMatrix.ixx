@@ -27,18 +27,6 @@ public:
         }
         return Base::get(r, c);
     }
-    void set(size_t r, size_t c, const T& e) override {
-        if (r < c) {
-            throw std::out_of_range("Invalid index");
-        }
-        Base::set(r, c, e);
-    }
-    void set(size_t r, size_t c, T&& e) override {
-        if (r < c) {
-            throw std::out_of_range("Invalid index");
-        }
-        Base::set(r, c, std::move(e));
-    }
 };
 
 template <typename T, size_t N> requires (N >= 0)
@@ -60,18 +48,6 @@ public:
             return T {};
         }
         return Base::get(r, c);
-    }
-    void set(size_t r, size_t c, const T& e) override {
-        if (r > c) {
-            throw std::out_of_range("Invalid index");
-        }
-        Base::set(r, c, e);
-    }
-    void set(size_t r, size_t c, T&& e) override {
-        if (r > c) {
-            throw std::out_of_range("Invalid index");
-        }
-        Base::set(r, c, std::move(e));
     }
 };
 

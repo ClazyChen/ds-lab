@@ -120,7 +120,7 @@ public:
     }
 };
 
-// 矩阵乘法的测试模板，对两个全1的矩阵进行乘法，返回矩阵乘积的迹
+// 矩阵乘法的测试模板，对两个矩阵进行乘法，返回矩阵乘积的迹
 
 template <size_t N, template <typename, size_t, size_t> typename Matrix>
     requires std::is_base_of_v<AbstractMatrix<int, N, N>, Matrix<int, N, N>>
@@ -136,7 +136,7 @@ public:
     void initialize() override {
         for (size_t i { 0 }; i < N; ++i) {
             for (size_t j { 0 }; j < N; ++j) {
-                A[{i, j}] = B[{i, j}] = 1;
+                A[{i, j}] = B[{i, j}] = i + j;
             }
         }
     }

@@ -14,6 +14,7 @@ public:
     consteval size_t rows() const { return R; }
     consteval size_t cols() const { return C; }
     virtual T& get(size_t r, size_t c) = 0;
+    virtual const T& get(size_t r, size_t c) const = 0;
     virtual void set(size_t r, size_t c, const T& e) {
         get(r, c) = e;
     }
@@ -28,7 +29,7 @@ public:
         return get(p.first, p.second);
     }
     const T& operator[](std::pair<size_t, size_t> p) const {
-        return const_cast<AbstractMatrix*>(this)->get(p.first, p.second);
+        return get(p.first, p.second);
     }
 };
 
