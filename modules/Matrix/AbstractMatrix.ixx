@@ -1,4 +1,6 @@
 ﻿module;
+#include <iostream>
+#include <format>
 #include <utility>
 
 export module Matrix.AbstractMatrix;
@@ -32,5 +34,25 @@ public:
         return get(p.first, p.second);
     }
 };
+
+template <typename T, size_t R, size_t C>
+std::ostream& operator<<(std::ostream& os, const AbstractMatrix<T, R, C>& M) {
+    os << std::format("Mat({}x{}) [\n", R, C);
+    for (size_t r { 0 }; r < R; ++r) {
+        os << "[";
+        for (size_t c { 0 }; c < C; ++c) {
+            os << std::format("{:4}, ", M.get(r, c));
+        }
+        if constexpr (C > 0) {
+            os << "\b\b";
+        }
+        os << "]";
+        if (r < R - 1) {
+            os << "\n";
+        }
+    }
+    os << "]";
+    return os;
+}
 
 }

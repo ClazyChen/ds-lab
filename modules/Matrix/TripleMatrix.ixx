@@ -1,56 +1,49 @@
 ﻿module;
 #include <utility>
 #include <concepts>
+#include <algorithm>
 
 export module Matrix.TripleMatrix;
 
 import Matrix.AbstractMatrix;
 import Triple;
-import ForwardList;
+import Vector;
 
 export namespace dslab {
 
-template <typename T, size_t R, size_t C = R, template<typename>typename Lis = ForwardList>
-    requires (R >= 0 && C >= 0) && std::is_base_of_v<AbstractForwardList<Triple<T>>, Lis<Triple<T>>>
+template <typename T, size_t R, size_t C = R>
+    requires (R >= 0 && C >= 0)
 class TripleMatrix : public AbstractMatrix<T, R, C> {
-    Lis<Triple<T>> L;
-    Triple<T>& find(size_t r, size_t c) {
-        auto p { L.first() };
-        while (!L.end(p)) {
-            auto& t { L.get(p) };
-            if (t.row() == r && t.col() == c) {
-                return t;
-            } else if (t.value()) {
-                p = L.next(p);
-            } else {
-                auto tmp { L.next(p) };
-                L.remove(p);
-                p = tmp;
-            }
-        }
-        L.push_front(Triple<T> { r, c, T {} });
-        return L.front();
-    }
+    Vector<Triple<T>> V;
+    T zero {};
 public:
     T& get(size_t r, size_t c) override {
-        return find(r, c).value();
-    }
-    const T& get(size_t r, size_t c) const override {
-        for (const auto& t : L) {
+        for (auto& t : V) {
             if (t.row() == r && t.col() == c) {
                 return t.value();
             }
         }
-        return T {};
+        V.push_back(Triple<T> { r, c, T {} });
+        return V.back().value();
     }
-    void set(size_t r, size_t c, const T& e) override {
-        find(r, c).value() = e;
+    const T& get(size_t r, size_t c) const override {
+        for (const auto& t : V) {
+            if (t.row() == r && t.col() == c) {
+                return t.value();
+            }
+        }
+        return zero;
     }
-    void set(size_t r, size_t c, T&& e) override {
-        find(r, c).value() = std::move(e);
+
+    void clear() override {
+        V.clear();
     }
-    consteval size_t size() const override {
-        return R * C;
+
+    TripleMatrix() = default;
+    TripleMatrix(std::initializer_list<Triple<T>> ilist) : V { ilist } {}
+    TripleMatrix& operator=(std::initializer_list<std::initializer_list<T>> ilist) {
+        V = ilist;
+        return *this;
     }
 };
 

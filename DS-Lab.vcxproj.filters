@@ -420,5 +420,8 @@
     <ClCompile Include="labs\Matrix\MatrixMultiply.cpp">
       <Filter>Source Files\Matrix</Filter>
     </ClCompile>
+    <ClCompile Include="labs\Matrix\MatrixTest.cpp">
+      <Filter>Source Files\Matrix</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -18,6 +18,9 @@ public:
     size_t col() const { return m_col; }
     T& value() { return m_value; }
     const T& value() const { return m_value; }
+    bool operator==(const Triple& t) const {
+        return m_row == t.m_row && m_col == t.m_col && m_value == t.m_value;
+    }
 };
 
 }

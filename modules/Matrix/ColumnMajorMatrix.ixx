@@ -14,7 +14,7 @@ class ColumnMajorMatrix : public AbstractMatrix<T, R, C> {
 public:
     ColumnMajorMatrix() = default;
 
-    ColumnMajorMatrix(std::initializer_list<T> ilist) {
+    ColumnMajorMatrix(std::initializer_list<std::initializer_list<T>> ilist) {
         auto itr { std::begin(ilist) };
         for (size_t r { 0 }; r < R; ++r) {
             auto itc { std::begin(*itr++) };
@@ -24,7 +24,7 @@ public:
         }
     }
 
-    ColumnMajorMatrix& operator=(std::initializer_list<T> ilist) {
+    ColumnMajorMatrix& operator=(std::initializer_list<std::initializer_list<T>> ilist) {
         ColumnMajorMatrix tmp { ilist };
         std::swap(m_data, tmp.m_data);
         return *this;

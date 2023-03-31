@@ -10,8 +10,8 @@ export namespace dslab {
 template <typename T, size_t R, size_t C, size_t D>
     requires (R >= 0 && C >= 0 && D >= 0)
 class AbstractCompressedMatrix : public AbstractMatrix<T, R, C> {
-    std::array<T, D> m_data;
 protected:
+    std::array<T, D> m_data;
     virtual size_t index(size_t r, size_t c) const = 0;
 public:
     consteval size_t df() const { return D; }
