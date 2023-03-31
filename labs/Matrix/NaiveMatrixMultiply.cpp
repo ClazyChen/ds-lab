@@ -8,7 +8,7 @@ using namespace dslab;
 using namespace std;
 
 template <typename T, size_t N, template<typename, size_t, size_t> typename Matrix>
-    requires (N >= 0) && std::is_base_of_v<AbstractMatrix<T, N, N>, Matrix<T, N, N>>
+    requires std::is_base_of_v<AbstractMatrix<T, N, N>, Matrix<T, N, N>>
 class NaiveMatrixMultiply : public Algorithm<void(const Matrix<T, N, N>&, const Matrix<T, N, N>&, Matrix<T, N, N>&)> {
 };
 
@@ -123,7 +123,7 @@ public:
 // 矩阵乘法的测试模板，对两个全1的矩阵进行乘法，返回矩阵乘积的迹
 
 template <size_t N, template <typename, size_t, size_t> typename Matrix>
-    requires (N >= 0) && std::is_base_of_v<AbstractMatrix<int, N, N>, Matrix<int, N, N>>
+    requires std::is_base_of_v<AbstractMatrix<int, N, N>, Matrix<int, N, N>>
 class MatrixMultiplyTest : public Algorithm<int(shared_ptr<NaiveMatrixMultiply<int, N, Matrix>> multiply) > {
 public:
     virtual void initialize() = 0;

@@ -417,5 +417,8 @@
     <ClCompile Include="labs\Queue\QueueEvaluation.cpp">
       <Filter>Source Files\Queue</Filter>
     </ClCompile>
+    <ClCompile Include="labs\Matrix\MatrixMultiply.cpp">
+      <Filter>Source Files\Matrix</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
