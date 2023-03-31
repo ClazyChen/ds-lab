@@ -20,8 +20,8 @@ class MatrixMultiply_IJK : public MatrixMultiply<T, N, Matrix> {
 public:
     void operator()(const Matrix<T, N, N>& A, const Matrix<T, N, N>& B, Matrix<T, N, N>& C) override {
         C.clear();
-        for (size_t i { 0 }; i < N; ++i) {
-            for (size_t j { 0 }; j < N; ++j) {
+        for (int i { 0 }; i < N; ++i) {
+            for (int j { 0 }; j < N; ++j) {
                 for (size_t k { 0 }; k < N; ++k) {
                     C[{i, j}] += A[{i, k}] * B[{k, j}];
                 }
@@ -30,6 +30,26 @@ public:
     }
     string type_name() const override {
         return "Naive(IJK)";
+    }
+};
+
+template <typename T, size_t N, template <typename, size_t, size_t> typename Matrix>
+class MatrixMultiplyParallel : public MatrixMultiply<T, N, Matrix> {
+public:
+    void operator()(const Matrix<T, N, N>& A, const Matrix<T, N, N>& B, Matrix<T, N, N>& C) override {
+        C.clear();
+        #pragma omp parallel for
+        for (int i { 0 }; i < N; ++i) {
+            #pragma omp parallel for
+            for (int j { 0 }; j < N; ++j) {
+                for (size_t k { 0 }; k < N; ++k) {
+                    C[{i, j}] += A[{i, k}] * B[{k, j}];
+                }
+            }
+        }
+    }
+    string type_name() const override {
+        return "Parallel";
     }
 };
 
@@ -58,18 +78,41 @@ public:
 template <typename T, size_t N, template <typename, size_t, size_t> typename Matrix>
 class MatrixMultiplyDivideAndConquer : public MatrixMultiply<T, N, Matrix> {
     using Span = MatrixSpan<T, N, Matrix>;
+    void add(Span A, Span B) {
+        for (int i { 0 }; i < A.sz; ++i) {
+            for (int j { 0 }; j < A.sz; ++j) {
+                A.at({ i, j }) += B.at({ i, j });
+            }
+        }
+    }
+
     void multiply(Span A, Span B, Span C) {
         if (A.sz == 1) {
             C.at({0, 0}) += A.at({0, 0}) * B.at({0, 0});
         } else {
-            multiply(A[{0, 0}], B[{0, 0}], C[{0, 0}]);
-            multiply(A[{0, 0}], B[{0, 1}], C[{0, 1}]);
-            multiply(A[{1, 0}], B[{0, 1}], C[{1, 1}]);
-            multiply(A[{1, 0}], B[{0, 0}], C[{1, 0}]);
-            multiply(A[{0, 1}], B[{1, 0}], C[{0, 0}]);
-            multiply(A[{0, 1}], B[{1, 1}], C[{0, 1}]);
-            multiply(A[{1, 1}], B[{1, 1}], C[{1, 1}]);
-            multiply(A[{1, 1}], B[{1, 0}], C[{1, 0}]);
+            #pragma omp parallel sections
+            {
+                #pragma omp section
+                {
+                    multiply(A[{0, 0}], B[{0, 0}], C[{0, 0}]);
+                    multiply(A[{0, 1}], B[{1, 0}], C[{0, 0}]);
+                }
+                #pragma omp section
+                {
+                    multiply(A[{0, 0}], B[{0, 1}], C[{0, 1}]);
+                    multiply(A[{0, 1}], B[{1, 1}], C[{0, 1}]);
+                }
+                #pragma omp section
+                {
+                    multiply(A[{1, 0}], B[{0, 0}], C[{1, 0}]);
+                    multiply(A[{1, 1}], B[{1, 0}], C[{1, 0}]);
+                }
+                #pragma omp section
+                {
+                    multiply(A[{1, 0}], B[{0, 1}], C[{1, 1}]);
+                    multiply(A[{1, 1}], B[{1, 1}], C[{1, 1}]);
+                }
+            }
         }
     }
 public:
@@ -210,11 +253,13 @@ template <size_t N>
 class MatrixMultiplyN : public Algorithm<void()> {
     vector<shared_ptr<MatrixMultiply<int, N, RowMajorMatrix>>> rowMajorMultiply {
         make_shared<MatrixMultiply_IJK<int, N, RowMajorMatrix>>(),
+        make_shared<MatrixMultiplyParallel<int, N, RowMajorMatrix>>(),
         make_shared<MatrixMultiplyDivideAndConquer<int, N, RowMajorMatrix>>(),
         make_shared<MatrixMultiplyStrassen<int, N, RowMajorMatrix>>()
     };
     vector<shared_ptr<MatrixMultiply<int, N, ColumnMajorMatrix>>> columnMajorMultiply {
         make_shared<MatrixMultiply_IJK<int, N, ColumnMajorMatrix>>(),
+        make_shared<MatrixMultiplyParallel<int, N, ColumnMajorMatrix>>(),
         make_shared<MatrixMultiplyDivideAndConquer<int, N, ColumnMajorMatrix>>(),
         make_shared<MatrixMultiplyStrassen<int, N, ColumnMajorMatrix>>()
     };
