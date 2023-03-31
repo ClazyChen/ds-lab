@@ -12,7 +12,7 @@ import Expression.AbstractExpressionElement;
 export namespace dslab {
 
 class ExpressionElement : public AbstractExpressionElement {
-    std::variant<char, int> m_element;
+    std::variant<char, int> m_element {};
 public:
     ExpressionElement() = default;
     ExpressionElement(char op) : m_element(op) {}
