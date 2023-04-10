@@ -165,7 +165,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\List\ListMergeSort.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\List\ListRemove.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -231,7 +231,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Vector\VectorMergeSort.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Vector\VectorRemove.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -245,25 +245,49 @@
     <ClCompile Include="labs\Vector\VectorUnique.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="modules\BinaryTree\AbstractBinaryTree.ixx" />
-    <ClCompile Include="modules\BinaryTree\AbstractBinaryTreeNode.ixx" />
-    <ClCompile Include="modules\BinaryTree\BinaryTree.ixx" />
-    <ClCompile Include="modules\BinaryTree\BinaryTreeInorderIterator.ixx" />
-    <ClCompile Include="modules\BinaryTree\BinaryTreeInorderTraverse.ixx" />
-    <ClCompile Include="modules\BinaryTree\BinaryTreeIterator.ixx" />
-    <ClCompile Include="modules\BinaryTree\BinaryTreeLevelOrderTraverse.ixx" />
+    <ClCompile Include="modules\BinaryTree\AbstractBinaryTree.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTree.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTreeInorderIterator.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTreeInorderTraverse.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTreeIterator.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTreeLevelOrderTraverse.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="modules\BinaryTree\BinaryTreeNode.ixx" />
-    <ClCompile Include="modules\BinaryTree\BinaryTreePostorderIterator.ixx" />
-    <ClCompile Include="modules\BinaryTree\BinaryTreePostorderTraverse.ixx" />
-    <ClCompile Include="modules\BinaryTree\BinaryTreePreorderIterator.ixx" />
-    <ClCompile Include="modules\BinaryTree\BinaryTreePreorderTraverse.ixx" />
-    <ClCompile Include="modules\BinaryTree\BinaryTreeTraverse.ixx" />
-    <ClCompile Include="modules\BinaryTree\ThreadedBinaryTreeNode.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreePostorderIterator.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTreePostorderTraverse.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTreePreorderIterator.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTreePreorderTraverse.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTreeTraverse.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\ThreadedBinaryTreeNode.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="modules\BinaryTree\Tree\TreeNode.ixx" />
     <ClCompile Include="modules\Framework\Algorithm.ixx" />
     <ClCompile Include="modules\Framework\DataStructure.ixx" />
     <ClCompile Include="modules\framework\Framework.ixx" />
     <ClCompile Include="modules\framework\Object.ixx" />
+    <ClCompile Include="modules\Framework\PointerProxy.ixx" />
     <ClCompile Include="modules\Framework\StructureTestFramework.ixx" />
     <ClCompile Include="modules\Framework\TestFramework.ixx" />
     <ClCompile Include="modules\Framework\Utility\Combine.ixx" />

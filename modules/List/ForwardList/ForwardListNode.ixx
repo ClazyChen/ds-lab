@@ -3,55 +3,15 @@
 
 export module ForwardList.ForwardListNode;
 
+import Framework.PointerProxy;
+
 export namespace dslab {
 
 template <typename T>
 class ForwardListNode {
     T m_data;
 
-    class ForwardListNodeProxy {
-        std::unique_ptr<ForwardListNode> m_node {};
-    public:
-        ForwardListNodeProxy() = default;
-        ForwardListNodeProxy(const ForwardListNodeProxy&) = delete;
-        ForwardListNodeProxy& operator=(const ForwardListNodeProxy&) = delete;
-        ForwardListNodeProxy(ForwardListNodeProxy&& other) {
-            m_node = std::move(other.m_node);
-        }
-        ForwardListNodeProxy& operator=(ForwardListNodeProxy&& other) {
-            m_node = std::move(other.m_node);
-            return *this;
-        }
-        ForwardListNodeProxy& operator=(std::unique_ptr<ForwardListNode>&& node) {
-            m_node = std::move(node);
-            return *this;
-        }
-        ForwardListNodeProxy& operator=(ForwardListNode* node) {
-            m_node.reset(node);
-            return *this;
-        }
-        ForwardListNode* operator->() const {
-            return m_node.get();
-        }
-        operator ForwardListNode* () const {
-            return m_node.get();
-        }
-        operator bool() const {
-            return m_node != nullptr;
-        }
-        ForwardListNode* get() const {
-            return m_node.get();
-        }
-        ForwardListNode* release() {
-            return m_node.release();
-        }
-        void reset(ForwardListNode* node = nullptr) {
-            m_node.reset(node);
-        }
-        void swap(ForwardListNodeProxy& other) {
-            m_node.swap(other.m_node);
-        }
-    };
+    using ForwardListNodeProxy = UniquePointerProxy<ForwardListNode<T>>;
 
     ForwardListNodeProxy m_next {};
 

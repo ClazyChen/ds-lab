@@ -3,16 +3,21 @@
 
 export module BinaryTree.BinaryTreeNode;
 
-import BinaryTree.AbstractBinaryTreeNode;
+import Framework.PointerProxy;
 
 export namespace dslab {
 
 template <typename T>
-class BinaryTreeNode : public AbstractBinaryTreeNode<T> {
+class BinaryTreeNode {
     T m_data;
-    std::unique_ptr<AbstractBinaryTreeNode<T>> m_left { nullptr };
-    std::unique_ptr<AbstractBinaryTreeNode<T>> m_right { nullptr };
-    AbstractBinaryTreeNode<T>* m_parent { nullptr };
+
+    using BinaryTreeNodeProxy = UniquePointerProxy<BinaryTreeNode<T>>;
+    using BinaryTreeNodeRawProxy = RawPointerProxy<BinaryTreeNode<T>>;
+    
+    BinaryTreeNodeRawProxy m_parent {};
+    BinaryTreeNodeProxy m_left {};
+    BinaryTreeNodeProxy m_right {};
+
 public:
     BinaryTreeNode() = default;
     BinaryTreeNode(const T& data) : m_data(data) {}
@@ -26,38 +31,38 @@ public:
 
     T& data() override { return m_data; }
     const T& data() const { return m_data; }
-    std::unique_ptr<AbstractBinaryTreeNode<T>>& left() override { return m_left; }
-    const std::unique_ptr<AbstractBinaryTreeNode<T>>& left() const { return m_left; }
-    std::unique_ptr<AbstractBinaryTreeNode<T>>& right() override { return m_right; }
-    const std::unique_ptr<AbstractBinaryTreeNode<T>>& right() const { return m_right; }
-    AbstractBinaryTreeNode<T>*& parent() override { return m_parent; }
-    const AbstractBinaryTreeNode<T>* parent() const { return m_parent; }
+    BinaryTreeNodeProxy& left() override { return m_left; }
+    const BinaryTreeNodeProxy& left() const { return m_left; }
+    BinaryTreeNodeProxy& right() override { return m_right; }
+    const BinaryTreeNodeProxy& right() const { return m_right; }
+    BinaryTreeNodeRawProxy& parent() override { return m_parent; }
+    const BinaryTreeNodeRawProxy& parent() const { return m_parent; }
 
     bool isRoot() const override { return m_parent == nullptr; }
     bool isLeaf() const override { return m_left == nullptr && m_right == nullptr; }
 
-    bool isLeftChild() const override { return m_parent != nullptr && m_parent->left().get() == this; }
-    bool isRightChild() const override { return m_parent != nullptr && m_parent->right().get() == this; }
+    bool isLeftChild() const override { return m_parent != nullptr && m_parent->left() == this; }
+    bool isRightChild() const override { return m_parent != nullptr && m_parent->right() == this; }
 
-    AbstractBinaryTreeNode<T>* leftSibling() override {
+    BinaryTreeNode* leftSibling() override {
         if (isRightChild()) {
-            return m_parent->left().get();
+            return m_parent->left();
         } else {
             return nullptr;
         }
     }
-    const AbstractBinaryTreeNode<T>* leftSibling() const {
+    const BinaryTreeNode* leftSibling() const {
         return const_cast<BinaryTreeNode*>(this)->leftSibling();
     }
 
-    AbstractBinaryTreeNode<T>* rightSibling() override {
+    BinaryTreeNode* rightSibling() override {
         if (isLeftChild()) {
-            return m_parent->right().get();
+            return m_parent->right();
         } else {
             return nullptr;
         }
     }
-    const AbstractBinaryTreeNode<T>* rightSibling() const {
+    const BinaryTreeNode* rightSibling() const {
         return const_cast<BinaryTreeNode*>(this)->rightSibling();
     }
 };
