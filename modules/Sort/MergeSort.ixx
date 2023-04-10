@@ -12,11 +12,10 @@ import Sort.AbstractSort;
 
 export namespace dslab {
 
-template <typename T, template<typename> typename Linear, typename Comparator = std::less<T>>
-class MergeSort : public AbstractSort<T, Linear, Comparator> {
+template <typename T, template<typename> typename Linear>
+class MergeSort : public AbstractSort<T, Linear> {
 protected:
     Vector<T> W;
-    Comparator cmp;
     using Iterator = typename Linear<T>::iterator;
     void merge(Iterator lo, Iterator mi, Iterator hi, size_t leftSize) {
         W.resize(leftSize);
@@ -24,7 +23,7 @@ protected:
         auto i { std::begin(W)};
         auto j { mi }, k { lo };
         while (i != std::end(W) && j != hi) {
-            if (cmp(*j, *i)) {
+            if (this->cmp(*j, *i)) {
                 *k++ = std::move(*j++);
             } else {
                 *k++ = std::move(*i++);
@@ -40,13 +39,13 @@ protected:
         merge(lo, mi, hi, size / 2);
     }
 public:
-    void operator()(Linear<T>& L) override {
+    void sort(Linear<T>& L) override {
         mergeSort(std::begin(L), std::end(L), L.size());
     }
 };
 
-template <typename T, template<typename> typename Linear, typename Comparator = std::less<T>>
-class MergeSortUpward : public MergeSort<T, Linear, Comparator> {
+template <typename T, template<typename> typename Linear>
+class MergeSortUpward : public MergeSort<T, Linear> {
 public:
     void operator()(Linear<T>& L) override {
         auto n { L.size() };

@@ -1,5 +1,6 @@
 ﻿module;
 #include <algorithm>
+#include <functional>
 
 export module Sort.TimSort;
 
@@ -8,10 +9,9 @@ import Sort.AbstractSort;
 
 export namespace dslab {
 
-template <typename T, template<typename> typename Linear, typename Comparator = std::less<T>>
+template <typename T, template<typename> typename Linear>
     requires std::is_base_of_v<AbstractVector<T>, Linear<T>>
-class TimSort : public AbstractSort<T, Linear, Comparator> {
-    Comparator cmp;
+class TimSort : public AbstractSort<T, Linear> {
     static constexpr size_t MIN_MERGE { 32 };
     using Iterator = typename Linear<T>::iterator;
     size_t getMinRun(size_t n) {
@@ -24,7 +24,7 @@ class TimSort : public AbstractSort<T, Linear, Comparator> {
     }
     void insertionSort(Iterator lo, Iterator hi, Iterator start) {
         for (auto i { start }; i != hi; ++i) {
-            auto pos { std::upper_bound(lo, i, *i, cmp) };
+            auto pos { std::upper_bound(lo, i, *i, this->cmp) };
             if (pos != i) {
                 auto tmp { std::move(*i) };
                 std::move_backward(pos, i, i + 1);
@@ -37,13 +37,13 @@ class TimSort : public AbstractSort<T, Linear, Comparator> {
         if (runHi == hi) {
             return 1;
         }
-        if (cmp(*runHi++, *lo)) {
-            while (runHi != hi && cmp(*runHi, *(runHi - 1))) {
+        if (this->cmp(*runHi++, *lo)) {
+            while (runHi != hi && this->cmp(*runHi, *(runHi - 1))) {
                 ++runHi;
             }
             std::reverse(lo, runHi);
         } else {
-            while (runHi != hi && !cmp(*runHi, *(runHi - 1))) {
+            while (runHi != hi && !this->cmp(*runHi, *(runHi - 1))) {
                 ++runHi;
             }
         }
@@ -57,7 +57,7 @@ class TimSort : public AbstractSort<T, Linear, Comparator> {
         };
         Vector<Run> runs;
         Vector<T> W;
-        Comparator cmp;
+        std::function<bool(const T&, const T&)> cmp;
         size_t size() const {
             return runs.size();
         }
@@ -99,6 +99,7 @@ class TimSort : public AbstractSort<T, Linear, Comparator> {
             }
         }
     public:
+        RunStack(std::function<bool(const T&, const T&)> cmp) : cmp { cmp } {}
         void push(Iterator lo, size_t runSize) {
             runs.push_back({ lo, runSize });
         }
@@ -139,13 +140,13 @@ class TimSort : public AbstractSort<T, Linear, Comparator> {
             }
         }
     };
-    RunStack stack;
     void timSort(Iterator lo, Iterator hi, size_t n) {
         if (n < 2) {
             return;
         } else if (n < MIN_MERGE) {
             insertionSort(lo, hi, lo + 1);
         } else {
+            RunStack stack { this->cmp };
             size_t minRun { getMinRun(n) };
             do {
                 auto runSize { findRun(lo, hi) };
@@ -163,7 +164,7 @@ class TimSort : public AbstractSort<T, Linear, Comparator> {
         }
     }
 public:
-    void operator()(Linear<T>& V) override {
+    void sort(Linear<T>& V) override {
         timSort(std::begin(V), std::end(V), V.size());
     }
 };

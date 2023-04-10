@@ -76,9 +76,6 @@ class ListNode {
         operator ListNode* () const {
             return m_node.get();
         }
-        operator std::unique_ptr<ListNode> && () {
-            return std::move(m_node);
-        }
         operator bool() const {
             return m_node != nullptr;
         }

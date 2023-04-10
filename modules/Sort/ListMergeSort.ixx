@@ -13,12 +13,14 @@ import Sort.AbstractSort;
 
 export namespace dslab {
 
-template <typename T, template<typename> typename List, typename Comparator = std::less<T>>
+template <typename T, template<typename> typename List>
     requires std::is_base_of_v<AbstractList<T>, List<T>>
-class ListMergeSort : public AbstractSort<T, List, Comparator> {
+class ListMergeSort : public AbstractSort<T, List> {
     using Ptr = std::unique_ptr<ListNode<T>>;
-    Comparator cmp;
-    void connect(ListNode<T>* prev, Ptr& next) {
+    bool cmp(const T& lhs, const T& rhs) {
+        return AbstractSort<T, List>::cmp(lhs, rhs);
+    }
+    void connect(auto& prev, auto& next) {
         next->prev() = prev;
         prev->next() = std::move(next);
     }
@@ -48,15 +50,15 @@ class ListMergeSort : public AbstractSort<T, List, Comparator> {
             forward(head, size + 1) = std::move(tail);
             return;
         }
-        mergeSort(head, std::move(forward(head, size / 2 + 1)), size / 2);
-        mergeSort(forward(head, size / 2).get(), std::move(tail), size - size / 2);
+        mergeSort(head, std::move(forward(head, size / 2 + 1)), size / 2, cmp);
+        mergeSort(forward(head, size / 2).get(), std::move(tail), size - size / 2, cmp);
         auto lo { std::move(forward(head, 1)) };
         auto mi { std::move(forward(lo.get(), size / 2)) };
         auto hi { std::move(forward(mi.get(), size - size / 2)) };
-        merge(head, std::move(lo), std::move(mi), std::move(hi));
+        merge(head, std::move(lo), std::move(mi), std::move(hi), cmp);
     }
-public:
-    void operator()(List<T>& L) override {
+protected:
+    void sort(List<T>& L) override {
         mergeSort(L.head(), std::move(forward(L.head(), L.size())->next()), L.size());
     }
 };
