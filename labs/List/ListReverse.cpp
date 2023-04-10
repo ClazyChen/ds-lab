@@ -26,7 +26,7 @@ public:
         auto head { L.head() };
         auto tail { L.tail() };
         for (auto size { L.size() }; size >= 2; size -= 2) {
-            head = head->next().get();
+            head = head->next();
             tail = tail->prev();
             std::swap(head->data(), tail->data());
         }
@@ -40,7 +40,7 @@ protected:
 public:
     void operator()(List<T>& L) override {
         apply(L);
-        for (auto p { L.head() }; p != L.tail(); p = p->next().get()) {
+        for (auto p { L.head() }; p != L.tail(); p = p->next()) {
             p->next()->prev() = p;
         }
     }
@@ -79,7 +79,7 @@ public:
 
 template <typename T>
 class ReverseReduceAtTail : public ReverseForwardList<T> {
-    unique_ptr<ListNode<T>> reverse(unique_ptr<ListNode<T>>& start, size_t size) {
+    auto reverse(auto& start, size_t size) {
         if (size == 1) {
             return move(start->next());
         }

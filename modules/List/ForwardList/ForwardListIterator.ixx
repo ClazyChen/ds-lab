@@ -27,13 +27,13 @@ public:
     ConstForwardListIterator(const ForwardList* list, ForwardListNode<value_type>* node) : m_list(list), m_node(node) {}
 
     ConstForwardListIterator& operator++() {
-        m_node = m_node->next().get();
+        m_node = m_node->next();
         return *this;
     }
 
     ConstForwardListIterator operator++(int) {
         ConstForwardListIterator tmp(*this);
-        m_node = m_node->next().get();
+        m_node = m_node->next();
         return tmp;
     }
 
@@ -72,13 +72,13 @@ public:
     ForwardListIterator(ForwardList* list, ForwardListNode<value_type>* node) : m_list(list), m_node(node) {}
 
     ForwardListIterator& operator++() {
-        m_node = m_node->next().get();
+        m_node = m_node->next();
         return *this;
     }
 
     ForwardListIterator operator++(int) {
         ForwardListIterator tmp(*this);
-        m_node = m_node->next().get();
+        m_node = m_node->next();
         return tmp;
     }
 

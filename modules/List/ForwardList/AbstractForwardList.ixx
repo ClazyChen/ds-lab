@@ -48,11 +48,11 @@ public:
     }
 
     ForwardListNode<T>* first() const override {
-        return head()->next().get();
+        return head()->next();
     }
 
     ForwardListNode<T>* next(ForwardListNode<T>* p) const override {
-        return p->next().get();
+        return p->next();
     }
 
 private:

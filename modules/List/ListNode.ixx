@@ -8,8 +8,94 @@ export namespace dslab {
 template <typename T>
 class ListNode {
     T m_data;
-    ListNode* m_prev { nullptr };
-    std::unique_ptr<ListNode> m_next { nullptr };
+    
+    class ListNodeProxy;
+    class ListNodeRawProxy {
+        ListNode* m_node { nullptr };
+    public:
+        ListNodeRawProxy() = default;
+        ListNodeRawProxy(ListNodeRawProxy&&) = delete;
+        ListNodeRawProxy& operator=(ListNodeRawProxy&&) = delete;
+        ListNodeRawProxy(const ListNodeRawProxy& other) {
+            m_node = other.m_node;
+        }
+        ListNodeRawProxy& operator=(const ListNodeRawProxy& other) {
+            m_node = other.m_node;
+            return *this;
+        }
+        ListNodeRawProxy& operator=(const ListNodeProxy& other) {
+            m_node = other.get();
+            return *this;
+        }
+        ListNodeRawProxy& operator=(ListNode* node) {
+            m_node = node;
+            return *this;
+        }
+        ListNodeRawProxy& operator=(const std::unique_ptr<ListNode>& node) {
+            m_node = node.get();
+            return *this;
+        }
+        ListNode* operator->() const {
+            return m_node;
+        }
+        operator ListNode* () const {
+            return m_node;
+        }
+        operator bool() const {
+            return m_node != nullptr;
+        }
+        void swap(ListNodeRawProxy& other) {
+            std::swap(m_node, other.m_node);
+        }
+    };
+
+    class ListNodeProxy {
+        std::unique_ptr<ListNode> m_node {};
+    public:
+        ListNodeProxy() = default;
+        ListNodeProxy(const ListNodeProxy&) = delete;
+        ListNodeProxy& operator=(const ListNodeProxy&) = delete;
+        ListNodeProxy(ListNodeProxy&& other) {
+            m_node = std::move(other.m_node);
+        }
+        ListNodeProxy& operator=(ListNodeProxy&& other) {
+            m_node = std::move(other.m_node);
+            return *this;
+        }
+        ListNodeProxy& operator=(std::unique_ptr<ListNode>&& node) {
+            m_node = std::move(node);
+            return *this;
+        }
+        ListNodeProxy& operator=(ListNode* node) {
+            m_node.reset(node);
+            return *this;
+        }
+        ListNode* operator->() const {
+            return m_node.get();
+        }
+        operator ListNode* () const {
+            return m_node.get();
+        }
+        operator bool() const {
+            return m_node != nullptr;
+        }
+        ListNode* get() const {
+            return m_node.get();
+        }
+        ListNode* release() {
+            return m_node.release();
+        }
+        void reset(ListNode* node = nullptr) {
+            m_node.reset(node);
+        }
+        void swap(ListNodeProxy& other) {
+            m_node.swap(other.m_node);
+        }
+    };
+
+    ListNodeRawProxy m_prev {};
+    ListNodeProxy m_next {};
+
 public:
     ListNode() = default;
     ListNode(const T& data) : m_data(data) {}
@@ -29,10 +115,10 @@ public:
 
     T& data() { return m_data; }
     const T& data() const { return m_data; }
-    ListNode*& prev() { return m_prev; }
-    const ListNode*& prev() const { return m_prev; }
-    std::unique_ptr<ListNode>& next() { return m_next; }
-    const std::unique_ptr<ListNode>& next() const { return m_next; }
+    ListNodeRawProxy& prev() { return m_prev; }
+    const ListNodeRawProxy& prev() const { return m_prev; }
+    ListNodeProxy& next() { return m_next; }
+    const ListNodeProxy& next() const { return m_next; }
 };
 
 }

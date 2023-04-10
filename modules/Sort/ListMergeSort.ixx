@@ -13,51 +13,55 @@ import Sort.AbstractSort;
 
 export namespace dslab {
 
-template <typename T, template<typename> typename List, typename Comparator = std::less<T>>
+template <typename T, template<typename> typename List>
     requires std::is_base_of_v<AbstractList<T>, List<T>>
-class ListMergeSort : public AbstractSort<T, List, Comparator> {
-    using Ptr = std::unique_ptr<ListNode<T>>;
-    Comparator cmp;
-    void connect(ListNode<T>* prev, Ptr& next) {
-        next->prev() = prev;
-        prev->next() = std::move(next);
-    }
-    void merge(ListNode<T>* prev, Ptr lo, Ptr mi, Ptr hi) {
-        Ptr i { std::move(lo) }, j { std::move(mi) };
-        ListNode<T>* k { prev };
-        while (i || j) {
-            if (i == nullptr || j && cmp(j->data(), i->data())) {
-                connect(k, j);
-                j = std::move(k->next()->next());
-            } else {
-                connect(k, i);
-                i = std::move(k->next()->next());
-            }
-            k = k->next().get();
-        }
-        connect(k, hi);
-    }
-    Ptr& forward(ListNode<T>* from, size_t step) {
+class ListMergeSort : public AbstractSort<T, List> {
+    std::unique_ptr<ListNode<T>> dummy { std::make_unique<ListNode<T>>() };
+    auto& forward(ListNode<T>* from, size_t step) {
         for (size_t i { 1 }; i < step; ++i) {
-            from = from->next().get();
+            from = from->next();
         }
         return from->next();
     }
-    void mergeSort(ListNode<T>* head, Ptr tail, size_t size) {
-        if (size < 2) {
-            forward(head, size + 1) = std::move(tail);
+    void connect(auto& prev, auto& next) {
+        next->prev() = prev;
+        prev->next() = std::move(next);
+        prev = prev->next();
+        next = std::move(prev->next());
+    }
+    void merge(auto& L1, auto& L2) {
+        auto L { dummy.get() };
+        while (L1 && L2) {
+            if (this->cmp(L1->data(), L2->data())) {
+                connect(L, L1);
+            } else {
+                connect(L, L2);
+            }
+        }
+        if (L1) {
+            L->next() = std::move(L1);
+        } else {
+            L->next() = std::move(L2);
+        }
+        L1 = std::move(dummy->next());
+    }
+    void mergeSort(auto& head, size_t size) {
+        if (size < 2) return;
+        auto mi { std::move(forward(head, size / 2)) };
+        mergeSort(head, size / 2);
+        mergeSort(mi, size - size / 2);
+        merge(head, mi);
+    }
+protected:
+    void sort(List<T>& L) override {
+        if (L.empty()) {
             return;
         }
-        mergeSort(head, std::move(forward(head, size / 2 + 1)), size / 2);
-        mergeSort(forward(head, size / 2).get(), std::move(tail), size - size / 2);
-        auto lo { std::move(forward(head, 1)) };
-        auto mi { std::move(forward(lo.get(), size / 2)) };
-        auto hi { std::move(forward(mi.get(), size - size / 2)) };
-        merge(head, std::move(lo), std::move(mi), std::move(hi));
-    }
-public:
-    void operator()(List<T>& L) override {
-        mergeSort(L.head(), std::move(forward(L.head(), L.size())->next()), L.size());
+        auto first { std::move(L.head()->next()) };
+        auto tail { std::move(L.tail()->prev()->next()) };
+        mergeSort(first, L.size());
+        forward(first, L.size() - 1)->next() = std::move(tail);
+        L.head()->next() = std::move(first);
     }
 };
 

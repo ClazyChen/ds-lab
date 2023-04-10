@@ -62,7 +62,7 @@ public:
 
     void clear() override {
         if (m_head) {
-            auto tmp { std::move(m_head->next()) };
+            m_head->next().reset();
         }
         m_size = 0;
     }
@@ -75,17 +75,17 @@ public:
         auto node { std::make_unique<ListNode<T>>(e) };
         if (m_head == nullptr) {
             m_head = node.get();
-            node->prev() = node.get();
+            node->prev() = node;
             node->next() = std::move(node);
             p = m_head;
         } else {
             node->next() = std::move(p->next());
-            node->next()->prev() = node.get();
+            node->next()->prev() = node;
             node->prev() = p;
             p->next() = std::move(node);
         }
         ++m_size;
-        return p->next().get();
+        return p->next();
     }
 
     ListNode<T>* insertAsPrev(ListNode<T>* p, const T& e) override {
@@ -101,17 +101,17 @@ public:
         auto node { std::make_unique<ListNode<T>>(std::move(e)) };
         if (m_head == nullptr) {
             m_head = node.get();
-            node->prev() = node.get();
+            node->prev() = node;
             node->next() = std::move(node);
             p = m_head;
         } else {
             node->next() = std::move(p->next());
-            node->next()->prev() = node.get();
+            node->next()->prev() = node;
             node->prev() = p;
             p->next() = std::move(node);
         }
         ++m_size;
-        return p->next().get();
+        return p->next();
     }
 
     ListNode<T>* insertAsPrev(ListNode<T>* p, T&& e) override {
@@ -129,7 +129,7 @@ public:
             if (p->data() == e) {
                 return p;
             }
-            p = p->next().get();
+            p = p->next();
         }
         return nullptr;
     }
@@ -137,12 +137,12 @@ public:
     T remove(ListNode<T>* p) override {
         auto e { std::move(p->data()) };
         if (m_size == 1) {
-            auto tmp { std::move(p->next()) };
+            p->next().reset();
             m_head = nullptr;
         } else {
             p->next()->prev() = p->prev();
             if (p == m_head) {
-                m_head = p->next().get();
+                m_head = p->next();
             }
             p->prev()->next() = std::move(p->next());
         }

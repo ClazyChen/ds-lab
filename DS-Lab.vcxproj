@@ -182,7 +182,9 @@
     <ClCompile Include="labs\Matrix\MatrixMultiply.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="labs\Matrix\MatrixTest.cpp" />
+    <ClCompile Include="labs\Matrix\MatrixTest.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="labs\Matrix\NaiveMatrixMultiply.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -229,7 +231,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Vector\VectorMergeSort.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Vector\VectorRemove.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -257,6 +259,7 @@
     <ClCompile Include="modules\BinaryTree\BinaryTreePreorderTraverse.ixx" />
     <ClCompile Include="modules\BinaryTree\BinaryTreeTraverse.ixx" />
     <ClCompile Include="modules\BinaryTree\ThreadedBinaryTreeNode.ixx" />
+    <ClCompile Include="modules\BinaryTree\Tree\TreeNode.ixx" />
     <ClCompile Include="modules\Framework\Algorithm.ixx" />
     <ClCompile Include="modules\Framework\DataStructure.ixx" />
     <ClCompile Include="modules\framework\Framework.ixx" />

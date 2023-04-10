@@ -9,10 +9,10 @@ import Vector;
 using namespace dslab;
 using namespace std;
 
-template <typename T, template<typename> typename Linear, typename Comparator = std::less<T>>
-class MergeSortLimit : public MergeSort<T, Linear, Comparator> {
-public:
-    void operator()(Linear<T>& L) override {
+template <typename T, template<typename> typename Linear>
+class MergeSortLimit : public MergeSort<T, Linear> {
+protected:
+    void sort(Linear<T>& L) override {
         Rank mid { L.size() - 1 };
         while (this->cmp(L[mid - 1], L[mid])) {
             if (--mid == 0) return;
@@ -23,20 +23,18 @@ public:
     }
 };
 
-template <typename T, template<typename> typename Linear, typename Comparator = std::less<T>>
-class MergeSortCond : public AbstractSort<T, Linear, Comparator> {
-protected:
+template <typename T, template<typename> typename Linear>
+class MergeSortCond : public AbstractSort<T, Linear> {
     Vector<T> W;
-    Comparator cmp;
     using Iterator = typename Linear<T>::iterator;
     void merge(Iterator lo, Iterator mi, Iterator hi, size_t size) {
-        if (cmp(*(mi - 1), *mi)) return;
+        if (this->cmp(*(mi - 1), *mi)) return;
         W.resize(size / 2);
         std::move(lo, mi, W.begin());
         auto i { W.begin() };
         auto j { mi }, k { lo };
         while (i != W.end() && j != hi) {
-            if (cmp(*j, *i)) {
+            if (this->cmp(*j, *i)) {
                 *k++ = std::move(*j++);
             } else {
                 *k++ = std::move(*i++);
@@ -51,8 +49,8 @@ protected:
         mergeSort(mi, hi, size - size / 2);
         merge(lo, mi, hi, size);
     }
-public:
-    void operator()(Linear<T>& L) override {
+protected:
+    void sort(Linear<T>& L) override {
         mergeSort(std::begin(L), std::end(L), L.size());
     }
 };
@@ -62,8 +60,8 @@ public:
     virtual void initialize(const Vector<int>& V) = 0;
 };
 
-template <template <typename, template<typename> typename, typename> typename Sorter>
-    requires is_base_of_v<AbstractSort<int, DefaultVector, std::less<int>>, Sorter<int, DefaultVector, std::less<int>>>
+template <template <typename, template<typename> typename> typename Sorter>
+    requires is_base_of_v<AbstractSort<int, DefaultVector>, Sorter<int, DefaultVector>>
 class MergeSortTest : public MergeSortTestProblem {
     Vector<int> V;
 public:
@@ -71,7 +69,7 @@ public:
         this->V = V;
     }
     bool operator()() override {
-        Sorter<int, DefaultVector, std::less<int>> sorter;
+        Sorter<int, DefaultVector> sorter;
         sorter(V);
         return is_sorted(begin(V), end(V));
     }

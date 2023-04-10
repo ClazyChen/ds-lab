@@ -1,5 +1,6 @@
 ﻿#include <vector>
 #include <format>
+#include <algorithm>
 #include <iostream>
 import Framework;
 import Search;
@@ -7,41 +8,39 @@ import Vector;
 using namespace dslab;
 using namespace std;
 
-template <typename T, typename Comparator = std::less<T>>
-class BinarySearchRecursive : public AbstractSearch<T, DefaultVector, Comparator> {
-    Comparator cmp;
+template <typename T>
+class BinarySearchRecursive : public AbstractSearch<T, DefaultVector> {
     Rank search(const Vector<T>& V, const T& e, Rank lo, Rank hi) const {
         if (hi - lo <= 1) {
-            return lo < V.size() && cmp(V[lo], e) ? hi : lo;
+            return lo < V.size() && this->cmp(V[lo], e) ? hi : lo;
         }
         Rank mi { lo + (hi - lo) / 2 };
-        if (cmp(e, V[mi])) {
+        if (this->cmp(e, V[mi])) {
             return search(V, e, lo, mi);
         } else {
             return search(V, e, mi, hi);
         }
     }
-public:
-    Rank operator()(const Vector<T>& V, const T& e) override {
+protected:
+    Rank search(const Vector<T>& V, const T& e) override {
         return search(V, e, 0, V.size());
     }
 };
 
-template <typename T, typename Comparator = std::less<T>>
-class BinarySearchIterative : public AbstractSearch<T, DefaultVector, Comparator> {
-    Comparator cmp;
-public:
-    Rank operator()(const Vector<T>& V, const T& e) override {
+template <typename T>
+class BinarySearchIterative : public AbstractSearch<T, DefaultVector> {
+protected:
+    Rank search(const Vector<T>& V, const T& e) override {
         Rank lo { 0 }, hi { V.size() };
         while (hi - lo > 1) {
             Rank mi { lo + (hi - lo) / 2 };
-            if (cmp(e, V[mi])) {
+            if (this->cmp(e, V[mi])) {
                 hi = mi;
             } else {
                 lo = mi;
             }
         }
-        return lo < V.size() && cmp(V[lo], e) ? hi : lo;
+        return lo < V.size() && this->cmp(V[lo], e) ? hi : lo;
     }
 };
 
@@ -116,27 +115,31 @@ public:
     }
 };
 
-template <typename T, typename Comparator = std::less<T>>
-class BinarySearchRecursiveTemplate : public AbstractSearch<T, DefaultVector, Comparator> {
-    unique_ptr<TailRecursive<Rank, SearchPred<T>, SearchBound<T, Comparator>, SearchNext<T, Comparator>, Rank, Rank>> search { nullptr };
-public:
-    Rank operator()(const Vector<T>& V, const T& e) override {
-        search = make_unique<TailRecursive<Rank, SearchPred<T>, SearchBound<T, Comparator>, SearchNext<T, Comparator>, Rank, Rank>>(SearchPred<T>(), SearchBound<T, Comparator>(V, e), SearchNext<T, Comparator>(V, e));
-        return (*search)(0, V.size());
+template <typename T>
+class BinarySearchRecursiveTemplate : public AbstractSearch<T, DefaultVector> {
+    using Comparator = std::less<T>;
+    unique_ptr<TailRecursive<Rank, SearchPred<T>, SearchBound<T, Comparator>, SearchNext<T, Comparator>, Rank, Rank>> m_search { nullptr };
+protected:
+    Rank search(const Vector<T>& V, const T& e) override {
+        m_search = make_unique<TailRecursive<Rank, SearchPred<T>, SearchBound<T, Comparator>, SearchNext<T, Comparator>, Rank, Rank>>(SearchPred<T>(), SearchBound<T, Comparator>(V, e), SearchNext<T, Comparator>(V, e));
+        return (*m_search)(0, V.size());
     }
+public:
     string type_name() const override {
         return "BinarySearchRecursive(Template)";
     }
 };
 
-template <typename T, typename Comparator = std::less<T>>
-class BinarySearchIterativeTemplate : public AbstractSearch<T, DefaultVector, Comparator> {
-    unique_ptr<TailRecursiveIterator<Rank, SearchPred<T>, SearchBound<T, Comparator>, SearchNext<T, Comparator>, Rank, Rank>> search { nullptr };
-public:
-    Rank operator()(const Vector<T>& V, const T& e) override {
-        search = make_unique<TailRecursiveIterator<Rank, SearchPred<T>, SearchBound<T, Comparator>, SearchNext<T, Comparator>, Rank, Rank>>(SearchPred<T>(), SearchBound<T, Comparator>(V, e), SearchNext<T, Comparator>(V, e));
-        return (*search)(0, V.size());
+template <typename T>
+class BinarySearchIterativeTemplate : public AbstractSearch<T, DefaultVector> {
+    using Comparator = std::less<T>;
+    unique_ptr<TailRecursiveIterator<Rank, SearchPred<T>, SearchBound<T, Comparator>, SearchNext<T, Comparator>, Rank, Rank>> m_search { nullptr };
+protected:
+    Rank search(const Vector<T>& V, const T& e) override {
+        m_search = make_unique<TailRecursiveIterator<Rank, SearchPred<T>, SearchBound<T, Comparator>, SearchNext<T, Comparator>, Rank, Rank>>(SearchPred<T>(), SearchBound<T, Comparator>(V, e), SearchNext<T, Comparator>(V, e));
+        return (*m_search)(0, V.size());
     }
+public:
     string type_name() const override {
         return "BinarySearchIterative(Template)";
     }

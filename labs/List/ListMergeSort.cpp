@@ -16,11 +16,11 @@ public:
     virtual void initialize(const Vector<int>& V0) = 0;
 };
 
-template <template<typename> typename Linear, template<typename, template<typename> typename, typename> typename SortAlgo, typename Comparator = std::less<int>>
-    requires std::is_base_of_v<AbstractLinearList<int, typename Linear<int>::position_type>, Linear<int>>&& std::is_base_of_v<AbstractSort<int, Linear, Comparator>, SortAlgo<int, Linear, Comparator>>
+template <template<typename> typename Linear, template<typename, template<typename> typename> typename SortAlgo>
+    requires std::is_base_of_v<AbstractLinearList<int, typename Linear<int>::position_type>, Linear<int>>&& std::is_base_of_v<AbstractSort<int, Linear>, SortAlgo<int, Linear>>
 class SortImpl : public SortProblem {
     Linear<int> L;
-    SortAlgo<int, Linear, Comparator> sort;
+    SortAlgo<int, Linear> sort;
 public:
     void initialize(const Vector<int>& V0) override {
         L.clear();
