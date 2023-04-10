@@ -15,6 +15,7 @@ class UniquePointerProxy {
     std::unique_ptr<T> m_ptr {};
 public:
     UniquePointerProxy() = default;
+    UniquePointerProxy(std::unique_ptr<T>&& ptr) : m_ptr(std::move(ptr)) {}
     UniquePointerProxy(const UniquePointerProxy&) = delete;
     UniquePointerProxy& operator=(const UniquePointerProxy&) = delete;
     UniquePointerProxy(UniquePointerProxy&& other) {
@@ -24,6 +25,8 @@ public:
         m_ptr = std::move(other.m_ptr);
         return *this;
     }
+    ~UniquePointerProxy() = default;
+
     UniquePointerProxy& operator=(T* ptr) {
         m_ptr.reset(ptr);
         return *this;
@@ -50,6 +53,21 @@ public:
     void swap(UniquePointerProxy& other) {
         m_ptr.swap(other.m_ptr);
     }
+    void create(auto&&... args) {
+        m_ptr = std::make_unique<T>(std::forward<decltype(args)>(args)...);
+    }
+    bool operator==(const UniquePointerProxy& other) const {
+        return m_ptr.get() == other.m_ptr.get();
+    }
+    auto operator<=>(const UniquePointerProxy& other) const {
+        return m_ptr.get() <=> other.m_ptr.get();
+    }
+    bool operator==(std::nullptr_t) const {
+        return m_ptr == nullptr;
+    }
+    bool operator!=(std::nullptr_t) const {
+        return m_ptr != nullptr;
+    }
 };
 
 template <typename T>
@@ -59,8 +77,17 @@ public:
     RawPointerProxy() = default;
     RawPointerProxy(const RawPointerProxy&) = default;
     RawPointerProxy& operator=(const RawPointerProxy&) = default;
-    RawPointerProxy(RawPointerProxy&&) = delete;
-    RawPointerProxy& operator=(RawPointerProxy&&) = delete;
+    RawPointerProxy(RawPointerProxy&&) = default;
+    RawPointerProxy& operator=(RawPointerProxy&&) = default;
+    ~RawPointerProxy() = default;
+
+    RawPointerProxy(T* ptr) : m_ptr(ptr) {}
+    RawPointerProxy(const UniquePointerProxy<T>& ptr) {
+        m_ptr = ptr.get();
+    }
+    RawPointerProxy(const std::unique_ptr<T>& ptr) {
+        m_ptr = ptr.get();
+    }
     RawPointerProxy& operator=(T* ptr) {
         m_ptr = ptr;
         return *this;
@@ -88,6 +115,85 @@ public:
     void swap(RawPointerProxy& other) {
         std::swap(m_ptr, other.m_ptr);
     }
+    bool operator==(const RawPointerProxy& other) const {
+        return m_ptr == other.m_ptr;
+    }
+    auto operator<=>(const RawPointerProxy& other) const {
+        return m_ptr <=> other.m_ptr;
+    }
+    bool operator==(std::nullptr_t) const {
+        return m_ptr == nullptr;
+    }
+    bool operator!=(std::nullptr_t) const {
+        return m_ptr != nullptr;
+    }
 };
+
+
+template <typename T>
+class ConstRawPointerProxy {
+    const T* m_ptr { nullptr };
+public:
+    ConstRawPointerProxy() = default;
+    ConstRawPointerProxy(const ConstRawPointerProxy&) = default;
+    ConstRawPointerProxy& operator=(const ConstRawPointerProxy&) = default;
+    ConstRawPointerProxy(ConstRawPointerProxy&&) = delete;
+    ConstRawPointerProxy& operator=(ConstRawPointerProxy&&) = delete;
+    ~ConstRawPointerProxy() = default;
+    ConstRawPointerProxy(const T* ptr) : m_ptr(ptr) {}
+    ConstRawPointerProxy(const UniquePointerProxy<T>& ptr) {
+        m_ptr = ptr.get();
+    }
+    ConstRawPointerProxy(const RawPointerProxy<T>& ptr) {
+        m_ptr = ptr.get();
+    }
+    ConstRawPointerProxy(const std::unique_ptr<T>& ptr) {
+        m_ptr = ptr.get();
+    }
+    ConstRawPointerProxy& operator=(const T* ptr) {
+        m_ptr = ptr;
+        return *this;
+    }
+    ConstRawPointerProxy& operator=(const UniquePointerProxy<T>& ptr) {
+        m_ptr = ptr.get();
+        return *this;
+    }
+    ConstRawPointerProxy& operator=(const RawPointerProxy<T>& ptr) {
+        m_ptr = ptr.get();
+        return *this;
+    }
+    ConstRawPointerProxy& operator=(const std::unique_ptr<T>& ptr) {
+        m_ptr = ptr.get();
+        return *this;
+    }
+    const T* operator->() const {
+        return m_ptr;
+    }
+    operator const T* () const {
+        return m_ptr;
+    }
+    operator bool() const {
+        return m_ptr != nullptr;
+    }
+    const T* get() const {
+        return m_ptr;
+    }
+    void swap(ConstRawPointerProxy& other) {
+        std::swap(m_ptr, other.m_ptr);
+    }
+    bool operator==(const ConstRawPointerProxy& other) const {
+        return m_ptr == other.m_ptr;
+    }
+    auto operator<=>(const ConstRawPointerProxy& other) const {
+        return m_ptr <=> other.m_ptr;
+    }
+    bool operator==(std::nullptr_t) const {
+        return m_ptr == nullptr;
+    }
+    bool operator!=(std::nullptr_t) const {
+        return m_ptr != nullptr;
+    }
+};
+
 
 }

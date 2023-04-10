@@ -15,7 +15,7 @@ template <typename ForwardList>
 class ConstForwardListIterator {
 protected:
     const ForwardList* m_list { nullptr };
-    ForwardListNode<typename ForwardList::value_type>* m_node { nullptr };
+    ForwardListNodeConstPos<typename ForwardList::value_type> m_node { nullptr };
 public:
     using value_type = typename ForwardList::value_type;
     using difference_type = ptrdiff_t;
@@ -24,7 +24,7 @@ public:
     using iterator_category = std::forward_iterator_tag;
 
     ConstForwardListIterator() = default;
-    ConstForwardListIterator(const ForwardList* list, ForwardListNode<value_type>* node) : m_list(list), m_node(node) {}
+    ConstForwardListIterator(const ForwardList* list, ForwardListNodeConstPos<value_type> node) : m_list(list), m_node(node) {}
 
     ConstForwardListIterator& operator++() {
         m_node = m_node->next();
@@ -60,7 +60,7 @@ template <typename ForwardList>
 class ForwardListIterator {
 protected:
     ForwardList* m_list { nullptr };
-    ForwardListNode<typename ForwardList::value_type>* m_node { nullptr };
+    ForwardListNodePos<typename ForwardList::value_type> m_node { nullptr };
 public:
     using value_type = typename ForwardList::value_type;
     using difference_type = ptrdiff_t;
@@ -69,7 +69,7 @@ public:
     using iterator_category = std::forward_iterator_tag;
 
     ForwardListIterator() = default;
-    ForwardListIterator(ForwardList* list, ForwardListNode<value_type>* node) : m_list(list), m_node(node) {}
+    ForwardListIterator(ForwardList* list, ForwardListNodePos<value_type> node) : m_list(list), m_node(node) {}
 
     ForwardListIterator& operator++() {
         m_node = m_node->next();

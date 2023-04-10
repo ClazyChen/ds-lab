@@ -12,56 +12,56 @@ import ForwardList.ForwardListIterator;
 export namespace dslab {
 
 template <typename T>
-class AbstractForwardList : public AbstractLinearList<T, ForwardListNode<T>*> {
+class AbstractForwardList : public AbstractLinearList<T, ForwardListNodePos<T>> {
 public:
-    virtual ForwardListNode<T>* head() = 0;
-    virtual ForwardListNode<T>* tail() = 0;
-    virtual const ForwardListNode<T>* head() const = 0;
-    virtual const ForwardListNode<T>* tail() const = 0;
+    virtual ForwardListNodePos<T> head() = 0;
+    virtual ForwardListNodePos<T> tail() = 0;
+    virtual ForwardListNodeConstPos<T> head() const = 0;
+    virtual ForwardListNodeConstPos<T> tail() const = 0;
     virtual size_t size() const = 0;
-    virtual ForwardListNode<T>* insertAsNext(ForwardListNode<T>* p, const T& e) = 0;
-    virtual ForwardListNode<T>* insertAsNext(ForwardListNode<T>* p, T&& e) = 0;
-    virtual ForwardListNode<T>* insertAsPrev(ForwardListNode<T>* p, const T& e) = 0;
-    virtual ForwardListNode<T>* insertAsPrev(ForwardListNode<T>* p, T&& e) = 0;
-    virtual ForwardListNode<T>* find(const T& e) const = 0;
-    virtual T remove(ForwardListNode<T>* p) = 0;
+    virtual ForwardListNodePos<T> insertAsNext(ForwardListNodePos<T> p, const T& e) = 0;
+    virtual ForwardListNodePos<T> insertAsNext(ForwardListNodePos<T> p, T&& e) = 0;
+    virtual ForwardListNodePos<T> insertAsPrev(ForwardListNodePos<T> p, const T& e) = 0;
+    virtual ForwardListNodePos<T> insertAsPrev(ForwardListNodePos<T> p, T&& e) = 0;
+    virtual ForwardListNodePos<T> find(const T& e) const = 0;
+    virtual T remove(ForwardListNodePos<T> p) = 0;
     virtual void clear() = 0;
 
-    ForwardListNode<T>* insert(ForwardListNode<T>* p, const T& e) override {
+    ForwardListNodePos<T> insert(ForwardListNodePos<T> p, const T& e) override {
         return insertAsPrev(p, e);
     }
 
-    ForwardListNode<T>* insert(ForwardListNode<T>* p, T&& e) override {
+    ForwardListNodePos<T> insert(ForwardListNodePos<T> p, T&& e) override {
         return insertAsPrev(p, std::move(e));
     }
 
-    T& get(ForwardListNode<T>* p) override {
+    T& get(ForwardListNodePos<T> p) override {
         return p->data();
     }
 
-    void set(ForwardListNode<T>* p, const T& e) override {
+    void set(ForwardListNodePos<T> p, const T& e) override {
         p->data() = e;
     }
 
-    void set(ForwardListNode<T>* p, T&& e) override {
+    void set(ForwardListNodePos<T> p, T&& e) override {
         p->data() = std::move(e);
     }
 
-    ForwardListNode<T>* first() const override {
+    ForwardListNodePos<T> first() const override {
         return head()->next();
     }
 
-    ForwardListNode<T>* next(ForwardListNode<T>* p) const override {
+    ForwardListNodePos<T> next(ForwardListNodePos<T> p) const override {
         return p->next();
     }
 
 private:
     // 单向链表不支持从后向前的访问
-    [[noreturn]] ForwardListNode<T>* last() const override {
+    [[noreturn]] ForwardListNodePos<T> last() const override {
         throw std::logic_error("AbstractForwardList::last() is not implemented");
     }
 
-    [[noreturn]] ForwardListNode<T>* prev(ForwardListNode<T>* p) const override {
+    [[noreturn]] ForwardListNodePos<T> prev(ForwardListNodePos<T> p) const override {
         throw std::logic_error("AbstractForwardList::prev() is not implemented");
     }
 
@@ -78,7 +78,7 @@ private:
     }
 
 public:
-    bool end(ForwardListNode<T>* p) const override {
+    bool end(ForwardListNodePos<T> p) const override {
         return p == tail();
     }
 
