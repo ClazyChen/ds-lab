@@ -48,7 +48,7 @@ public:
     }
 
     ListNode<T>* next(ListNode<T>* p) const override {
-        return p->next().get();
+        return p->next();
     }
 
     ListNode<T>* prev(ListNode<T>* p) const override {

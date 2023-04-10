@@ -58,7 +58,6 @@ class ListNode {
         ListNodeProxy(const ListNodeProxy&) = delete;
         ListNodeProxy& operator=(const ListNodeProxy&) = delete;
         ListNodeProxy(ListNodeProxy&&) = delete;
-
         ListNodeProxy& operator=(ListNodeProxy&& other) {
             m_node = std::move(other.m_node);
             return *this;
