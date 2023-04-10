@@ -79,7 +79,7 @@ public:
 
 template <typename T>
 class ReverseReduceAtTail : public ReverseForwardList<T> {
-    unique_ptr<ListNode<T>> reverse(unique_ptr<ListNode<T>>& start, size_t size) {
+    auto reverse(auto& start, size_t size) {
         if (size == 1) {
             return move(start->next());
         }

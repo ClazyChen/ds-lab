@@ -8,17 +8,16 @@ export namespace dslab {
 template <typename T>
 class ForwardListNode {
     T m_data;
-    std::unique_ptr<ForwardListNode> m_next { nullptr };
 
     class ForwardListNodeProxy {
-        std::unique_ptr<ForwardListNode>& m_node;
+        std::unique_ptr<ForwardListNode> m_node {};
     public:
-        ForwardListNodeProxy(std::unique_ptr<ForwardListNode>& node) : m_node(node) {}
-        ForwardListNodeProxy(const std::unique_ptr<ForwardListNode>& node) : m_node(const_cast<std::unique_ptr<ForwardListNode>&>(node)) {}
+        ForwardListNodeProxy() = default;
         ForwardListNodeProxy(const ForwardListNodeProxy&) = delete;
         ForwardListNodeProxy& operator=(const ForwardListNodeProxy&) = delete;
-        ForwardListNodeProxy(ForwardListNodeProxy&&) = delete;
-        
+        ForwardListNodeProxy(ForwardListNodeProxy&& other) {
+            m_node = std::move(other.m_node);
+        }
         ForwardListNodeProxy& operator=(ForwardListNodeProxy&& other) {
             m_node = std::move(other.m_node);
             return *this;
@@ -54,6 +53,8 @@ class ForwardListNode {
         }
     };
 
+    ForwardListNodeProxy m_next {};
+
 public:
     ForwardListNode() = default;
     ForwardListNode(const T& data) : m_data(data) {}
@@ -73,8 +74,8 @@ public:
 
     T& data() { return m_data; }
     const T& data() const { return m_data; }
-    ForwardListNodeProxy next() { return m_next; }
-    const ForwardListNodeProxy next() const { return m_next; }
+    ForwardListNodeProxy& next() { return m_next; }
+    const ForwardListNodeProxy& next() const { return m_next; }
 };
 
 }
