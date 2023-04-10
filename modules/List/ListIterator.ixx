@@ -28,12 +28,12 @@ public:
     ConstListIterator(const List* list, ListNode<value_type>* node) : m_list(list), m_node(node) {}
 
     ConstListIterator& operator++() {
-        m_node = m_node->next().get();
+        m_node = m_node->next();
         return *this;
     }
     ConstListIterator operator++(int) {
         ConstListIterator tmp(*this);
-        m_node = m_node->next().get();
+        m_node = m_node->next();
         return tmp;
     }
     ConstListIterator& operator--() {
@@ -89,12 +89,12 @@ public:
     ListIterator(List* list, ListNode<value_type>* node) : m_list(list), m_node(node) {}
 
     ListIterator& operator++() {
-        m_node = m_node->next().get();
+        m_node = m_node->next();
         return *this;
     }
     ListIterator operator++(int) {
         ListIterator tmp(*this);
-        m_node = m_node->next().get();
+        m_node = m_node->next();
         return tmp;
     }
     ListIterator& operator--() {

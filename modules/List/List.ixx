@@ -17,8 +17,8 @@ class List : public AbstractList<T> {
     void initialize() {
         m_head = std::make_unique<ListNode<T>>();
         m_head->next() = std::make_unique<ListNode<T>>();
-        m_tail = m_head->next().get();
-        m_tail->prev() = m_head.get();
+        m_tail = m_head->next();
+        m_tail->prev() = m_head;
         m_size = 0;
     }
 
@@ -80,19 +80,19 @@ public:
 
     void clear() override {
         m_head->next() = std::make_unique<ListNode<T>>();
-        m_tail = m_head->next().get();
-        m_tail->prev() = m_head.get();
+        m_tail = m_head->next();
+        m_tail->prev() = m_head;
         m_size = 0;
     }
 
     ListNode<T>* insertAsNext(ListNode<T>* p, const T& e) override {
         auto node { std::make_unique<ListNode<T>>(e) };
         node->next() = std::move(p->next());
-        node->next()->prev() = node.get();
+        node->next()->prev() = node;
         node->prev() = p;
         p->next() = std::move(node);
         ++m_size;
-        return p->next().get();
+        return p->next();
     }
 
     ListNode<T>* insertAsPrev(ListNode<T>* p, const T& e) override {
@@ -103,11 +103,11 @@ public:
     ListNode<T>* insertAsNext(ListNode<T>* p, T&& e) override {
         auto node { std::make_unique<ListNode<T>>(std::move(e)) };
         node->next() = std::move(p->next());
-        node->next()->prev() = node.get();
+        node->next()->prev() = node;
         node->prev() = p;
         p->next() = std::move(node);
         ++m_size;
-        return p->next().get();
+        return p->next();
     }
 
     ListNode<T>* insertAsPrev(ListNode<T>* p, T&& e) override {
@@ -116,12 +116,12 @@ public:
     }
 
     ListNode<T>* find(const T& e) const override {
-        auto p { m_head->next().get() };
+        ListNode<T>* p { m_head->next() };
         while (p != m_tail) {
             if (p->data() == e) {
                 return p;
             }
-            p = p->next().get();
+            p = p->next();
         }
         return m_tail;
     }

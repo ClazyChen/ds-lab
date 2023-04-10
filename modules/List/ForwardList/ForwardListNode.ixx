@@ -52,9 +52,6 @@ class ForwardListNode {
         void swap(ForwardListNodeProxy& other) {
             m_node.swap(other.m_node);
         }
-        friend bool operator==(const ForwardListNodeProxy& lhs, const ForwardListNodeProxy& rhs) {
-            return lhs.m_node == rhs.m_node;
-        }
     };
 
 public:
