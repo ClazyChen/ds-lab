@@ -17,7 +17,7 @@ class ForwardList : public AbstractForwardList<T> {
     void initialize() {
         m_head = std::make_unique<ForwardListNode<T>>();
         m_head->next() = std::make_unique<ForwardListNode<T>>();
-        m_tail = m_head->next().get();
+        m_tail = m_head->next();
         m_size = 0;
     }
 
@@ -79,7 +79,7 @@ public:
 
     void clear() override {
         m_head->next() = std::make_unique<ForwardListNode<T>>();
-        m_tail = m_head->next().get();
+        m_tail = m_head->next();
         m_size = 0;
     }
 
@@ -88,7 +88,7 @@ public:
         node->next() = std::move(p->next());
         p->next() = std::move(node);
         ++m_size;
-        return p->next().get();
+        return p->next();
     }
 
     ForwardListNode<T>* insertAsNext(ForwardListNode<T>* p, T&& e) override {
@@ -96,7 +96,7 @@ public:
         node->next() = std::move(p->next());
         p->next() = std::move(node);
         ++m_size;
-        return p->next().get();
+        return p->next();
     }
 
     ForwardListNode<T>* insertAsPrev(ForwardListNode<T>* p, const T& e) override {
@@ -105,7 +105,7 @@ public:
         p->next() = std::move(node);
         p->data() = e;
         if (m_tail == p) {
-            m_tail = p->next().get();
+            m_tail = p->next();
         }
         ++m_size;
         return p;
@@ -117,19 +117,19 @@ public:
         p->next() = std::move(node);
         p->data() = std::move(e);
         if (m_tail == p) {
-            m_tail = p->next().get();
+            m_tail = p->next();
         }
         ++m_size;
         return p;
     }
 
     ForwardListNode<T>* find(const T& e) const override {
-        auto p { m_head->next().get() };
+        ForwardListNode<T>* p { m_head->next() };
         while (p != nullptr) {
             if (p->data() == e) {
                 return p;
             }
-            p = p->next().get();
+            p = p->next();
         }
         return m_tail;
     }
