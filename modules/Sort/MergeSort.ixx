@@ -38,7 +38,7 @@ protected:
         mergeSort(mi, hi, size - size / 2);
         merge(lo, mi, hi, size / 2);
     }
-public:
+protected:
     void sort(Linear<T>& L) override {
         mergeSort(std::begin(L), std::end(L), L.size());
     }
@@ -46,8 +46,8 @@ public:
 
 template <typename T, template<typename> typename Linear>
 class MergeSortUpward : public MergeSort<T, Linear> {
-public:
-    void operator()(Linear<T>& L) override {
+protected:
+    void sort(Linear<T>& L) override {
         auto n { L.size() };
         for (size_t width { 1 }; width < n; width *= 2) {
             auto lo { std::begin(L) };

@@ -18,14 +18,13 @@ protected:
             if (--mid == 0) return;
         }
         auto max_left { *max_element(begin(L), begin(L) + mid) };
-        auto left { lower_bound(begin(L) + mid, end(L), max_left, ref(this->cmp)) };
+        auto left { lower_bound(begin(L) + mid, end(L), max_left, this->cmp) };
         this->mergeSort(begin(L), left, left - begin(L));
     }
 };
 
 template <typename T, template<typename> typename Linear>
 class MergeSortCond : public AbstractSort<T, Linear> {
-protected:
     Vector<T> W;
     using Iterator = typename Linear<T>::iterator;
     void merge(Iterator lo, Iterator mi, Iterator hi, size_t size) {
@@ -50,6 +49,7 @@ protected:
         mergeSort(mi, hi, size - size / 2);
         merge(lo, mi, hi, size);
     }
+protected:
     void sort(Linear<T>& L) override {
         mergeSort(std::begin(L), std::end(L), L.size());
     }

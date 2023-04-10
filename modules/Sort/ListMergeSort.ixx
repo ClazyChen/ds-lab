@@ -16,8 +16,7 @@ export namespace dslab {
 template <typename T, template<typename> typename List>
     requires std::is_base_of_v<AbstractList<T>, List<T>>
 class ListMergeSort : public AbstractSort<T, List> {
-    using Ptr = std::unique_ptr<ListNode<T>>;
-    Ptr dummy { std::make_unique<ListNode<T>>() };
+    std::unique_ptr<ListNode<T>> dummy { std::make_unique<ListNode<T>>() };
     auto& forward(ListNode<T>* from, size_t step) {
         for (size_t i { 1 }; i < step; ++i) {
             from = from->next();
@@ -44,6 +43,7 @@ class ListMergeSort : public AbstractSort<T, List> {
         } else {
             L->next() = std::move(L2);
         }
+        L1 = std::move(dummy->next());
     }
     void mergeSort(auto& head, size_t size) {
         if (size < 2) return;
@@ -51,7 +51,6 @@ class ListMergeSort : public AbstractSort<T, List> {
         mergeSort(head, size / 2);
         mergeSort(mi, size - size / 2);
         merge(head, mi);
-        head = std::move(dummy->next());
     }
 protected:
     void sort(List<T>& L) override {
