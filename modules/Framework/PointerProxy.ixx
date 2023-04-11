@@ -8,6 +8,13 @@ export module Framework.PointerProxy;
 // 用户可以当成裸指针使用，但不代表没有所有权问题
 // 比如，试图在普通二叉树上做Morris遍历仍然是不可行的
 
+// 三种代理类支持的转换方式包括：
+// Unique Proxy -> Raw Proxy -> Const Raw Proxy
+// Unique Proxy             -> Raw Pointer
+// Raw Proxy               <-> Raw Pointer
+// Const Raw Proxy         <-> Const Raw Pointer
+// Unique Pointer -> Unique Proxy, Raw Proxy, Const Raw Proxy
+
 export namespace dslab {
 
 template <typename T>
@@ -55,6 +62,9 @@ public:
     }
     void create(auto&&... args) {
         m_ptr = std::make_unique<T>(std::forward<decltype(args)>(args)...);
+    }
+    static auto make(auto&&... args) {
+        return UniquePointerProxy(std::make_unique<T>(std::forward<decltype(args)>(args)...));
     }
     bool operator==(const UniquePointerProxy& other) const {
         return m_ptr.get() == other.m_ptr.get();

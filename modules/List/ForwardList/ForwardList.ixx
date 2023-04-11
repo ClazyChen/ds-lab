@@ -84,7 +84,7 @@ public:
     }
 
     ForwardListNodePos<T> insertAsNext(ForwardListNodePos<T> p, const T& e) override {
-        auto node { std::make_unique<ForwardListNode<T>>(e) };
+        auto node { ForwardListNodeInst<T>::make(e) };
         node->next() = std::move(p->next());
         p->next() = std::move(node);
         ++m_size;
@@ -92,7 +92,7 @@ public:
     }
 
     ForwardListNodePos<T> insertAsNext(ForwardListNodePos<T> p, T&& e) override {
-        auto node { std::make_unique<ForwardListNode<T>>(std::move(e)) };
+        auto node { ForwardListNodeInst<T>::make(std::move(e)) };
         node->next() = std::move(p->next());
         p->next() = std::move(node);
         ++m_size;
@@ -100,7 +100,7 @@ public:
     }
 
     ForwardListNodePos<T> insertAsPrev(ForwardListNodePos<T> p, const T& e) override {
-        auto node { std::make_unique<ForwardListNode<T>>(std::move(p->data())) };
+        auto node { ForwardListNodeInst<T>::make(std::move(p->data())) };
         node->next() = std::move(p->next());
         p->next() = std::move(node);
         p->data() = e;
@@ -112,7 +112,7 @@ public:
     }
 
     ForwardListNodePos<T> insertAsPrev(ForwardListNodePos<T> p, T&& e) override {
-        auto node { std::make_unique<ForwardListNode<T>>(std::move(p->data())) };
+        auto node { ForwardListNodeInst<T>::make(std::move(p->data())) };
         node->next() = std::move(p->next());
         p->next() = std::move(node);
         p->data() = std::move(e);
