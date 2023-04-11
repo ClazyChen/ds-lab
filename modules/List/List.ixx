@@ -10,23 +10,23 @@ export namespace dslab {
 
 template <typename T>
 class List : public AbstractList<T> {
-    std::unique_ptr<ListNode<T>> m_head { nullptr };
-    ListNode<T>* m_tail { nullptr };
+    ListNodeInst<T> m_head { nullptr };
+    ListNodePos<T> m_tail { nullptr };
     size_t m_size { 0 };
 
     void initialize() {
-        m_head = std::make_unique<ListNode<T>>();
-        m_head->next() = std::make_unique<ListNode<T>>();
+        m_head.create();
+        m_head->next().create();
         m_tail = m_head->next();
         m_tail->prev() = m_head;
         m_size = 0;
     }
 
 public:
-    ListNode<T>* head() override { return m_head.get(); }
-    const ListNode<T>* head() const override { return m_head.get(); }
-    ListNode<T>* tail() override { return m_tail; }
-    const ListNode<T>* tail() const override { return m_tail; }
+    ListNodePos<T> head() override { return m_head; }
+    ListNodeConstPos<T> head() const override { return m_head; }
+    ListNodePos<T> tail() override { return m_tail; }
+    ListNodeConstPos<T> tail() const override { return m_tail; }
     size_t size() const override { return m_size; }
 
     List() { initialize(); }
@@ -79,14 +79,14 @@ public:
     virtual ~List() = default;
 
     void clear() override {
-        m_head->next() = std::make_unique<ListNode<T>>();
+        m_head->next().create();
         m_tail = m_head->next();
         m_tail->prev() = m_head;
         m_size = 0;
     }
 
-    ListNode<T>* insertAsNext(ListNode<T>* p, const T& e) override {
-        auto node { std::make_unique<ListNode<T>>(e) };
+    ListNodePos<T> insertAsNext(ListNodePos<T> p, const T& e) override {
+        auto node { ListNodeInst<T>::make(e) };
         node->next() = std::move(p->next());
         node->next()->prev() = node;
         node->prev() = p;
@@ -95,13 +95,13 @@ public:
         return p->next();
     }
 
-    ListNode<T>* insertAsPrev(ListNode<T>* p, const T& e) override {
+    ListNodePos<T> insertAsPrev(ListNodePos<T> p, const T& e) override {
         auto q { p->prev() };
         return insertAsNext(q, e);
     }
 
-    ListNode<T>* insertAsNext(ListNode<T>* p, T&& e) override {
-        auto node { std::make_unique<ListNode<T>>(std::move(e)) };
+    ListNodePos<T> insertAsNext(ListNodePos<T> p, T&& e) override {
+        auto node { ListNodeInst<T>::make(std::move(e)) };
         node->next() = std::move(p->next());
         node->next()->prev() = node;
         node->prev() = p;
@@ -110,13 +110,13 @@ public:
         return p->next();
     }
 
-    ListNode<T>* insertAsPrev(ListNode<T>* p, T&& e) override {
+    ListNodePos<T> insertAsPrev(ListNodePos<T> p, T&& e) override {
         auto q { p->prev() };
         return insertAsNext(q, std::move(e));
     }
 
-    ListNode<T>* find(const T& e) const override {
-        ListNode<T>* p { m_head->next() };
+    ListNodePos<T> find(const T& e) const override {
+        ListNodePos<T> p { m_head->next() };
         while (p != m_tail) {
             if (p->data() == e) {
                 return p;
@@ -126,7 +126,7 @@ public:
         return m_tail;
     }
 
-    T remove(ListNode<T>* p) override {
+    T remove(ListNodePos<T> p) override {
         auto e { std::move(p->data()) };
         p->next()->prev() = p->prev();
         p->prev()->next() = std::move(p->next());

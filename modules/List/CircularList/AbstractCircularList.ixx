@@ -15,31 +15,31 @@ export namespace dslab {
 template <typename T>
 class AbstractCircularList : public AbstractList<T> {
 public:
-    ListNode<T>* insert(ListNode<T>* p, const T& e) override {
+    ListNodePos<T> insert(ListNodePos<T> p, const T& e) override {
         return this->insertAsPrev(p, e);
     }
 
-    ListNode<T>* insert(ListNode<T>* p, T&& e) override {
+    ListNodePos<T> insert(ListNodePos<T> p, T&& e) override {
         return this->insertAsPrev(p, std::move(e));
     }
 
-    T& get(ListNode<T>* p) override {
+    T& get(ListNodePos<T> p) override {
         return p->data();
     }
 
-    void set(ListNode<T>* p, const T& e) override {
+    void set(ListNodePos<T> p, const T& e) override {
         p->data() = e;
     }
 
-    void set(ListNode<T>* p, T&& e) override {
+    void set(ListNodePos<T> p, T&& e) override {
         p->data() = std::move(e);
     }
 
-    ListNode<T>* first() const override {
+    ListNodePos<T> first() const override {
         return const_cast<AbstractCircularList*>(this)->head();
     }
 
-    ListNode<T>* last() const override {
+    ListNodePos<T> last() const override {
         if (auto f { first() }; f) {
             return f->prev();
         } else {
@@ -47,24 +47,24 @@ public:
         }
     }
 
-    ListNode<T>* next(ListNode<T>* p) const override {
+    ListNodePos<T> next(ListNodePos<T> p) const override {
         return p->next();
     }
 
-    ListNode<T>* prev(ListNode<T>* p) const override {
+    ListNodePos<T> prev(ListNodePos<T> p) const override {
         return p->prev();
     }
 
 private:
-    [[noreturn]] bool end(ListNode<T>* p) const override {
+    [[noreturn]] bool end(ListNodePos<T> p) const override {
         throw std::logic_error("Circular List does not have an end");
     }
 
-    [[noreturn]] ListNode<T>* tail() override {
+    [[noreturn]] ListNodePos<T> tail() override {
         throw std::logic_error("Circular List does not have a tail");
     }
 
-    [[noreturn]] const ListNode<T>* tail() const override {
+    [[noreturn]] ListNodeConstPos<T> tail() const override {
         throw std::logic_error("Circular List does not have a tail");
     }
 

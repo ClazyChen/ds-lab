@@ -57,6 +57,9 @@ public:
     T* release() {
         return m_ptr.release();
     }
+    void reset(T* ptr = nullptr) {
+        m_ptr.reset(ptr);
+    }
     void swap(UniquePointerProxy& other) {
         m_ptr.swap(other.m_ptr);
     }
@@ -204,6 +207,5 @@ public:
         return m_ptr != nullptr;
     }
 };
-
 
 }

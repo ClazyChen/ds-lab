@@ -8,14 +8,22 @@ import Framework.PointerProxy;
 export namespace dslab {
 
 template <typename T>
+class ListNode;
+
+template <typename T>
+using ListNodeInst = UniquePointerProxy<ListNode<T>>;
+
+template <typename T>
+using ListNodePos = RawPointerProxy<ListNode<T>>;
+
+template <typename T>
+using ListNodeConstPos = ConstRawPointerProxy<ListNode<T>>;
+
+template <typename T>
 class ListNode {
     T m_data;
-    
-    using ListNodeProxy = UniquePointerProxy<ListNode<T>>;
-    using ListNodeRawProxy = RawPointerProxy<ListNode<T>>;
-
-    ListNodeRawProxy m_prev {};
-    ListNodeProxy m_next {};
+    ListNodePos<T> m_prev {};
+    ListNodeInst<T> m_next {};
 
 public:
     ListNode() = default;
@@ -36,10 +44,10 @@ public:
 
     T& data() { return m_data; }
     const T& data() const { return m_data; }
-    ListNodeRawProxy& prev() { return m_prev; }
-    const ListNodeRawProxy& prev() const { return m_prev; }
-    ListNodeProxy& next() { return m_next; }
-    const ListNodeProxy& next() const { return m_next; }
+    ListNodePos<T>& prev() { return m_prev; }
+    const ListNodePos<T>& prev() const { return m_prev; }
+    ListNodeInst<T>& next() { return m_next; }
+    const ListNodeInst<T>& next() const { return m_next; }
 };
 
 }

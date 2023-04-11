@@ -11,12 +11,12 @@ export namespace dslab {
 
 template <typename T>
 class CircularList : public AbstractCircularList<T> {
-    ListNode<T>* m_head { nullptr };
+    ListNodePos<T> m_head { nullptr };
     size_t m_size { 0 };
 
 public:
-    ListNode<T>* head() override { return m_head; }
-    const ListNode<T>* head() const override { return m_head; }
+    ListNodePos<T> head() override { return m_head; }
+    ListNodeConstPos<T> head() const override { return m_head; }
     size_t size() const override { return m_size; }
 
     CircularList() = default;
@@ -71,10 +71,10 @@ public:
         clear();
     }
 
-    ListNode<T>* insertAsNext(ListNode<T>* p, const T& e) override {
-        auto node { std::make_unique<ListNode<T>>(e) };
+    ListNodePos<T> insertAsNext(ListNodePos<T> p, const T& e) override {
+        auto node { ListNodeInst<T>::make(e) };
         if (m_head == nullptr) {
-            m_head = node.get();
+            m_head = node;
             node->prev() = node;
             node->next() = std::move(node);
             p = m_head;
@@ -88,7 +88,7 @@ public:
         return p->next();
     }
 
-    ListNode<T>* insertAsPrev(ListNode<T>* p, const T& e) override {
+    ListNodePos<T> insertAsPrev(ListNodePos<T> p, const T& e) override {
         auto q { p ? p->prev() : nullptr };
         auto node { insertAsNext(q, e) };
         if (p == m_head) {
@@ -97,10 +97,10 @@ public:
         return node;
     }
 
-    ListNode<T>* insertAsNext(ListNode<T>* p, T&& e) override {
+    ListNodePos<T> insertAsNext(ListNodePos<T> p, T&& e) override {
         auto node { std::make_unique<ListNode<T>>(std::move(e)) };
         if (m_head == nullptr) {
-            m_head = node.get();
+            m_head = node;
             node->prev() = node;
             node->next() = std::move(node);
             p = m_head;
@@ -114,7 +114,7 @@ public:
         return p->next();
     }
 
-    ListNode<T>* insertAsPrev(ListNode<T>* p, T&& e) override {
+    ListNodePos<T> insertAsPrev(ListNodePos<T> p, T&& e) override {
         auto q { p ? p->prev() : nullptr };
         auto node { insertAsNext(q, std::move(e)) };
         if (p == m_head) {
@@ -123,7 +123,7 @@ public:
         return node;
     }
 
-    ListNode<T>* find(const T& e) const override {
+    ListNodePos<T> find(const T& e) const override {
         auto p { m_head };
         for (size_t i { 0 }; i < m_size; ++i) {
             if (p->data() == e) {
@@ -134,7 +134,7 @@ public:
         return nullptr;
     }
 
-    T remove(ListNode<T>* p) override {
+    T remove(ListNodePos<T> p) override {
         auto e { std::move(p->data()) };
         if (m_size == 1) {
             p->next().reset();

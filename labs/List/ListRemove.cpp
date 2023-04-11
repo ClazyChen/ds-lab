@@ -12,7 +12,7 @@ template <typename T>
 class ContinuousPop : public Algorithm<void()> {
 protected:
     List<T> L;
-    Vector<ListNode<T>*> V;
+    Vector<ListNodePos<T>> V;
 public:
     virtual void initialize(size_t n) = 0;
     void operator()() override {
