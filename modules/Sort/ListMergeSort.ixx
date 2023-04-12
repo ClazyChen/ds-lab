@@ -49,7 +49,7 @@ class ListMergeSort : public AbstractSort<T, List> {
     }
     void mergeSort(Inst& head, size_t size) {
         if (size < 2) return;
-        Inst mi { std::move(forward(head, size / 2)) };
+        auto mi { std::move(forward(head, size / 2)) };
         mergeSort(head, size / 2);
         mergeSort(mi, size - size / 2);
         merge(head, mi);
@@ -59,8 +59,8 @@ protected:
         if (L.empty()) {
             return;
         }
-        Inst first { std::move(L.head()->next()) };
-        Inst tail { std::move(L.tail()->prev()->next()) };
+        auto first { std::move(L.head()->next()) };
+        auto tail { std::move(L.tail()->prev()->next()) };
         mergeSort(first, L.size());
         forward(first, L.size() - 1)->next() = std::move(tail);
         L.head()->next() = std::move(first);

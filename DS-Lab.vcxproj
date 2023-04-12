@@ -165,7 +165,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\List\ListMergeSort.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\List\ListRemove.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -189,7 +189,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Queue\QueueEvaluation.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Queue\QueueTest.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -282,7 +282,6 @@
     <ClCompile Include="modules\BinaryTree\ThreadedBinaryTreeNode.ixx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="modules\BinaryTree\Tree\TreeNode.ixx" />
     <ClCompile Include="modules\Framework\Algorithm.ixx" />
     <ClCompile Include="modules\Framework\DataStructure.ixx" />
     <ClCompile Include="modules\framework\Framework.ixx" />
@@ -344,6 +343,12 @@
     <ClCompile Include="modules\Stack\RandomStackOperation.ixx" />
     <ClCompile Include="modules\Stack\SharedStack.ixx" />
     <ClCompile Include="modules\Stack\Stack.ixx" />
+    <ClCompile Include="modules\Tree\AbstractTree.ixx" />
+    <ClCompile Include="modules\Tree\AbstractTreeTraverse.ixx" />
+    <ClCompile Include="modules\Tree\Tree.ixx" />
+    <ClCompile Include="modules\Tree\TreeLevelOrderTraverse.ixx" />
+    <ClCompile Include="modules\Tree\TreeNode.ixx" />
+    <ClCompile Include="modules\Tree\TreePreOrderTraverse.ixx" />
     <ClCompile Include="modules\Vector\AbstractVector.ixx" />
     <ClCompile Include="modules\Vector\LinearList\AbstractLinearList.ixx" />
     <ClCompile Include="modules\Vector\LinearList\LinearList.ixx" />

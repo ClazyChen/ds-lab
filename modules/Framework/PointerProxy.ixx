@@ -1,5 +1,6 @@
 ﻿module;
 #include <memory>
+#include <stdexcept>
 
 export module Framework.PointerProxy;
 
@@ -18,13 +19,24 @@ export module Framework.PointerProxy;
 export namespace dslab {
 
 template <typename T>
+class RawPointerProxy;
+
+template <typename T>
+class ConstRawPointerProxy;
+
+template <typename T>
 class UniquePointerProxy {
     std::unique_ptr<T> m_ptr {};
 public:
     UniquePointerProxy() = default;
     UniquePointerProxy(std::unique_ptr<T>&& ptr) : m_ptr(std::move(ptr)) {}
-    UniquePointerProxy(const UniquePointerProxy&) = delete;
-    UniquePointerProxy& operator=(const UniquePointerProxy&) = delete;
+    UniquePointerProxy(const UniquePointerProxy&) {
+        throw std::runtime_error("UniquePointerProxy is not copyable");
+    }
+    UniquePointerProxy& operator=(const UniquePointerProxy&) {
+        throw std::runtime_error("UniquePointerProxy is not copyable");
+        return *this;
+    }
     UniquePointerProxy(UniquePointerProxy&& other) {
         m_ptr = std::move(other.m_ptr);
     }
@@ -80,6 +92,30 @@ public:
     }
     bool operator!=(std::nullptr_t) const {
         return m_ptr != nullptr;
+    }
+    bool operator==(T* ptr) const {
+        return m_ptr.get() == ptr;
+    }
+    bool operator!=(T* ptr) const {
+        return m_ptr.get() != ptr;
+    }
+    bool operator==(const std::unique_ptr<T>& ptr) const {
+        return m_ptr.get() == ptr.get();
+    }
+    bool operator!=(const std::unique_ptr<T>& ptr) const {
+        return m_ptr.get() != ptr.get();
+    }
+    bool operator==(const RawPointerProxy<T>& ptr) const {
+        return m_ptr.get() == ptr.get();
+    }
+    bool operator!=(const RawPointerProxy<T>& ptr) const {
+        return m_ptr.get() != ptr.get();
+    }
+    bool operator==(const ConstRawPointerProxy<T>& ptr) const {
+        return m_ptr.get() == ptr.get();
+    }
+    bool operator!=(const ConstRawPointerProxy<T>& ptr) const {
+        return m_ptr.get() != ptr.get();
     }
 };
 
@@ -139,6 +175,30 @@ public:
     }
     bool operator!=(std::nullptr_t) const {
         return m_ptr != nullptr;
+    }
+    bool operator==(T* ptr) const {
+        return m_ptr == ptr;
+    }
+    bool operator!=(T* ptr) const {
+        return m_ptr != ptr;
+    }
+    bool operator==(const std::unique_ptr<T>& ptr) const {
+        return m_ptr == ptr.get();
+    }
+    bool operator!=(const std::unique_ptr<T>& ptr) const {
+        return m_ptr != ptr.get();
+    }
+    bool operator==(const UniquePointerProxy<T>& ptr) const {
+        return m_ptr == ptr.get();
+    }
+    bool operator!=(const UniquePointerProxy<T>& ptr) const {
+        return m_ptr != ptr.get();
+    }
+    bool operator==(const ConstRawPointerProxy<T>& ptr) const {
+        return m_ptr == ptr.get();
+    }
+    bool operator!=(const ConstRawPointerProxy<T>& ptr) const {
+        return m_ptr != ptr.get();
     }
 };
 
@@ -205,6 +265,30 @@ public:
     }
     bool operator!=(std::nullptr_t) const {
         return m_ptr != nullptr;
+    }
+    bool operator==(const T* ptr) const {
+        return m_ptr == ptr;
+    }
+    bool operator!=(const T* ptr) const {
+        return m_ptr != ptr;
+    }
+    bool operator==(const std::unique_ptr<T>& ptr) const {
+        return m_ptr == ptr.get();
+    }
+    bool operator!=(const std::unique_ptr<T>& ptr) const {
+        return m_ptr != ptr.get();
+    }
+    bool operator==(const UniquePointerProxy<T>& ptr) const {
+        return m_ptr == ptr.get();
+    }
+    bool operator!=(const UniquePointerProxy<T>& ptr) const {
+        return m_ptr != ptr.get();
+    }
+    bool operator==(const RawPointerProxy<T>& ptr) const {
+        return m_ptr == ptr.get();
+    }
+    bool operator!=(const RawPointerProxy<T>& ptr) const {
+        return m_ptr != ptr.get();
     }
 };
 
