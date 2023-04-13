@@ -16,7 +16,7 @@ template <typename List>
 class ConstListIterator {
 protected:
     const List* m_list { nullptr };
-    ListNode<typename List::value_type>* m_node { nullptr };
+    ListNodeConstPos<typename List::value_type> m_node { nullptr };
 public:
     using value_type = typename List::value_type;
     using difference_type = ptrdiff_t;
@@ -25,7 +25,7 @@ public:
     using iterator_category = std::bidirectional_iterator_tag;
 
     ConstListIterator() = default;
-    ConstListIterator(const List* list, ListNode<value_type>* node) : m_list(list), m_node(node) {}
+    ConstListIterator(const List* list, ListNodeConstPos<value_type> node) : m_list(list), m_node(node) {}
 
     ConstListIterator& operator++() {
         m_node = m_node->next();
@@ -77,7 +77,7 @@ template <typename List>
 class ListIterator {
 protected:
     List* m_list { nullptr };
-    ListNode<typename List::value_type>* m_node { nullptr };
+    ListNodePos<typename List::value_type> m_node { nullptr };
 public:
     using value_type = typename List::value_type;
     using difference_type = ptrdiff_t;
@@ -86,7 +86,7 @@ public:
     using iterator_category = std::bidirectional_iterator_tag;
 
     ListIterator() = default;
-    ListIterator(List* list, ListNode<value_type>* node) : m_list(list), m_node(node) {}
+    ListIterator(List* list, ListNodePos<value_type> node) : m_list(list), m_node(node) {}
 
     ListIterator& operator++() {
         m_node = m_node->next();

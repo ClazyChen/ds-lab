@@ -10,22 +10,22 @@ export namespace dslab {
 
 template <typename T>
 class ForwardList : public AbstractForwardList<T> {
-    std::unique_ptr<ForwardListNode<T>> m_head { nullptr };
-    ForwardListNode<T>* m_tail { nullptr };
+    ForwardListNodeInst<T> m_head { nullptr };
+    ForwardListNodePos<T> m_tail { nullptr };
     size_t m_size { 0 };
 
     void initialize() {
-        m_head = std::make_unique<ForwardListNode<T>>();
-        m_head->next() = std::make_unique<ForwardListNode<T>>();
+        m_head.create();
+        m_head->next().create();
         m_tail = m_head->next();
         m_size = 0;
     }
 
 public:
-    ForwardListNode<T>* head() override { return m_head.get(); }
-    const ForwardListNode<T>* head() const override { return m_head.get(); }
-    ForwardListNode<T>* tail() override { return m_tail; }
-    const ForwardListNode<T>* tail() const override { return m_tail; }
+    ForwardListNodePos<T> head() override { return m_head; }
+    ForwardListNodeConstPos<T> head() const override { return m_head; }
+    ForwardListNodePos<T> tail() override { return m_tail; }
+    ForwardListNodeConstPos<T> tail() const override { return m_tail; }
     size_t size() const override { return m_size; }
 
     ForwardList() { initialize(); }
@@ -78,29 +78,29 @@ public:
     virtual ~ForwardList() = default;
 
     void clear() override {
-        m_head->next() = std::make_unique<ForwardListNode<T>>();
+        m_head->next().create();
         m_tail = m_head->next();
         m_size = 0;
     }
 
-    ForwardListNode<T>* insertAsNext(ForwardListNode<T>* p, const T& e) override {
-        auto node { std::make_unique<ForwardListNode<T>>(e) };
+    ForwardListNodePos<T> insertAsNext(ForwardListNodePos<T> p, const T& e) override {
+        auto node { ForwardListNodeInst<T>::make(e) };
         node->next() = std::move(p->next());
         p->next() = std::move(node);
         ++m_size;
         return p->next();
     }
 
-    ForwardListNode<T>* insertAsNext(ForwardListNode<T>* p, T&& e) override {
-        auto node { std::make_unique<ForwardListNode<T>>(std::move(e)) };
+    ForwardListNodePos<T> insertAsNext(ForwardListNodePos<T> p, T&& e) override {
+        auto node { ForwardListNodeInst<T>::make(std::move(e)) };
         node->next() = std::move(p->next());
         p->next() = std::move(node);
         ++m_size;
         return p->next();
     }
 
-    ForwardListNode<T>* insertAsPrev(ForwardListNode<T>* p, const T& e) override {
-        auto node { std::make_unique<ForwardListNode<T>>(std::move(p->data())) };
+    ForwardListNodePos<T> insertAsPrev(ForwardListNodePos<T> p, const T& e) override {
+        auto node { ForwardListNodeInst<T>::make(std::move(p->data())) };
         node->next() = std::move(p->next());
         p->next() = std::move(node);
         p->data() = e;
@@ -111,8 +111,8 @@ public:
         return p;
     }
 
-    ForwardListNode<T>* insertAsPrev(ForwardListNode<T>* p, T&& e) override {
-        auto node { std::make_unique<ForwardListNode<T>>(std::move(p->data())) };
+    ForwardListNodePos<T> insertAsPrev(ForwardListNodePos<T> p, T&& e) override {
+        auto node { ForwardListNodeInst<T>::make(std::move(p->data())) };
         node->next() = std::move(p->next());
         p->next() = std::move(node);
         p->data() = std::move(e);
@@ -123,8 +123,8 @@ public:
         return p;
     }
 
-    ForwardListNode<T>* find(const T& e) const override {
-        ForwardListNode<T>* p { m_head->next() };
+    ForwardListNodePos<T> find(const T& e) const override {
+        ForwardListNodePos<T> p { m_head->next() };
         while (p != nullptr) {
             if (p->data() == e) {
                 return p;
@@ -134,7 +134,7 @@ public:
         return m_tail;
     }
 
-    T remove(ForwardListNode<T>* p) override {
+    T remove(ForwardListNodePos<T> p) override {
         auto e { std::move(p->data()) };
         p->data() = std::move(p->next()->data());
         p->next() = std::move(p->next()->next());

@@ -3,57 +3,26 @@
 
 export module ForwardList.ForwardListNode;
 
+import Framework.PointerProxy;
+
 export namespace dslab {
+
+template <typename T>
+class ForwardListNode;
+
+template <typename T>
+using ForwardListNodeInst = UniquePointerProxy<ForwardListNode<T>>;
+
+template <typename T>
+using ForwardListNodePos = RawPointerProxy<ForwardListNode<T>>;
+
+template <typename T>
+using ForwardListNodeConstPos = ConstRawPointerProxy<ForwardListNode<T>>;
 
 template <typename T>
 class ForwardListNode {
     T m_data;
-
-    class ForwardListNodeProxy {
-        std::unique_ptr<ForwardListNode> m_node {};
-    public:
-        ForwardListNodeProxy() = default;
-        ForwardListNodeProxy(const ForwardListNodeProxy&) = delete;
-        ForwardListNodeProxy& operator=(const ForwardListNodeProxy&) = delete;
-        ForwardListNodeProxy(ForwardListNodeProxy&& other) {
-            m_node = std::move(other.m_node);
-        }
-        ForwardListNodeProxy& operator=(ForwardListNodeProxy&& other) {
-            m_node = std::move(other.m_node);
-            return *this;
-        }
-        ForwardListNodeProxy& operator=(std::unique_ptr<ForwardListNode>&& node) {
-            m_node = std::move(node);
-            return *this;
-        }
-        ForwardListNodeProxy& operator=(ForwardListNode* node) {
-            m_node.reset(node);
-            return *this;
-        }
-        ForwardListNode* operator->() const {
-            return m_node.get();
-        }
-        operator ForwardListNode* () const {
-            return m_node.get();
-        }
-        operator bool() const {
-            return m_node != nullptr;
-        }
-        ForwardListNode* get() const {
-            return m_node.get();
-        }
-        ForwardListNode* release() {
-            return m_node.release();
-        }
-        void reset(ForwardListNode* node = nullptr) {
-            m_node.reset(node);
-        }
-        void swap(ForwardListNodeProxy& other) {
-            m_node.swap(other.m_node);
-        }
-    };
-
-    ForwardListNodeProxy m_next {};
+    ForwardListNodeInst<T> m_next {};
 
 public:
     ForwardListNode() = default;
@@ -74,8 +43,8 @@ public:
 
     T& data() { return m_data; }
     const T& data() const { return m_data; }
-    ForwardListNodeProxy& next() { return m_next; }
-    const ForwardListNodeProxy& next() const { return m_next; }
+    ForwardListNodeInst<T>& next() { return m_next; }
+    const ForwardListNodeInst<T>& next() const { return m_next; }
 };
 
 }

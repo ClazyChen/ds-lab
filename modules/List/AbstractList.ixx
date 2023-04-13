@@ -11,58 +11,58 @@ import List.ListIterator;
 export namespace dslab {
 
 template <typename T>
-class AbstractList : public AbstractLinearList<T, ListNode<T>*> {
+class AbstractList : public AbstractLinearList<T, ListNodePos<T>> {
 public:
-    virtual ListNode<T>* head() = 0; // 返回首哨兵节点
-    virtual const ListNode<T>* head() const = 0; // 返回首哨兵节点
-    virtual ListNode<T>* tail() = 0; // 返回尾哨兵节点
-    virtual const ListNode<T>* tail() const = 0; // 返回尾哨兵节点
+    virtual ListNodePos<T> head() = 0; // 返回首哨兵节点
+    virtual ListNodeConstPos<T> head() const = 0; // 返回首哨兵节点
+    virtual ListNodePos<T> tail() = 0; // 返回尾哨兵节点
+    virtual ListNodeConstPos<T> tail() const = 0; // 返回尾哨兵节点
     virtual size_t size() const = 0; // 返回列表的规模
-    virtual ListNode<T>* insertAsNext(ListNode<T>* p, const T& e) = 0; // 将e当作p的后继插入
-    virtual ListNode<T>* insertAsNext(ListNode<T>* p, T&& e) = 0; // 将e当作p的后继插入
-    virtual ListNode<T>* insertAsPrev(ListNode<T>* p, const T& e) = 0; // 将e当作p的前驱插入
-    virtual ListNode<T>* insertAsPrev(ListNode<T>* p, T&& e) = 0; // 将e当作p的前驱插入
-    virtual ListNode<T>* find(const T& e) const = 0; // 查找元素e
-    virtual T remove(ListNode<T>* p) = 0; // 删除位置p处的元素
+    virtual ListNodePos<T> insertAsNext(ListNodePos<T> p, const T& e) = 0; // 将e当作p的后继插入
+    virtual ListNodePos<T> insertAsNext(ListNodePos<T> p, T&& e) = 0; // 将e当作p的后继插入
+    virtual ListNodePos<T> insertAsPrev(ListNodePos<T> p, const T& e) = 0; // 将e当作p的前驱插入
+    virtual ListNodePos<T> insertAsPrev(ListNodePos<T> p, T&& e) = 0; // 将e当作p的前驱插入
+    virtual ListNodePos<T> find(const T& e) const = 0; // 查找元素e
+    virtual T remove(ListNodePos<T> p) = 0; // 删除位置p处的元素
     virtual void clear() = 0; // 清空列表
 
-    ListNode<T>* insert(ListNode<T>* p, const T& e) override {
+    ListNodePos<T> insert(ListNodePos<T> p, const T& e) override {
         return insertAsPrev(p, e);
     }
 
-    ListNode<T>* insert(ListNode<T>* p, T&& e) override {
+    ListNodePos<T> insert(ListNodePos<T> p, T&& e) override {
         return insertAsPrev(p, std::move(e));
     }
 
-    T& get(ListNode<T>* p) override {
+    T& get(ListNodePos<T> p) override {
         return p->data();
     }
 
-    void set(ListNode<T>* p, const T& e) override {
+    void set(ListNodePos<T> p, const T& e) override {
         p->data() = e;
     }
 
-    void set(ListNode<T>* p, T&& e) override {
+    void set(ListNodePos<T> p, T&& e) override {
         p->data() = std::move(e);
     }
 
-    ListNode<T>* first() const override {
+    ListNodePos<T> first() const override {
         return head()->next();
     }
 
-    ListNode<T>* last() const override {
+    ListNodePos<T> last() const override {
         return const_cast<AbstractList*>(this)->tail()->prev();
     }
 
-    ListNode<T>* next(ListNode<T>* p) const override {
+    ListNodePos<T> next(ListNodePos<T> p) const override {
         return p->next();
     }
 
-    ListNode<T>* prev(ListNode<T>* p) const override {
+    ListNodePos<T> prev(ListNodePos<T> p) const override {
         return p->prev();
     }
 
-    bool end(ListNode<T>* p) const override {
+    bool end(ListNodePos<T> p) const override {
         return p == tail();
     }
 

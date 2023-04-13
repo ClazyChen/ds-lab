@@ -61,6 +61,9 @@
     <Filter Include="Source Files\Matrix">
       <UniqueIdentifier>{5de148bc-dd4c-4cb5-8fad-f3a1f36f6a48}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Tree">
+      <UniqueIdentifier>{7aa9e51b-c3b5-4b0e-8597-5f631a892bcb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="modules\Framework\Algorithm.ixx">
@@ -393,9 +396,6 @@
     <ClCompile Include="modules\BinaryTree\ThreadedBinaryTreeNode.ixx">
       <Filter>Resource Files\BinaryTree</Filter>
     </ClCompile>
-    <ClCompile Include="modules\BinaryTree\AbstractBinaryTreeNode.ixx">
-      <Filter>Resource Files\BinaryTree</Filter>
-    </ClCompile>
     <ClCompile Include="modules\Sort\InsertionSort.ixx">
       <Filter>Resource Files\Sort</Filter>
     </ClCompile>
@@ -423,8 +423,26 @@
     <ClCompile Include="labs\Matrix\MatrixTest.cpp">
       <Filter>Source Files\Matrix</Filter>
     </ClCompile>
-    <ClCompile Include="modules\BinaryTree\Tree\TreeNode.ixx">
-      <Filter>Resource Files\BinaryTree</Filter>
+    <ClCompile Include="modules\Framework\PointerProxy.ixx">
+      <Filter>Resource Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\TreeNode.ixx">
+      <Filter>Resource Files\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\AbstractTree.ixx">
+      <Filter>Resource Files\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\Tree.ixx">
+      <Filter>Resource Files\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\AbstractTreeTraverse.ixx">
+      <Filter>Resource Files\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\TreePreOrderTraverse.ixx">
+      <Filter>Resource Files\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\TreeLevelOrderTraverse.ixx">
+      <Filter>Resource Files\Tree</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
