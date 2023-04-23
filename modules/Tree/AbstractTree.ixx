@@ -25,4 +25,14 @@ public:
     virtual void clear() = 0;
 };
 
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const AbstractTree<T>& tree) {
+    os << "Tree[";
+    if (tree.root()) {
+        os << *tree.root();
+    }
+    os << "]";
+    return os;
+}
+
 }

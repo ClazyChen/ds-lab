@@ -189,7 +189,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Queue\QueueEvaluation.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Queue\QueueTest.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -218,6 +218,7 @@
     <ClCompile Include="labs\Stack\StackTest.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="labs\Tree\TreeTest.cpp" />
     <ClCompile Include="labs\Vector\CyclicShift.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -348,7 +349,9 @@
     <ClCompile Include="modules\Tree\Tree.ixx" />
     <ClCompile Include="modules\Tree\TreeLevelOrderTraverse.ixx" />
     <ClCompile Include="modules\Tree\TreeNode.ixx" />
+    <ClCompile Include="modules\Tree\TreePostOrderTraverse.ixx" />
     <ClCompile Include="modules\Tree\TreePreOrderTraverse.ixx" />
+    <ClCompile Include="modules\Tree\TreeTraverse.ixx" />
     <ClCompile Include="modules\Vector\AbstractVector.ixx" />
     <ClCompile Include="modules\Vector\LinearList\AbstractLinearList.ixx" />
     <ClCompile Include="modules\Vector\LinearList\LinearList.ixx" />

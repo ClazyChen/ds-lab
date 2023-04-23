@@ -64,6 +64,9 @@
     <Filter Include="Resource Files\Tree">
       <UniqueIdentifier>{7aa9e51b-c3b5-4b0e-8597-5f631a892bcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Tree">
+      <UniqueIdentifier>{9c53dffc-9c9d-45d2-8a14-452f12e9bdcc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="modules\Framework\Algorithm.ixx">
@@ -442,6 +445,15 @@
       <Filter>Resource Files\Tree</Filter>
     </ClCompile>
     <ClCompile Include="modules\Tree\TreeLevelOrderTraverse.ixx">
+      <Filter>Resource Files\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Tree\TreeTest.cpp">
+      <Filter>Source Files\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\TreePostOrderTraverse.ixx">
+      <Filter>Resource Files\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\TreeTraverse.ixx">
       <Filter>Resource Files\Tree</Filter>
     </ClCompile>
   </ItemGroup>

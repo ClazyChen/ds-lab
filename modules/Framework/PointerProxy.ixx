@@ -54,6 +54,9 @@ public:
         m_ptr = std::move(ptr);
         return *this;
     }
+    T& operator*() const {
+        return *m_ptr;
+    }
     T* operator->() const {
         return m_ptr.get();
     }
@@ -152,6 +155,9 @@ public:
     T* operator->() const {
         return m_ptr;
     }
+    T& operator*() const {
+        return *m_ptr;
+    }
     operator T* () const {
         return m_ptr;
     }
@@ -242,11 +248,17 @@ public:
     const T* operator->() const {
         return m_ptr;
     }
+    const T& operator*() const {
+        return *m_ptr;
+    }
     operator const T* () const {
         return m_ptr;
     }
     operator bool() const {
         return m_ptr != nullptr;
+    }
+    operator RawPointerProxy<T>() const {
+        return RawPointerProxy<T>(const_cast<T*>(m_ptr));
     }
     const T* get() const {
         return m_ptr;
