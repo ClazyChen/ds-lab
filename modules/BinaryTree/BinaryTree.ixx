@@ -101,7 +101,11 @@ public:
 
     BinaryTreeNodePos<T> find(const T& e) const override {
         BinaryTreeNodePos<T> node { nullptr };
-        // ...
+        traverseNodes<BinaryTreeInOrderTraverseLinear>([&node, &e](auto p) {
+            if (p->data() == e) {
+                node = p;
+            }
+        });
         return node;
     }
 
@@ -125,6 +129,12 @@ public:
         requires std::is_base_of_v<AbstractBinaryTreeTraverse<T>, Trav<T>>
     void traverse(std::function<void(const T&)> visit) const {
         return Trav<T> {} (m_root, visit);
+    }
+
+    template <template <typename> typename Trav>
+        requires std::is_base_of_v<AbstractBinaryTreeTraverse<T>, Trav<T>>
+    void traverseNodes(std::function<void(BinaryTreeNodeConstPos<T>)> visit) const {
+        return Trav<T> {}.traverse (m_root, visit);
     }
 };
 

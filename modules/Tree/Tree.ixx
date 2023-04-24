@@ -85,9 +85,9 @@ public:
 
     TreeNodePos<T> find(const T& e) const override {
         TreeNodePos<T> node { nullptr };
-        traverseNodes<TreePreOrderTraverse>([&node, &e](TreeNodeConstPos<T> pos) {
-            if (e == pos->data()) {
-                node = pos;
+        traverseNodes<TreePreOrderTraverse>([&node, &e](auto p) {
+            if (p->data() == e) {
+                node = p;
             }
         });
         return node;

@@ -12,20 +12,20 @@ export namespace dslab {
 template <typename T>
 class BinaryTreePreOrderTraverse : public AbstractBinaryTreeTraverse<T> {
 public:
-    void operator()(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
+    void traverse(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
         if (!p) {
             return;
         }
         visit(p);
-        operator()(p->left(), visit);
-        operator()(p->right(), visit);
+        traverse(p->left(), visit);
+        traverse(p->right(), visit);
     }
 };
 
 template <typename T>
 class BinaryTreePreOrderTraverseSemilinear : public AbstractBinaryTreeTraverse<T> {
 public:
-    void operator()(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
+    void traverse(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
         Stack<BinaryTreeNodeConstPos<T>> S { p };
         while (!S.empty()) {
             if (auto node { S.pop() }; node) {
@@ -40,7 +40,7 @@ public:
 template <typename T>
 class BinaryTreePreOrderTraverseLinear : public AbstractBinaryTreeTraverse<T> {
 public:
-    void operator()(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
+    void traverse(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
         Stack<BinaryTreeNodeConstPos<T>> S { p };
         while (!S.empty()) {
             for (auto node { S.pop() }; node; node = node->left()) {
@@ -54,7 +54,7 @@ public:
 template <typename T>
 class BinaryTreePreOrderTraverseLinearRecursive : public AbstractBinaryTreeTraverse<T> {
 public:
-    void operator()(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
+    void traverse(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
         if (p == nullptr) {
             return;
         }
@@ -64,7 +64,7 @@ public:
         }
         visit(p);
         while (p != nullptr) {
-            operator()(p->right(), visit);
+            traverse(p->right(), visit);
             p = p->parent();
         }
     }

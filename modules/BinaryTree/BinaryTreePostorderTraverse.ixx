@@ -13,12 +13,12 @@ export namespace dslab {
 template <typename T>
 class BinaryTreePostorderTraverse : public AbstractBinaryTreeTraverse<T> {
 public:
-    void operator()(BinaryTreeNodeConstPos<T> p, std::function<void(const T&)> visit) override {
+    void traverse(BinaryTreeNodeConstPos<T> p, std::function<void(const T&)> visit) override {
         if (!p) {
             return;
         }
-        operator()(p->left(), visit);
-        operator()(p->right(), visit);
+        traverse(p->left(), visit);
+        traverse(p->right(), visit);
         this->call(visit, p);
     }
 };
@@ -51,7 +51,7 @@ class BinaryTreePostorderTraverseLinear : public AbstractBinaryTreeTraverse<T> {
         }
     }
 public:
-    void operator()(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
+    void traverse(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
         Stack<BinaryTreeNodeConstPos<T>> S;
         pushLeftChain(S, p);
         while (!S.empty()) {

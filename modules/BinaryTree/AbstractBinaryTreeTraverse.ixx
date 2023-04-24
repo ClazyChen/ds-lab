@@ -11,9 +11,9 @@ export namespace dslab {
 template <typename T>
 class AbstractBinaryTreeTraverse : public Algorithm<void(BinaryTreeNodeConstPos<T>, std::function<void(const T&)>)> {
 public:
-    virtual void operator()(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) = 0;
+    virtual void traverse(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) = 0;
     void operator()(BinaryTreeNodeConstPos<T> p, std::function<void(const T&)> visit) override {
-        this->operator()(p, [&visit](BinaryTreeNodeConstPos<T> p) { visit(p->data()); });
+        traverse(p, [&visit](BinaryTreeNodeConstPos<T> p) { visit(p->data()); });
     }
 };
 
