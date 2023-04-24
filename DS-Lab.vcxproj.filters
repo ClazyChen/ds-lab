@@ -321,10 +321,10 @@
     <ClCompile Include="modules\BinaryTree\BinaryTree.ixx">
       <Filter>Resource Files\BinaryTree</Filter>
     </ClCompile>
-    <ClCompile Include="modules\BinaryTree\BinaryTreeInorderIterator.ixx">
+    <ClCompile Include="modules\BinaryTree\BinaryTreeInOrderIterate.ixx">
       <Filter>Resource Files\BinaryTree</Filter>
     </ClCompile>
-    <ClCompile Include="modules\BinaryTree\BinaryTreeInorderTraverse.ixx">
+    <ClCompile Include="modules\BinaryTree\BinaryTreeInOrderTraverse.ixx">
       <Filter>Resource Files\BinaryTree</Filter>
     </ClCompile>
     <ClCompile Include="modules\BinaryTree\BinaryTreeIterator.ixx">
@@ -333,13 +333,13 @@
     <ClCompile Include="modules\BinaryTree\BinaryTreeNode.ixx">
       <Filter>Resource Files\BinaryTree</Filter>
     </ClCompile>
-    <ClCompile Include="modules\BinaryTree\BinaryTreePostorderTraverse.ixx">
+    <ClCompile Include="modules\BinaryTree\BinaryTreePostOrderTraverse.ixx">
       <Filter>Resource Files\BinaryTree</Filter>
     </ClCompile>
-    <ClCompile Include="modules\BinaryTree\BinaryTreePreorderIterator.ixx">
+    <ClCompile Include="modules\BinaryTree\BinaryTreePreOrderIterate.ixx">
       <Filter>Resource Files\BinaryTree</Filter>
     </ClCompile>
-    <ClCompile Include="modules\BinaryTree\BinaryTreePreorderTraverse.ixx">
+    <ClCompile Include="modules\BinaryTree\BinaryTreePreOrderTraverse.ixx">
       <Filter>Resource Files\BinaryTree</Filter>
     </ClCompile>
     <ClCompile Include="modules\BinaryTree\BinaryTreeTraverse.ixx">
@@ -348,7 +348,7 @@
     <ClCompile Include="labs\BinaryTree\Rebuild.cpp">
       <Filter>Source Files\BinaryTree</Filter>
     </ClCompile>
-    <ClCompile Include="modules\BinaryTree\BinaryTreePostorderIterator.ixx">
+    <ClCompile Include="modules\BinaryTree\BinaryTreePostOrderIterate.ixx">
       <Filter>Resource Files\BinaryTree</Filter>
     </ClCompile>
     <ClCompile Include="modules\List\CircularList\AbstractCircularList.ixx">
@@ -461,6 +461,18 @@
     </ClCompile>
     <ClCompile Include="labs\Tree\Stack2Tree.cpp">
       <Filter>Source Files\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\AbstractBinaryTreeTraverse.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\AbstractBinaryTreeIterate.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\RandomTree.ixx">
+      <Filter>Resource Files\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\BinaryTreeIterativeTraverse.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

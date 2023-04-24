@@ -1,25 +1,24 @@
 ﻿module;
-#include <memory>
 #include <functional>
 
-export module BinaryTree.BinaryTreeLevelOrderTraverse;
+export module BinaryTree.Traverse.BinaryTreeLevelOrderTraverse;
 
-import BinaryTree.AbstractBinaryTreeNode;
-import BinaryTree.AbstractBinaryTree;
-import BinaryTree.BinaryTreeTraverse;
+import BinaryTree.BinaryTreeNode;
+import BinaryTree.Traverse.AbstractBinaryTreeTraverse;
 import Queue;
 
 export namespace dslab {
 
 template <typename T>
-class BinaryTreeLevelOrderTraverse : public BinaryTreeTraverse<T> {
-    void operator()(const AbstractBinaryTreeNode<T>* node, std::function<void(const T&)> visit) override {
-        Queue<AbstractBinaryTreeNode<T>*> Q { node };
+class BinaryTreeLevelOrderTraverse : public AbstractBinaryTreeTraverse<T> {
+public:
+    void operator()(BinaryTreeNodeConstPos<T> p, std::function<void(const T&)> visit) override {
+        Queue<BinaryTreeNodeConstPos<T>> Q { p };
         while (!Q.empty()) {
-            if (auto t { Q.dequeue() }; t != nullptr) {
-                visit(t->data());
-                Q.enqueue(t->left().get());
-                Q.enqueue(t->right().get());
+            if (auto node { Q.dequeue() }; node) {
+                this->call(visit, node);
+                Q.enqueue(node->left());
+                Q.enqueue(node->right());
             }
         }
     }

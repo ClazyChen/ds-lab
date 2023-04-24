@@ -1,43 +1,42 @@
 ﻿module;
-#include <memory>
 #include <functional>
 
-export module BinaryTree.BinaryTreeInorderTraverse;
+export module BinaryTree.Traverse.BinaryTreeInOrderTraverse;
 
-import BinaryTree.AbstractBinaryTreeNode;
-import BinaryTree.AbstractBinaryTree;
-import BinaryTree.BinaryTreeTraverse;
+import BinaryTree.BinaryTreeNode;
+import BinaryTree.Traverse.AbstractBinaryTreeTraverse;
 import Stack;
 
 export namespace dslab {
 
 template <typename T>
-class BinaryTreeInorderTraverse : public BinaryTreeTraverse<T> {
-    void operator()(const AbstractBinaryTreeNode<T>* node, std::function<void(const T&)> visit) override {
-        if (node == nullptr) {
+class BinaryTreeInOrderTraverse : public AbstractBinaryTreeTraverse<T> {
+public:
+    void operator()(BinaryTreeNodeConstPos<T> p, std::function<void(const T&)> visit) override {
+        if (!p) {
             return;
         }
-        (*this)(node->left().get(), visit);
-        visit(node->data());
-        (*this)(node->right().get(), visit);
+        operator()(p->left(), visit);
+        this->call(visit, p);
+        operator()(p->right(), visit);
     }
 };
 
 template <typename T>
-class BinaryTreeInorderTraverseLinear : public BinaryTreeTraverse<T> {
-    void pushLeftChain(Stack<AbstractBinaryTreeNode<T>*>& S, const AbstractBinaryTreeNode<T>* node) {
-        for (auto t { node }; t != nullptr; t = t->left().get()) {
-            S.push(t);
+class BinaryTreeInOrderTraverseLinear : public AbstractBinaryTreeTraverse<T> {
+    void pushLeftChain(Stack<BinaryTreeNodeConstPos<T>>& S, BinaryTreeNodeConstPos<T> p) {
+        for (auto node { p }; node; node = node->left()) {
+            S.push(node);
         }
     }
 public:
-    void operator()(const AbstractBinaryTreeNode<T>* node, std::function<void(const T&)> visit) override {
-        Stack<AbstractBinaryTreeNode<T>*> S;
-        pushLeftChain(S, node);
+    void operator()(BinaryTreeNodeConstPos<T> p, std::function<void(const T&)> visit) override {
+        Stack<BinaryTreeNodeConstPos<T>> S;
+        pushLeftChain(S, p);
         while (!S.empty()) {
-            auto t { S.pop() };
-            visit(t->data());
-            pushLeftChain(S, t->right().get());
+            auto node { S.pop() };
+            this->call(visit, node);
+            pushLeftChain(S, node->right());
         }
     }
 };

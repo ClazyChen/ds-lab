@@ -71,13 +71,13 @@ public:
 
     bool isRoot() const { return m_parent == nullptr; }
     bool isLeaf() const { return m_children.empty(); }
-    bool isParent(TreeNode* node) const {
+    bool isParent(TreeNodePos<T> node) const {
         return node != nullptr && node->m_parent == this;
     }
-    bool isChild(TreeNode* node) const {
+    bool isChild(TreeNodePos<T> node) const {
         return m_parent == node;
     }
-    bool isSibling(TreeNode* node) const {
+    bool isSibling(TreeNodePos<T> node) const {
         return m_parent == node->m_parent;
     }
 

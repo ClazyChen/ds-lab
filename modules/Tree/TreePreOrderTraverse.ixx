@@ -30,8 +30,7 @@ public:
         if (!p) {
             return;
         }
-        Stack<TreeNodeConstPos<T>> S;
-        S.push(p);
+        Stack<TreeNodeConstPos<T>> S { p };
         while (!S.empty()) {
             auto node { S.pop() };
             this->call(visit, node);

@@ -30,6 +30,7 @@ public:
     }
     Tree& operator=(const Tree& t) {
         m_root = t.m_root->clone();
+        return *this;
     }
     Tree(Tree&& t) = default;
     Tree& operator=(Tree&& t) = default;
@@ -112,7 +113,7 @@ public:
 
     template <template <typename> typename Trav>
         requires std::is_base_of_v<AbstractTreeTraverse<T>, Trav<T>>
-    void traverse(std::function<void(const T& e)> visit) const {
+    void traverse(std::function<void(const T&)> visit) const {
         return Trav<T> {} (m_root, visit);
     }
 

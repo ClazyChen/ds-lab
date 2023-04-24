@@ -1,4 +1,5 @@
 ﻿module;
+#include <functional>
 #include <iostream>
 
 export module Tree.AbstractTree;

@@ -1,32 +1,30 @@
 ﻿module;
-#include <memory>
+#include <iostream>
 
 export module BinaryTree.AbstractBinaryTree;
 
 import BinaryTree.BinaryTreeNode;
-import BinaryTree.AbstractBinaryTreeNode;
-
 import Framework.DataStructure;
 
 export namespace dslab {
 
-template <typename T, template <typename> typename Node = BinaryTreeNode>
-    requires std::is_base_of_v<AbstractBinaryTreeNode<T>, Node<T>>
+template <typename T>
 class AbstractBinaryTree : public DataStructure<T> {
 public:
-    virtual Node<T>* root() = 0;
+    virtual BinaryTreeNodePos<T> root() = 0;
+    virtual BinaryTreeNodeConstPos<T> root() const = 0;
     virtual size_t size() const = 0;
-    virtual Node<T>* insertAsLeftChild(Node<T>* node, const T& e) = 0;
-    virtual Node<T>* insertAsRightChild(Node<T>* node, const T& e) = 0;
-    virtual Node<T>* insertAsLeftChild(Node<T>* node, T&& e) = 0;
-    virtual Node<T>* insertAsRightChild(Node<T>* node, T&& e) = 0;
-    virtual Node<T>* insertAsRoot(const T& e) = 0;
-    virtual Node<T>* insertAsRoot(T&& e) = 0;
-    virtual Node<T>* attachAsLeftChild(Node<T>* node, AbstractBinaryTree<T, Node>* tree) = 0;
-    virtual Node<T>* attachAsRightChild(Node<T>* node, AbstractBinaryTree<T, Node>* tree) = 0;
-    virtual Node<T>* find(const T& e) = 0;
-    virtual T remove(Node<T>* node) = 0;
-    virtual std::unique_ptr<AbstractBinaryTreeNode<T>> detach(Node<T>* node) = 0;
+    virtual BinaryTreeNodePos<T> insertAsLeftChild(BinaryTreeNodePos<T> p, const T& e) = 0;
+    virtual BinaryTreeNodePos<T> insertAsRightChild(BinaryTreeNodePos<T> p, const T& e) = 0;
+    virtual BinaryTreeNodePos<T> insertAsLeftChild(BinaryTreeNodePos<T> p, T&& e) = 0;
+    virtual BinaryTreeNodePos<T> insertAsRightChild(BinaryTreeNodePos<T> p, T&& e) = 0;
+    virtual BinaryTreeNodePos<T> insertAsRoot(const T& e) = 0;
+    virtual BinaryTreeNodePos<T> insertAsRoot(T&& e) = 0;
+    virtual BinaryTreeNodePos<T> attachAsLeftChild(BinaryTreeNodePos<T> p, BinaryTreeNodeInst<T>&& st) = 0;
+    virtual BinaryTreeNodePos<T> attachAsRightChild(BinaryTreeNodePos<T> p, BinaryTreeNodeInst<T>&& st) = 0;
+    virtual BinaryTreeNodePos<T> find(const T& e) const = 0;
+    virtual T remove(BinaryTreeNodePos<T> p) = 0;
+    virtual BinaryTreeNodeInst<T> detach(BinaryTreeNodePos<T> p) = 0;
     virtual void clear() = 0;
 };
 
