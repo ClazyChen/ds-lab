@@ -35,8 +35,8 @@ public:
         while (!S.empty()) {
             auto node { S.pop() };
             this->call(visit, node);
-            for (auto it { node->children().rbegin() }; it != node->children().rend(); ++it) {
-                S.push(*it);
+            for (size_t i { node->children().size() }; i > 0; --i) {
+                S.push(node->children()[i - 1]);
             }
         }
     }

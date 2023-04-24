@@ -456,5 +456,11 @@
     <ClCompile Include="modules\Tree\TreeTraverse.ixx">
       <Filter>Resource Files\Tree</Filter>
     </ClCompile>
+    <ClCompile Include="labs\Tree\ChainFlower.cpp">
+      <Filter>Source Files\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\Tree\Stack2Tree.cpp">
+      <Filter>Source Files\Tree</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

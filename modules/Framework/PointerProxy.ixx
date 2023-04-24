@@ -216,8 +216,8 @@ public:
     ConstRawPointerProxy() = default;
     ConstRawPointerProxy(const ConstRawPointerProxy&) = default;
     ConstRawPointerProxy& operator=(const ConstRawPointerProxy&) = default;
-    ConstRawPointerProxy(ConstRawPointerProxy&&) = delete;
-    ConstRawPointerProxy& operator=(ConstRawPointerProxy&&) = delete;
+    ConstRawPointerProxy(ConstRawPointerProxy&&) = default;
+    ConstRawPointerProxy& operator=(ConstRawPointerProxy&&) = default;
     ~ConstRawPointerProxy() = default;
     ConstRawPointerProxy(const T* ptr) : m_ptr(ptr) {}
     ConstRawPointerProxy(const UniquePointerProxy<T>& ptr) {

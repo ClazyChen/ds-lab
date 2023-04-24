@@ -1,4 +1,5 @@
 ﻿module;
+#include <functional>
 #include <memory>
 
 export module Tree;
@@ -6,6 +7,8 @@ export module Tree;
 export import Tree.TreeNode;
 export import Tree.AbstractTree;
 export import Tree.Traverse;
+
+import Tree.Traverse.AbstractTreeTraverse;
 
 export namespace dslab {
 
@@ -16,10 +19,9 @@ public:
     TreeNodePos<T> root() override { return m_root; }
     TreeNodeConstPos<T> root() const override { return m_root; }
     size_t size() const override {
-        if (!m_root) {
-            return 0;
-        }
-        return m_root->size();
+        size_t result { 0 };
+        traverse<TreePreOrderTraverseIterative>([&result](const T&) { ++result; });
+        return result;
     }
 
     Tree() = default;
@@ -107,6 +109,13 @@ public:
             return children.remove(index);
         }
     }
+
+    template <template <typename> typename Trav>
+        requires std::is_base_of_v<AbstractTreeTraverse<T>, Trav<T>>
+    void traverse(std::function<void(const T& e)> visit) const {
+        return Trav<T> {} (m_root, visit);
+    }
+
 };
 
 }
