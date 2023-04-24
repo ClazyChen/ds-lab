@@ -1,10 +1,14 @@
 ﻿module;
+#include <functional>
 #include <memory>
 
 export module Tree;
 
 export import Tree.TreeNode;
 export import Tree.AbstractTree;
+export import Tree.Traverse;
+
+import Tree.Traverse.AbstractTreeTraverse;
 
 export namespace dslab {
 
@@ -14,11 +18,19 @@ class Tree : public AbstractTree<T> {
 public:
     TreeNodePos<T> root() override { return m_root; }
     TreeNodeConstPos<T> root() const override { return m_root; }
-    size_t size() const override { return m_root->size(); }
+    size_t size() const override {
+        size_t result { 0 };
+        traverse<TreePreOrderTraverseIterative>([&result](const T&) { ++result; });
+        return result;
+    }
 
     Tree() = default;
-    Tree(const Tree& t) = delete;
-    Tree& operator=(const Tree& t) = delete;
+    Tree(const Tree& t) {
+        m_root = t.m_root->clone();
+    }
+    Tree& operator=(const Tree& t) {
+        m_root = t.m_root->clone();
+    }
     Tree(Tree&& t) = default;
     Tree& operator=(Tree&& t) = default;
     virtual ~Tree() = default;
@@ -29,6 +41,14 @@ public:
         return *this;
     }
 
+    Tree(const T& e) {
+        m_root = TreeNodeInst<T>::make(e);
+    }
+
+    Tree(T&& e) {
+        m_root = TreeNodeInst<T>::make(std::move(e));
+    }
+
     operator TreeNodeInst<T>&&() { return std::move(m_root); }
 
     void clear() override {
@@ -36,34 +56,20 @@ public:
     }
 
     TreeNodePos<T> insertAsChild(TreeNodePos<T> p, const T& e, size_t index = -1) override {
-        auto node { TreeNodeInst<T>::make(e) };
-        node->parent() = p;
-        if (index == -1) {
-            index = p->children().size();
-        }
-        p->children().insert(index, std::move(node));
-        return p->children()[index];
+        return attachAsChild(p, TreeNodeInst<T>::make(e), index);
     }
 
     TreeNodePos<T> insertAsChild(TreeNodePos<T> p, T&& e, size_t index = -1) override {
-        auto node { TreeNodeInst<T>::make(std::move(e)) };
-        node->parent() = p;
-        if (index == -1) {
-            index = p->children().size();
-        }
-        p->children().insert(index, std::move(node));
-        return p->children()[index];
+        return attachAsChild(p, TreeNodeInst<T>::make(std::move(e)), index);
     }
 
     TreeNodePos<T> insertAsRoot(const T& e) override {
-        auto node { TreeNodeInst<T>::make(e) };
-        m_root = std::move(node);
+        m_root = TreeNodeInst<T>::make(e);
         return m_root;
     }
 
     TreeNodePos<T> insertAsRoot(T&& e) override {
-        auto node { TreeNodeInst<T>::make(std::move(e)) };
-        m_root = std::move(node);
+        m_root = TreeNodeInst<T>::make(std::move(e));
         return m_root;
     }
 
@@ -76,17 +82,19 @@ public:
         return p->children()[index];
     }
 
-    T remove(TreeNodePos<T> p) override {
-        if (p == m_root) {
-            return std::move(m_root)->data();
-        } else {
-            auto& children { p->parent()->children() };
-            auto index { 0 };
-            while (children[index] != p) {
-                ++index;
+    TreeNodePos<T> find(const T& e) const override {
+        TreeNodePos<T> node { nullptr };
+        TreePreOrderTraverse<T> traverse {};
+        traverse(m_root, [&node, &e, &traverse](const T& f) {
+            if (e == f) {
+                node = traverse.current();
             }
-            return children.remove(index)->data();
-        }
+        });
+        return node;
+    }
+
+    T remove(TreeNodePos<T> p) override {
+        return std::move(detach(p)->data());
     }
 
     TreeNodeInst<T> detach(TreeNodePos<T> p) override {
@@ -101,6 +109,13 @@ public:
             return children.remove(index);
         }
     }
+
+    template <template <typename> typename Trav>
+        requires std::is_base_of_v<AbstractTreeTraverse<T>, Trav<T>>
+    void traverse(std::function<void(const T& e)> visit) const {
+        return Trav<T> {} (m_root, visit);
+    }
+
 };
 
 }

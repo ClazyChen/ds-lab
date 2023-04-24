@@ -12,11 +12,11 @@ export namespace dslab {
 template <typename T>
 class TreePreOrderTraverse : public AbstractTreeTraverse<T> {
 public:
-    void operator()(TreeNodeConstPos<T> p, std::function<void(const T&)> visit) const override {
+    void operator()(TreeNodeConstPos<T> p, std::function<void(const T&)> visit) override {
         if (!p) {
             return;
         }
-        visit(p->data());
+        this->call(visit, p);
         for (auto& child : p->children()) {
             operator()(child, visit);
         }
@@ -26,7 +26,7 @@ public:
 template <typename T>
 class TreePreOrderTraverseIterative : public AbstractTreeTraverse<T> {
 public:
-    void operator()(TreeNodeConstPos<T> p, std::function<void(const T&)> visit) const override {
+    void operator()(TreeNodeConstPos<T> p, std::function<void(const T&)> visit) override {
         if (!p) {
             return;
         }
@@ -34,9 +34,9 @@ public:
         S.push(p);
         while (!S.empty()) {
             auto node { S.pop() };
-            visit(node->data());
-            for (auto it { node->children().rbegin() }; it != node->children().rend(); ++it) {
-                S.push(*it);
+            this->call(visit, node);
+            for (size_t i { node->children().size() }; i > 0; --i) {
+                S.push(node->children()[i - 1]);
             }
         }
     }

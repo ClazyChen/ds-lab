@@ -1,5 +1,6 @@
 ﻿module;
 #include <memory>
+#include <iostream>
 
 export module Tree.TreeNode;
 
@@ -56,6 +57,17 @@ public:
     const TreeNodePos<T>& parent() const { return m_parent; }
     Vector<TreeNodeInst<T>>& children() { return m_children; }
     const Vector<TreeNodeInst<T>>& children() const { return m_children; }
+    TreeNodePos<T> child(size_t index) { return m_children[index]; }
+    TreeNodeConstPos<T> child(size_t index) const { return m_children[index]; }
+
+    TreeNodeInst<T> clone() const {
+        auto node { TreeNodeInst<T>::make(m_data) };
+        for (const auto& child : m_children) {
+            node->children().push_back(child->clone());
+            node->children().back()->parent() = node;
+        }
+        return node;
+    }
 
     bool isRoot() const { return m_parent == nullptr; }
     bool isLeaf() const { return m_children.empty(); }
@@ -96,5 +108,18 @@ public:
         return s;
     }
 };
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const TreeNode<T>& node) {
+    os << node.data();
+    if (!node.isLeaf()) {
+        os << "(";
+        for (const auto& child : node.children()) {
+            os << *child << ", ";
+        }
+        os << "\b\b)";
+    }
+    return os;
+}
 
 }
