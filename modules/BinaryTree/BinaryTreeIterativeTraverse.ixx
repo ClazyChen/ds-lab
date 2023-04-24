@@ -15,9 +15,9 @@ template <typename T, template <typename> typename It>
 class BinaryTreeIterativeTraverse : public AbstractBinaryTreeTraverse<T> {
     using Iterator = BinaryTreeConstIterator<T, It>;
 public:
-    void operator()(BinaryTreeNodeConstPos<T> p, std::function<void(const T&)> visit) override {
+    void operator()(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
         for (auto it { Iterator::begin(p) }; it != Iterator::end(p); ++it) {
-            this->call(visit, *it);
+            visit(*it);
         }
     }
 };

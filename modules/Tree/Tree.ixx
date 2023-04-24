@@ -85,10 +85,9 @@ public:
 
     TreeNodePos<T> find(const T& e) const override {
         TreeNodePos<T> node { nullptr };
-        TreePreOrderTraverse<T> traverse {};
-        traverse(m_root, [&node, &e, &traverse](const T& f) {
-            if (e == f) {
-                node = traverse.current();
+        traverseNodes<TreePreOrderTraverse>([&node, &e](TreeNodeConstPos<T> pos) {
+            if (e == pos->data()) {
+                node = pos;
             }
         });
         return node;
@@ -115,6 +114,12 @@ public:
         requires std::is_base_of_v<AbstractTreeTraverse<T>, Trav<T>>
     void traverse(std::function<void(const T&)> visit) const {
         return Trav<T> {} (m_root, visit);
+    }
+
+    template <template <typename> typename Trav>
+        requires std::is_base_of_v<AbstractTreeTraverse<T>, Trav<T>>
+    void traverseNodes(std::function<void(TreeNodeConstPos<T>)> visit) const {
+        return Trav<T> {} .traverse(m_root, visit);
     }
 
 };

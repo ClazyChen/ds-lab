@@ -11,14 +11,14 @@ export namespace dslab {
 template <typename T>
 class TreePostOrderTraverse : public AbstractTreeTraverse<T> {
 public:
-    void operator()(TreeNodeConstPos<T> p, std::function<void(const T&)> visit) override {
+    void traverse(TreeNodeConstPos<T> p, std::function<void(TreeNodeConstPos<T>)> visit) override {
         if (!p) {
             return;
         }
         for (auto& child : p->children()) {
-            operator()(child, visit);
+            traverse(child, visit);
         }
-        this->call(visit, p);
+        visit(p);
     }
 };
 

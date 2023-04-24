@@ -12,11 +12,11 @@ export namespace dslab {
 template <typename T>
 class BinaryTreeLevelOrderTraverse : public AbstractBinaryTreeTraverse<T> {
 public:
-    void operator()(BinaryTreeNodeConstPos<T> p, std::function<void(const T&)> visit) override {
+    void operator()(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
         Queue<BinaryTreeNodeConstPos<T>> Q { p };
         while (!Q.empty()) {
             if (auto node { Q.dequeue() }; node) {
-                this->call(visit, node);
+                visit(node);
                 Q.enqueue(node->left());
                 Q.enqueue(node->right());
             }
