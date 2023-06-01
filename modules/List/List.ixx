@@ -1,10 +1,8 @@
-﻿module;
-#include <memory>
-
-export module List;
+﻿export module List;
 
 export import List.AbstractList;
 export import List.ListNode;
+import std;
 
 export namespace dslab {
 

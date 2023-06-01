@@ -1,10 +1,8 @@
-﻿module;
-#include <functional>
-
-export module Tree.Traverse.AbstractTreeTraverse;
+﻿export module Tree.Traverse.AbstractTreeTraverse;
 
 import Framework.Algorithm;
 import Tree.TreeNode;
+import std;
 
 export namespace dslab {
 

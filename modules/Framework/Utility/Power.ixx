@@ -1,6 +1,7 @@
 ﻿export module Power;
 
 import Framework.Algorithm;
+
 export namespace dslab {
 
 class PowerProblem : public Algorithm<int(int, int)> {};

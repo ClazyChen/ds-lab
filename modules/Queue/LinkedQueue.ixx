@@ -1,11 +1,9 @@
-﻿module;
-#include <iostream>
-
-export module Queue.LinkedQueue;
+﻿export module Queue.LinkedQueue;
 
 import Queue.AbstractQueue;
 import LinearList;
 import ForwardList;
+import std;
 
 export namespace dslab {
 

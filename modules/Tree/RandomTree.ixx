@@ -1,11 +1,9 @@
-﻿module;
-#include <string>
-
-export module Tree.RandomTree;
+﻿export module Tree.RandomTree;
 
 import Tree;
 import Framework.Algorithm;
 import Stack.RandomStackOperation;
+import std;
 
 export namespace dslab {
 

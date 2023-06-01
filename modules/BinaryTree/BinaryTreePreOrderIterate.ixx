@@ -1,11 +1,8 @@
-﻿module;
-#include <memory>
-#include <iterator>
-
-export module BinaryTree.Iterator.BinaryTreePreOrderIterate;
+﻿export module BinaryTree.Iterator.BinaryTreePreOrderIterate;
 
 import BinaryTree.BinaryTreeNode;
 import BinaryTree.Iterator.AbstractBinaryTreeIterate;
+import std;
 
 export namespace dslab {
 

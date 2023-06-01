@@ -1,15 +1,11 @@
-﻿module;
-#include <ratio>
-#include <iostream>
-#include <concepts>
-
-export module Queue;
+﻿export module Queue;
 
 export import Queue.AbstractQueue;
 export import Queue.CircularQueue;
 export import Queue.LinkedQueue;
 
 import Vector;
+import std;
 
 export namespace dslab {
 

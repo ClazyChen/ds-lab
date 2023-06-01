@@ -1,9 +1,7 @@
-﻿module;
-#include <utility>
-
-export module Vector.VectorAllocator;
+﻿export module Vector.VectorAllocator;
 
 export import Vector.VectorAllocator.AbstractVectorAllocator;
+import std;
 
 export namespace dslab {
 

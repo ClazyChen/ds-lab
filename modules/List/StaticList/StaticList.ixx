@@ -1,12 +1,10 @@
-﻿module;
-#include <memory>
-
-export module List.StaticList;
+﻿export module List.StaticList;
 
 export import List.StaticList.AbstractStaticList;
 export import List.StaticList.StaticListNode;
 
 import Vector;
+import std;
 
 export namespace dslab {
 

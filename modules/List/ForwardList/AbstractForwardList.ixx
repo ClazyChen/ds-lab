@@ -1,13 +1,9 @@
-﻿module;
-#include <iostream>
-#include <iterator>
-#include <stdexcept>
-
-export module ForwardList.AbstractForwardList;
+﻿export module ForwardList.AbstractForwardList;
 
 import LinearList;
 import ForwardList.ForwardListNode;
 import ForwardList.ForwardListIterator;
+import std;
 
 export namespace dslab {
 

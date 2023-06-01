@@ -1,9 +1,6 @@
-﻿module;
-#include <memory>
-#include <iostream>
+﻿export module BinaryTree.BinaryTreeNode;
 
-export module BinaryTree.BinaryTreeNode;
-
+import std;
 import Framework.PointerProxy;
 
 export namespace dslab {
@@ -63,7 +60,7 @@ public:
     BinaryTreeNode(BinaryTreeNode&&) = delete;
     BinaryTreeNode& operator=(BinaryTreeNode&&) = delete;
 
-    T& data() override { return m_data; }
+    T& data() { return m_data; }
     const T& data() const { return m_data; }
     BinaryTreeNodeInst<T>& left() { return m_left; }
     const BinaryTreeNodeInst<T>& left() const { return m_left; }

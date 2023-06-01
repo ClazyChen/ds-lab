@@ -1,11 +1,9 @@
-﻿module;
-#include <functional>
-
-export module Tree.Traverse.TreePreOrderTraverse;
+﻿export module Tree.Traverse.TreePreOrderTraverse;
 
 import Tree.TreeNode;
 import Tree.Traverse.AbstractTreeTraverse;
 import Stack;
+import std;
 
 export namespace dslab {
 

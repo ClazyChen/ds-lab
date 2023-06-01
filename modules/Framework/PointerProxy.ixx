@@ -1,8 +1,4 @@
-﻿module;
-#include <memory>
-#include <stdexcept>
-
-export module Framework.PointerProxy;
+﻿export module Framework.PointerProxy;
 
 // 为了降低不了解智能指针进行实验的门槛
 // 将智能指针和裸指针封装成代理类，允许赋值和隐式转换
@@ -15,6 +11,8 @@ export module Framework.PointerProxy;
 // Raw Proxy               <-> Raw Pointer
 // Const Raw Proxy         <-> Const Raw Pointer
 // Unique Pointer -> Unique Proxy, Raw Proxy, Const Raw Proxy
+
+import std;
 
 export namespace dslab {
 

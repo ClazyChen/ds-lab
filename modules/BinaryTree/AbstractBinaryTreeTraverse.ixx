@@ -1,10 +1,8 @@
-﻿module;
-#include <functional>
-
-export module BinaryTree.Traverse.AbstractBinaryTreeTraverse;
+﻿export module BinaryTree.Traverse.AbstractBinaryTreeTraverse;
 
 import Framework.Algorithm;
 import BinaryTree.BinaryTreeNode;
+import std;
 
 export namespace dslab {
 

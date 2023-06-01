@@ -1,13 +1,9 @@
-﻿module;
-#include <algorithm>
-#include <format>
-#include <iostream>
-
-export module Stack.SharedStack;
+﻿export module Stack.SharedStack;
 
 import Vector;
 import Framework.DataStructure;
 import Stack.AbstractStack;
+import std;
 
 export namespace dslab {
 

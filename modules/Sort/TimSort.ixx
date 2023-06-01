@@ -1,11 +1,8 @@
-﻿module;
-#include <algorithm>
-#include <functional>
-
-export module Sort.TimSort;
+﻿export module Sort.TimSort;
 
 import Vector;
 import Sort.AbstractSort;
+import std;
 
 export namespace dslab {
 

@@ -1,14 +1,8 @@
-﻿module;
-#include <iostream>
-#include <vector>
-#include <memory>
-#include <format>
-#include <type_traits>
-
-export module Framework.StructureTestFramework;
+﻿export module Framework.StructureTestFramework;
 
 import Framework.Algorithm;
 import Framework.DataStructure;
+import std;
 
 export namespace dslab {
 

@@ -1,11 +1,9 @@
-﻿module;
-#include <functional>
-
-export module BinaryTree.Traverse.BinaryTreeLevelOrderTraverse;
+﻿export module BinaryTree.Traverse.BinaryTreeLevelOrderTraverse;
 
 import BinaryTree.BinaryTreeNode;
 import BinaryTree.Traverse.AbstractBinaryTreeTraverse;
 import Queue;
+import std;
 
 export namespace dslab {
 

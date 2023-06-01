@@ -1,10 +1,7 @@
-﻿module;
-#include <cmath>
-#include <stdexcept>
-
-export module Matrix.TridiagonalMatrix;
+﻿export module Matrix.TridiagonalMatrix;
 
 import Matrix.AbstractCompressedMatrix;
+import std;
 
 export namespace dslab {
 

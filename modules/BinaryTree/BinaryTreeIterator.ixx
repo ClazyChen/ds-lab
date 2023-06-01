@@ -1,14 +1,11 @@
-﻿module;
-#include <memory>
-#include <iterator>
-
-export module BinaryTree.Iterator;
+﻿export module BinaryTree.Iterator;
 
 import BinaryTree.BinaryTreeNode;
 import BinaryTree.Iterator.AbstractBinaryTreeIterate;
 export import BinaryTree.Iterator.BinaryTreePreOrderIterate;
 export import BinaryTree.Iterator.BinaryTreeInOrderIterate;
 export import BinaryTree.Iterator.BinaryTreePostOrderIterate;
+import std;
 
 export namespace dslab {
 
@@ -20,7 +17,7 @@ protected:
     BinaryTreeNodeConstPos<T> m_node { nullptr };
 public:
     using value_type = T;
-    using difference_type = ptrdiff_t;
+    using difference_type = std::ptrdiff_t;
     using pointer = const value_type*;
     using reference = const value_type&;
     using iterator_category = std::forward_iterator_tag;
@@ -73,7 +70,7 @@ protected:
     BinaryTreeNodePos<T> m_node { nullptr };
 public:
     using value_type = T;
-    using difference_type = ptrdiff_t;
+    using difference_type = std::ptrdiff_t;
     using pointer = value_type*;
     using reference = value_type&;
     using iterator_category = std::forward_iterator_tag;

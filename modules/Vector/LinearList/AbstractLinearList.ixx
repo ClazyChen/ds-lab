@@ -1,9 +1,7 @@
-﻿module;
-#include <utility>
-
-export module LinearList.AbstractLinearList;
+﻿export module LinearList.AbstractLinearList;
 
 import Framework.DataStructure;
+import std;
 
 export namespace dslab {
 
@@ -42,7 +40,7 @@ public:
     using reference = T&;
     using const_reference = const T&;
     using size_type = size_t;
-    using difference_type = ptrdiff_t;
+    using difference_type = std::ptrdiff_t;
 
     using position_type = Pos;
 

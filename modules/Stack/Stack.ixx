@@ -1,14 +1,11 @@
-﻿module;
-#include <iostream>
-#include <concepts>
-
-export module Stack;
+﻿export module Stack;
 
 export import Stack.AbstractStack;
 export import Stack.RandomStackOperation;
 
 import Vector;
 import LinearList;
+import std;
 
 export namespace dslab {
 

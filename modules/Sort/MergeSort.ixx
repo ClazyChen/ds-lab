@@ -1,14 +1,11 @@
-﻿module;
-#include <algorithm>
-#include <type_traits>
-
-export module Sort.MergeSort;
+﻿export module Sort.MergeSort;
 
 export import :ListMergeSort;
 
 import LinearList;
 import Vector;
 import Sort.AbstractSort;
+import std;
 
 export namespace dslab {
 

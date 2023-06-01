@@ -1,12 +1,9 @@
-﻿module;
-#include <type_traits>
-#include <functional>
-
-export module Search.AbstractSearch;
+﻿export module Search.AbstractSearch;
 
 import Framework.Algorithm;
 import LinearList;
 import Vector;
+import std;
 
 export namespace dslab {
 

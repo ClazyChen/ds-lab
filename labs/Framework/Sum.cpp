@@ -1,8 +1,6 @@
-﻿#include <vector>
-#include <limits>
-#include <iostream>
-#include <format>
-import Framework;
+﻿import Framework;
+import std;
+
 using namespace dslab;
 using namespace std;
 

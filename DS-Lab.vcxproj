@@ -100,7 +100,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <EnableModules>true</EnableModules>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -128,6 +128,9 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="labs\BinaryTree\BinaryTreeTest.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="labs\BinaryTree\Rebuild.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -147,7 +150,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Framework\Sum.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Framework\ZeroPoint.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -218,8 +221,11 @@
     <ClCompile Include="labs\Stack\StackTest.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="labs\Test.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="labs\Tree\ChainFlower.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Tree\Stack2Tree.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -255,41 +261,49 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="modules\BinaryTree\AbstractBinaryTree.ixx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="modules\BinaryTree\AbstractBinaryTreeIterate.ixx" />
-    <ClCompile Include="modules\BinaryTree\AbstractBinaryTreeTraverse.ixx" />
+    <ClCompile Include="modules\BinaryTree\AbstractBinaryTreeIterate.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\AbstractBinaryTreeTraverse.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="modules\BinaryTree\BinaryTree.ixx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="modules\BinaryTree\BinaryTreeInOrderIterate.ixx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="modules\BinaryTree\BinaryTreeInOrderTraverse.ixx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="modules\BinaryTree\BinaryTreeIterativeTraverse.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreeIterativeTraverse.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="modules\BinaryTree\BinaryTreeIterator.ixx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="modules\BinaryTree\BinaryTreeLevelOrderTraverse.ixx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="modules\BinaryTree\BinaryTreeNode.ixx" />
+    <ClCompile Include="modules\BinaryTree\BinaryTreeNode.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="modules\BinaryTree\BinaryTreePostOrderIterate.ixx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="modules\BinaryTree\BinaryTreePostOrderTraverse.ixx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="modules\BinaryTree\BinaryTreePreOrderIterate.ixx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="modules\BinaryTree\BinaryTreePreOrderTraverse.ixx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="modules\BinaryTree\BinaryTreeTraverse.ixx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="modules\BinaryTree\ThreadedBinaryTreeNode.ixx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -301,76 +315,210 @@
     <ClCompile Include="modules\Framework\PointerProxy.ixx" />
     <ClCompile Include="modules\Framework\StructureTestFramework.ixx" />
     <ClCompile Include="modules\Framework\TestFramework.ixx" />
-    <ClCompile Include="modules\Framework\Utility\Combine.ixx" />
+    <ClCompile Include="modules\Framework\Utility\Combine.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="modules\Framework\Utility\Factorial.ixx" />
     <ClCompile Include="modules\Framework\Utility\Gcd.ixx" />
     <ClCompile Include="modules\Framework\Utility\Power.ixx" />
-    <ClCompile Include="modules\List\AbstractList.ixx" />
-    <ClCompile Include="modules\List\CircularList\AbstractCircularList.ixx" />
-    <ClCompile Include="modules\List\CircularList\CircularList.ixx" />
-    <ClCompile Include="modules\List\ForwardList\AbstractForwardList.ixx" />
-    <ClCompile Include="modules\List\ForwardList\ForwardList.ixx" />
-    <ClCompile Include="modules\List\ForwardList\ForwardListIterator.ixx" />
-    <ClCompile Include="modules\List\ForwardList\ForwardListNode.ixx" />
-    <ClCompile Include="modules\List\List.ixx" />
-    <ClCompile Include="modules\List\ListIterator.ixx" />
-    <ClCompile Include="modules\List\ListNode.ixx" />
-    <ClCompile Include="modules\List\StaticList\AbstractStaticList.ixx" />
-    <ClCompile Include="modules\List\StaticList\StaticList.ixx" />
-    <ClCompile Include="modules\List\StaticList\StaticListIterator.ixx" />
-    <ClCompile Include="modules\List\StaticList\StaticListNode.ixx" />
-    <ClCompile Include="modules\Matrix\AbstractCompressedMatrix.ixx" />
-    <ClCompile Include="modules\Matrix\AbstractMatrix.ixx" />
-    <ClCompile Include="modules\Matrix\ColumnMajorMatrix.ixx" />
-    <ClCompile Include="modules\Matrix\Matrix.ixx" />
-    <ClCompile Include="modules\Matrix\RowMajorMatrix.ixx" />
-    <ClCompile Include="modules\Matrix\SymmetricMatrix.ixx" />
-    <ClCompile Include="modules\Matrix\TriangularMatrix.ixx" />
-    <ClCompile Include="modules\Matrix\TridiagonalMatrix.ixx" />
-    <ClCompile Include="modules\Matrix\Triple.ixx" />
-    <ClCompile Include="modules\Matrix\TripleMatrix.ixx" />
-    <ClCompile Include="modules\Queue\AbstractDeque.ixx" />
-    <ClCompile Include="modules\Queue\AbstractQueue.ixx" />
-    <ClCompile Include="modules\Queue\CircularDeque.ixx" />
-    <ClCompile Include="modules\Queue\CircularQueue.ixx" />
-    <ClCompile Include="modules\Queue\Deque.ixx" />
-    <ClCompile Include="modules\Queue\LinkedDeque.ixx" />
-    <ClCompile Include="modules\Queue\LinkedQueue.ixx" />
-    <ClCompile Include="modules\Queue\Queue.ixx" />
-    <ClCompile Include="modules\Queue\StackQueue.ixx" />
-    <ClCompile Include="modules\Search\AbstractSearch.ixx" />
-    <ClCompile Include="modules\Search\BinarySearch.ixx" />
-    <ClCompile Include="modules\Search\Search.ixx" />
-    <ClCompile Include="modules\Sort\AbstractSort.ixx" />
-    <ClCompile Include="modules\Sort\InsertionSort.ixx" />
-    <ClCompile Include="modules\Sort\ListMergeSort.ixx" />
-    <ClCompile Include="modules\Sort\MergeSort.ixx" />
-    <ClCompile Include="modules\Sort\Sort.ixx" />
-    <ClCompile Include="modules\Sort\TimSort.ixx" />
-    <ClCompile Include="modules\Stack\AbstractStack.ixx" />
-    <ClCompile Include="modules\Stack\Expression\AbstractExpressionElement.ixx" />
-    <ClCompile Include="modules\Stack\Expression\Expression.ixx" />
-    <ClCompile Include="modules\Stack\Expression\ExpressionElement.ixx" />
-    <ClCompile Include="modules\Stack\MinStack.ixx" />
-    <ClCompile Include="modules\Stack\RandomStackOperation.ixx" />
-    <ClCompile Include="modules\Stack\SharedStack.ixx" />
-    <ClCompile Include="modules\Stack\Stack.ixx" />
-    <ClCompile Include="modules\Tree\AbstractTree.ixx" />
-    <ClCompile Include="modules\Tree\AbstractTreeTraverse.ixx" />
-    <ClCompile Include="modules\Tree\RandomTree.ixx" />
-    <ClCompile Include="modules\Tree\Tree.ixx" />
-    <ClCompile Include="modules\Tree\TreeLevelOrderTraverse.ixx" />
-    <ClCompile Include="modules\Tree\TreeNode.ixx" />
-    <ClCompile Include="modules\Tree\TreePostOrderTraverse.ixx" />
-    <ClCompile Include="modules\Tree\TreePreOrderTraverse.ixx" />
-    <ClCompile Include="modules\Tree\TreeTraverse.ixx" />
-    <ClCompile Include="modules\Vector\AbstractVector.ixx" />
-    <ClCompile Include="modules\Vector\LinearList\AbstractLinearList.ixx" />
-    <ClCompile Include="modules\Vector\LinearList\LinearList.ixx" />
-    <ClCompile Include="modules\Vector\Vector.ixx" />
-    <ClCompile Include="modules\Vector\VectorAllocator\AbstractVectorAllocator.ixx" />
-    <ClCompile Include="modules\Vector\VectorAllocator\VectorAllocator.ixx" />
-    <ClCompile Include="modules\Vector\VectorIterator.ixx" />
+    <ClCompile Include="modules\List\AbstractList.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\List\CircularList\AbstractCircularList.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\List\CircularList\CircularList.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\List\ForwardList\AbstractForwardList.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\List\ForwardList\ForwardList.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\List\ForwardList\ForwardListIterator.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\List\ForwardList\ForwardListNode.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\List\List.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\List\ListIterator.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\List\ListNode.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\List\StaticList\AbstractStaticList.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\List\StaticList\StaticList.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\List\StaticList\StaticListIterator.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\List\StaticList\StaticListNode.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\AbstractCompressedMatrix.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\AbstractMatrix.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\ColumnMajorMatrix.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\Matrix.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\RowMajorMatrix.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\SymmetricMatrix.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\TriangularMatrix.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\TridiagonalMatrix.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\Triple.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Matrix\TripleMatrix.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Queue\AbstractDeque.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Queue\AbstractQueue.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Queue\CircularDeque.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Queue\CircularQueue.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Queue\Deque.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Queue\LinkedDeque.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Queue\LinkedQueue.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Queue\Queue.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Queue\StackQueue.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Search\AbstractSearch.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Search\BinarySearch.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Search\Search.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Sort\AbstractSort.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Sort\InsertionSort.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Sort\ListMergeSort.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Sort\MergeSort.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Sort\Sort.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Sort\TimSort.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Stack\AbstractStack.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Stack\Expression\AbstractExpressionElement.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Stack\Expression\Expression.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Stack\Expression\ExpressionElement.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Stack\MinStack.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Stack\RandomStackOperation.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Stack\SharedStack.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Stack\Stack.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\AbstractTree.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\AbstractTreeTraverse.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\RandomTree.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\Tree.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\TreeLevelOrderTraverse.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\TreeNode.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\TreePostOrderTraverse.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\TreePreOrderTraverse.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\TreeTraverse.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Vector\AbstractVector.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Vector\LinearList\AbstractLinearList.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Vector\LinearList\LinearList.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Vector\Vector.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Vector\VectorAllocator\AbstractVectorAllocator.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Vector\VectorAllocator\VectorAllocator.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="modules\Vector\VectorIterator.ixx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

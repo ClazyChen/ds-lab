@@ -1,10 +1,8 @@
-﻿module;
-#include <iostream>
-
-export module Queue.CircularQueue;
+﻿export module Queue.CircularQueue;
 
 import Queue.AbstractQueue;
 import Vector;
+import std;
 
 export namespace dslab {
 

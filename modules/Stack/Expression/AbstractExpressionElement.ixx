@@ -1,7 +1,6 @@
-﻿module;
-#include <utility>
+﻿export module Expression.AbstractExpressionElement;
 
-export module Expression.AbstractExpressionElement;
+import std;
 
 export namespace dslab {
 

@@ -1,15 +1,10 @@
-﻿module;
-#include <memory>
-#include <algorithm>
-#include <type_traits>
-#include <iostream>
-
-export module Sort.MergeSort:ListMergeSort;
+﻿export module Sort.MergeSort:ListMergeSort;
 
 import Vector;
 import List.AbstractList;
 import List.ListNode;
 import Sort.AbstractSort;
+import std;
 
 export namespace dslab {
 

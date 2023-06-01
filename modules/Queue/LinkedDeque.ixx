@@ -1,11 +1,9 @@
-﻿module;
-#include <iostream>
-
-export module Deque.LinkedDeque;
+﻿export module Deque.LinkedDeque;
 
 import Deque.AbstractDeque;
 import LinearList;
 import List;
+import std;
 
 export namespace dslab {
 

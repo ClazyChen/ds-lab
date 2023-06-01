@@ -1,12 +1,9 @@
-﻿module;
-#include <iostream>
-#include <iterator>
-
-export module List.AbstractList;
+﻿export module List.AbstractList;
 
 import LinearList;
 import List.ListNode;
 import List.ListIterator;
+import std;
 
 export namespace dslab {
 

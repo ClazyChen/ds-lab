@@ -1,10 +1,8 @@
-﻿module;
-#include <memory>
-
-export module ForwardList;
+﻿export module ForwardList;
 
 export import ForwardList.AbstractForwardList;
 export import ForwardList.ForwardListNode;
+import std;
 
 export namespace dslab {
 

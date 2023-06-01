@@ -1,13 +1,9 @@
-﻿module;
-#include <iostream>
-#include <variant>
-#include <unordered_map>
-
-export module Expression.ExpressionElement;
+﻿export module Expression.ExpressionElement;
 
 import Factorial;
 import Power;
 import Expression.AbstractExpressionElement;
+import std;
 
 export namespace dslab {
 

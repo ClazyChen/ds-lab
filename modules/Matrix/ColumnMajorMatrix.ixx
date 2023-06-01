@@ -1,9 +1,7 @@
-﻿module;
-#include <array>
-
-export module Matrix.ColumnMajorMatrix;
+﻿export module Matrix.ColumnMajorMatrix;
 
 import Matrix.AbstractMatrix;
+import std;
 
 export namespace dslab {
 

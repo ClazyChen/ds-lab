@@ -1,8 +1,4 @@
-﻿module;
-#include <functional>
-#include <memory>
-
-export module BinaryTree;
+﻿export module BinaryTree;
 
 export import BinaryTree.BinaryTreeNode;
 export import BinaryTree.AbstractBinaryTree;
@@ -10,6 +6,7 @@ export import BinaryTree.Traverse;
 export import BinaryTree.Iterator;
 
 import BinaryTree.Traverse.AbstractBinaryTreeTraverse;
+import std;
 
 export namespace dslab {
 

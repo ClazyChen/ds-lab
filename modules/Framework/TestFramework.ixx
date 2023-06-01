@@ -1,15 +1,8 @@
-﻿module;
-#include <vector>
-#include <chrono>
-#include <memory>
-#include <type_traits>
-#include <functional>
-#include <format>
-#include <iostream>
-
-export module Framework.TestFramework;
+﻿export module Framework.TestFramework;
 
 import Framework.Object;
+import std;
+
 export namespace dslab {
 
 template <typename Output>

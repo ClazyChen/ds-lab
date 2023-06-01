@@ -1,14 +1,11 @@
-﻿module;
-#include <functional>
-#include <memory>
-
-export module Tree;
+﻿export module Tree;
 
 export import Tree.TreeNode;
 export import Tree.AbstractTree;
 export import Tree.Traverse;
 
 import Tree.Traverse.AbstractTreeTraverse;
+import std;
 
 export namespace dslab {
 
@@ -102,7 +99,7 @@ public:
             return std::move(m_root);
         } else {
             auto& children { p->parent()->children() };
-            auto index { 0 };
+            size_t index { 0 };
             while (children[index] != p) {
                 ++index;
             }

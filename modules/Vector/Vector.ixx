@@ -1,12 +1,9 @@
-﻿module;
-#include <ratio>
-#include <memory>
-
-export module Vector;
+﻿export module Vector;
 
 export import Vector.AbstractVector;
 export import Vector.VectorIterator;
 export import Vector.VectorAllocator;
+import std;
 
 export namespace dslab {
 

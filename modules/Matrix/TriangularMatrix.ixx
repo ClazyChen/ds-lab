@@ -1,9 +1,7 @@
-﻿module;
-#include <stdexcept>
-
-export module Matrix.TriangularMatrix;
+﻿export module Matrix.TriangularMatrix;
 
 import Matrix.AbstractCompressedMatrix;
+import std;
 
 export namespace dslab {
 

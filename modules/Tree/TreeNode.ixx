@@ -1,12 +1,9 @@
-﻿module;
-#include <memory>
-#include <iostream>
-
-export module Tree.TreeNode;
+﻿export module Tree.TreeNode;
 
 import Framework.PointerProxy;
 import Vector;
 import LinearList;
+import std;
 
 export namespace dslab {
 

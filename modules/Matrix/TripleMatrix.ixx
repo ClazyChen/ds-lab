@@ -1,13 +1,9 @@
-﻿module;
-#include <utility>
-#include <concepts>
-#include <algorithm>
-
-export module Matrix.TripleMatrix;
+﻿export module Matrix.TripleMatrix;
 
 import Matrix.AbstractMatrix;
 import Triple;
 import Vector;
+import std;
 
 export namespace dslab {
 

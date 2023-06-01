@@ -1,10 +1,8 @@
-﻿module;
-#include <iostream>
-
-export module BinaryTree.AbstractBinaryTree;
+﻿export module BinaryTree.AbstractBinaryTree;
 
 import BinaryTree.BinaryTreeNode;
 import Framework.DataStructure;
+import std;
 
 export namespace dslab {
 

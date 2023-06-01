@@ -1,8 +1,6 @@
-﻿module;
-#include <type_traits>
-#include <iterator>
+﻿export module Vector.VectorIterator;
 
-export module Vector.VectorIterator;
+import std;
 
 using Rank = size_t;
 
@@ -19,7 +17,7 @@ protected:
 
 public:
     using value_type = typename Vector::value_type;
-    using difference_type = ptrdiff_t;
+    using difference_type = std::ptrdiff_t;
     using pointer = const value_type*;
     using reference = const value_type&;
     using iterator_category = std::random_access_iterator_tag;
@@ -58,7 +56,7 @@ protected:
 
 public:
     using value_type = typename Vector::value_type;
-    using difference_type = ptrdiff_t;
+    using difference_type = std::ptrdiff_t;
     using pointer = value_type*;
     using reference = value_type&;
     using iterator_category = std::random_access_iterator_tag;

@@ -1,9 +1,8 @@
-﻿module;
-#include <vector>
-
-export module Combine;
+﻿export module Combine;
 
 import Framework.Algorithm;
+import std;
+
 export namespace dslab {
 
 class CombineProblem : public Algorithm<int(int, int)> {};

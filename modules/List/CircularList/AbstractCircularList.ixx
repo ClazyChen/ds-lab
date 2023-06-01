@@ -1,14 +1,10 @@
-﻿module;
-#include <iostream>
-#include <iterator>
-#include <stdexcept>
-
-export module List.CircularList.AbstractCircularList;
+﻿export module List.CircularList.AbstractCircularList;
 
 import LinearList;
 import List.ListNode;
 import List.AbstractList;
 import List.ListIterator;
+import std;
 
 export namespace dslab {
 

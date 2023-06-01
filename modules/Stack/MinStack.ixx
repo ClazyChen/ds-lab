@@ -1,10 +1,7 @@
-﻿module;
-#include <memory>
-#include <iostream>
-
-export module Stack.MinStack;
+﻿export module Stack.MinStack;
 
 import Stack;
+import std;
 
 export namespace dslab {
 

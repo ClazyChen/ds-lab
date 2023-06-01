@@ -1,11 +1,9 @@
-﻿module;
-#include <iostream>
-
-export module Queue.StackQueue;
+﻿export module Queue.StackQueue;
 
 import Queue.AbstractQueue;
 import Stack.SharedStack;
 import Vector;
+import std;
 
 export namespace dslab {
 

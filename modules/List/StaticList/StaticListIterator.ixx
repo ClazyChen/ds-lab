@@ -1,10 +1,7 @@
-﻿module;
-#include <type_traits>
-#include <iterator>
-
-export module List.StaticList.StaticListIterator;
+﻿export module List.StaticList.StaticListIterator;
 
 import List.StaticList.StaticListNode;
+import std;
 
 using Rank = size_t;
 
@@ -20,7 +17,7 @@ protected:
     Rank m_index { 0 };
 public:
     using value_type = typename StaticList::value_type;
-    using difference_type = ptrdiff_t;
+    using difference_type = std::ptrdiff_t;
     using pointer = const value_type*;
     using reference = const value_type&;
     using iterator_category = std::bidirectional_iterator_tag;
@@ -98,7 +95,7 @@ protected:
     Rank m_index { 0 };
 public:
     using value_type = typename StaticList::value_type;
-    using difference_type = ptrdiff_t;
+    using difference_type = std::ptrdiff_t;
     using pointer = value_type*;
     using reference = value_type&;
     using iterator_category = std::bidirectional_iterator_tag;
