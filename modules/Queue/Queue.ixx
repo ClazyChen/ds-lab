@@ -54,6 +54,14 @@ public:
         return V[m_front];
     }
 
+    std::string type_name() const override {
+        if constexpr (Q::den == 1) {
+            return std::format("Queue ({} * {})", V.type_name(), Q::num);
+        } else {
+            return std::format("Queue ({} * {}/{}", V.type_name(), Q::num, Q::den);
+        }
+    }
+
     template <typename T1, template<typename> typename V1, typename Q1>
     friend std::ostream& operator<<(std::ostream& os, const Queue<T1, V1, Q1>& q);
 };

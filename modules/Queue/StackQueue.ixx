@@ -53,6 +53,10 @@ public:
         return SS.size();
     }
 
+    std::string type_name() const override {
+        return std::format("Queue with {}", SS.type_name());
+    }
+
     template <typename T1, template<typename> typename V1>
     friend std::ostream& operator<<(std::ostream& os, const StackQueue<T1, V1>& q);
 

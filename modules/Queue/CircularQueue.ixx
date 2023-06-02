@@ -61,6 +61,10 @@ public:
         return m_size;
     }
 
+    std::string type_name() const override {
+        return std::format("Queue (Circular / {})", V.type_name());
+    }
+
     template <typename T1, template<typename> typename V1>
     friend std::ostream& operator<<(std::ostream& os, const CircularQueue<T1, V1>& q);
 };

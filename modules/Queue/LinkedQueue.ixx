@@ -40,6 +40,10 @@ public:
         return L.size();
     }
 
+    std::string type_name() const override {
+        return std::format("Queue ({})", L.type_name());
+    }
+
     template <typename T1, template<typename> typename L1>
     friend std::ostream& operator<<(std::ostream& os, const LinkedQueue<T1, L1>& q);
 };

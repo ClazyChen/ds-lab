@@ -124,7 +124,7 @@ public:
     }
 
     std::string type_name() const override {
-        return std::format("Stack ({} / Shared)", V.type_name());
+        return std::format("Stack (Shared / {})", V.type_name());
     }
 
     template <typename T1, template<typename> typename V1>
