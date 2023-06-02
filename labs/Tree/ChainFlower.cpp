@@ -1,10 +1,8 @@
-﻿#include <vector>
-#include <format>
-#include <iostream>
-
-import Framework;
+﻿import Framework;
 import Tree;
 import Tree.Traverse.AbstractTreeTraverse;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -51,7 +49,7 @@ public:
     }
 };
 
-vector testData { 10, 1000, 10000, 100'000, 1'000'000, 10'000'000 };
+vector testData { 10, 1000, 10000, 100'000, 1'000'000, 3'000'000 };
 
 TestFramework<TreeTraverseTest<int>,
     TreeTraverseTestImpl<int, TreePreOrderTraverse>,
@@ -62,7 +60,7 @@ TestFramework<TreeTraverseTest<int>,
 
 int main() {
     for (auto n : testData) {
-        cout << format("n = {}", n) << endl;
+        cout << format("n = {:>10}", n) << endl;
         cout << "Chain  test ..." << endl;
         test.run([n](TreeTraverseTest<int>& t) {
             t.initializeChain(n);

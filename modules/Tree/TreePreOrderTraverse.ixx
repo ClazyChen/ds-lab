@@ -19,6 +19,9 @@ public:
             traverse(child, visit);
         }
     }
+    std::string type_name() const override {
+        return "PreOrder Traverse";
+    }
 };
 
 template <typename T>
@@ -36,6 +39,9 @@ public:
                 S.push(node->children()[i - 1]);
             }
         }
+    }
+    std::string type_name() const override {
+        return "PreOrder Traverse (Iterative)";
     }
 };
 

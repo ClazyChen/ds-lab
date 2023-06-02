@@ -18,6 +18,9 @@ public:
         }
         visit(p);
     }
+    std::string type_name() const override {
+        return "PostOrder Traverse";
+    }
 };
 
 }

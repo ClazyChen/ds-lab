@@ -24,6 +24,9 @@ public:
             }
         }
     }
+    std::string type_name() const override {
+        return "Level Order Traverse";
+    }
 };
 
 }

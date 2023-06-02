@@ -1,11 +1,9 @@
-﻿#include <vector>
-#include <format>
-#include <iostream>
-
-import Framework;
+﻿import Framework;
 import Stack;
 import Vector;
 import Tree;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -70,6 +68,10 @@ public:
         auto T { buildTree(op) };
         auto V { getPopSeq(op) };
         return check(T, V);
+    }
+
+    string type_name() const override {
+        return "Stack to Tree";
     }
 };
 

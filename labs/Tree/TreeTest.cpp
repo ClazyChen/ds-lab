@@ -1,8 +1,7 @@
-﻿#include <format>
-#include <iostream>
-
-import Framework;
+﻿import Framework;
 import Tree;
+import std;
+
 using namespace std;
 
 using dslab::Algorithm;
@@ -35,6 +34,9 @@ public:
             throw runtime_error("size != 0");
         }
     }
+    string type_name() const override {
+        return "Create Tree";
+    }
 };
 
 class InsertAsRoot : public Algorithm<void(Tree<TestItem>&)> {
@@ -53,6 +55,9 @@ public:
         if (TestItem::s_moveCount != 1) {
             throw runtime_error("moveCount != 1");
         }
+    }
+    string type_name() const override {
+        return "Insert as Root Tree";
     }
 };
 
@@ -77,6 +82,9 @@ public:
         if (TestItem::s_moveCount != 0) {
             throw runtime_error("moveCount != 0");
         }
+    }
+    string type_name() const override {
+        return "Create Chain Tree";
     }
 };
 
@@ -108,6 +116,9 @@ public:
             throw runtime_error("moveCount != 0");
         }
     }
+    string type_name() const override {
+        return "Create Sub Tree";
+    }
 };
 
 class AttachSubTree : public Algorithm<void(Tree<TestItem>&)> {
@@ -130,6 +141,9 @@ public:
             throw runtime_error("moveCount != 0");
         }
     }
+    string type_name() const override {
+        return "Attach Sub Tree";
+    }
 };
 
 class CreateFlower : public Algorithm<void(Tree<TestItem>&)> {
@@ -151,6 +165,9 @@ public:
             throw runtime_error("moveCount != N");
         }
     }
+    string type_name() const override {
+        return "Create Flower Tree";
+    }
 };
 
 class RemoveChain : public Algorithm<void(Tree<TestItem>&)> {
@@ -169,6 +186,9 @@ public:
         if (TestItem::s_moveCount != 1) {
             throw runtime_error("moveCount != 1");
         }
+    }
+    string type_name() const override {
+        return "Remove Chain Tree";
     }
 };
 
@@ -206,6 +226,9 @@ public:
             throw runtime_error("size != 3 * N / 2");
         }
     }
+    string type_name() const override {
+        return "Find Tree";
+    }
 };
 
 class CopyTree : public Algorithm<void(Tree<TestItem>&)> {
@@ -228,6 +251,9 @@ public:
             throw runtime_error("T2.root() == T.root()");
         }
     }
+    string type_name() const override {
+        return "Copy Tree";
+    }
 };
 
 class MoveTree : public Algorithm<void(Tree<TestItem>&)> {
@@ -249,6 +275,9 @@ public:
         if (T.root() != nullptr) {
             throw runtime_error("T.root() != nullptr");
         }
+    }
+    string type_name() const override {
+        return "Move Tree";
     }
 };
 

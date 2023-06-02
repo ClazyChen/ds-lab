@@ -107,6 +107,10 @@ public:
         }
     }
 
+    std::string type_name() const override {
+        return "Tree";
+    }
+
     template <template <typename> typename Trav>
         requires std::is_base_of_v<AbstractTreeTraverse<T>, Trav<T>>
     void traverse(std::function<void(const T&)> visit) const {
