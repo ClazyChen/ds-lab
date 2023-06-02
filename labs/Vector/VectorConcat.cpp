@@ -1,8 +1,7 @@
-﻿#include <vector>
-#include <format>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import Vector;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -27,6 +26,9 @@ public:
         }
         return V;
     }
+    string type_name() const override {
+        return "Concat (Insert one by one)";
+    }
 };
 
 class VectorConcatFast : public VectorConcat {
@@ -36,6 +38,9 @@ public:
         move_backward(begin(V) + r, end(V) - V1.size(), end(V));
         move(begin(V1), end(V1), begin(V) + r);
         return V;
+    }
+    string type_name() const override {
+        return "Concat (Overall Move)";
     }
 };
 
@@ -50,7 +55,7 @@ TestFramework<VectorConcat, VectorConcatBasic, VectorConcatFast> test;
 
 int main() {
     for (auto& [n, n1, r] : testData) {
-        cout << format("n = {}, n1 = {}, r = {}", n, n1, r) << endl;
+        cout << format("n = {:>7}, n1 = {:>7}, r = {:>7}", n, n1, r) << endl;
         test.run([n, n1](auto& algo) { algo.initialize(n, n1); });
         test(r);
     }

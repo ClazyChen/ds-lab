@@ -14,7 +14,7 @@ public:
         return n > 0 && (n & (n - 1)) == 0;
     }
     string type_name() const override {
-        return "IsPower2 (determinant)";
+        return "IsPower2 (Discriminant)";
     }
 };
 

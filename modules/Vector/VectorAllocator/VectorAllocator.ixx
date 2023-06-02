@@ -14,6 +14,11 @@ protected:
     size_t shrink(size_t capacity, size_t size) const override {
         return capacity;
     }
+
+public:
+    std::string type_name() const override {
+        return std::format("C -> C + {}", D);
+    }
 };
 
 template <typename Q> requires (Q::num > Q::den)
@@ -25,6 +30,15 @@ protected:
     }
     size_t shrink(size_t capacity, size_t size) const override {
         return capacity;
+    }
+
+public:
+    std::string type_name() const override {
+        if constexpr (Q::den == 1) {
+            return std::format("C -> C * {}", Q::num);
+        } else {
+            return std::format("C -> C * {}/{}", Q::num, Q::den);
+        }
     }
 };
 

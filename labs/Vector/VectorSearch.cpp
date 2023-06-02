@@ -1,10 +1,8 @@
-﻿#include <vector>
-#include <format>
-#include <algorithm>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import Search;
 import Vector;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -25,6 +23,11 @@ protected:
     Rank search(const Vector<T>& V, const T& e) override {
         return search(V, e, 0, V.size());
     }
+
+public:
+    string type_name() const override {
+        return "Binary Search (Recursive)";
+    }
 };
 
 template <typename T>
@@ -41,6 +44,11 @@ protected:
             }
         }
         return lo < V.size() && this->cmp(V[lo], e) ? hi : lo;
+    }
+
+public:
+    string type_name() const override {
+        return "Binary Search (Iterative)";
     }
 };
 
@@ -126,7 +134,7 @@ protected:
     }
 public:
     string type_name() const override {
-        return "BinarySearchRecursive(Template)";
+        return "Binary Search (Recursive with template)";
     }
 };
 
@@ -141,7 +149,7 @@ protected:
     }
 public:
     string type_name() const override {
-        return "BinarySearchIterative(Template)";
+        return "Binary Search (Iterative with template)";
     }
 };
 

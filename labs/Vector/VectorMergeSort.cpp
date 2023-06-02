@@ -1,11 +1,8 @@
-﻿#include <vector>
-#include <format>
-#include <iostream>
-#include <random>
-#include <numeric>
-import Framework;
+﻿import Framework;
 import Sort;
 import Vector;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -78,28 +75,28 @@ public:
 class MergeSortBasicTest : public MergeSortTest<MergeSort> {
 public:
     string type_name() const override {
-        return "MergeSortBasic";
+        return "Merge Sort (Downward)";
     }
 };
 
 class MergeSortUpwardTest : public MergeSortTest<MergeSortUpward> {
     public:
     string type_name() const override {
-        return "MergeSortUpward";
+        return "Merge Sort (Upward)";
     }
 };
 
 class MergeSortLimitTest : public MergeSortTest<MergeSortLimit> {
 public:
     string type_name() const override {
-        return "MergeSortLimit";
+        return "Merge Sort (Downward with limit)";
     }
 };
 
 class MergeSortCondTest : public MergeSortTest<MergeSortCond> {
 public:
     string type_name() const override {
-        return "MergeSortCond";
+        return "Merge Sort (Downward with judging)";
     }
 };
 
@@ -107,7 +104,7 @@ public:
 class TimSortTest : public MergeSortTest<TimSort> {
 public:
     string type_name() const override {
-        return "TimSort";
+        return "Tim   Sort";
     }
 };
 
@@ -131,7 +128,7 @@ default_random_engine engine { random_device{}() };
 
 int main() {
     for (Vector<int> V(N); auto & [lo, hi] : testCases) {
-        cout << format("Testing with range [{}, {})\n", lo, hi);
+        cout << format("Testing with range [{:>6}, {:>6})\n", lo, hi);
         iota(begin(V), end(V), 0);
         shuffle(begin(V) + lo, begin(V) + hi, engine);
         test.run([&V](auto& test) { test.initialize(V); });

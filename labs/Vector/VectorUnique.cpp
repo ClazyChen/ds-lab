@@ -1,10 +1,7 @@
-﻿#include <vector>
-#include <format>
-#include <numeric>
-#include <functional>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import Vector;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -19,6 +16,9 @@ public:
             V.resize(remove(begin(V) + r + 1, end(V), V[r]) - begin(V));
         }
     }
+    string type_name() const override {
+        return "Unique one by one (Remove Erase Idiom)";
+    }
 };
 
 template <typename T>
@@ -31,6 +31,9 @@ public:
                 V.remove(s);
             }
         }
+    }
+    string type_name() const override {
+        return "Unique one by one (find and remove)";
     }
 };
 
@@ -45,6 +48,9 @@ public:
             }
         }
         V.resize(++r);
+    }
+    string type_name() const override {
+        return "Unique globally   (Fast & Slow Ptr / Sorted only)";
     }
 };
 
@@ -83,6 +89,9 @@ public:
             return lhs.rank < rhs.rank;
             });
         moveToV(V);
+    }
+    string type_name() const override {
+        return "Unique globally   (Sort First)";
     }
 };
 

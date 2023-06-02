@@ -1,10 +1,8 @@
-﻿#include <vector>
-#include <format>
-#include <numeric>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import Vector;
 import Gcd;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -19,6 +17,9 @@ public:
         move(begin(V), begin(V) + k, begin(W));
         move(begin(V) + k, end(V), begin(V));
         move(begin(W), end(W), end(V) - k);
+    }
+    string type_name() const override {
+        return "Cyclic Shift (3 moves)";
     }
 };
 
@@ -39,6 +40,9 @@ public:
             V[cur] = move(tmp);
         }
     }
+    string type_name() const override {
+        return "Cyclic Shift (cyclic swap)";
+    }
 };
 
 template <typename T>
@@ -48,6 +52,9 @@ public:
         reverse(begin(V), end(V));
         reverse(begin(V), end(V) - k);
         reverse(end(V) - k, end(V));
+    }
+    string type_name() const override {
+        return "Cyclic Shift (3 reverses)";
     }
 };
 
@@ -64,7 +71,7 @@ TestFramework<CyclicShift<int>, CyclicShiftMove<int>, CyclicShiftSwap<int>, Cycl
 
 int main() {
     for (auto& [n, k] : testData) {
-        cout << format("n = {:10}, k = {:10}", n, k) << endl;
+        cout << format("n = {:>10}, k = {:>10}", n, k) << endl;
         Vector<int> V(n);
         iota(begin(V), end(V), 0);
         test(ref(V), k);
