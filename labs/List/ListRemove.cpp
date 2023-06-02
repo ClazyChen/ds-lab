@@ -1,10 +1,8 @@
-﻿#include <vector>
-#include <format>
-#include <random>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import Vector;
 import List;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -31,6 +29,9 @@ public:
             V.push_back(L.insertAsNext(L.last(), i));
         }
     }
+    string type_name() const override {
+        return "Sequential Pop";
+    }
 };
 
 class RandomPop : public SequentialPop {
@@ -40,6 +41,9 @@ public:
         SequentialPop::initialize(n);
         shuffle(V.begin(), V.end(), m_engine);
     }
+    string type_name() const override {
+        return "Random     Pop";
+    }
 };
 
 vector testData { 10, 1000, 10000, 100'000, 1'000'000, 10'000'000 };
@@ -48,7 +52,7 @@ TestFramework<ContinuousPop<int>, RandomPop, SequentialPop> test;
 
 int main() {
     for (auto n : testData) {
-        cout << format("n = {:10d}", n) << endl;
+        cout << format("n = {:>10d}", n) << endl;
         test.run([n](auto& algo) { algo.initialize(n); });
         test();
     }

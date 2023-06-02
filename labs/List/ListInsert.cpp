@@ -1,13 +1,10 @@
-﻿#include <vector>
-#include <format>
-#include <type_traits>
-#include <numeric>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import LinearList;
 import Vector;
 import List;
 import ForwardList;
+import std;
+
 using namespace dslab;
 using namespace std;
 

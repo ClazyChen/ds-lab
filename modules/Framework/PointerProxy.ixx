@@ -24,7 +24,7 @@ class ConstRawPointerProxy;
 
 template <typename T>
 class UniquePointerProxy {
-    std::unique_ptr<T> m_ptr {};
+    std::unique_ptr<T> m_ptr { nullptr };
 public:
     UniquePointerProxy() = default;
     UniquePointerProxy(std::unique_ptr<T>&& ptr) : m_ptr(std::move(ptr)) {}

@@ -142,6 +142,10 @@ public:
         --m_size;
         return e;
     }
+
+    std::string type_name() const override {
+        return "Forward List";
+    }
 };
 
 }

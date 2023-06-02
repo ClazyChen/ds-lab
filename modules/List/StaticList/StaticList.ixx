@@ -123,6 +123,10 @@ public:
         m_data.pop_back();
         return e;
     }
+
+    std::string type_name() const override {
+        return "Bidirectional List (Static)";
+    }
 };
 
 

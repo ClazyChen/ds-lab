@@ -164,6 +164,9 @@ public:
     void sort(Linear<T>& V) override {
         timSort(std::begin(V), std::end(V), V.size());
     }
+    std::string type_name() const override {
+        return "Tim Sort";
+    }
 };
 
 }

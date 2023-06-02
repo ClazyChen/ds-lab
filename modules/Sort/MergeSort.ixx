@@ -39,6 +39,11 @@ protected:
     void sort(Linear<T>& L) override {
         mergeSort(std::begin(L), std::end(L), L.size());
     }
+
+public:
+    std::string type_name() const override {
+        return "Merge Sort (Downward)";
+    }
 };
 
 template <typename T, template<typename> typename Linear>
@@ -62,6 +67,11 @@ protected:
                 this->merge(lo, mi, hi, width);
             }
         }
+    }
+
+public:
+    std::string type_name() const override {
+        return "Merge Sort (Upward)";
     }
 };
 

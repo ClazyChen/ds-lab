@@ -1,9 +1,7 @@
-﻿#include <vector>
-#include <format>
-#include <ranges>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import List;
+import std;
+
 using namespace std;
 
 using dslab::Algorithm;
@@ -52,6 +50,9 @@ public:
             throw runtime_error("size != 0");
         }
     }
+    string type_name() const override {
+        return "Create List";
+    }
 };
 
 class PushBackList : public Algorithm<void(List<TestItem>&)> {
@@ -73,6 +74,9 @@ public:
         if (L.size() != N) {
             throw runtime_error("size != N");
         }
+    }
+    string type_name() const override {
+        return "Push Back List";
     }
 };
 
@@ -98,6 +102,9 @@ public:
         if (L.size() != 2 * N) {
             throw runtime_error("size != 2 * N");
         }
+    }
+    string type_name() const override {
+        return "Insert as Next List";
     }
 };
 
@@ -126,6 +133,9 @@ public:
         if (L.size() != N) {
             throw runtime_error("size != N");
         }
+    }
+    string type_name() const override {
+        return "Erase List";
     }
 };
 
@@ -160,6 +170,9 @@ public:
             throw runtime_error("size != N");
         }
     }
+    string type_name() const override {
+        return "Find List";
+    }
 };
 
 class InsertPrevList : public Algorithm<void(List<TestItem>&)> {
@@ -187,6 +200,9 @@ public:
             throw runtime_error("size != 2 * N");
         }
     }
+    string type_name() const override {
+        return "Insert as Prev List";
+    }
 };
 
 class CopyList : public Algorithm<void(List<TestItem>&)> {
@@ -213,6 +229,9 @@ public:
         }
         check(L2);
     }
+    string type_name() const override {
+        return "Copy List";
+    }
 };
 
 class MoveList : public Algorithm<void(List<TestItem>&)> {
@@ -232,6 +251,9 @@ public:
             throw runtime_error("size != 0");
         }
         check(L2);
+    }
+    string type_name() const override {
+        return "Move List";
     }
 };
 

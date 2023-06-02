@@ -141,6 +141,10 @@ public:
     T pop_back() override {
         return std::move(m_data[--m_size]);
     }
+
+    std::string type_name() const override {
+        return std::format("Vector [{}]", Alloc {}.type_name());
+    }
 };
 
 template <typename T>

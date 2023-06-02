@@ -18,6 +18,10 @@ protected:
         auto left { lower_bound(begin(L) + mid, end(L), max_left, this->cmp) };
         this->mergeSort(begin(L), left, left - begin(L));
     }
+public:
+    string type_name() const override {
+        return "Merge Sort (Downward with limit)";
+    }
 };
 
 template <typename T, template<typename> typename Linear>
@@ -50,6 +54,10 @@ protected:
     void sort(Linear<T>& L) override {
         mergeSort(std::begin(L), std::end(L), L.size());
     }
+public:
+    string type_name() const override {
+        return "Merge Sort (Downward with judging)";
+    }
 };
 
 class MergeSortTestProblem : public Algorithm<bool()> {
@@ -61,50 +69,17 @@ template <template <typename, template<typename> typename> typename Sorter>
     requires is_base_of_v<AbstractSort<int, DefaultVector>, Sorter<int, DefaultVector>>
 class MergeSortTest : public MergeSortTestProblem {
     Vector<int> V;
+    Sorter<int, DefaultVector> sorter;
 public:
     void initialize(const Vector<int>& V) override {
         this->V = V;
     }
     bool operator()() override {
-        Sorter<int, DefaultVector> sorter;
         sorter(V);
         return is_sorted(begin(V), end(V));
     }
-};
-
-class MergeSortBasicTest : public MergeSortTest<MergeSort> {
-public:
     string type_name() const override {
-        return "Merge Sort (Downward)";
-    }
-};
-
-class MergeSortUpwardTest : public MergeSortTest<MergeSortUpward> {
-    public:
-    string type_name() const override {
-        return "Merge Sort (Upward)";
-    }
-};
-
-class MergeSortLimitTest : public MergeSortTest<MergeSortLimit> {
-public:
-    string type_name() const override {
-        return "Merge Sort (Downward with limit)";
-    }
-};
-
-class MergeSortCondTest : public MergeSortTest<MergeSortCond> {
-public:
-    string type_name() const override {
-        return "Merge Sort (Downward with judging)";
-    }
-};
-
-// 这里让TimSort也参与测试。关于TimSort见《排序》章对应小节
-class TimSortTest : public MergeSortTest<TimSort> {
-public:
-    string type_name() const override {
-        return "Tim   Sort";
+        return sorter.type_name();
     }
 };
 
@@ -122,7 +97,12 @@ vector<pair<Rank, Rank>> testCases {
     {90000, 100000}
 };
 
-TestFramework<MergeSortTestProblem, MergeSortBasicTest, MergeSortUpwardTest, MergeSortLimitTest, MergeSortCondTest, TimSortTest> test;
+TestFramework<MergeSortTestProblem, 
+    MergeSortTest<MergeSort>, 
+    MergeSortTest<MergeSortUpward>,
+    MergeSortTest<MergeSortLimit>,
+    MergeSortTest<MergeSortCond>,
+    MergeSortTest<TimSort>> test;
 
 default_random_engine engine { random_device{}() };
 
