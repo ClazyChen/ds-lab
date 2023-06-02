@@ -1,8 +1,7 @@
-﻿#include <vector>
-#include <format>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import Power;
+import std;
+
 using namespace dslab;
 using namespace std;
 

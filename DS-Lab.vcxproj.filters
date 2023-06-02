@@ -477,8 +477,5 @@
     <ClCompile Include="labs\BinaryTree\BinaryTreeTest.cpp">
       <Filter>Source Files\BinaryTree</Filter>
     </ClCompile>
-    <ClCompile Include="labs\Test.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

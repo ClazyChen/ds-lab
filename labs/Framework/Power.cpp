@@ -1,8 +1,7 @@
-﻿#include <vector>
-#include <format>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import Power;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -19,6 +18,9 @@ public:
         }
         return result;
     }
+    string type_name() const override {
+        return "Power (Naive)";
+    }
 };
 
 // 快速幂（递归版本）
@@ -32,6 +34,9 @@ public:
         } else {
             return (*this)(a * a, b / 2);
         }
+    }
+    string type_name() const override {
+        return "Exponent by square (Recursive)";
     }
 };
 
@@ -49,7 +54,7 @@ TestFramework<PowerProblem, PowerBasic, PowerFastRecursive, PowerFastIterative> 
 
 int main() {
     for (auto& [a, b] : testData) {
-        cout << format("a={}, b={}", a, b) << endl;
+        cout << format("a = {:>10}, b = {:>10}", a, b) << endl;
         test(a, b);
     }
     return 0;

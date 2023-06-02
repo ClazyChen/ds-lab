@@ -19,6 +19,9 @@ public:
         }
         return result;
     }
+    std::string type_name() const override {
+        return "Exponent by squaring (Iterative)";
+    }
 };
 
 }

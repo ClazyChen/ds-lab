@@ -1,7 +1,7 @@
 ﻿export module Combine;
 
 import Framework.Algorithm;
-import std;
+import std.compat;
 
 export namespace dslab {
 
@@ -21,6 +21,10 @@ public:
             C[n].push_back(static_cast<long long>(n - i + 1) * C[n].back() / i);
         }
         return C[n][m];
+    }
+
+    std::string type_name() const override {
+        return "Combine (1-D Recursive)";
     }
 };
 

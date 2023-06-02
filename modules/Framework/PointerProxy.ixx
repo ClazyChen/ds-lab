@@ -1,6 +1,6 @@
 ﻿export module Framework.PointerProxy;
 
-// 为了降低不了解智能指针进行实验的门槛
+// 为了允许在不了解智能指针的情况下进行实验
 // 将智能指针和裸指针封装成代理类，允许赋值和隐式转换
 // 用户可以当成裸指针使用，但不代表没有所有权问题
 // 比如，试图在普通二叉树上做Morris遍历仍然是不可行的
@@ -205,7 +205,6 @@ public:
         return m_ptr != ptr.get();
     }
 };
-
 
 template <typename T>
 class ConstRawPointerProxy {

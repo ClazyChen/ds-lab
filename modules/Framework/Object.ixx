@@ -3,6 +3,8 @@
 import std;
 
 export namespace dslab {
+
+// 每一个会被输出的实例都应当重载命名函数
 class Object {
 public:
     virtual std::string type_name() const {
