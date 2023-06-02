@@ -123,6 +123,10 @@ public:
         return Sb.size() + Sf.size();
     }
 
+    std::string type_name() const override {
+        return std::format("Stack ({} / Shared)", V.type_name());
+    }
+
     template <typename T1, template<typename> typename V1>
     friend std::ostream& operator<<(std::ostream& os, const SharedStack<T1, V1>& S);
 };

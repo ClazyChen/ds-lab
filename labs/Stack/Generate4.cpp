@@ -1,11 +1,9 @@
-﻿#include <vector>
-#include <format>
-#include <ranges>
-#include <iostream>
-import Vector;
+﻿import Vector;
 import Power;
 import Stack;
 import Framework;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -38,6 +36,9 @@ public:
             }
         }
     }
+    string type_name() const override {
+        return "Generate 4 (Recursive)";
+    }
 };
 
 class Generate4IterativeSolver : public Generate4Solver {
@@ -55,6 +56,9 @@ public:
                 }
             }
         }
+    }
+    string type_name() const override {
+        return "Generate 4 (Iterative)";
     }
 };
 
@@ -136,6 +140,9 @@ public:
         solver(V, 0);
         return V.size();
     }
+    string type_name() const override {
+        return Solver { 0 }.type_name();
+    }
 };
 
 class Generate4RecursiveTemplate : public Generate4 {
@@ -146,7 +153,7 @@ public:
         return V.size();
     }
     string type_name() const override {
-        return "Generate4 Recursive (template)";
+        return "Generate 4 (Recursive) with template";
     }
 };
 
@@ -158,7 +165,7 @@ public:
         return V.size();
     }
     string type_name() const override {
-        return "Generate4 Iterative (template)";
+        return "Generate 4 (Iterative) with template";
     }
 };
 
@@ -172,6 +179,7 @@ TestFramework<Generate4,
 
 int main() {
     for (auto n : testData) {
+        cout << format("n = {}", n) << endl;
         test.run(&Generate4::initialize);
         test(n);
     }

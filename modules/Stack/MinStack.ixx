@@ -36,6 +36,10 @@ public:
     const T& min() const {
         return minStack.top();
     }
+
+    std::string type_name() const override {
+        return std::format("Min {}", minStack.type_name());
+    }
     
     template <typename T1>
     friend std::ostream& operator<<(std::ostream& os, const MinStack<T1>& s);

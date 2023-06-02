@@ -24,7 +24,7 @@ public:
     }
 
     std::string type_name() const override {
-        return "Combine (1-D Recursive)";
+        return "Combine (1-D Iterative / Memory Search)";
     }
 };
 

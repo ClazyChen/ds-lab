@@ -1,13 +1,11 @@
-﻿module;
-#include <string>
-
-export module Expression;
+﻿export module Expression;
 
 export import Expression.AbstractExpressionElement;
 export import Expression.ExpressionElement;
 
 import Vector;
 import Stack;
+import std;
 
 template <typename T>
 using DefaultVector = dslab::Vector<T>;
@@ -29,7 +27,7 @@ public:
         std::string expr2 { '(' + expr + ')' };
         std::string num;
         for (auto& c : expr2) {
-            if (isdigit(c)) {
+            if (std::isdigit(c)) {
                 num += c;
             } else {
                 if (!num.empty()) {

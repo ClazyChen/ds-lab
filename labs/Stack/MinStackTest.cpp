@@ -1,11 +1,7 @@
-﻿#include <vector>
-#include <format>
-#include <numeric>
-#include <algorithm>
-#include <random>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import Stack.MinStack;
+import std;
+
 using namespace std;
 
 using dslab::Algorithm;
@@ -49,6 +45,9 @@ public:
         stdVector = {};
         check(S);
     }
+    string type_name() const override {
+        return "Create Min Stack";
+    }
 };
 
 default_random_engine engine { random_device {}() };
@@ -73,6 +72,9 @@ public:
             throw runtime_error("size != N");
         }
     }
+    string type_name() const override {
+        return "Push Min Stack (Copy)";
+    }
 };
 
 class PushMoveStack : public Algorithm<void(MinStack<TestItem>&)> {
@@ -93,6 +95,9 @@ public:
             throw runtime_error("size != 2 * N");
         }
     }
+    string type_name() const override {
+        return "Push Min Stack (Move)";
+    }
 };
 
 class PopStack : public Algorithm<void(MinStack<TestItem>&)> {
@@ -112,6 +117,9 @@ public:
         if (S.size() != 0) {
             throw runtime_error("size != 0");
         }
+    }
+    string type_name() const override {
+        return "Pop Min Stack";
     }
 };
 

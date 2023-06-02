@@ -1,8 +1,7 @@
-﻿#include <vector>
-#include <format>
-#include <iostream>
-import Expression;
+﻿import Expression;
 import Framework;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -15,6 +14,9 @@ public:
         e.infix2suffix();
         return e.calSuffix();
     }
+    string type_name() const override {
+        return "Calculate Expr (Suffix)";
+    }
 };
 
 class CalExprInfix : public CalExpr {
@@ -22,6 +24,9 @@ public:
     int operator()(const string& expr) override {
         Expression e { expr };
         return e.calInfix();
+    }
+    string type_name() const override {
+        return "Calculate Expr (Infix)";
     }
 };
 
@@ -37,11 +42,11 @@ TestFramework<CalExpr, CalExprSuffix, CalExprInfix> test;
 
 int main() {
     for (const auto& [expr, result] : testData) {
-        cout << format("Expression: {}, Result: {}", expr, result) << endl;
+        cout << format("Expression: {:>25}, Result: {:>7}", expr, result) << endl;
         test(expr);
     }
     for (auto n : testTimes) {
-        cout << format("(1+(1+(1+..+(1+1))..), {} times", n) << endl;
+        cout << format("(1+(1+(1+..+(1+1))..), {:>7} times", n) << endl;
         string expr(4 * n - 3, '1');
         for (size_t i { 0 }; i < n - 1; ++i) {
             expr[3 * i] = '(';
