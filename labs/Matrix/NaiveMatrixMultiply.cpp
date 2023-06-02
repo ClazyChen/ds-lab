@@ -1,9 +1,7 @@
-﻿#include <vector>
-#include <memory>
-#include <format>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import Matrix;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -176,11 +174,13 @@ class MatrixMultiplyN : public Algorithm<void()> {
 
 public:
     void operator()() override {
+        cout << format("Row Major Matrix Multiply Test (N = {:>5})", N) << endl;
         rowMajorTest.run(&MatrixMultiplyTest<N, RowMajorMatrix>::initialize);
         for (auto& multiply : rowMajorMultiply) {
             cout << format("{} ... ", multiply->type_name());
             rowMajorTest(multiply);
         }
+        cout << format("Col Major Matrix Multiply Test (N = {:>5})", N) << endl;
         columnMajorTest.run(&MatrixMultiplyTest<N, ColumnMajorMatrix>::initialize);
         for (auto& multiply : columnMajorMultiply) {
             cout << format("{} ... ", multiply->type_name());
@@ -197,7 +197,7 @@ public:
     }
 };
 
-MatrixMultiplyNTest<20, 100, 200, 400, 600> test;
+MatrixMultiplyNTest<20, 100, 200, 300, 400> test;
 
 int main() {
     test();

@@ -81,7 +81,7 @@ TestFramework<Stack2TreeProblem, Stack2Tree> test;
 
 int main() {
     for (auto n : testData) {
-        cout << format("n = {}", n) << endl;
+        cout << format("n = {:>8}", n) << endl;
         test(randop(n, '(', ')'));
     }
 }

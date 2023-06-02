@@ -29,6 +29,10 @@ public:
         std::swap(this->m_data, tmp.m_data);
         return *this;
     }
+
+    std::string type_name() const override {
+        return std::format("Matrix {}x{} (Symmetric Compressed)", N, N);
+    }
 };
 
 }

@@ -41,6 +41,10 @@ public:
         V = ilist;
         return *this;
     }
+
+    std::string type_name() const override {
+        return std::format("Matrix {}x{} (Triple)", R, C);
+    }
 };
 
 }
