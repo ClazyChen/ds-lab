@@ -45,7 +45,7 @@ public:
     virtual ~BinaryTreeNode() {
         auto p { childMost() };
         while (p != this) {
-            auto q { p->parent() };
+            auto q { p->m_parent };
             if (p->isLeftChild()) {
                 q->m_left = nullptr;
             } else {
@@ -68,19 +68,6 @@ public:
     const BinaryTreeNodeInst<T>& right() const { return m_right; }
     BinaryTreeNodePos<T>& parent() { return m_parent; }
     const BinaryTreeNodePos<T>& parent() const { return m_parent; }
-
-    BinaryTreeNodeInst<T> clone() const {
-        auto node { BinaryTreeNodeInst<T>::make(m_data) };
-        if (left()) {
-            node->left() = left()->clone();
-            node->left()->parent() = node;
-        }
-        if (right()) {
-            node->right() = right()->clone();
-            node->right()->parent() = node;
-        }
-        return node;
-    }
 
     bool isRoot() const { return m_parent == nullptr; }
     bool isLeaf() const { return m_left == nullptr && m_right == nullptr; }
@@ -122,6 +109,7 @@ public:
         return d;
     }
 
+    // 计算链形树的时候会stack overflow
     size_t height() const {
         if (isLeaf()) {
             return 0;
@@ -137,6 +125,7 @@ public:
         }
     }
 
+    // 计算链形树的时候会stack overflow
     size_t size() const {
         size_t s { 1 };
         if (m_left) {

@@ -27,6 +27,7 @@ class UniquePointerProxy {
     std::unique_ptr<T> m_ptr { nullptr };
 public:
     UniquePointerProxy() = default;
+    UniquePointerProxy(std::nullptr_t) {}
     UniquePointerProxy(std::unique_ptr<T>&& ptr) : m_ptr(std::move(ptr)) {}
     UniquePointerProxy(const UniquePointerProxy&) {
         throw std::runtime_error("UniquePointerProxy is not copyable");
@@ -100,6 +101,12 @@ public:
     bool operator!=(T* ptr) const {
         return m_ptr.get() != ptr;
     }
+    bool operator==(const T* ptr) const {
+        return m_ptr.get() == ptr;
+    }
+    bool operator!=(const T* ptr) const {
+        return m_ptr.get() != ptr;
+    }
     bool operator==(const std::unique_ptr<T>& ptr) const {
         return m_ptr.get() == ptr.get();
     }
@@ -125,6 +132,7 @@ class RawPointerProxy {
     T* m_ptr { nullptr };
 public:
     RawPointerProxy() = default;
+    RawPointerProxy(std::nullptr_t) {}
     RawPointerProxy(const RawPointerProxy&) = default;
     RawPointerProxy& operator=(const RawPointerProxy&) = default;
     RawPointerProxy(RawPointerProxy&&) = default;
@@ -186,6 +194,12 @@ public:
     bool operator!=(T* ptr) const {
         return m_ptr != ptr;
     }
+    bool operator==(const T* ptr) const {
+        return m_ptr == ptr;
+    }
+    bool operator!=(const T* ptr) const {
+        return m_ptr != ptr;
+    }
     bool operator==(const std::unique_ptr<T>& ptr) const {
         return m_ptr == ptr.get();
     }
@@ -211,6 +225,7 @@ class ConstRawPointerProxy {
     const T* m_ptr { nullptr };
 public:
     ConstRawPointerProxy() = default;
+    ConstRawPointerProxy(std::nullptr_t) {}
     ConstRawPointerProxy(const ConstRawPointerProxy&) = default;
     ConstRawPointerProxy& operator=(const ConstRawPointerProxy&) = default;
     ConstRawPointerProxy(ConstRawPointerProxy&&) = default;

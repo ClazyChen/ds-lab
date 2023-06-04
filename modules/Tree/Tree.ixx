@@ -5,6 +5,7 @@ export import Tree.AbstractTree;
 export import Tree.Traverse;
 
 import Tree.Traverse.AbstractTreeTraverse;
+import Stack;
 import std;
 
 export namespace dslab {
@@ -12,6 +13,26 @@ export namespace dslab {
 template <typename T>
 class Tree : public AbstractTree<T> {
     TreeNodeInst<T> m_root { nullptr };
+
+    TreeNodeInst<T> clone() const {
+        if (m_root == nullptr) {
+            return nullptr;
+        } 
+        auto r { TreeNodeInst<T>::make(m_root->data()) };
+        Stack<TreeNodePos<T>> S { r };
+        traverseNodes<TreePreOrderTraverseIterative>([&S](auto node) {
+            auto cur { S.pop() };
+            cur->children().resize(node->children().size());
+            for (size_t i { node->children().size() }; i > 0; --i) {
+                auto child { TreeNodeInst<T>::make(node->children()[i - 1]->data()) };
+                S.push(child);
+                child->parent() = cur;
+                cur->children()[i - 1] = std::move(child);
+            }
+        });
+        return r;
+    }
+
 public:
     TreeNodePos<T> root() override { return m_root; }
     TreeNodeConstPos<T> root() const override { return m_root; }
@@ -20,13 +41,16 @@ public:
         traverse<TreePreOrderTraverseIterative>([&result](const T&) { ++result; });
         return result;
     }
+    bool empty() const override {
+        return m_root == nullptr;
+    }
 
     Tree() = default;
     Tree(const Tree& t) {
-        m_root = t.m_root->clone();
+        m_root = t.clone();
     }
     Tree& operator=(const Tree& t) {
-        m_root = t.m_root->clone();
+        m_root = t.clone();
         return *this;
     }
     Tree(Tree&& t) = default;

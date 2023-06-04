@@ -44,27 +44,21 @@ class Stack2Tree : public Stack2TreeProblem {
         bool pass { true };
         int cur { 0 };
         T.traverse<TreePreOrderTraverse>([&pass, &cur](const int& e) {
-            if (cur == e) {
-                ++cur;
-            } else {
+            if (e != cur++) {
                 pass = false;
             }
         });
-        size_t pos { 0 };
+        Rank pos { 0 };
         T.traverse<TreePostOrderTraverse>([&pass, &pos, &V](const int& e) {
-            if (pos < V.size()) {
-                if (V[pos] == e) {
-                    ++pos;
-                } else {
-                    pass = false;
-                }
+            if (e != V[pos++]) {
+                pass = false;
             }
         });
         return pass;
     }
 
 public:
-    bool operator()(string op) {
+    bool operator()(string op) override {
         auto T { buildTree(op) };
         auto V { getPopSeq(op) };
         return check(T, V);

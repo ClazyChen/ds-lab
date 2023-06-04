@@ -2,6 +2,7 @@
 
 import BinaryTree.BinaryTreeNode;
 import Framework.DataStructure;
+import Queue;
 import std;
 
 export namespace dslab {
@@ -25,5 +26,33 @@ public:
     virtual BinaryTreeNodeInst<T> detach(BinaryTreeNodePos<T> p) = 0;
     virtual void clear() = 0;
 };
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const AbstractBinaryTree<T>& tree) {
+    os << "BT[";
+    if (tree.root()) {
+        Queue<BinaryTreeNodeConstPos<T>> Q { tree.root() };
+        size_t count { 1 };
+        while (count > 0) {
+            if (auto f { Q.dequeue() }; f) {
+                os << f->data() << ", ";
+                --count;
+                Q.enqueue(f->left());
+                Q.enqueue(f->right());
+                if (f->left()) {
+                    ++count;
+                }
+                if (f->right()) {
+                    ++count;
+                }
+            } else {
+                os << "^, ";
+            }
+        }
+        os << "\b\b";
+    }
+    os << "]";
+    return os;
+}
 
 }

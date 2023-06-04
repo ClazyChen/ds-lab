@@ -6,6 +6,7 @@ export import BinaryTree.Traverse;
 export import BinaryTree.Iterator;
 
 import BinaryTree.Traverse.AbstractBinaryTreeTraverse;
+import Stack;
 import std;
 
 export namespace dslab {
@@ -13,6 +14,30 @@ export namespace dslab {
 template <typename T>
 class BinaryTree : public AbstractBinaryTree<T> {
     BinaryTreeNodeInst<T> m_root { nullptr };
+    BinaryTreeNodeInst<T> clone() const {
+        if (m_root == nullptr) {
+            return nullptr;
+        }
+        auto r { BinaryTreeNodeInst<T>::make(m_root->data()) };
+        Stack<BinaryTreeNodePos<T>> S { r };
+        traverseNodes<BinaryTreePreOrderTraverseSemilinear>([&S](auto node) {
+            auto cur { S.pop() };
+            if (node->right()) {
+                auto child { BinaryTreeNodeInst<T>::make(node->right()) };
+                S.push(child);
+                child->parent() = cur;
+                cur->right() = std::move(child);
+            }
+            if (node->left()) {
+                auto child { BinaryTreeNodeInst<T>::make(node->left()) };
+                S.push(child);
+                child->parent() = cur;
+                cur->left() = std::move(child);
+            }
+        });
+        return r;
+    }
+
 public:
     BinaryTreeNodePos<T> root() override { return m_root; }
     BinaryTreeNodeConstPos<T> root() const override { return m_root; }
@@ -21,13 +46,16 @@ public:
         traverse<BinaryTreePreOrderTraverseSemilinear>([&result](auto) { ++result; });
         return result;
     }
+    bool empty() const override {
+        return m_root == nullptr;
+    }
 
     BinaryTree() = default;
     BinaryTree(const BinaryTree& t) {
-        m_root = t.m_root->clone();
+        m_root = t.clone();
     }
     BinaryTree& operator=(const BinaryTree& t) {
-        m_root = t.m_root->clone();
+        m_root = t.clone();
         return *this;
     }
     BinaryTree(BinaryTree&& t) = default;
@@ -81,19 +109,15 @@ public:
     }
 
     BinaryTreeNodePos<T> attachAsLeftChild(BinaryTreeNodePos<T> p, BinaryTreeNodeInst<T>&& st) override {
-        p->leftChild = std::move(st);
-        if (p->leftChild) {
-            p->leftChild->parent = p;
-        }
-        return p->leftChild;
+        st->parent() = p;
+        p->left() = std::move(st);
+        return p->left();
     }
 
     BinaryTreeNodePos<T> attachAsRightChild(BinaryTreeNodePos<T> p, BinaryTreeNodeInst<T>&& st) override {
-        p->rightChild = std::move(st);
-        if (p->rightChild) {
-            p->rightChild->parent = p;
-        }
-        return p->rightChild;
+        st->parent() = p;
+        p->right() = std::move(st);
+        return p->right();
     }
 
     BinaryTreeNodePos<T> find(const T& e) const override {
@@ -120,6 +144,10 @@ public:
                 return std::move(p->parent()->right());
             }
         }
+    }
+
+    std::string type_name() const override {
+        return "Binary Tree";
     }
 
     template <template <typename> typename Trav>

@@ -2,7 +2,6 @@
 
 import Framework.PointerProxy;
 import Vector;
-import LinearList;
 import std;
 
 export namespace dslab {
@@ -57,15 +56,6 @@ public:
     TreeNodePos<T> child(size_t index) { return m_children[index]; }
     TreeNodeConstPos<T> child(size_t index) const { return m_children[index]; }
 
-    TreeNodeInst<T> clone() const {
-        auto node { TreeNodeInst<T>::make(m_data) };
-        for (const auto& child : m_children) {
-            node->children().push_back(child->clone());
-            node->children().back()->parent() = node;
-        }
-        return node;
-    }
-
     bool isRoot() const { return m_parent == nullptr; }
     bool isLeaf() const { return m_children.empty(); }
     bool isParent(TreeNodePos<T> node) const {
@@ -86,6 +76,7 @@ public:
         return d;
     }
 
+    // 计算链形树的时候会stack overflow
     size_t height() const {
         if (isLeaf()) {
             return 0;
@@ -97,6 +88,7 @@ public:
         return h + 1;
     }
 
+    // 计算链形树的时候会stack overflow
     size_t size() const {
         size_t s { 1 };
         for (const auto& child : m_children) {
