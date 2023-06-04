@@ -1,13 +1,9 @@
-﻿module;
-#include <utility>
-#include <concepts>
-#include <algorithm>
-
-export module Matrix.TripleMatrix;
+﻿export module Matrix.TripleMatrix;
 
 import Matrix.AbstractMatrix;
 import Triple;
 import Vector;
+import std;
 
 export namespace dslab {
 
@@ -44,6 +40,10 @@ public:
     TripleMatrix& operator=(std::initializer_list<std::initializer_list<T>> ilist) {
         V = ilist;
         return *this;
+    }
+
+    std::string type_name() const override {
+        return std::format("Matrix {}x{} (Triple)", R, C);
     }
 };
 

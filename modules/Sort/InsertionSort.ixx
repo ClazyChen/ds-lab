@@ -1,10 +1,8 @@
-﻿module;
-#include <algorithm>
-
-export module Sort.InsertionSort;
+﻿export module Sort.InsertionSort;
 
 import Vector;
 import Sort.AbstractSort;
+import std;
 
 export namespace dslab {
 

@@ -1,11 +1,9 @@
-﻿module;
-#include <iostream>
-
-export module Queue.LinkedQueue;
+﻿export module Queue.LinkedQueue;
 
 import Queue.AbstractQueue;
 import LinearList;
 import ForwardList;
+import std;
 
 export namespace dslab {
 
@@ -40,6 +38,10 @@ public:
 
     size_t size() const override {
         return L.size();
+    }
+
+    std::string type_name() const override {
+        return std::format("Queue ({})", L.type_name());
     }
 
     template <typename T1, template<typename> typename L1>

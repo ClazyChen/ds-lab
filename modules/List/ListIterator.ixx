@@ -1,10 +1,7 @@
-﻿module;
-#include <type_traits>
-#include <iterator>
-
-export module List.ListIterator;
+﻿export module List.ListIterator;
 
 import List.ListNode;
+import std;
 
 export namespace dslab {
 
@@ -19,7 +16,7 @@ protected:
     ListNodeConstPos<typename List::value_type> m_node { nullptr };
 public:
     using value_type = typename List::value_type;
-    using difference_type = ptrdiff_t;
+    using difference_type = std::ptrdiff_t;
     using pointer = const value_type*;
     using reference = const value_type&;
     using iterator_category = std::bidirectional_iterator_tag;
@@ -80,7 +77,7 @@ protected:
     ListNodePos<typename List::value_type> m_node { nullptr };
 public:
     using value_type = typename List::value_type;
-    using difference_type = ptrdiff_t;
+    using difference_type = std::ptrdiff_t;
     using pointer = value_type*;
     using reference = value_type&;
     using iterator_category = std::bidirectional_iterator_tag;

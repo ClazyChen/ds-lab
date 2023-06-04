@@ -1,10 +1,7 @@
-﻿module;
-#include <cmath>
-#include <stdexcept>
-
-export module Matrix.TridiagonalMatrix;
+﻿export module Matrix.TridiagonalMatrix;
 
 import Matrix.AbstractCompressedMatrix;
+import std;
 
 export namespace dslab {
 
@@ -49,6 +46,10 @@ public:
         TridiagonalMatrix tmp { ilist };
         std::swap(this->m_data, tmp.m_data);
         return *this;
+    }
+
+    std::string type_name() const override {
+        return std::format("Matrix {}x{} (Tridiagonal Compressed)", N, N);
     }
 };
 

@@ -1,10 +1,8 @@
-﻿#include <vector>
-#include <format>
-#include <iostream>
-
-import Framework;
+﻿import Framework;
 import Tree;
 import Tree.Traverse.AbstractTreeTraverse;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -33,7 +31,6 @@ int h { 0 };
 template <typename T, template <typename> typename Trav>
     requires is_base_of_v<AbstractTreeTraverse<T>, Trav<T>>
 class TreeTraverseTestImpl : public TreeTraverseTest<T> {
-    Trav<T> traverse {};
 public:
     T operator()() override {
         if constexpr (is_same_v<TreePreOrderTraverse<T>, Trav<T>> || is_same_v<TreePostOrderTraverse<T>, Trav<T>>) {
@@ -42,17 +39,17 @@ public:
             }
         }
         T sum { 0 };
-        traverse(this->m_tree.root(), [&sum](const T& e) {
+        this->m_tree.traverse<Trav>([&sum](const T& e) {
             sum += e;
         });
         return sum;
     }
     string type_name() const override {
-        return traverse.type_name();
+        return Trav<T> {}.type_name();
     }
 };
 
-vector testData { 10, 1000, 10000, 100'000, 1'000'000, 10'000'000 };
+vector testData { 10, 1000, 10000, 100'000, 1'000'000, 3'000'000 };
 
 TestFramework<TreeTraverseTest<int>,
     TreeTraverseTestImpl<int, TreePreOrderTraverse>,
@@ -63,7 +60,7 @@ TestFramework<TreeTraverseTest<int>,
 
 int main() {
     for (auto n : testData) {
-        cout << format("n = {}", n) << endl;
+        cout << format("n = {:>10}", n) << endl;
         cout << "Chain  test ..." << endl;
         test.run([n](TreeTraverseTest<int>& t) {
             t.initializeChain(n);

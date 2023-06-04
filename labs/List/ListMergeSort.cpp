@@ -1,13 +1,10 @@
-﻿#include <vector>
-#include <format>
-#include <numeric>
-#include <random>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import Vector;
 import List;
 import LinearList;
 import Sort;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -31,7 +28,7 @@ public:
     }
     void shuffle(const Vector<int>& Vi) override {
         if constexpr (std::is_base_of_v<AbstractList<int>, Linear<int>>) {
-            std::vector<ListNodeInst<int>> tmp;
+            Vector<ListNodeInst<int>> tmp;
             for (size_t i { 0 }; i < Vi.size(); ++i) {
                 auto p { move(L.head()->next()) };
                 L.head()->next() = move(p->next());
@@ -54,52 +51,26 @@ public:
         sort(L);
         return is_sorted(begin(L), end(L));
     }
-};
-
-// 重载type_name以优化输出
-class VectorSort : public SortImpl<DefaultVector, MergeSort> {
-public:
-    static string type_name() {
-        return "MergeSort(Vector)";
-    }
-};
-
-class VectorSortUpward : public SortImpl<DefaultVector, MergeSortUpward> {
-public:
-    static string type_name() {
-        return "MergeSort(Vector Upw)";
-    }
-};
-
-class ListSort : public SortImpl<List, MergeSort> {
-public:
-    static string type_name() {
-        return "MergeSort(List Val)";
-    }
-};
-
-class ListSortUpward : public SortImpl<List, MergeSortUpward> {
-public:
-    static string type_name() {
-        return "MergeSort(List Val Upw)";
-    }
-};
-
-class ListSortPtr : public SortImpl<List, ListMergeSort> {
-public:
-    static string type_name() {
-        return "MergeSort(List Ptr)";
+    string type_name() const override {
+        return format("{1} ({0})", L.type_name(), sort.type_name());
     }
 };
 
 vector testData { 10, 1000, 10000, 100'000, 1'000'000 };
 
-TestFramework<SortProblem, VectorSort, VectorSortUpward, ListSort, ListSortUpward, ListSortPtr> test;
+TestFramework<SortProblem,
+    SortImpl<DefaultVector, MergeSort>,
+    SortImpl<DefaultVector, MergeSortUpward>,
+    SortImpl<List, MergeSort>,
+    SortImpl<List, MergeSortUpward>,
+    SortImpl<List, ListMergeSort>
+> test;
+
 default_random_engine engine { random_device{}() };
 
 int main() {
     for (auto n : testData) {
-        cout << format("n = {:10d}", n) << endl;
+        cout << format("n = {:>10}", n) << endl;
         Vector<int> V(n);
         iota(begin(V), end(V), 0);
         shuffle(begin(V), end(V), engine);

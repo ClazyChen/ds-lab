@@ -1,9 +1,8 @@
-﻿#include <vector>
-#include <format>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import Queue;
 import Queue.StackQueue;
+import std;
+
 using namespace std;
 
 using dslab::Algorithm;
@@ -44,6 +43,9 @@ public:
         stdVector = {};
         check(Q);
     }
+    string type_name() const override {
+        return "Create Queue";
+    }
 };
 
 class PushCopyQueue : public Algorithm<void(Queue<TestItem>&)> {
@@ -62,6 +64,9 @@ public:
         if (Q.size() != N) {
             throw runtime_error("size != N");
         }
+    }
+    string type_name() const override {
+        return "Push Queue (Copy)";
     }
 };
 
@@ -83,6 +88,9 @@ public:
             throw runtime_error("size != 2 * N");
         }
     }
+    string type_name() const override {
+        return "Push Queue (Move)";
+    }
 };
 
 class PopQueue : public Algorithm<void(Queue<TestItem>&)> {
@@ -102,6 +110,9 @@ public:
         if (Q.size() != 0) {
             throw runtime_error("size != 0");
         }
+    }
+    string type_name() const override {
+        return "Pop Queue";
     }
 };
 

@@ -1,11 +1,8 @@
-﻿module;
-#include <algorithm>
-#include <functional>
-
-export module Sort.TimSort;
+﻿export module Sort.TimSort;
 
 import Vector;
 import Sort.AbstractSort;
+import std;
 
 export namespace dslab {
 
@@ -166,6 +163,9 @@ class TimSort : public AbstractSort<T, Linear> {
 public:
     void sort(Linear<T>& V) override {
         timSort(std::begin(V), std::end(V), V.size());
+    }
+    std::string type_name() const override {
+        return "Tim Sort";
     }
 };
 

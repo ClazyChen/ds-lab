@@ -1,8 +1,7 @@
-﻿#include <vector>
-#include <format>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import Vector;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -32,6 +31,11 @@ protected:
             V.remove(r);
         }
     }
+
+public:
+    string type_name() const override {
+        return "Separate Find, Separate Remove";
+    }
 };
 
 class VectorRemoveImproved : public VectorRemove {
@@ -41,6 +45,11 @@ protected:
         while (r = find(begin(V) + r, end(V), e) - begin(V), r < V.size()) {
             V.remove(r);
         }
+    }
+
+public:
+    string type_name() const override {
+        return "Global   Find, Separate Remove";
     }
 };
 
@@ -57,6 +66,11 @@ protected:
         }
         V.resize(V.size() - k);
     }
+
+public:
+    string type_name() const override {
+        return "Global   Find, Batched  Remove (Fast & Slow Ptr)";
+    }
 };
 
 // Remove Erase Idiom
@@ -64,6 +78,11 @@ class VectorRemoveErase : public VectorRemove {
 protected:
     void batchRemove(int e) override {
         V.resize(remove(begin(V), end(V), e) - begin(V));
+    }
+
+public:
+    string type_name() const override {
+        return "Global   Find, Batched  Remove (Remove Erase Idiom)";
     }
 };
 

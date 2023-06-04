@@ -1,9 +1,6 @@
-﻿#include <vector>
-#include <span>
-#include <format>
-#include <iostream>
-#include <numeric>
-import Framework;
+﻿import Framework;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -26,12 +23,18 @@ public:
     int operator()(span<const int> data) override {
         return accumulate(begin(data), end(data), 0);
     }
+    string type_name() const override {
+        return "ArraySum (std::accumulate)";
+    }
 };
 
 class ArraySumReduce : public ArraySum {
 public:
     int operator()(span<const int> data) override {
         return reduce(begin(data), end(data), 0);
+    }
+    string type_name() const override {
+        return "ArraySum (std::reduce)";
     }
 };
 
@@ -47,6 +50,9 @@ public:
         }
         return sum;
     }
+    string type_name() const override {
+        return "ArraySum (Iterative)";
+    }
 };
 
 // 减治法求和，先算前n-1项再相加，以阻碍编译器自动进行尾递归优化
@@ -54,35 +60,43 @@ public:
 // 具体引发stack overflow的节点需要我们根据实际情况而定
 class ArraySumReduceAndConquer : public ArraySum {
     int cal(span<const int> data) {
-        if (data.size() == 0) {
+        if (auto size { data.size() }; size == 0) {
             return 0;
-        } else if (data.size() == 1) {
+        } else if (size == 1) {
             return data[0];
         } else {
-            return (*this)(data.first(data.size() - 1)) + data[data.size() - 1];
+            return (*this)(data.first(size - 1)) + data[size - 1];
         }
     }
 public:
     int operator()(span<const int> data) override {
-        if (data.size() > 10000) {
+        if (data.size() >= 10000) {
             throw runtime_error { "stack overflow" };
         }
         return cal(data);
     }
+    string type_name() const override {
+        return "ArraySum (Reduce & Conquer)";
+    }
 };
 
 // 分治法求和，无论如何都很慢
+// 破坏了数组访问的连续性，阻止编译器做SIMD优化，且不利于Cache优化
+// 同时会浪费很多时间在栈上生成
 class ArraySumDivideAndConquer : public ArraySum {
 public:
     int operator()(span<const int> data) override {
-        if (data.size() == 0) {
+        if (auto size { data.size() }; size == 0) {
             return 0;
-        } else if (data.size() == 1) {
+        } else if (size == 1) {
             return data[0];
         } else {
-            auto mid { data.size() / 2 };
-            return (*this)(data.first(mid)) + (*this)(data.last(data.size() - mid));
+            auto mid { size / 2 };
+            return (*this)(data.first(mid)) + (*this)(data.last(size - mid));
         }
+    }
+    string type_name() const override {
+        return "ArraySum (Divide & Conquer)";
     }
 };
 

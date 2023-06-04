@@ -1,14 +1,11 @@
-﻿module;
-#include <iostream>
-#include <concepts>
-
-export module Stack;
+﻿export module Stack;
 
 export import Stack.AbstractStack;
 export import Stack.RandomStackOperation;
 
 import Vector;
 import LinearList;
+import std;
 
 export namespace dslab {
 
@@ -65,6 +62,10 @@ public:
     }
 
     size_t size() const override { return L.size(); }
+
+    std::string type_name() const override {
+        return std::format("Stack ({})", L.type_name());
+    }
 
     template <typename T1, template<typename> typename L1>
     friend std::ostream& operator<<(std::ostream& os, const Stack<T1, L1>& s);

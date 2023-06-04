@@ -1,9 +1,7 @@
-﻿#include <vector>
-#include <format>
-#include <ranges>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import ForwardList;
+import std;
+
 using namespace std;
 
 using dslab::Algorithm;
@@ -58,6 +56,9 @@ public:
             throw runtime_error("size != 0");
         }
     }
+    string type_name() const override {
+        return "Create Forward List";
+    }
 };
 
 class PushBackList : public Algorithm<void(ForwardList<TestItem>&)> {
@@ -79,6 +80,9 @@ public:
         if (L.size() != N) {
             throw runtime_error("size != N");
         }
+    }
+    string type_name() const override {
+        return "Push Back Forward List";
     }
 };
 
@@ -104,6 +108,9 @@ public:
         if (L.size() != 2 * N) {
             throw runtime_error("size != 2 * N");
         }
+    }
+    string type_name() const override {
+        return "Insert as Next Forward List";
     }
 };
 
@@ -132,6 +139,9 @@ public:
         if (L.size() != N) {
             throw runtime_error("size != N");
         }
+    }
+    string type_name() const override {
+        return "Erase Forward List";
     }
 };
 
@@ -166,6 +176,9 @@ public:
             throw runtime_error("size != N");
         }
     }
+    string type_name() const override {
+        return "Find Forward List";
+    }
 };
 
 class InsertPrevList : public Algorithm<void(ForwardList<TestItem>&)> {
@@ -193,6 +206,9 @@ public:
             throw runtime_error("size != 2 * N");
         }
     }
+    string type_name() const override {
+        return "Insert as Prev Forward List";
+    }
 };
 
 class CopyList : public Algorithm<void(ForwardList<TestItem>&)> {
@@ -219,6 +235,9 @@ public:
         }
         check(L2);
     }
+    string type_name() const override {
+        return "Copy Forward List";
+    }
 };
 
 class MoveList : public Algorithm<void(ForwardList<TestItem>&)> {
@@ -238,6 +257,9 @@ public:
             throw runtime_error("size != 0");
         }
         check(L2);
+    }
+    string type_name() const override {
+        return "Move Forward List";
     }
 };
 

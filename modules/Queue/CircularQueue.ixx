@@ -1,10 +1,8 @@
-﻿module;
-#include <iostream>
-
-export module Queue.CircularQueue;
+﻿export module Queue.CircularQueue;
 
 import Queue.AbstractQueue;
 import Vector;
+import std;
 
 export namespace dslab {
 
@@ -61,6 +59,10 @@ public:
 
     size_t size() const override {
         return m_size;
+    }
+
+    std::string type_name() const override {
+        return std::format("Queue (Circular / {})", V.type_name());
     }
 
     template <typename T1, template<typename> typename V1>

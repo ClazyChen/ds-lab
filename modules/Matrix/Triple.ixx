@@ -1,7 +1,6 @@
-﻿module;
-#include <utility>
+﻿export module Triple;
 
-export module Triple;
+import std;
 
 export namespace dslab {
 

@@ -1,20 +1,38 @@
-﻿module;
-#include <functional>
-#include <memory>
-
-export module Tree;
+﻿export module Tree;
 
 export import Tree.TreeNode;
 export import Tree.AbstractTree;
 export import Tree.Traverse;
 
 import Tree.Traverse.AbstractTreeTraverse;
+import Stack;
+import std;
 
 export namespace dslab {
 
 template <typename T>
 class Tree : public AbstractTree<T> {
     TreeNodeInst<T> m_root { nullptr };
+
+    TreeNodeInst<T> clone() const {
+        if (m_root == nullptr) {
+            return nullptr;
+        } 
+        auto r { TreeNodeInst<T>::make(m_root->data()) };
+        Stack<TreeNodePos<T>> S { r };
+        traverseNodes<TreePreOrderTraverseIterative>([&S](auto node) {
+            auto cur { S.pop() };
+            cur->children().resize(node->children().size());
+            for (size_t i { node->children().size() }; i > 0; --i) {
+                auto child { TreeNodeInst<T>::make(node->children()[i - 1]->data()) };
+                S.push(child);
+                child->parent() = cur;
+                cur->children()[i - 1] = std::move(child);
+            }
+        });
+        return r;
+    }
+
 public:
     TreeNodePos<T> root() override { return m_root; }
     TreeNodeConstPos<T> root() const override { return m_root; }
@@ -23,13 +41,17 @@ public:
         traverse<TreePreOrderTraverseIterative>([&result](const T&) { ++result; });
         return result;
     }
+    bool empty() const override {
+        return m_root == nullptr;
+    }
 
     Tree() = default;
     Tree(const Tree& t) {
-        m_root = t.m_root->clone();
+        m_root = t.clone();
     }
     Tree& operator=(const Tree& t) {
-        m_root = t.m_root->clone();
+        m_root = t.clone();
+        return *this;
     }
     Tree(Tree&& t) = default;
     Tree& operator=(Tree&& t) = default;
@@ -84,10 +106,9 @@ public:
 
     TreeNodePos<T> find(const T& e) const override {
         TreeNodePos<T> node { nullptr };
-        TreePreOrderTraverse<T> traverse {};
-        traverse(m_root, [&node, &e, &traverse](const T& f) {
-            if (e == f) {
-                node = traverse.current();
+        traverseNodes<TreePreOrderTraverse>([&node, &e](auto p) {
+            if (p->data() == e) {
+                node = p;
             }
         });
         return node;
@@ -102,7 +123,7 @@ public:
             return std::move(m_root);
         } else {
             auto& children { p->parent()->children() };
-            auto index { 0 };
+            size_t index { 0 };
             while (children[index] != p) {
                 ++index;
             }
@@ -110,10 +131,20 @@ public:
         }
     }
 
+    std::string type_name() const override {
+        return "Tree";
+    }
+
     template <template <typename> typename Trav>
         requires std::is_base_of_v<AbstractTreeTraverse<T>, Trav<T>>
-    void traverse(std::function<void(const T& e)> visit) const {
+    void traverse(std::function<void(const T&)> visit) const {
         return Trav<T> {} (m_root, visit);
+    }
+
+    template <template <typename> typename Trav>
+        requires std::is_base_of_v<AbstractTreeTraverse<T>, Trav<T>>
+    void traverseNodes(std::function<void(TreeNodeConstPos<T>)> visit) const {
+        return Trav<T> {} .traverse(m_root, visit);
     }
 
 };

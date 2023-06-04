@@ -1,9 +1,7 @@
-﻿module;
-#include <stdexcept>
-
-export module Matrix.TriangularMatrix;
+﻿export module Matrix.TriangularMatrix;
 
 import Matrix.AbstractCompressedMatrix;
+import std;
 
 export namespace dslab {
 
@@ -47,6 +45,10 @@ public:
         std::swap(this->m_data, tmp.m_data);
         return *this;
     }
+
+    std::string type_name() const override {
+        return std::format("Matrix {}x{} (Lower Triangular Compressed)", N, N);
+    }
 };
 
 template <typename T, size_t N> requires (N >= 0)
@@ -88,6 +90,10 @@ public:
         UpperTriangularMatrix tmp { ilist };
         std::swap(this->m_data, tmp.m_data);
         return *this;
+    }
+
+    std::string type_name() const override {
+        return std::format("Matrix {}x{} (Upper Triangular Compressed)", N, N);
     }
 };
 

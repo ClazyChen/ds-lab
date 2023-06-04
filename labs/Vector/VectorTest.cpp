@@ -1,9 +1,7 @@
-﻿#include <vector>
-#include <format>
-#include <ranges>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import Vector;
+import std;
+
 using namespace std;
 
 using dslab::Algorithm;
@@ -56,6 +54,9 @@ public:
             throw runtime_error("capacity != 0");
         }
     }
+    string type_name() const override {
+        return "Create Vector";
+    }
 };
 
 class ReserveVector : public Algorithm<void(Vector<TestItem>&)> {
@@ -68,6 +69,9 @@ public:
         if (V.capacity() != N) {
             throw runtime_error("capacity != N");
         }
+    }
+    string type_name() const override {
+        return "Reserve Vector";
     }
 };
 
@@ -94,6 +98,9 @@ public:
             throw runtime_error("capacity != N");
         }
     }
+    string type_name() const override {
+        return "Push Back Vector";
+    }
 };
 
 class InsertVector : public Algorithm<void(Vector<TestItem>&)> {
@@ -115,6 +122,9 @@ public:
             throw runtime_error("size != 2 * N");
         }
     }
+    string type_name() const override {
+        return "Insert Vector";
+    }
 };
 
 class EraseVector : public Algorithm<void(Vector<TestItem>&)> {
@@ -135,6 +145,9 @@ public:
         if (V.size() != N) {
             throw runtime_error("size != N");
         }
+    }
+    string type_name() const override {
+        return "Erase Vector";
     }
 };
 
@@ -163,6 +176,9 @@ public:
             throw runtime_error("size != N");
         }
     }
+    string type_name() const override {
+        return "Find Vector";
+    }
 };
 
 class CopyVector : public Algorithm<void(Vector<TestItem>&)> {
@@ -179,6 +195,9 @@ public:
             throw runtime_error("size != size");
         }
         check(V2);
+    }
+    string type_name() const override {
+        return "Copy Vector";
     }
 };
 
@@ -200,6 +219,9 @@ public:
         }
         check(V2);
         V = move(V2);
+    }
+    string type_name() const override {
+        return "Move Vector";
     }
 };
 
@@ -223,6 +245,9 @@ public:
         if (TestItem::s_moveCount != 0) {
             throw runtime_error("moveCount != 0");
         }
+    }
+    string type_name() const override {
+        return "Resize Vector";
     }
 };
 

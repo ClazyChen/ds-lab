@@ -1,8 +1,7 @@
-﻿#include <vector>
-#include <format>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import Gcd;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -21,6 +20,9 @@ public:
         }
         return gcd;
     }
+    string type_name() const override {
+        return "Gcd (Naive)";
+    }
 };
 
 // 递归的欧几里得算法
@@ -34,6 +36,9 @@ public:
         } else {
             return (*this)(b, a % b);
         }
+    }
+    string type_name() const override {
+        return "Euclidean Gcd (Recursive)";
     }
 };
 
@@ -63,7 +68,7 @@ TestFramework<GcdProblem, GcdBasic, GcdEuclid, GcdEuclidIterative> test;
 
 int main() {
     for (auto& [a, b] : testData) {
-        cout << format("Gcd({}, {})", a, b) << endl;
+        cout << format("Gcd({:>10}, {:>10})", a, b) << endl;
         test(a, b);
     }
 }

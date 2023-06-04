@@ -1,10 +1,8 @@
-﻿#include <vector>
-#include <numeric>
-#include <format>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import Vector;
 import List;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -16,6 +14,9 @@ class ReverseStd : public ReverseListProblem<T> {
 public:
     void operator()(List<T>& L) override {
         reverse(begin(L), end(L));
+    }
+    string type_name() const override {
+        return "Reverse (std::reverse)";
     }
 };
 
@@ -30,6 +31,9 @@ public:
             tail = tail->prev();
             std::swap(head->data(), tail->data());
         }
+    }
+    string type_name() const override {
+        return "Reverse (swap head & tail)";
     }
 };
 
@@ -59,10 +63,15 @@ class ReverseReduceAtHead : public ReverseForwardList<T> {
     }
 protected:
     void apply(List<T>& L) override {
-        if (L.size() > 10000) {
+        if (L.size() >= 10000) {
             throw runtime_error { "stack overflow" };
         }
         reverse(L);
+    }
+
+public:
+    string type_name() const override {
+        return "Reverse (reduce at head / Recursive)";
     }
 };
 
@@ -74,6 +83,9 @@ public:
         move(begin(L), end(L), begin(V));
         reverse(begin(V), end(V));
         move(begin(V), end(V), begin(L));
+    }
+    string type_name() const override {
+        return "Reverse (move to aux vector)";
     }
 };
 
@@ -91,7 +103,7 @@ class ReverseReduceAtTail : public ReverseForwardList<T> {
     }
 protected:
     void apply(List<T>& L) override {
-        if (L.size() > 10000) {
+        if (L.size() >= 10000) {
             throw runtime_error { "stack overflow" };
         }
         auto old_first { L.first() };
@@ -99,6 +111,11 @@ protected:
         auto last { reverse(start, L.size()) };
         L.head()->next() = move(start);
         old_first->next() = move(last);
+    }
+
+public:
+    string type_name() const override {
+        return "Reverse (reduce at tail / Recursive)";
     }
 };
 
@@ -118,6 +135,11 @@ protected:
         L.head()->next() = move(start);
         old_first->next() = move(last);
     }
+
+public:
+    string type_name() const override {
+        return "Reverse (reduce at tail / Iterative)";
+    }
 };
 
 vector testData { 10, 1000, 10000, 100'000, 1'000'000, 10'000'000 };
@@ -132,7 +154,7 @@ TestFramework<ReverseListProblem<int>,
 
 int main() {
     for (auto n : testData) {
-        cout << format("n = {:10d}", n) << endl;
+        cout << format("n = {:>10d}", n) << endl;
         List<int> L;
         for (int i { 0 }; i < n; ++i) {
             L.push_back(i);

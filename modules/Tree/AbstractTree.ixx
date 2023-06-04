@@ -1,10 +1,8 @@
-﻿module;
-#include <iostream>
-
-export module Tree.AbstractTree;
+﻿export module Tree.AbstractTree;
 
 import Framework.DataStructure;
 import Tree.TreeNode;
+import std;
 
 export namespace dslab {
 

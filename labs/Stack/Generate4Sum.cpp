@@ -1,12 +1,9 @@
-﻿#include <vector>
-#include <numeric>
-#include <optional>
-#include <format>
-#include <iostream>
-import Vector;
+﻿import Vector;
 import Power;
 import Stack;
 import Framework;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -33,6 +30,9 @@ public:
             return (*this)(n * 10 + 1) + (*this)(n * 10 + 2) + (*this)(n * 10 + 3) + (*this)(n * 10 + 4);
         }
     }
+    string type_name() const override {
+        return "Generate 4 Sum (Recursive)";
+    }
 };
 
 class Generate4SumIterativeSolver : public Generate4SumSolver {
@@ -52,6 +52,9 @@ public:
             }
         }
         return sum;
+    }
+    string type_name() const override {
+        return "Generate 4 Sum (Iterative)";
     }
 };
 
@@ -208,6 +211,9 @@ class Generate4SumBasic : public Generate4Sum {
 public:
     size_t operator()(size_t w) override {
         return Solver { w }(0);
+    }
+    string type_name() const override {
+        return Solver{0}.type_name();
     }
 };
 

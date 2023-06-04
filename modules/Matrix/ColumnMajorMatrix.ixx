@@ -1,9 +1,7 @@
-﻿module;
-#include <array>
-
-export module Matrix.ColumnMajorMatrix;
+﻿export module Matrix.ColumnMajorMatrix;
 
 import Matrix.AbstractMatrix;
+import std;
 
 export namespace dslab {
 
@@ -38,6 +36,10 @@ public:
     }
     void clear() override {
         m_data.fill(T{});
+    }
+
+    std::string type_name() const override {
+        return std::format("Matrix {}x{} (Col Major)", R, C);
     }
 };
 

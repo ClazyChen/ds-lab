@@ -1,11 +1,8 @@
-﻿module;
-#include <functional>
-#include <type_traits>
-
-export module Sort.AbstractSort;
+﻿export module Sort.AbstractSort;
 
 import Framework.Algorithm;
 import LinearList;
+import std;
 
 export namespace dslab {
 

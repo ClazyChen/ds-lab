@@ -1,23 +1,18 @@
-﻿module;
-#include <functional>
-
-export module Tree.Traverse.AbstractTreeTraverse;
+﻿export module Tree.Traverse.AbstractTreeTraverse;
 
 import Framework.Algorithm;
 import Tree.TreeNode;
+import std;
 
 export namespace dslab {
 
 template <typename T>
 class AbstractTreeTraverse : public Algorithm<void(TreeNodeConstPos<T>, std::function<void(const T&)>)> {
-protected:
-    TreeNodeConstPos<T> m_current { nullptr };
-    void call(std::function<void(const T&)> visit, TreeNodeConstPos<T> p) {
-        m_current = p;
-        visit(p->data());
-    }
 public:
-    TreeNodeConstPos<T> current() const { return m_current; }
+    virtual void traverse(TreeNodeConstPos<T> p, std::function<void(TreeNodeConstPos<T>)> visit) = 0;
+    void operator()(TreeNodeConstPos<T> p, std::function<void(const T&)> visit) override {
+        traverse(p, [&visit](TreeNodeConstPos<T> p) { visit(p->data()); });
+    }
 };
 
 }

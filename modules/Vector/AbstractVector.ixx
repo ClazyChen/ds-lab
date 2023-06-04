@@ -1,11 +1,8 @@
-﻿module;
-#include <iterator>
-#include <iostream>
-
-export module Vector.AbstractVector;
+﻿export module Vector.AbstractVector;
 
 import LinearList;
 import Vector.VectorIterator;
+import std;
 
 export namespace dslab {
 

@@ -1,15 +1,11 @@
-﻿module;
-#include <ratio>
-#include <iostream>
-#include <concepts>
-
-export module Deque;
+﻿export module Deque;
 
 export import Deque.AbstractDeque;
 export import Deque.CircularDeque;
 export import Deque.LinkedDeque;
 
 import Vector;
+import std;
 
 // TODO: Implement a Deque using a Chunk List (replace the current Vector implementation)
 

@@ -1,8 +1,6 @@
-﻿#include <vector>
-#include <format>
-#include <bit>
-#include <iostream>
-import Framework;
+﻿import Framework;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -15,6 +13,9 @@ public:
     bool operator()(int n) override {
         return n > 0 && (n & (n - 1)) == 0;
     }
+    string type_name() const override {
+        return "IsPower2 (Discriminant)";
+    }
 };
 
 // 利用std::has_single_bit
@@ -22,6 +23,9 @@ class IsPower2SingleBit : public IsPower2 {
 public:
     bool operator()(int n) override {
         return n > 0 && has_single_bit(static_cast<unsigned>(n));
+    }
+    string type_name() const override {
+        return "IsPower2 (std::has_single_bit)";
     }
 };
 
@@ -35,6 +39,9 @@ public:
             return (*this)(n / 2);
         }
     }
+    string type_name() const override {
+        return "IsPower2 (Recursive)";
+    }
 };
 
 // 迭代的方法
@@ -46,6 +53,9 @@ public:
             m *= 2;
         }
         return m == n;
+    }
+    string type_name() const override {
+        return "IsPower2 (Iterative)";
     }
 };
 

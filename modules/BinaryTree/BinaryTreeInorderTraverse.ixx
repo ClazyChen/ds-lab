@@ -1,43 +1,41 @@
-﻿module;
-#include <memory>
-#include <functional>
+﻿export module BinaryTree.Traverse.BinaryTreeInOrderTraverse;
 
-export module BinaryTree.BinaryTreeInorderTraverse;
-
-import BinaryTree.AbstractBinaryTreeNode;
-import BinaryTree.AbstractBinaryTree;
-import BinaryTree.BinaryTreeTraverse;
+import BinaryTree.BinaryTreeNode;
+import BinaryTree.Traverse.AbstractBinaryTreeTraverse;
 import Stack;
+import std;
 
 export namespace dslab {
 
 template <typename T>
-class BinaryTreeInorderTraverse : public BinaryTreeTraverse<T> {
-    void operator()(const AbstractBinaryTreeNode<T>* node, std::function<void(const T&)> visit) override {
-        if (node == nullptr) {
+class BinaryTreeInOrderTraverse : public AbstractBinaryTreeTraverse<T> {
+public:
+    void traverse(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
+        if (!p) {
             return;
         }
-        (*this)(node->left().get(), visit);
-        visit(node->data());
-        (*this)(node->right().get(), visit);
+        traverse(p->left(), visit);
+        visit(p);
+        traverse(p->right(), visit);
     }
 };
 
 template <typename T>
-class BinaryTreeInorderTraverseLinear : public BinaryTreeTraverse<T> {
-    void pushLeftChain(Stack<AbstractBinaryTreeNode<T>*>& S, const AbstractBinaryTreeNode<T>* node) {
-        for (auto t { node }; t != nullptr; t = t->left().get()) {
-            S.push(t);
+class BinaryTreeInOrderTraverseLinear : public AbstractBinaryTreeTraverse<T> {
+    void pushLeftChain(Stack<BinaryTreeNodeConstPos<T>>& S, BinaryTreeNodeConstPos<T> p) {
+        while (p) {
+            S.push(p);
+            p = p->left();
         }
     }
 public:
-    void operator()(const AbstractBinaryTreeNode<T>* node, std::function<void(const T&)> visit) override {
-        Stack<AbstractBinaryTreeNode<T>*> S;
-        pushLeftChain(S, node);
+    void traverse(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
+        Stack<BinaryTreeNodeConstPos<T>> S;
+        pushLeftChain(S, p);
         while (!S.empty()) {
-            auto t { S.pop() };
-            visit(t->data());
-            pushLeftChain(S, t->right().get());
+            auto node { S.pop() };
+            visit(node);
+            pushLeftChain(S, node->right());
         }
     }
 };

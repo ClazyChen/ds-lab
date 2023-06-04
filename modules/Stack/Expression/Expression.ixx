@@ -1,13 +1,11 @@
-﻿module;
-#include <string>
-
-export module Expression;
+﻿export module Expression;
 
 export import Expression.AbstractExpressionElement;
 export import Expression.ExpressionElement;
 
 import Vector;
 import Stack;
+import std;
 
 template <typename T>
 using DefaultVector = dslab::Vector<T>;
@@ -16,6 +14,7 @@ using DefaultVector = dslab::Vector<T>;
 // 1 > D:\Workspace\ds - lab\modules\Stack\Expression\Expression.ixx(106, 1) : fatal  error C1001 : 内部编译器错误。
 // 1 > (编译器文件“D:\a\_work\1\s\src\vctools\Compiler\CxxFE\sl\p1\c\module\writer.cpp”，第 1277 行)
 // 等待 Microsoft Visual Studio 团队修复
+// 在17.6 preview版本中已经修复，等待 17.6 正式版发布
 
 export namespace dslab {
 
@@ -28,7 +27,7 @@ public:
         std::string expr2 { '(' + expr + ')' };
         std::string num;
         for (auto& c : expr2) {
-            if (isdigit(c)) {
+            if (std::isdigit(c)) {
                 num += c;
             } else {
                 if (!num.empty()) {

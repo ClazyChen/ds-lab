@@ -1,9 +1,8 @@
-﻿#include <vector>
-#include <format>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import Vector;
 import Stack;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -33,6 +32,9 @@ public:
         }
         return S.empty();
     }
+    string type_name() const override {
+        return "Paren Match (Stack)";
+    }
 };
 
 // 一些验证正确性的样例
@@ -59,7 +61,7 @@ int main() {
     }
     cout << "Random test:" << endl;
     for (auto n : testData) {
-        cout << format("Testing with {} elements...", n) << endl;
+        cout << format("Testing with {:>10} elements...", n) << endl;
         auto expr { randop(n, '(', ')') };
         test(expr);
     }

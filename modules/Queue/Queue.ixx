@@ -1,15 +1,11 @@
-﻿module;
-#include <ratio>
-#include <iostream>
-#include <concepts>
-
-export module Queue;
+﻿export module Queue;
 
 export import Queue.AbstractQueue;
 export import Queue.CircularQueue;
 export import Queue.LinkedQueue;
 
 import Vector;
+import std;
 
 export namespace dslab {
 
@@ -56,6 +52,14 @@ public:
 
     T& front() override {
         return V[m_front];
+    }
+
+    std::string type_name() const override {
+        if constexpr (Q::den == 1) {
+            return std::format("Queue ({} * {})", V.type_name(), Q::num);
+        } else {
+            return std::format("Queue ({} * {}/{}", V.type_name(), Q::num, Q::den);
+        }
     }
 
     template <typename T1, template<typename> typename V1, typename Q1>

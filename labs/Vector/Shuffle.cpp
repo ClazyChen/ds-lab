@@ -1,12 +1,8 @@
-﻿#include <vector>
-#include <format>
-#include <iostream>
-#include <algorithm>
-#include <random>
-#include <numeric>
-import Framework;
+﻿import Framework;
 import Vector;
 import Factorial;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -21,6 +17,9 @@ public:
             swap(V[i - 1], V[j]);
         }
     }
+    string type_name() const override {
+        return "Random Shuffle (explicit)";
+    }
 };
 
 class ShuffleStd : public Shuffle {
@@ -28,6 +27,9 @@ class ShuffleStd : public Shuffle {
 public:
     void operator()(Vector<int>& V) override {
         shuffle(begin(V), end(V), m_engine);
+    }
+    string type_name() const override {
+        return "Random Shuffle (std::shuffle)";
     }
 };
 
@@ -74,9 +76,11 @@ public:
             error += abs(m_counter[i] - avg);
         }
         error /= m_factorial(N);
-        // TODO: 这里直接使用 std::format 会报错，需要调查
-        // 怀疑是Visual Studio 2022存在的BUG
-        cout << vformat("Average: {:10.2f} Error: {:5.2f}%", std::make_format_args(avg, 100.0 * error / avg)) << endl;
+        cout << format("Average: {:10.2f} Error: {:5.2f}%", avg, 100.0 * error / avg) << endl;
+    }
+
+    string type_name() const override {
+        return format("Shuffle Test (N = {}, Times = {}, {})", N, Times, m_shuffle.type_name());
     }
 };
 

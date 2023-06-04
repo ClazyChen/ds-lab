@@ -1,8 +1,6 @@
-﻿#include <vector>
-#include <limits>
-#include <iostream>
-#include <format>
-import Framework;
+﻿import Framework;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -18,12 +16,18 @@ public:
         }
         return sum;
     }
+    string type_name() const override {
+        return "Sum (Naive)";
+    }
 };
 
 class SumAP : public Sum {
 public:
     int operator()(int n) override {
         return n * (n + 1) / 2;
+    }
+    string type_name() const override {
+        return "Sum (AP formula)";
     }
 };
 
@@ -36,10 +40,13 @@ public:
             return (n + 1) / 2 * n;
         }
     }
+    string type_name() const override {
+        return "Sum (AP formula / Robust)";
+    }
 };
 
 class SumAP2Limited : public SumAP2 {
-    const static int THRESHOLD { 0x0001'0000 };
+    static constexpr int THRESHOLD { 0x0001'0000 };
 public:
     int operator()(int n) override {
         if (n <= 0) {
@@ -49,6 +56,9 @@ public:
         } else {
             return SumAP2::operator()(n);
         }
+    }
+    string type_name() const override {
+        return "Sum (AP formula / Robust & limited)";
     }
 };
 

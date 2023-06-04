@@ -1,8 +1,7 @@
-﻿#include <vector>
-#include <format>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import Vector;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -32,7 +31,7 @@ template <typename Alloc>
 class VectorInsert : public VectorInsertBasic<Vector<size_t, Alloc>> {
 public:
     string type_name() const override {
-        return Alloc {}.type_name();
+        return format("Expand with {}", Alloc {}.type_name());
     }
 };
 

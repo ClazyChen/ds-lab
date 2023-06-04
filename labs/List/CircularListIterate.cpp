@@ -1,10 +1,8 @@
-﻿#include <vector>
-#include <format>
-#include <ranges>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import List;
 import List.CircularList;
+import std;
+
 using namespace dslab;
 using namespace std;
 

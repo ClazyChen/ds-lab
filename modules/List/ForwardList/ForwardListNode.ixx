@@ -1,9 +1,7 @@
-﻿module;
-#include <memory>
-
-export module ForwardList.ForwardListNode;
+﻿export module ForwardList.ForwardListNode;
 
 import Framework.PointerProxy;
+import std;
 
 export namespace dslab {
 

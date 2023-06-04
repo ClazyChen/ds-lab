@@ -1,9 +1,7 @@
-﻿#include <vector>
-#include <format>
-#include <ranges>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import List.StaticList;
+import std;
+
 using namespace std;
 
 using dslab::Algorithm;
@@ -62,6 +60,9 @@ public:
             throw runtime_error("size != 0");
         }
     }
+    string type_name() const override {
+        return "Create Static List";
+    }
 };
 
 class PushBackList : public Algorithm<void(List<TestItem>&)> {
@@ -80,6 +81,9 @@ public:
         if (L.size() != N) {
             throw runtime_error("size != N");
         }
+    }
+    string type_name() const override {
+        return "Push Back Static List";
     }
 };
 
@@ -106,6 +110,9 @@ public:
             throw runtime_error("size != 2 * N");
         }
     }
+    string type_name() const override {
+        return "Insert as Next Static List";
+    }
 };
 
 class EraseList : public Algorithm<void(List<TestItem>&)> {
@@ -130,6 +137,9 @@ public:
         if (L.size() != N) {
             throw runtime_error("size != N");
         }
+    }
+    string type_name() const override {
+        return "Erase Static List";
     }
 };
 
@@ -164,6 +174,9 @@ public:
             throw runtime_error("size != N");
         }
     }
+    string type_name() const override {
+        return "Find Static List";
+    }
 };
 
 class InsertPrevList : public Algorithm<void(List<TestItem>&)> {
@@ -188,6 +201,9 @@ public:
             throw runtime_error("size != 2 * N");
         }
     }
+    string type_name() const override {
+        return "Insert as Prev Static List";
+    }
 };
 
 class CopyList : public Algorithm<void(List<TestItem>&)> {
@@ -204,6 +220,9 @@ public:
             throw runtime_error("size != size");
         }
         check(L2);
+    }
+    string type_name() const override {
+        return "Copy Static List";
     }
 };
 
@@ -224,6 +243,9 @@ public:
             throw runtime_error("size != 0");
         }
         check(L2);
+    }
+    string type_name() const override {
+        return "Move Static List";
     }
 };
 

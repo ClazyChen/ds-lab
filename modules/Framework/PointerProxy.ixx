@@ -1,10 +1,6 @@
-﻿module;
-#include <memory>
-#include <stdexcept>
+﻿export module Framework.PointerProxy;
 
-export module Framework.PointerProxy;
-
-// 为了降低不了解智能指针进行实验的门槛
+// 为了允许在不了解智能指针的情况下进行实验
 // 将智能指针和裸指针封装成代理类，允许赋值和隐式转换
 // 用户可以当成裸指针使用，但不代表没有所有权问题
 // 比如，试图在普通二叉树上做Morris遍历仍然是不可行的
@@ -16,6 +12,8 @@ export module Framework.PointerProxy;
 // Const Raw Proxy         <-> Const Raw Pointer
 // Unique Pointer -> Unique Proxy, Raw Proxy, Const Raw Proxy
 
+import std;
+
 export namespace dslab {
 
 template <typename T>
@@ -26,9 +24,10 @@ class ConstRawPointerProxy;
 
 template <typename T>
 class UniquePointerProxy {
-    std::unique_ptr<T> m_ptr {};
+    std::unique_ptr<T> m_ptr { nullptr };
 public:
     UniquePointerProxy() = default;
+    UniquePointerProxy(std::nullptr_t) {}
     UniquePointerProxy(std::unique_ptr<T>&& ptr) : m_ptr(std::move(ptr)) {}
     UniquePointerProxy(const UniquePointerProxy&) {
         throw std::runtime_error("UniquePointerProxy is not copyable");
@@ -102,6 +101,12 @@ public:
     bool operator!=(T* ptr) const {
         return m_ptr.get() != ptr;
     }
+    bool operator==(const T* ptr) const {
+        return m_ptr.get() == ptr;
+    }
+    bool operator!=(const T* ptr) const {
+        return m_ptr.get() != ptr;
+    }
     bool operator==(const std::unique_ptr<T>& ptr) const {
         return m_ptr.get() == ptr.get();
     }
@@ -127,6 +132,7 @@ class RawPointerProxy {
     T* m_ptr { nullptr };
 public:
     RawPointerProxy() = default;
+    RawPointerProxy(std::nullptr_t) {}
     RawPointerProxy(const RawPointerProxy&) = default;
     RawPointerProxy& operator=(const RawPointerProxy&) = default;
     RawPointerProxy(RawPointerProxy&&) = default;
@@ -188,6 +194,12 @@ public:
     bool operator!=(T* ptr) const {
         return m_ptr != ptr;
     }
+    bool operator==(const T* ptr) const {
+        return m_ptr == ptr;
+    }
+    bool operator!=(const T* ptr) const {
+        return m_ptr != ptr;
+    }
     bool operator==(const std::unique_ptr<T>& ptr) const {
         return m_ptr == ptr.get();
     }
@@ -208,12 +220,12 @@ public:
     }
 };
 
-
 template <typename T>
 class ConstRawPointerProxy {
     const T* m_ptr { nullptr };
 public:
     ConstRawPointerProxy() = default;
+    ConstRawPointerProxy(std::nullptr_t) {}
     ConstRawPointerProxy(const ConstRawPointerProxy&) = default;
     ConstRawPointerProxy& operator=(const ConstRawPointerProxy&) = default;
     ConstRawPointerProxy(ConstRawPointerProxy&&) = default;

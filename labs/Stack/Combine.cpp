@@ -1,9 +1,8 @@
-﻿#include <vector>
-#include <format>
-#include <iostream>
-import Stack;
+﻿import Stack;
 import Framework;
 import Combine;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -13,6 +12,9 @@ public:
         if (m == 0 || m == n)
             return 1;
         return (*this)(n - 1, m - 1) + (*this)(n - 1, m);
+    }
+    string type_name() const override {
+        return "Combine (2-D Recursive / sum procedure)";
     }
 };
 
@@ -32,6 +34,9 @@ public:
         combine(n, m);
         return sum;
     }
+    string type_name() const override {
+        return "Combine (2-D Recursive / sum variable)";
+    }
 };
 
 class CombineIterative : public CombineProblem {
@@ -49,6 +54,9 @@ public:
             }
         }
         return sum;
+    }
+    string type_name() const override {
+        return "Combine (2-D Iterative / Stack)";
     }
 };
 
@@ -70,13 +78,21 @@ public:
         }
         return C[n][m];
     }
+    string type_name() const override {
+        return "Combine (2-D Recursive / Memory Search)";
+    }
 };
 
 vector<pair<int, int>> testData {
     {3, 2}, {6, 4}, {10, 5}, {20, 10}, {100, 4}
 };
 
-TestFramework<CombineProblem, CombineRecursive1, CombineRecursive2, CombineIterative, CombineMemorySearch> test;
+TestFramework<CombineProblem, 
+    CombineRecursive1, 
+    CombineRecursive2, 
+    CombineIterative, 
+    CombineMemorySearch,
+    Combine> test;
 
 int main() {
     for (auto& [n, m] : testData) {

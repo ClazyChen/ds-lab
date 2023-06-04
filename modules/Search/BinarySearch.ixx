@@ -1,10 +1,8 @@
-﻿module;
-#include <type_traits>
-
-export module Search.BinarySearch;
+﻿export module Search.BinarySearch;
 
 import Search.AbstractSearch;
 import Vector.AbstractVector;
+import std;
 
 export namespace dslab {
 

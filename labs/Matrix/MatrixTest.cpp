@@ -1,12 +1,11 @@
-﻿#include <vector>
-#include <format>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import Matrix;
 import Matrix.SymmetricMatrix;
 import Matrix.TriangularMatrix;
 import Matrix.TridiagonalMatrix;
 import Matrix.TripleMatrix;
+import std;
+
 using namespace std;
 
 using dslab::Algorithm;

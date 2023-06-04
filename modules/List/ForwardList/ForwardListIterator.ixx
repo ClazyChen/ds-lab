@@ -1,10 +1,7 @@
-﻿module;
-#include <type_traits>
-#include <iterator>
-
-export module ForwardList.ForwardListIterator;
+﻿export module ForwardList.ForwardListIterator;
 
 import ForwardList.ForwardListNode;
+import std;
 
 export namespace dslab {
 
@@ -18,7 +15,7 @@ protected:
     ForwardListNodeConstPos<typename ForwardList::value_type> m_node { nullptr };
 public:
     using value_type = typename ForwardList::value_type;
-    using difference_type = ptrdiff_t;
+    using difference_type = std::ptrdiff_t;
     using pointer = const value_type*;
     using reference = const value_type&;
     using iterator_category = std::forward_iterator_tag;
@@ -63,7 +60,7 @@ protected:
     ForwardListNodePos<typename ForwardList::value_type> m_node { nullptr };
 public:
     using value_type = typename ForwardList::value_type;
-    using difference_type = ptrdiff_t;
+    using difference_type = std::ptrdiff_t;
     using pointer = value_type*;
     using reference = value_type&;
     using iterator_category = std::forward_iterator_tag;

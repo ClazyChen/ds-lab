@@ -1,10 +1,8 @@
-﻿module;
-#include <memory>
-
-export module List;
+﻿export module List;
 
 export import List.AbstractList;
 export import List.ListNode;
+import std;
 
 export namespace dslab {
 
@@ -132,6 +130,10 @@ public:
         p->prev()->next() = std::move(p->next());
         --m_size;
         return e;
+    }
+
+    std::string type_name() const override {
+        return "Bidirectional List";
     }
 };
 

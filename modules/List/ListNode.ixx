@@ -1,9 +1,7 @@
-﻿module;
-#include <memory>
-
-export module List.ListNode;
+﻿export module List.ListNode;
 
 import Framework.PointerProxy;
+import std;
 
 export namespace dslab {
 

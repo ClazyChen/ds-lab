@@ -1,11 +1,8 @@
-﻿module;
-#include <memory>
-#include <ranges>
-
-export module List.CircularList;
+﻿export module List.CircularList;
 
 export import List.CircularList.AbstractCircularList;
 export import List.ListNode;
+import std;
 
 export namespace dslab {
 
@@ -148,6 +145,10 @@ public:
         }
         --m_size;
         return e;
+    }
+    
+    std::string type_name() const override {
+        return "Bidirectional List (Circular)";
     }
 };
 

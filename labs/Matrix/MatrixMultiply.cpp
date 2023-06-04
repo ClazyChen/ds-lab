@@ -1,11 +1,7 @@
-﻿#include <vector>
-#include <memory>
-#include <bit>
-#include <format>
-#include <iostream>
-#include <algorithm>
-import Framework;
+﻿import Framework;
 import Matrix;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -268,14 +264,16 @@ class MatrixMultiplyN : public Algorithm<void()> {
 
 public:
     void operator()() override {
+        cout << format("Row Major Matrix Multiply Test (N = {})", N) << endl;
         rowMajorTest.run(&MatrixMultiplyTest<N, RowMajorMatrix>::initialize);
         for (auto& multiply : rowMajorMultiply) {
-            cout << format("{} ... ", multiply->type_name());
+            cout << format("{:20} ... ", multiply->type_name());
             rowMajorTest(multiply);
         }
+        cout << format("Col Major Matrix Multiply Test (N = {})", N) << endl;
         columnMajorTest.run(&MatrixMultiplyTest<N, ColumnMajorMatrix>::initialize);
         for (auto& multiply : columnMajorMultiply) {
-            cout << format("{} ... ", multiply->type_name());
+            cout << format("{:20} ... ", multiply->type_name());
             columnMajorTest(multiply);
         }
     }

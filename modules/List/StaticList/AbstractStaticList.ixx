@@ -1,12 +1,10 @@
-﻿module;
-#include <iostream>
-#include <iterator>
-
-export module List.StaticList.AbstractStaticList;
+﻿export module List.StaticList.AbstractStaticList;
 
 import LinearList;
 import List.StaticList.StaticListIterator;
 import List.StaticList.StaticListNode;
+
+import std;
 
 using Rank = size_t;
 

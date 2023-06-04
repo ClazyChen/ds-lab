@@ -1,9 +1,7 @@
-﻿#include <vector>
-#include <format>
-#include <ranges>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import List.CircularList;
+import std;
+
 using namespace std;
 
 using dslab::Algorithm;
@@ -59,6 +57,9 @@ public:
             throw runtime_error("size != 0");
         }
     }
+    string type_name() const override {
+        return "Create Circular List";
+    }
 };
 
 class PushBackList : public Algorithm<void(List<TestItem>&)> {
@@ -80,6 +81,9 @@ public:
         if (L.size() != N) {
             throw runtime_error("size != N");
         }
+    }
+    string type_name() const override {
+        return "Push Back Circular List";
     }
 };
 
@@ -105,6 +109,9 @@ public:
         if (L.size() != 2 * N) {
             throw runtime_error("size != 2 * N");
         }
+    }
+    string type_name() const override {
+        return "Insert Next Circular List";
     }
 };
 
@@ -133,6 +140,9 @@ public:
         if (L.size() != N) {
             throw runtime_error("size != N");
         }
+    }
+    string type_name() const override {
+        return "Erase Circular List";
     }
 };
 
@@ -167,6 +177,9 @@ public:
             throw runtime_error("size != N");
         }
     }
+    string type_name() const override {
+        return "Find Circular List";
+    }
 };
 
 class InsertPrevList : public Algorithm<void(List<TestItem>&)> {
@@ -194,6 +207,9 @@ public:
             throw runtime_error("size != 2 * N");
         }
     }
+    string type_name() const override {
+        return "Insert as Prev Circular List";
+    }
 };
 
 class CopyList : public Algorithm<void(List<TestItem>&)> {
@@ -217,6 +233,9 @@ public:
         }
         check(L2);
     }
+    string type_name() const override {
+        return "Copy Circular List";
+    }
 };
 
 class MoveList : public Algorithm<void(List<TestItem>&)> {
@@ -237,6 +256,9 @@ public:
         }
         check(L2);
         L = move(L2);
+    }
+    string type_name() const override {
+        return "Move Circular List";
     }
 };
 
@@ -261,6 +283,9 @@ public:
             throw runtime_error("size != N");
         }
     }
+    string type_name() const override {
+        return "Pop Front Circular List";
+    }
 };
 
 class PopBackList : public Algorithm<void(List<TestItem>&)> {
@@ -283,6 +308,9 @@ public:
         if (L.size() != 0) {
             throw runtime_error("size != 0");
         }
+    }
+    string type_name() const override {
+        return "Pop Back Circular List";
     }
 };
 

@@ -1,11 +1,9 @@
-﻿module;
-#include <iostream>
-
-export module Queue.StackQueue;
+﻿export module Queue.StackQueue;
 
 import Queue.AbstractQueue;
 import Stack.SharedStack;
 import Vector;
+import std;
 
 export namespace dslab {
 
@@ -53,6 +51,10 @@ public:
     }
     size_t size() const override {
         return SS.size();
+    }
+
+    std::string type_name() const override {
+        return std::format("Queue with {}", SS.type_name());
     }
 
     template <typename T1, template<typename> typename V1>

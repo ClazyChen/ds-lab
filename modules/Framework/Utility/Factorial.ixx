@@ -1,6 +1,7 @@
 ﻿export module Factorial;
 
 import Framework.Algorithm;
+import std;
 
 export namespace dslab {
 
@@ -13,6 +14,9 @@ class Factorial : public FactorialProblem {
 public:
     int operator()(int n) override {
         return factorial(n);
+    }
+    std::string type_name() const override {
+        return "Factorial (constexpr)";
     }
 };
 

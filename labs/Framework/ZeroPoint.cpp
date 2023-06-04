@@ -1,9 +1,6 @@
-﻿#include <vector>
-#include <format>
-#include <functional>
-#include <iostream>
-#include <memory>
-import Framework;
+﻿import Framework;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -34,6 +31,9 @@ protected:
         }
         return l;
     }
+    string type_name() const override {
+        return "Bisection (Iterative)";
+    }
 };
 
 // 将迭代转换为递归
@@ -50,6 +50,9 @@ protected:
                 return apply(f, mid, r);
             }
         }
+    }
+    string type_name() const override {
+        return "Bisection (Recursive)";
     }
 };
 
@@ -110,7 +113,7 @@ TestFramework<ZeroPoint, ZeroPointIterative, ZeroPointRecursive> test;
 
 int main() {
     for (auto& f : testFunctor) {
-        cout << format("Testing {}...", f->name()) << endl;
+        cout << format("Testing {:>8} ...", f->name()) << endl;
         test([&f](double x) { return f->operator()(x); });
     }
 }

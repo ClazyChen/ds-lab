@@ -1,70 +1,86 @@
-﻿module;
-#include <memory>
-#include <functional>
-
-export module BinaryTree.BinaryTreePreorderTraverse;
+﻿export module BinaryTree.Traverse.BinaryTreePreOrderTraverse;
 
 import BinaryTree.BinaryTreeNode;
-import BinaryTree.AbstractBinaryTreeNode;
-import BinaryTree.AbstractBinaryTree;
-import BinaryTree.BinaryTreeTraverse;
+import BinaryTree.Traverse.AbstractBinaryTreeTraverse;
 import Stack;
+import std;
 
 export namespace dslab {
 
 template <typename T>
-class BinaryTreePreorderTraverse : public BinaryTreeTraverse<T> {
-    void operator()(const AbstractBinaryTreeNode<T>* node, std::function<void(const T&)> visit) override {
-        if (node == nullptr) {
+class BinaryTreePreOrderTraverse : public AbstractBinaryTreeTraverse<T> {
+public:
+    void traverse(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
+        if (!p) {
             return;
         }
-        visit(node->data());
-        (*this)(node->left().get(), visit);
-        (*this)(node->right().get(), visit);
+        visit(p);
+        traverse(p->left(), visit);
+        traverse(p->right(), visit);
     }
 };
 
 template <typename T>
-class BinaryTreePreorderTraverseSemilinear : public BinaryTreeTraverse<T> {
-    void operator()(const AbstractBinaryTreeNode<T>* node, std::function<void(const T&)> visit) override {
-        Stack<const AbstractBinaryTreeNode<T>*> S { node };
+class BinaryTreePreOrderTraverseSemilinear : public AbstractBinaryTreeTraverse<T> {
+public:
+    void traverse(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
+        Stack<BinaryTreeNodeConstPos<T>> S { p };
         while (!S.empty()) {
-            if (auto t { S.pop() }; t != nullptr) {
-                visit(t->data());
-                S.push(t->right().get());
-                S.push(t->left().get());
+            if (auto node { S.pop() }; node) {
+                visit(node);
+                S.push(node->right());
+                S.push(node->left());
             }
         }
     }
 };
 
 template <typename T>
-class BinaryTreePreorderTraverseLinear : public BinaryTreeTraverse<T> {
-    void operator()(const AbstractBinaryTreeNode<T>* node, std::function<void(const T&)> visit) override {
-        Stack<const AbstractBinaryTreeNode<T>*> S { node };
+class BinaryTreePreOrderTraverseLinear : public AbstractBinaryTreeTraverse<T> {
+public:
+    void traverse(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
+        Stack<BinaryTreeNodeConstPos<T>> S { p };
         while (!S.empty()) {
-            for (auto t { S.pop() }; t != nullptr; t = t->left().get()) {
-                visit(t->data());
-                S.push(t->right().get());
+            for (auto node { S.pop() }; node; node = node->left()) {
+                visit(node);
+                S.push(node->right());
             }
         }
     }
 };
 
 template <typename T>
-class BinaryTreePreorderTraverseLinearRecursive : public BinaryTreeTraverse<T> {
-    void operator()(const AbstractBinaryTreeNode<T>* node, std::function<void(const T&)> visit) override {
-        if (node == nullptr) {
-            return;
+class BinaryTreePreOrderTraverseLinearRight : public AbstractBinaryTreeTraverse<T> {
+    void pushRightChain(Stack<BinaryTreeNodeConstPos<T>>& S, BinaryTreeNodeConstPos<T> p) {
+        Stack<BinaryTreeNodeConstPos<T>> St;
+        while (p) {
+            St.push(p);
+            p = p->right();
         }
-        while (node->left() != nullptr) {
-            visit(node->data());
-            node = node->left().get();
+        while (!St.empty()) {
+            S.push(St.pop());
         }
-        visit(node->data());
-        while (node != nullptr) {
-            (*this)(node->right().get(), visit);
-            node = node->parent();
+    }
+public:
+    void traverse(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
+        Stack<BinaryTreeNodeConstPos<T>> S;
+        pushRightChain(S, p);
+        while (!S.empty()) {
+            auto node { S.pop() };
+            visit(node);
+            pushRightChain(S, node->left());
+        }
+    }
+};
+
+template <typename T>
+class BinaryTreePreOrderTraverseLinearRecursive : public AbstractBinaryTreeTraverse<T> {
+public:
+    void traverse(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
+        while (p != nullptr) {
+            visit(p);
+            traverse(p->left(), visit);
+            p = p->right();
         }
     }
 };

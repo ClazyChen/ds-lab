@@ -1,9 +1,8 @@
-﻿module;
-#include <vector>
-
-export module Combine;
+﻿export module Combine;
 
 import Framework.Algorithm;
+import std.compat;
+
 export namespace dslab {
 
 class CombineProblem : public Algorithm<int(int, int)> {};
@@ -22,6 +21,10 @@ public:
             C[n].push_back(static_cast<long long>(n - i + 1) * C[n].back() / i);
         }
         return C[n][m];
+    }
+
+    std::string type_name() const override {
+        return "Combine (1-D Iterative / Memory Search)";
     }
 };
 

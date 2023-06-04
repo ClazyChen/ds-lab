@@ -1,10 +1,7 @@
-﻿module;
-#include <memory>
-#include <iostream>
-
-export module Stack.MinStack;
+﻿export module Stack.MinStack;
 
 import Stack;
+import std;
 
 export namespace dslab {
 
@@ -38,6 +35,10 @@ public:
     
     const T& min() const {
         return minStack.top();
+    }
+
+    std::string type_name() const override {
+        return std::format("Min {}", minStack.type_name());
     }
     
     template <typename T1>

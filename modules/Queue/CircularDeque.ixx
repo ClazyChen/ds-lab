@@ -1,10 +1,8 @@
-﻿module;
-#include <iostream>
-
-export module Deque.CircularDeque;
+﻿export module Deque.CircularDeque;
 
 import Deque.AbstractDeque;
 import Vector;
+import std;
 
 export namespace dslab {
 

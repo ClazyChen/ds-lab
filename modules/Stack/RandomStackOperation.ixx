@@ -1,13 +1,8 @@
-﻿module;
-#include <string>
-#include <type_traits>
-#include <numbers>
-#include <random>
-
-export module Stack.RandomStackOperation;
+﻿export module Stack.RandomStackOperation;
 
 import Framework.Algorithm;
 import Vector;
+import std;
 
 export namespace dslab {
 

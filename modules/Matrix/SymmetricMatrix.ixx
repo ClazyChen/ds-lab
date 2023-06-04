@@ -1,9 +1,7 @@
-﻿module;
-#include <utility>
-
-export module Matrix.SymmetricMatrix;
+﻿export module Matrix.SymmetricMatrix;
 
 import Matrix.AbstractCompressedMatrix;
+import std;
 
 export namespace dslab {
 
@@ -30,6 +28,10 @@ public:
         SymmetricMatrix tmp { ilist };
         std::swap(this->m_data, tmp.m_data);
         return *this;
+    }
+
+    std::string type_name() const override {
+        return std::format("Matrix {}x{} (Symmetric Compressed)", N, N);
     }
 };
 

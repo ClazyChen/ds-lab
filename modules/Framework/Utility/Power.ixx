@@ -1,6 +1,7 @@
 ﻿export module Power;
 
 import Framework.Algorithm;
+
 export namespace dslab {
 
 class PowerProblem : public Algorithm<int(int, int)> {};
@@ -17,6 +18,9 @@ public:
             b /= 2;
         }
         return result;
+    }
+    std::string type_name() const override {
+        return "Exponent by squaring (Iterative)";
     }
 };
 

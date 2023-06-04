@@ -1,13 +1,9 @@
-﻿module;
-#include <algorithm>
-#include <format>
-#include <iostream>
-
-export module Stack.SharedStack;
+﻿export module Stack.SharedStack;
 
 import Vector;
 import Framework.DataStructure;
 import Stack.AbstractStack;
+import std;
 
 export namespace dslab {
 
@@ -125,6 +121,10 @@ public:
 
     size_t size() const override {
         return Sb.size() + Sf.size();
+    }
+
+    std::string type_name() const override {
+        return std::format("Stack (Shared / {})", V.type_name());
     }
 
     template <typename T1, template<typename> typename V1>

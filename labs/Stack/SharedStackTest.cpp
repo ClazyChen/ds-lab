@@ -1,8 +1,7 @@
-﻿#include <vector>
-#include <format>
-#include <iostream>
-import Framework;
+﻿import Framework;
 import Stack.SharedStack;
+import std;
+
 using namespace std;
 
 using dslab::Algorithm;
@@ -50,6 +49,9 @@ public:
         stdVector2 = {};
         check(S);
     }
+    string type_name() const override {
+        return "Create Stack (Shared)";
+    }
 };
 
 class PushCopyStack : public Algorithm<void(SharedStack<TestItem>&)> {
@@ -68,6 +70,9 @@ public:
         if (S.getStacks().first.size() != N) {
             throw runtime_error("size != N");
         }
+    }
+    string type_name() const override {
+        return "Push Stack (Shared) (Copy)";
     }
 };
 
@@ -88,6 +93,9 @@ public:
         if (S.getStacks().second.size() != N) {
             throw runtime_error("size != N");
         }
+    }
+    string type_name() const override {
+        return "Push Stack (Shared) (Move)";
     }
 };
 
@@ -113,6 +121,9 @@ public:
         if (S.getStacks().second.size() != 0) {
             throw runtime_error("size != 0");
         }
+    }
+    string type_name() const override {
+        return "Pop Stack (Shared)";
     }
 };
 

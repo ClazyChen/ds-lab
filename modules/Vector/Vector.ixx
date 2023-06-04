@@ -1,12 +1,9 @@
-﻿module;
-#include <ratio>
-#include <memory>
-
-export module Vector;
+﻿export module Vector;
 
 export import Vector.AbstractVector;
 export import Vector.VectorIterator;
 export import Vector.VectorAllocator;
+import std;
 
 export namespace dslab {
 
@@ -143,6 +140,10 @@ public:
 
     T pop_back() override {
         return std::move(m_data[--m_size]);
+    }
+
+    std::string type_name() const override {
+        return std::format("Vector [{}]", Alloc {}.type_name());
     }
 };
 

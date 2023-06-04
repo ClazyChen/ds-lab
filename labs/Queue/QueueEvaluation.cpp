@@ -1,12 +1,10 @@
-﻿#include <vector>
-#include <queue>
-#include <format>
-#include <iostream>
-import Queue;
+﻿import Queue;
 import Queue.StackQueue;
 import Framework;
 import Vector;
 import Stack.RandomStackOperation;
+import std;
+
 using namespace dslab;
 using namespace std;
 
@@ -42,6 +40,9 @@ public:
     size_t size() const override {
         return backStack.size() + frontStack.size();
     }
+    string type_name() const override {
+        return std::format("Queue with dual Stack ({})", frontStack.type_name());
+    }
 };
 
 // C++ STL中的队列，用于对比
@@ -66,6 +67,9 @@ void enqueue(const T& e) override {
     }
     size_t size() const override {
         return Q.size();
+    }
+    string type_name() const override {
+        return "std::queue";
     }
 };
 
@@ -101,6 +105,9 @@ public:
             this->Q.enqueue(i);
         }
     }
+    string type_name() const override {
+        return this->Q.type_name();
+    }
 };
 
 RandomStackOperation<char, string> randop;
@@ -118,6 +125,9 @@ public:
                 this->Q.dequeue();
             }
         }
+    }
+    string type_name() const override {
+        return this->Q.type_name();
     }
 };
 

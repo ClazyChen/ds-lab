@@ -1,12 +1,10 @@
-﻿module;
-#include <memory>
-
-export module List.StaticList;
+﻿export module List.StaticList;
 
 export import List.StaticList.AbstractStaticList;
 export import List.StaticList.StaticListNode;
 
 import Vector;
+import std;
 
 export namespace dslab {
 
@@ -124,6 +122,10 @@ public:
         }
         m_data.pop_back();
         return e;
+    }
+
+    std::string type_name() const override {
+        return "Bidirectional List (Static)";
     }
 };
 

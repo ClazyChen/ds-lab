@@ -1,6 +1,7 @@
 ﻿export module Framework.DataStructure;
 
 import Framework.Object;
+import std;
 
 export namespace dslab {
 template <typename T>
