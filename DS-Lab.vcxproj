@@ -137,7 +137,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\BinaryTree\Rebuild.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Framework\ArraySum.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -194,6 +194,15 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Matrix\NaiveMatrixMultiply.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="labs\PriorityQueue\InsertionSort.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="labs\PriorityQueue\SelectionSort.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="labs\PriorityQueue\VectorPriorityQueue.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Queue\QueueEvaluation.cpp">
@@ -307,9 +316,9 @@
     <ClCompile Include="modules\BinaryTree\BinaryTreeTraverse.ixx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="modules\BinaryTree\ThreadedBinaryTreeNode.ixx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\RandomBinaryTree.ixx" />
+    <ClCompile Include="modules\BinaryTree\ThreadedBinaryTree\AbstractThreadedBinaryTree.ixx" />
+    <ClCompile Include="modules\BinaryTree\ThreadedBinaryTree\ThreadedBinaryTreeNode.ixx" />
     <ClCompile Include="modules\Framework\Algorithm.ixx" />
     <ClCompile Include="modules\Framework\DataStructure.ixx" />
     <ClCompile Include="modules\framework\Framework.ixx" />
@@ -395,6 +404,7 @@
     <ClCompile Include="modules\Matrix\TripleMatrix.ixx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="modules\PriorityQueue\AbstractPriorityQueue.ixx" />
     <ClCompile Include="modules\Queue\AbstractDeque.ixx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -443,6 +453,7 @@
     <ClCompile Include="modules\Sort\MergeSort.ixx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="modules\Sort\SelectionSort.ixx" />
     <ClCompile Include="modules\Sort\Sort.ixx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>

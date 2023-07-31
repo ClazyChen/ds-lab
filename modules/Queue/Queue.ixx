@@ -54,6 +54,10 @@ public:
         return V[m_front];
     }
 
+    const T& front() const {
+        return const_cast<Queue<T, Vec, Q>*>(this)->front();
+    }
+
     std::string type_name() const override {
         if constexpr (Q::den == 1) {
             return std::format("Queue ({} * {})", V.type_name(), Q::num);

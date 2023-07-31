@@ -1,11 +1,7 @@
-﻿module;
-#include <stdexcept>
-#include <variant>
-#include <memory>
-
-export module ThreadedBinaryTree.ThreadedBinaryTreeNode;
+﻿export module ThreadedBinaryTree.ThreadedBinaryTreeNode;
 
 import Framework.PointerProxy;
+import std;
 
 export namespace dslab {
 
@@ -77,6 +73,32 @@ public:
 
     bool isLeaf() const {
         return !hasLeft() && !hasRight();
+    }
+
+    size_t height() const {
+        if (isLeaf()) {
+            return 0;
+        } else {
+            size_t h { 0 };
+            if (hasLeft()) {
+                h = std::max(h, left()->height());
+            }
+            if (hasRight()) {
+                h = std::max(h, right()->height());
+            }
+            return h + 1;
+        }
+    }
+
+    size_t size() const {
+        size_t s { 1 };
+        if (hasLeft()) {
+            s += left()->size();
+        }
+        if (hasRight()) {
+            s += right()->size();
+        }
+        return s;
     }
 };
 

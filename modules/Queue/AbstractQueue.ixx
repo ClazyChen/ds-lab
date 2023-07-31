@@ -11,9 +11,6 @@ public:
     virtual void enqueue(T&& e) = 0; // 入队
     virtual T dequeue() = 0; // 出队
     virtual T& front() = 0; // 取队首元素
-    virtual const T& front() const {
-        return const_cast<AbstractQueue*>(this)->front();
-    }
 };
 
 }
