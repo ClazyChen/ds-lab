@@ -504,5 +504,8 @@
     <ClCompile Include="labs\PriorityQueue\InsertionSort.cpp">
       <Filter>Source Files\PriorityQueue</Filter>
     </ClCompile>
+    <ClCompile Include="labs\PriorityQueue\ListSelectInsertSort.cpp">
+      <Filter>Source Files\PriorityQueue</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

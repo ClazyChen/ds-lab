@@ -9,26 +9,6 @@ import std;
 using namespace dslab;
 using namespace std;
 
-template <typename T, template<typename> typename Linear>
-    requires std::is_base_of_v<AbstractVector<T>, Linear<T>>
-class BinaryInsertionSort : public AbstractSort<T, Linear> {
-protected:
-    void sort(Linear<T>& V) override {
-        for (Rank i { 1 }; i < V.size(); ++i) {
-            if (this->cmp(V[i], V[i - 1])) {
-                auto pos { upper_bound(begin(V), begin(V) + i, V[i], this->cmp) };
-                auto tmp { move(V[i]) };
-                move_backward(pos, begin(V) + i, begin(V) + i + 1);
-                *pos = move(tmp);
-            }
-        }
-    }
-public:
-    string type_name() const override {
-        return "Insertion Sort / Binary";
-    }
-};
-
 template <typename T>
 class SortTester : public Algorithm<bool()> {
 protected:
@@ -63,23 +43,22 @@ TestFramework<SortTester<int>,
     SortTesterImpl<int, MergeSort>
 > test;
 
-void runTests(auto&& generator) {
+void runTests(auto&& shuffle_ratio) {
     for (auto n : testData) {
         cout << format("n = {:>8}", n) << endl;
         Vector<int> V(n);
-        generator(V);
-        shuffle(begin(V), end(V), engine);
+        iota(begin(V), end(V), 0);
+        shuffle(begin(V), begin(V) + static_cast<int>(shuffle_ratio(n)), engine);
         test.run([&V](auto& algo) { algo.initialize(V); });
         test();
     }
 }
 
 int main() {
-    cout << "Experiment 1 : Random Number" << endl;
-    runTests([](auto& V) { iota(begin(V), end(V), 0); });
-    /*cout << "Experiment 2 : Limited Number in [0, 10)" << endl;
-    runTests([](auto& V) {
-        iota(begin(V), end(V), 0);
-        transform(begin(V), end(V), begin(V), [](auto x) { return x % 10; });
-    });*/
+    cout << "Experiment 1 : All n Elements     are Shuffled" << endl;
+    runTests([](int n) { return n; });
+    cout << "Experiment 2 : Only First 0.1 * n are Shuffled" << endl;
+    runTests([](int n) { return n * 0.1; });
+    cout << "Experiment 3 : Only First logn    are Sorted" << endl;
+    runTests([](int n) { return log2(n); });
 }

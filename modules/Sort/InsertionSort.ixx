@@ -29,6 +29,26 @@ public:
 };
 
 template <typename T, template<typename> typename Linear>
+    requires std::is_base_of_v<AbstractVector<T>, Linear<T>>
+class BinaryInsertionSort : public AbstractSort<T, Linear> {
+protected:
+    void sort(Linear<T>& V) override {
+        for (Rank i { 1 }; i < V.size(); ++i) {
+            if (this->cmp(V[i], V[i - 1])) {
+                auto pos { std::upper_bound(std::begin(V), std::begin(V) + i, V[i], this->cmp) };
+                auto tmp { std::move(V[i]) };
+                std::move_backward(pos, std::begin(V) + i, std::begin(V) + i + 1);
+                *pos = std::move(tmp);
+            }
+        }
+    }
+public:
+    std::string type_name() const override {
+        return "Insertion Sort / Binary";
+    }
+};
+
+template <typename T, template<typename> typename Linear>
     requires std::is_base_of_v<AbstractList<T>, Linear<T>>
 class ListInsertionSort : public AbstractSort<T, Linear> {
 protected:
