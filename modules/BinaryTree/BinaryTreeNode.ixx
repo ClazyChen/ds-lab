@@ -1,7 +1,7 @@
 ﻿export module BinaryTree.BinaryTreeNode;
 
-import std;
 import Framework.PointerProxy;
+import std;
 
 export namespace dslab {
 
@@ -16,6 +16,14 @@ using BinaryTreeNodePos = RawPointerProxy<BinaryTreeNode<T>>;
 
 template <typename T>
 using BinaryTreeNodeConstPos = ConstRawPointerProxy<BinaryTreeNode<T>>;
+
+template <template<typename> typename Node>
+concept TriNodeConcept = requires(Node<int> node) {
+    { node.data() } -> std::convertible_to<int&>;
+    { node.left() } -> std::convertible_to<UniquePointerProxy<Node<int>>&>;
+    { node.right() } -> std::convertible_to<UniquePointerProxy<Node<int>>&>;
+    { node.parent() } -> std::convertible_to<RawPointerProxy<Node<int>>&>;
+};
 
 template <typename T>
 class BinaryTreeNode {

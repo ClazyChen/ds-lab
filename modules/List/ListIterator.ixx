@@ -62,6 +62,8 @@ public:
         return tmp -= n;
     }
 
+    operator ListNodeConstPos<value_type>() const { return m_node; }
+
     reference operator*() const { return m_node->data(); }
     pointer operator->() const { return &m_node->data(); }
 
@@ -122,6 +124,8 @@ public:
         ListIterator tmp(*this);
         return tmp -= n;
     }
+
+    operator ListNodePos<value_type>() const { return m_node; }
 
     reference operator*() const { return m_node->data(); }
     pointer operator->() const { return &m_node->data(); }

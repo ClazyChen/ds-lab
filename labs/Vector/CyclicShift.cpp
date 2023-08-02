@@ -10,6 +10,17 @@ template <typename T>
 class CyclicShift : public Algorithm<void(Vector<T>&, size_t)> {};
 
 template <typename T>
+class CyclicShiftStd : public CyclicShift<T> {
+public:
+    void operator()(Vector<T>& V, size_t k) override {
+        rotate(begin(V), begin(V) + k, end(V));
+    }
+    string type_name() const override {
+        return "Cyclic Shift (std::rotate)";
+    }
+};
+
+template <typename T>
 class CyclicShiftMove : public CyclicShift<T> {
 public:
     void operator()(Vector<T>& V, size_t k) override {
@@ -67,7 +78,7 @@ vector<pair<int, int>> testData {
     {10'000'000, 9'000'000}
 };
 
-TestFramework<CyclicShift<int>, CyclicShiftMove<int>, CyclicShiftSwap<int>, CyclicShiftReverse<int>> test;
+TestFramework<CyclicShift<int>, CyclicShiftStd<int>, CyclicShiftMove<int>, CyclicShiftSwap<int>, CyclicShiftReverse<int>> test;
 
 int main() {
     for (auto& [n, k] : testData) {

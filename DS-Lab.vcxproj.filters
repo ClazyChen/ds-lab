@@ -67,6 +67,12 @@
     <Filter Include="Source Files\Tree">
       <UniqueIdentifier>{9c53dffc-9c9d-45d2-8a14-452f12e9bdcc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\PriorityQueue">
+      <UniqueIdentifier>{8a75db85-17ff-4cbe-967c-bb0be53ce946}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PriorityQueue">
+      <UniqueIdentifier>{1cb56805-1cd2-4cfe-a092-201bf0231871}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="modules\Framework\Algorithm.ixx">
@@ -396,9 +402,6 @@
     <ClCompile Include="modules\BinaryTree\BinaryTreeLevelOrderTraverse.ixx">
       <Filter>Resource Files\BinaryTree</Filter>
     </ClCompile>
-    <ClCompile Include="modules\BinaryTree\ThreadedBinaryTreeNode.ixx">
-      <Filter>Resource Files\BinaryTree</Filter>
-    </ClCompile>
     <ClCompile Include="modules\Sort\InsertionSort.ixx">
       <Filter>Resource Files\Sort</Filter>
     </ClCompile>
@@ -476,6 +479,33 @@
     </ClCompile>
     <ClCompile Include="labs\BinaryTree\BinaryTreeTest.cpp">
       <Filter>Source Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\RandomBinaryTree.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\ThreadedBinaryTree\ThreadedBinaryTreeNode.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\ThreadedBinaryTree\AbstractThreadedBinaryTree.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\PriorityQueue\VectorPriorityQueue.cpp">
+      <Filter>Source Files\PriorityQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\PriorityQueue\AbstractPriorityQueue.ixx">
+      <Filter>Resource Files\PriorityQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Sort\SelectionSort.ixx">
+      <Filter>Resource Files\Sort</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\PriorityQueue\SelectionSort.cpp">
+      <Filter>Source Files\PriorityQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\PriorityQueue\InsertionSort.cpp">
+      <Filter>Source Files\PriorityQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\PriorityQueue\ListSelectInsertSort.cpp">
+      <Filter>Source Files\PriorityQueue</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
