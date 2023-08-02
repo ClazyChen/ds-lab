@@ -197,7 +197,9 @@ public:
     }
 };
 
-MatrixMultiplyNTest<20, 100, 200, 300, 400> test;
+// MatrixMultiplyNTest<20, 100, 200, 300, 400> test;
+
+MatrixMultiplyNTest<128, 128, 128, 128, 128, 128, 128, 128, 128, 128> test;
 
 int main() {
     test();

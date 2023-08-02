@@ -41,7 +41,7 @@ public:
     }
     void operator()(size_t n) override {
         if constexpr (is_base_of_v<AbstractVector<int>, Linear<int>>) {
-            if (n > 100'000) {
+            if (n > 1000'000) {
                 throw runtime_error { R"(Vector::push_front() is too slow for n > 100'000)" };
             }
         }
