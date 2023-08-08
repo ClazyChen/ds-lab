@@ -242,12 +242,9 @@ int main() {
     for (auto n : testData) {
         cout << format("n = {:>8}", n) << endl;
         auto tree { buildTree(n) };
-        cout << "Random Test" << endl;
         Vector<int> pre, in;
         tree.traverse<BinaryTreePreOrderTraverse>([&pre](auto&& e) { pre.push_back(e); });
         tree.traverse<BinaryTreeInOrderTraverse>([&in](auto&& e) { in.push_back(e); });
-        /*cout << pre << endl;
-        cout << in << endl;*/
         test(cref(pre), cref(in));
         test.run([&pre, &in](auto&& test) { test.check(pre, in); });
     }

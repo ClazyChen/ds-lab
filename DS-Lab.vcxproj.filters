@@ -507,5 +507,23 @@
     <ClCompile Include="labs\PriorityQueue\ListSelectInsertSort.cpp">
       <Filter>Source Files\PriorityQueue</Filter>
     </ClCompile>
+    <ClCompile Include="modules\PriorityQueue\WinnerTree.ixx">
+      <Filter>Resource Files\PriorityQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\PriorityQueue\PriorityQueueTest.cpp">
+      <Filter>Source Files\PriorityQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\PriorityQueue\PriorityQueue.ixx">
+      <Filter>Resource Files\PriorityQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\PriorityQueue\Heap.ixx">
+      <Filter>Resource Files\PriorityQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\PriorityQueue\BuildWinnerTree.cpp">
+      <Filter>Source Files\PriorityQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Sort\TournamentSort.ixx">
+      <Filter>Resource Files\Sort</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

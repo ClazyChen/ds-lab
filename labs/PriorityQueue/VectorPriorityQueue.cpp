@@ -37,12 +37,8 @@ public:
         return V.remove(min());
     }
 
-    T& top() override {
+    const T& top() const override {
         return V[min()];
-    }
-
-    const T& top() const {
-        return const_cast<NaiveVectorPriorityQueue<T>*>(this)->top();
     }
 
     string type_name() const override {
@@ -89,12 +85,8 @@ public:
         return e;
     }
 
-    T& top() override {
+    const T& top() const override {
         return V[min()];
-    }
-
-    const T& top() const {
-        return const_cast<MemoryVectorPriorityQueue<T>*>(this)->top();
     }
 
     string type_name() const override {
@@ -146,12 +138,8 @@ public:
         return e;
     }
 
-    T& top() override {
+    const T& top() const override {
         return V[min()];
-    }
-
-    const T& top() const {
-        return const_cast<MemoryVectorPriorityQueue<T>*>(this)->top();
     }
 
     string type_name() const override {
@@ -199,12 +187,8 @@ public:
         return V.pop_back();
     }
 
-    T& top() override {
+    const T& top() const override {
         return V.back();
-    }
-
-    const T& top() const {
-        return const_cast<SortedVectorPriorityQueue<T>*>(this)->top();
     }
 
     string type_name() const override {

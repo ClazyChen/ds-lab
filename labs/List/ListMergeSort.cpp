@@ -68,15 +68,24 @@ TestFramework<SortProblem,
 
 default_random_engine engine { random_device{}() };
 
-int main() {
+template <bool Shuffle>
+void testCases() {
+    cout << format("Enabled Shuffle = {}", Shuffle) << endl;
     for (auto n : testData) {
         cout << format("n = {:>10}", n) << endl;
         Vector<int> V(n);
         iota(begin(V), end(V), 0);
         shuffle(begin(V), end(V), engine);
         test.run([V](auto& algo) { algo.initialize(V); });
-        shuffle(begin(V), end(V), engine);
-        test.run([V](auto& algo) { algo.shuffle(V); });
+        if constexpr (Shuffle) {
+            shuffle(begin(V), end(V), engine);
+            test.run([V](auto& algo) { algo.shuffle(V); });
+        }
         test();
     }
+}
+
+int main() {
+    testCases<false>();
+    testCases<true>();
 }
