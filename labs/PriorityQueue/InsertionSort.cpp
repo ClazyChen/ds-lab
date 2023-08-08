@@ -4,6 +4,7 @@ import Sort.AbstractSort;
 import Sort.InsertionSort;
 import Sort.SelectionSort;
 import Sort.MergeSort;
+import Sort.TournamentSort;
 import std;
 
 using namespace dslab;
@@ -40,7 +41,8 @@ TestFramework<SortTester<int>,
     SortTesterImpl<int, SelectionSort>,
     SortTesterImpl<int, InsertionSort>,
     SortTesterImpl<int, BinaryInsertionSort>,
-    SortTesterImpl<int, MergeSort>
+    SortTesterImpl<int, MergeSort>,
+    SortTesterImpl<int, TournamentSort>
 > test;
 
 void runTests(auto&& shuffle_ratio) {
