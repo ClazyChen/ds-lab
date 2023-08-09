@@ -525,5 +525,8 @@
     <ClCompile Include="modules\Sort\TournamentSort.ixx">
       <Filter>Resource Files\Sort</Filter>
     </ClCompile>
+    <ClCompile Include="modules\Sort\HeapSort.ixx">
+      <Filter>Resource Files\Sort</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

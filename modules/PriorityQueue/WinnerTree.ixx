@@ -75,7 +75,7 @@ public:
     T pop() override {
         auto n { V.size() / 2 };
         auto c { 1 };
-        while (c < n) {
+        while (c < n - 1) {
             if (V[c] == V[left(c)]) {
                 c = left(c);
             } else {
@@ -83,11 +83,7 @@ public:
             }
         }
         auto ret { V[c] };
-        if (c == left(n - 1)) {
-            V[c = n - 1] = std::move(V[right(n - 1)]);
-        } else if (c == right(n - 1)) {
-            V[c = n - 1] = std::move(V[left(n - 1)]);
-        } else if (V[n - 1] == V[left(n - 1)]) {
+        if (V[n - 1] == V[left(n - 1)]) {
             V[c] = std::move(V[right(n - 1)]);
         } else {
             V[c] = std::move(V[left(n - 1)]);
