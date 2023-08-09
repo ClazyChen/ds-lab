@@ -456,6 +456,7 @@
     <ClCompile Include="modules\Sort\AbstractSort.ixx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="modules\Sort\HeapSort.ixx" />
     <ClCompile Include="modules\Sort\InsertionSort.ixx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
