@@ -30,6 +30,21 @@ public:
     }
 };
 
+class CalExprTree : public CalExpr {
+public:
+    int operator()(const string& expr) override {
+        if (expr.size() > 100'000) {
+            throw std::runtime_error("Stack overflow");
+        }
+        Expression e { expr };
+        e.infix2suffix();
+        return e.suffix2tree().cal();
+    }
+    string type_name() const override {
+        return "Calculate Expr (Tree)";
+    }
+};
+
 vector<pair<string, int>> testData {
     {"(1+2^3*45)%67-8*9"s, -46},
     {"-1-23*4^5-6!+7*8!/9"s, 7087},
@@ -38,7 +53,7 @@ vector<pair<string, int>> testData {
 
 vector<size_t> testTimes { 1000, 10000, 100'000, 300'000 };
 
-TestFramework<CalExpr, CalExprSuffix, CalExprInfix> test;
+TestFramework<CalExpr, CalExprSuffix, CalExprInfix, CalExprTree> test;
 
 int main() {
     for (const auto& [expr, result] : testData) {
