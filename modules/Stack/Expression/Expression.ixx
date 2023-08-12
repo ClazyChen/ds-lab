@@ -2,19 +2,15 @@
 
 export import Expression.AbstractExpressionElement;
 export import Expression.ExpressionElement;
+export import Expression.ExpressionTree;
 
 import Vector;
 import Stack;
+import Tree;
 import std;
 
 template <typename T>
 using DefaultVector = dslab::Vector<T>;
-
-// NOTE: 本文件在VS更新到17.5之后不能通过编译。
-// 1 > D:\Workspace\ds - lab\modules\Stack\Expression\Expression.ixx(106, 1) : fatal  error C1001 : 内部编译器错误。
-// 1 > (编译器文件“D:\a\_work\1\s\src\vctools\Compiler\CxxFE\sl\p1\c\module\writer.cpp”，第 1277 行)
-// 等待 Microsoft Visual Studio 团队修复
-// 在17.6 preview版本中已经修复，等待 17.6 正式版发布
 
 export namespace dslab {
 
@@ -78,6 +74,23 @@ public:
             }
         }
         return S.pop();
+    }
+
+    ExpressionTree suffix2tree() {
+        Stack<TreeNodeInst<ExpressionElement>> S;
+        for (auto& e : *this) {
+            auto node { TreeNodeInst<ExpressionElement>::make(e) };
+            auto [l, r] { e.operandPosition() };
+            for (auto pos : { r, l }) {
+                if (pos) {
+                    auto child { S.pop() };
+                    child->parent() = node;
+                    node->children().push_front(std::move(child));
+                }
+            }
+            S.push(std::move(node));
+        }
+        return ExpressionTree { std::move(S.pop()) };
     }
 
     int calInfix() const {

@@ -528,5 +528,14 @@
     <ClCompile Include="modules\Sort\HeapSort.ixx">
       <Filter>Resource Files\Sort</Filter>
     </ClCompile>
+    <ClCompile Include="modules\Stack\Expression\ExpressionTree.ixx">
+      <Filter>Resource Files\Stack</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\HuffmanTree\HuffmanTree.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinaryTree\HuffmanTree\EncodingTree.ixx">
+      <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

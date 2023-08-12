@@ -12,6 +12,7 @@ export namespace dslab {
 
 template <typename T>
 class Tree : public AbstractTree<T> {
+protected:
     TreeNodeInst<T> m_root { nullptr };
 
     TreeNodeInst<T> clone() const {
