@@ -64,7 +64,6 @@ class Heap : public AbstractPriorityQueue<T> {
             }
             if (m == r) {
                 break;
-                std::swap(V[r], V[m]);
             }
             std::swap(V[r], V[m]);
             r = m;
