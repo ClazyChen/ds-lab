@@ -200,7 +200,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\PriorityQueue\PriorityQueueTest.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\PriorityQueue\InsertionSort.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -224,7 +224,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Stack\Expression.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="labs\Stack\Generate4.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -280,6 +280,8 @@
     <ClCompile Include="labs\Vector\VectorUnique.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="modules\BinarySearchTree\AbstractBinarySearchTree.ixx" />
+    <ClCompile Include="modules\BinarySearchTree\BinarySearchTree.ixx" />
     <ClCompile Include="modules\BinaryTree\AbstractBinaryTree.ixx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -417,6 +419,7 @@
     </ClCompile>
     <ClCompile Include="modules\PriorityQueue\AbstractPriorityQueue.ixx" />
     <ClCompile Include="modules\PriorityQueue\Heap.ixx" />
+    <ClCompile Include="modules\PriorityQueue\LeftistHeap.ixx" />
     <ClCompile Include="modules\PriorityQueue\PriorityQueue.ixx" />
     <ClCompile Include="modules\PriorityQueue\WinnerTree.ixx" />
     <ClCompile Include="modules\Queue\AbstractDeque.ixx">
@@ -507,6 +510,9 @@
     <ClCompile Include="modules\Tree\AbstractTreeTraverse.ixx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="modules\Tree\DisjointSet\DisjointSet.ixx" />
+    <ClCompile Include="modules\Tree\DisjointSet\DisjointSetFind.ixx" />
+    <ClCompile Include="modules\Tree\DisjointSet\DisjointSetUnion.ixx" />
     <ClCompile Include="modules\Tree\RandomTree.ixx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>

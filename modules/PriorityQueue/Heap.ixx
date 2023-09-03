@@ -64,10 +64,10 @@ class Heap : public AbstractPriorityQueue<T> {
             }
             if (m == r) {
                 break;
-            } else {
                 std::swap(V[r], V[m]);
-                r = m;
             }
+            std::swap(V[r], V[m]);
+            r = m;
         }
     }
 
@@ -79,10 +79,12 @@ class Heap : public AbstractPriorityQueue<T> {
         } else {
             std::move(std::begin(V0), std::end(V0), std::begin(V) + 1);
         }
-        for (auto r { n / 2 }; ; --r) {
-            siftDown(r);
-            if (r == root()) {
-                break;
+        if (n > 1) {
+            for (auto r { parent(n + root() - 1) }; ; --r) {
+                siftDown(r);
+                if (r == root()) {
+                    break;
+                }
             }
         }
     }
