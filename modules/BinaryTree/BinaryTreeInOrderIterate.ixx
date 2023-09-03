@@ -33,4 +33,31 @@ public:
     }
 };
 
+template <typename T>
+class BinaryTreeInOrderReverseIterate : public AbstractBinaryTreeIterate<T> {
+    BinaryTreeNodeConstPos<T> rightMost(BinaryTreeNodeConstPos<T> p) {
+        while (p->right() != nullptr) {
+            p = p->right();
+        }
+        return p;
+    }
+public:
+    BinaryTreeNodeConstPos<T> begin(BinaryTreeNodeConstPos<T> p) override {
+        return rightMost(p);
+    }
+    BinaryTreeNodeConstPos<T> next(BinaryTreeNodeConstPos<T> p) override {
+        if (p == nullptr) {
+            return nullptr;
+        }
+        if (auto& left { p->left() }; left) {
+            return rightMost(left);
+        } else {
+            while (p->isLeftChild()) {
+                p = p->parent();
+            }
+            return p->parent();
+        }
+    }
+};
+
 }

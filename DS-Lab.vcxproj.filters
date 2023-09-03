@@ -73,6 +73,9 @@
     <Filter Include="Source Files\PriorityQueue">
       <UniqueIdentifier>{1cb56805-1cd2-4cfe-a092-201bf0231871}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\BinarySearchTree">
+      <UniqueIdentifier>{090e9c8e-e305-4229-afe5-9b914aff5278}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="modules\Framework\Algorithm.ixx">
@@ -536,6 +539,24 @@
     </ClCompile>
     <ClCompile Include="modules\BinaryTree\HuffmanTree\EncodingTree.ixx">
       <Filter>Resource Files\BinaryTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\DisjointSet\DisjointSetFind.ixx">
+      <Filter>Resource Files\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\DisjointSet\DisjointSet.ixx">
+      <Filter>Resource Files\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\Tree\DisjointSet\DisjointSetUnion.ixx">
+      <Filter>Resource Files\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinarySearchTree\AbstractBinarySearchTree.ixx">
+      <Filter>Resource Files\BinarySearchTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\BinarySearchTree\BinarySearchTree.ixx">
+      <Filter>Resource Files\BinarySearchTree</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\PriorityQueue\LeftistHeap.ixx">
+      <Filter>Resource Files\PriorityQueue</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
