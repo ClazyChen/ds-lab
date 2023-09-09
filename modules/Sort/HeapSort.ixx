@@ -29,10 +29,9 @@ class HeapSort : public AbstractSort<T, Linear> {
             }
             if (m == r) {
                 break;
-            } else {
-                std::swap(V[r], V[m]);
-                r = m;
             }
+            std::swap(V[r], V[m]);
+            r = m;
         }
     }
 

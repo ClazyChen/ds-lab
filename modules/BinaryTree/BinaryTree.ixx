@@ -13,6 +13,7 @@ export namespace dslab {
 
 template <typename T>
 class BinaryTree : public AbstractBinaryTree<T> {
+protected:
     BinaryTreeNodeInst<T> m_root { nullptr };
     BinaryTreeNodeInst<T> clone() const {
         if (m_root == nullptr) {
@@ -38,9 +39,26 @@ class BinaryTree : public AbstractBinaryTree<T> {
         return r;
     }
 
+    // 将另一个节点替换当前节点，返回被换下的节点
+    BinaryTreeNodeInst<T> replace(BinaryTreeNodePos<T> node, BinaryTreeNodeInst<T>&& other) {
+        if (auto p { node->parent() }; p) {
+            if (other) other->parent() = p;
+            if (p->left() == node) {
+                std::swap(p->left(), other);
+            } else {
+                std::swap(p->right(), other);
+            }
+        } else {
+            std::swap(m_root, other);
+        }
+        return std::move(other);
+    }
+
 public:
     BinaryTreeNodePos<T> root() override { return m_root; }
     BinaryTreeNodeConstPos<T> root() const override { return m_root; }
+    
+    // WARNING: O(n)
     size_t size() const override {
         size_t result { 0 };
         traverse<BinaryTreePreOrderTraverseSemilinear>([&result](auto) { ++result; });
