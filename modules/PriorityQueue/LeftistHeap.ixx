@@ -17,7 +17,7 @@ class LeftistHeap : public AbstractPriorityQueue<T> {
         bool operator==(const Element& e) const { return value == e.value; }
     };
 
-    size_t npl(const BinaryTreeNodeInst<Element>& node) const {
+    static size_t npl(BinaryTreeNodeConstPos<Element> node) {
         return node ? node->data().npl : 0;
     }
     
