@@ -558,5 +558,8 @@
     <ClCompile Include="modules\PriorityQueue\LeftistHeap.ixx">
       <Filter>Resource Files\PriorityQueue</Filter>
     </ClCompile>
+    <ClCompile Include="modules\BinarySearchTree\AVLTree.ixx">
+      <Filter>Resource Files\BinarySearchTree</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -10,7 +10,7 @@ using dslab::TestItem;
 using dslab::Vector;
 
 template <typename T>
-using PriorityQueue = dslab::LeftistHeap<T>;
+using PriorityQueue = dslab::Heap<T, true>;
 
 // 测试流程：
 // 1. 基于N个元素创建优先队列，规模=N
