@@ -1,6 +1,7 @@
 ﻿export module BinaryTree.Iterator.AbstractBinaryTreeIterate;
 
 import BinaryTree.BinaryTreeNode;
+import std;
 
 export namespace dslab {
 
@@ -12,6 +13,7 @@ public:
         return nullptr;
     }
     virtual BinaryTreeNodeConstPos<T> next(BinaryTreeNodeConstPos<T> p) = 0;
+    virtual std::string type_name() const = 0;
 };
 
 }

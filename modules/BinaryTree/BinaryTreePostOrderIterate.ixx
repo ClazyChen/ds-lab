@@ -32,6 +32,9 @@ public:
             return p->parent();
         }
     }
+    std::string type_name() const override {
+        return "PostOrder";
+    }
 };
 
 }

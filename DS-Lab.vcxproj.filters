@@ -76,6 +76,9 @@
     <Filter Include="Resource Files\BinarySearchTree">
       <UniqueIdentifier>{090e9c8e-e305-4229-afe5-9b914aff5278}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\BinarySearchTree">
+      <UniqueIdentifier>{5130b424-01af-4a1f-a961-ae72d5f6dfc1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="modules\Framework\Algorithm.ixx">
@@ -560,6 +563,9 @@
     </ClCompile>
     <ClCompile Include="modules\BinarySearchTree\AVLTree.ixx">
       <Filter>Resource Files\BinarySearchTree</Filter>
+    </ClCompile>
+    <ClCompile Include="labs\BinarySearchTree\BinarySearchTreeTest.cpp">
+      <Filter>Source Files\BinarySearchTree</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

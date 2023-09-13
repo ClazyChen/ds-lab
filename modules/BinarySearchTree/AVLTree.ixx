@@ -34,17 +34,6 @@ class AVLTree : protected BinarySearchTree<T, Cmp> {
         node->data().height = std::max(height(node->left()), height(node->right())) + 1
     }
 
-    static void updateHeights(BinaryTreeNodePos<Element>... nodes) {
-        (updateHeight(nodes), ...);
-    }
-
-    //static void updateHeightAbove(BinaryTreeNodePos<Element> node) {
-    //    while (node) {
-    //        updateHeight(node);
-    //        node = node->parent();
-    //    }
-    //}
-
     static BinaryTreeNodePos<Element> tallerChild(BinaryTreeNodeConstPos<Element> node) {
         auto lh { height(node->left()) };
         auto rh { height(node->right()) };
@@ -89,7 +78,9 @@ class AVLTree : protected BinarySearchTree<T, Cmp> {
                 rotateLeft(g);
             }
         }
-        updateHeights(v, p, g);
+        updateHeight(v);
+        updateHeight(p);
+        updateHeight(g);
     }
 
 public:

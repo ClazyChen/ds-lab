@@ -18,6 +18,9 @@ public:
         visit(p);
         traverse(p->right(), visit);
     }
+    std::string type_name() const override {
+        return "InOrder Traverse";
+    }
 };
 
 template <typename T>
@@ -37,6 +40,9 @@ public:
             visit(node);
             pushLeftChain(S, node->right());
         }
+    }
+    std::string type_name() const override {
+        return "InOrder Traverse (Iterative)";
     }
 };
 

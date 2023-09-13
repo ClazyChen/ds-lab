@@ -8,20 +8,23 @@ import std;
 export namespace dslab {
 
 template <typename T>
-class BinaryTreePostorderTraverse : public AbstractBinaryTreeTraverse<T> {
+class BinaryTreePostOrderTraverse : public AbstractBinaryTreeTraverse<T> {
 public:
-    void traverse(BinaryTreeNodeConstPos<T> p, std::function<void(const T&)> visit) override {
+    void traverse(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
         if (!p) {
             return;
         }
         traverse(p->left(), visit);
         traverse(p->right(), visit);
-        this->call(visit, p);
+        visit(p);
+    }
+    std::string type_name() const override {
+        return "PostOrder Traverse";
     }
 };
 
 template <typename T>
-class BinaryTreePostorderTraverseSemilinear : public AbstractBinaryTreeTraverse<T> {
+class BinaryTreePostOrderTraverseSemilinear : public AbstractBinaryTreeTraverse<T> {
 public:
     void traverse(BinaryTreeNodeConstPos<T> p, std::function<void(BinaryTreeNodeConstPos<T>)> visit) override {
         Stack<BinaryTreeNodeConstPos<T>> S { p };
@@ -37,10 +40,13 @@ public:
             visit(St.pop());
         }
     }
+    std::string type_name() const override {
+        return "PostOrder Traverse (Iterative / Semilinear)";
+    }
 };
 
 template <typename T>
-class BinaryTreePostorderTraverseLinear : public AbstractBinaryTreeTraverse<T> {
+class BinaryTreePostOrderTraverseLinear : public AbstractBinaryTreeTraverse<T> {
     void pushLeftChain(Stack<BinaryTreeNodeConstPos<T>>& S, BinaryTreeNodeConstPos<T> p) {
         while (p) {
             S.push(p);
@@ -60,6 +66,9 @@ public:
                 visit(last);
             }
         }
+    }
+    std::string type_name() const override {
+        return "PostOrder Traverse (Iterative / Linear)";
     }
 };
 

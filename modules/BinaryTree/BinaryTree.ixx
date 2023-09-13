@@ -24,13 +24,13 @@ protected:
         traverseNodes<BinaryTreePreOrderTraverseSemilinear>([&S](auto node) {
             auto cur { S.pop() };
             if (node->right()) {
-                auto child { BinaryTreeNodeInst<T>::make(node->right()) };
+                auto child { BinaryTreeNodeInst<T>::make(node->right()->data()) };
                 S.push(child);
                 child->parent() = cur;
                 cur->right() = std::move(child);
             }
             if (node->left()) {
-                auto child { BinaryTreeNodeInst<T>::make(node->left()) };
+                auto child { BinaryTreeNodeInst<T>::make(node->left()->data()) };
                 S.push(child);
                 child->parent() = cur;
                 cur->left() = std::move(child);
@@ -61,7 +61,7 @@ public:
     // WARNING: O(n)
     size_t size() const override {
         size_t result { 0 };
-        traverse<BinaryTreePreOrderTraverseSemilinear>([&result](auto) { ++result; });
+        traverse<BinaryTreePreOrderTraverseSemilinear>([&result](const T&) { ++result; });
         return result;
     }
     bool empty() const override {

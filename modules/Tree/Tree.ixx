@@ -37,6 +37,8 @@ protected:
 public:
     TreeNodePos<T> root() override { return m_root; }
     TreeNodeConstPos<T> root() const override { return m_root; }
+    
+    // WARNING: O(n)
     size_t size() const override {
         size_t result { 0 };
         traverse<TreePreOrderTraverseIterative>([&result](const T&) { ++result; });

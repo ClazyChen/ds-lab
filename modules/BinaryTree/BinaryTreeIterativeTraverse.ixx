@@ -19,6 +19,18 @@ public:
             visit(node);
         }
     }
+    std::string type_name() const override {
+        return std::format("Iterative Traverse / {}", it.type_name());
+    }
 };
+
+template <typename T>
+using BinaryTreePreOrderIterativeTraverse = BinaryTreeIterativeTraverse<T, BinaryTreePreOrderIterate>;
+
+template <typename T>
+using BinaryTreeInOrderIterativeTraverse = BinaryTreeIterativeTraverse<T, BinaryTreeInOrderIterate>;
+
+template <typename T>
+using BinaryTreePostOrderIterativeTraverse = BinaryTreeIterativeTraverse<T, BinaryTreePostOrderIterate>;
 
 }

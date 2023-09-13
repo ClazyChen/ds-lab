@@ -18,6 +18,9 @@ public:
         traverse(p->left(), visit);
         traverse(p->right(), visit);
     }
+    std::string type_name() const override {
+        return "PreOrder Traverse";
+    }
 };
 
 template <typename T>
@@ -33,6 +36,9 @@ public:
             }
         }
     }
+    std::string type_name() const override {
+        return "PreOrder Traverse (Iterative / Semilinear)";
+    }
 };
 
 template <typename T>
@@ -46,6 +52,9 @@ public:
                 S.push(node->right());
             }
         }
+    }
+    std::string type_name() const override {
+        return "PreOrder Traverse (Iterative / Linear)";
     }
 };
 
@@ -71,6 +80,9 @@ public:
             pushRightChain(S, node->left());
         }
     }
+    std::string type_name() const override {
+        return "PreOrder Traverse (Iterative / Linear / Right Chain)";
+    }
 };
 
 template <typename T>
@@ -82,6 +94,9 @@ public:
             traverse(p->left(), visit);
             p = p->right();
         }
+    }
+    std::string type_name() const override {
+        return "PreOrder Traverse (Recursive / Linear)";
     }
 };
 

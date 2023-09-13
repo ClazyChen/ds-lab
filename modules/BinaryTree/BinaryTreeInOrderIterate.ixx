@@ -31,6 +31,9 @@ public:
             return p->parent();
         }
     }
+    std::string type_name() const override {
+        return "InOrder";
+    }
 };
 
 template <typename T>
@@ -57,6 +60,9 @@ public:
             }
             return p->parent();
         }
+    }
+    std::string type_name() const override {
+        return "InOrder / Reverse";
     }
 };
 
