@@ -398,5 +398,9 @@ FodyWeavers.xsd
 pic/*.pdf
 pic/*.vsdx
 
+# output files
+*.exe
+doc/main.pdf
+
 # extra files
 *.docx

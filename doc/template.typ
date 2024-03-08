@@ -166,14 +166,20 @@
     } else {
       let el = it.element
       let el_loc = el.location()
-      if el.kind == image [
+      if el.kind == heading [
+        #set text(purple)
+        *第*
+        #numbering("1", chapter_counter.at(el_loc).first())
+        *章*
+        #it
+      ] else if el.kind == image [
         // 切换为紫色
         #set text(purple)
         *图#chapter_counter.at(el_loc).first().#figure_counter.at(el_loc).first()*
       ] else if el.kind == table [
         #set text(purple)
         *表#chapter_counter.at(el_loc).first().#table_counter.at(el_loc).first()*
-        #el.numbering
+        // #el.numbering
       ] else [
         #it
       ]
@@ -187,4 +193,11 @@
     show bibliography: set text(10pt)
     bibliography(bibliography-file, title: text(12pt)[参考文献], style: "ieee")
   }
+}
+
+#let graybox(body) = box(fill: color.rgb(0xf0,0xf0,0xf0), inset: (x: 0.125em), outset: (y: 0.25em))[#body]
+
+#let bluetxt(body) = {
+  set text(color.rgb(0x40,0x40,0xff)) 
+ [*#body*]
 }
