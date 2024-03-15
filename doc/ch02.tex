@@ -312,7 +312,11 @@ protected:
 在等差扩容方法中，容量依次被扩充为$d,2d,3d,\dots,n$，共进行$\frac{n}{d}$次扩容。
 因此，分摊复杂度为：
 $$
-T(n) = \frac{d + 2d + 3d + \dots + n}n = \frac{\left(\frac{n}{d}\right)\cdot d + \frac{\left(\frac{n}{d}\right)\left(\frac{n}{d}-1\right)}2\cdot d}n = \frac{\frac{n}{d}+1}2 = \Theta\left(\frac nd\right)
+T(n) = \frac{d + 2d + 3d + \dots + n}n = \frac{
+    \left(\frac{n}{d}\right)\cdot d + 
+    \frac{\left(\frac{n}{d}\right)\left(\frac{n}{d}-1\right)}2\cdot d
+    
+    }n = \frac{\frac{n}{d}+1}2 = \Theta\left(\frac nd\right)
 $$
 
 另一方面，进行$k$次扩容之后的装填因子至少为$\frac{kd}{(k+1)d}=\frac{k}{k+1}$，当$k\to\infty$时，装填因子趋于100\%。

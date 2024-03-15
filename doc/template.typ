@@ -221,3 +221,20 @@
   set text(color.rgb(0x40,0x40,0xff)) 
  [*#body*]
 }
+
+#let easy = {
+  set text(color.rgb(0x40, 0xc0, 0x40))
+  [*简单*]
+}
+
+#let medium = {
+  // orange color
+  set text(color.rgb(0xff, 0x80, 0x00))
+  [*中等*]
+}
+
+#let hard = {
+  // red color
+  set text(color.rgb(0xff, 0x00, 0x00))
+  [*较难*]
+}
