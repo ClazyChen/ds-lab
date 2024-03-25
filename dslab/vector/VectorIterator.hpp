@@ -92,11 +92,17 @@ namespace dslab::vector {
         constexpr VectorIterator operator-(difference_type n) const { return *this + (-n); }
 
         constexpr difference_type operator-(const VectorIterator& rhs) const { return m_index - rhs.m_index; }
+        constexpr difference_type operator-(const ConstVectorIterator<V>& rhs) const { return m_index - rhs.m_index; }
+        constexpr friend difference_type operator-(const ConstVectorIterator<V>& lhs, const VectorIterator& rhs) { return lhs.m_index - rhs.m_index; }
         constexpr reference operator*() const { return m_vector->operator[](m_index); }
         constexpr pointer operator->() const { return &m_vector->operator[](m_index); }
         constexpr reference operator[](difference_type n) const { return m_vector->operator[](m_index + n); }
         constexpr bool operator==(const VectorIterator& rhs) const { return m_index == rhs.m_index; }
         constexpr auto operator<=>(const VectorIterator& rhs) const { return m_index <=> rhs.m_index; }
+        constexpr bool operator==(const ConstVectorIterator<V>& rhs) const { return m_index == rhs.m_index; }
+        constexpr auto operator<=>(const ConstVectorIterator<V>& rhs) const { return m_index <=> rhs.m_index; }
+        constexpr friend bool operator==(const ConstVectorIterator<V>& lhs, const VectorIterator& rhs) { return lhs.m_index == rhs.m_index; }
+        constexpr friend auto operator<=>(const ConstVectorIterator<V>& lhs, const VectorIterator& rhs) { return lhs.m_index <=> rhs.m_index; }
 
         // conversion to const iterator
         constexpr operator ConstVectorIterator<V>() const { return ConstVectorIterator<V> { m_vector, m_index }; }

@@ -11,6 +11,10 @@ protected:
 
 public:
 
+    static auto& engine() {
+        return m_generator;
+    }
+
     // returns a random number in the range [min, max]
     static std::size_t get(std::size_t min, std::size_t max) {
         return m_distribution(m_generator, std::uniform_int_distribution<std::size_t>::param_type(min, max));

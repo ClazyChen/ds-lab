@@ -32,18 +32,18 @@ namespace dslab::vector {
         virtual const_iterator cend() const = 0;
 
         // get front and back
-        T& front() { return *cbegin(); }
-        T& back() { return *--cend(); }
+        T& front() { return *begin(); }
+        T& back() { return *--end(); }
 
         // push front and back
-        void push_front(const T& e) { insert(cbegin(), e); }
-        void push_back(const T& e) { insert(cend(), e); }
-        void push_front(T&& e) { insert(cbegin(), std::move(e)); }
-        void push_back(T&& e) { insert(cend(), std::move(e)); }
+        void push_front(const T& e) { insert(begin(), e); }
+        void push_back(const T& e) { insert(end(), e); }
+        void push_front(T&& e) { insert(begin(), std::move(e)); }
+        void push_back(T&& e) { insert(end(), std::move(e)); }
         
         // pop front and back
-        void pop_front() { erase(cbegin()); }
-        void pop_back() { erase(--cend()); }
+        void pop_front() { erase(begin()); }
+        void pop_back() { erase(--end()); }
 
     };
 

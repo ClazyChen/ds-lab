@@ -238,3 +238,9 @@
   set text(color.rgb(0xff, 0x00, 0x00))
   [*较难*]
 }
+
+#let veryhard = {
+  // red color
+  set text(color.rgb(0x99, 0x00, 0x00))
+  [*挑战*]
+}

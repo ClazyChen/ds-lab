@@ -932,7 +932,7 @@ $
 
 == 本章习题
 
-本书的习题按照小节排列，以黑体标注题目难度。#easy 表示基础知识，#medium 表示需要一定思考的题目，#hard 表示需要深入思考的题目。
+本书的习题按照小节排列，以黑体标注题目难度。#easy 表示基础知识，#medium 表示一般知识，#hard 表示需要思考，#veryhard 是有一定难度的拓展题。
 
 在 @sum:algorithm:sum 中：#linebreak()
 + #easy SumBasic的时间复杂度是多少？
@@ -942,9 +942,25 @@ $
 #h(2em)
 在 @sum:correctness:gcd 中：#linebreak()
 + #easy 分析朴素的最大公因数算法GcdBasic（见`gcd.cpp`）和欧几里得算法的时间复杂度和空间复杂度。
-+ #easy 假设$m$位整数的乘法和带余数除法时间复杂度为$O(m log m)$@knuth1997artv2 @david2021multiplication，分析在输入数据的位宽为$m$时，朴素的最大公因数算法和欧几里得算法的时间复杂度和空间复杂度。
-+ #medium 对中国古典名著《九章算术》里介绍的中华更相减损术@邓俊辉2013数据结构 GcdCN（见`gcd.cpp`）做正确性检验，并分析其在`int`和$m$位整数两种情形下的时间复杂度。请注意除以2的操作在计算机中只需要移位就可以完成，因此其时间复杂度和移位一致，是$O(m)$而非$O(m log m)$。
++ #medium 使用减治法推广欧几里得算法，使其能够计算多个数的最大公因数。
+// + #hard 狄利克雷（Dirichlet）定理表明，如果`a, b`是随机选择的整数，则`a, b`的最大公因数是1的概率是$6/pi^2$。在此基础上，分析第2题设计的算法的时间复杂度。
++ #easy 假设$m$位整数的乘法和带余数除法时间复杂度为$O(m log m)$@knuth1997artv2 @david2021multiplication，分析在输入数据的位宽为$m$时，朴素的最大公因数算法和欧几里得算法的最坏时间复杂度。
++ #medium 对中国古典名著《九章算术》里介绍的中华更相减损术@邓俊辉2013数据结构 GcdCN（见`gcd.cpp`）做正确性检验，并分析其在`int`和$m$位整数两种情形下的最坏时间复杂度。请注意除以2的操作在计算机中只需要移位就可以完成，因此其时间复杂度和移位一致，是$O(m)$而非$O(m log m)$。
 + #medium 将中华更相减损术转换为递归算法，并分析其空间复杂度。
++ #hard 不考虑最坏情况而讨论一种特殊的情形。狄利克雷（Dirichlet）定理表明，如果`a, b`是随机选择的整数，则`a, b`的最大公因数是1的概率是$6/pi^2$，因此第2题设计的算法会在几次头部减治之后，退化为$a >> b$的情况。在此情况下评估欧几里得算法和中华更相减损术算法的时间性能。
++ #hard 裴蜀（Bézout）定理指出对于任意两个整数`a, b`，存在整数`x, y`使得$a x+b y=gcd(a, b)$。满足条件的$x, y$可以通过如下的扩展欧几里得算法求得。证明该算法的正确性。
+    ```cpp
+    std::pair<int, int> operator()(int a, int b) override {
+        int x { 0 }, y { 1 }, u { 1 }, v { 0 };
+        while (a != 0) {
+            int q { b / a }, r { b % a };
+            int m { x - u * q }, n { y - v * q };
+            b = a; a = r; x = u; y = v; u = m; v = n;
+        }
+        return { b, x };
+    }
+    ```
++ #veryhard 将上述扩展欧几里得算法推广到欧几里得环$ZZ[sqrt(2)]$上 @cormen2022introduction。
 
 #h(2em)
 在 @sum:correctness:array-sum 中：#linebreak()
