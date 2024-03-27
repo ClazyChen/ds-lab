@@ -2,11 +2,13 @@
 #include "Algorithm.hpp"
 
 namespace dslab::framework {
-    class Gcd : public Algorithm<int(int, int)> {
+
+    template <typename T>
+    class Gcd : public Algorithm<T(T, T)> {
     public:
-        int operator()(int a, int b) override {
+        T operator()(T a, T b) override {
             while (b != 0) {
-                int r { a % b };
+                auto r { a % b };
                 a = b;
                 b = r;
             }

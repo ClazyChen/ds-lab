@@ -62,6 +62,51 @@ public:
     }
 };
 
+template <typename T, template<typename> typename L>
+class MergeSortInplace : public AbstractSort<T, L> {
+protected:
+    using iterator = typename L<T>::iterator;
+    using AbstractSort<T, L>::cmp;
+    Vector<T> W;
+    void merge(iterator lo, iterator mi, iterator hi, iterator tmp) {
+        std::swap_ranges(lo, mi, tmp);
+        auto i { tmp }, j { mi }, k { lo }, te { tmp + std::distance(lo, mi) };
+        while (i != te && j != hi) {
+            if (cmp(*j, *i)) {
+                std::iter_swap(k++, j++);
+            } else {
+                std::iter_swap(k++, i++);
+            }
+        }
+        while (i != te) {
+            std::iter_swap(k++, i++);
+        }
+        while (j != hi) {
+            std::iter_swap(k++, j++);
+        }
+    }
+    void mergesort(iterator lo, iterator hi) {
+    	if (std::distance(lo, hi) < 2) return;
+        auto mi2 { hi - std::distance(lo, hi) / 2 };
+        mergesort(mi2, hi);
+        while (std::distance(lo, mi2) > 1) {
+            auto mi1 { mi2 - std::distance(lo, mi2) / 2 };
+            mergesort(mi1, mi2);
+            merge(mi1, mi2, hi, lo);
+            mi2 = mi1;
+        }
+        merge(lo, mi2, hi, W.begin());
+    }
+    void sort(L<T>& V) override {
+    	W.resize(1);
+        mergesort(V.begin(), V.end());
+    }
+public:
+    std::string type_name() const override {
+        return "Merge Sort (In-place)";
+    }
+};
+
 template <typename T>
 class MergeSortTest : public Algorithm<bool()> {
 public:
@@ -92,14 +137,14 @@ public:
 constexpr std::size_t N { 1000000 };
 
 std::vector<std::pair<std::size_t, std::size_t>> testCases {
-    {0, 10},
+    {0, 10 },
     {0, 100},
     {0, 1000},
     {0, 10000},
     {0, 100000},
     {0, 1000000},
     {999990, 1000000},
-	{999900, 1000000},
+    {999900, 1000000},
     {999000, 1000000},
     {990000, 1000000},
     {900000, 1000000}
@@ -109,7 +154,9 @@ TestFramework<MergeSortTest<int>,
     MergeSortTestImpl<int, MergeSort>,
     MergeSortTestImpl<int, MergeSortUpward>,
     MergeSortTestImpl<int, MergeSortLimit>,
-    MergeSortTestImpl<int, MergeSortCond>> test;
+    MergeSortTestImpl<int, MergeSortInplace>,
+    MergeSortTestImpl<int, MergeSortCond>
+	> test;
 
 int main() {
     for (Vector<int> V(N); auto [lo, hi] : testCases) {

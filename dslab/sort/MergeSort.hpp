@@ -65,6 +65,10 @@ protected:
             }
         }
     }
+public:
+    std::string type_name() const override {
+        return "Merge Sort (Upward)";
+    }
 };
 
 }
