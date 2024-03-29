@@ -7,6 +7,8 @@
 
 #include "ch01.typ"
 #include "ch02.typ"
+#include "ch03.typ"
+
 /*
 = Music
 #lorem(1500)

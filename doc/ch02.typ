@@ -479,7 +479,7 @@ iterator erase(iterator p) override {
 ```
 
 #h(2em)
-和插入一样，可以分析出删除操作时间复杂度$Theta(n-r)$，平均时间复杂度$Theta(n)$，空间复杂度$O(1)$。到此为止，我们实现了完整的`Vector`类，可以开始实验了。如果您自己完成了向量的设计，可以使用#bluetxt[`VectorTest.cpp`]进行简单的功能测试，并在实验中将`dslab::Vector`替换为自己的向量类。
+和插入一样，可以分析出删除操作时间复杂度$Theta(n-r)$，平均时间复杂度$Theta(n)$，空间复杂度$O(1)$。到此为止，我们实现了完整的`Vector`类，可以开始实验了。如果您自己完成了向量的设计，可以使用#bluetxt[`vector.cpp`]进行简单的功能测试，并在实验中将`dslab::Vector`替换为自己的向量类。
 
 === 插入连续的元素 <vec:insert-continuous>
 

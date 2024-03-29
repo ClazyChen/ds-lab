@@ -33,7 +33,9 @@ namespace dslab::vector {
 
         // get front and back
         T& front() { return *begin(); }
+        const T& front() const { return *cbegin(); }
         T& back() { return *--end(); }
+        const T& back() const { return *--cend(); }
 
         // push front and back
         void push_front(const T& e) { insert(begin(), e); }

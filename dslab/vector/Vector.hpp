@@ -119,6 +119,10 @@ public:
         return p;
     }
 
+    std::string type_name() const override {
+        return std::format("Vector [{}]", m_allocator.type_name());
+    }
+
 };
 
 }

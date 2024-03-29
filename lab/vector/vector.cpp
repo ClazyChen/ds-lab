@@ -31,7 +31,7 @@ void check(Vector<TestItem>& V) {
     }
     auto it { V.begin() };
     for (auto& x : stdVector) {
-        if (it->m_value != x) {
+        if (*it != x) {
             throw std::runtime_error("value not match");
         }
         ++it;
