@@ -3,7 +3,7 @@
 using namespace dslab;
 
 using GcdProblem = Algorithm<int(int, int)>;
-using GcdEuclidIterative = Gcd;
+using GcdEuclidIterative = Gcd<int>;
 
 class GcdBasic : public GcdProblem {
 public:

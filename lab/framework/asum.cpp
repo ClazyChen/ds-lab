@@ -99,7 +99,7 @@ public:
     }
 };
 
-std::vector testSize { 10, 100, 1000, 10000, 10'0000, 100'0000, 1000'0000, 1'0000'0000 };
+std::vector testSize { 10, 100, 1000, 10000, 10'0000, 100'0000, 1000'0000, 1'0000'0000, 10'0000'0000 };
 
 TestFramework<ArraySum, 
     ArraySumBasic, 

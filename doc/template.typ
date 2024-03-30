@@ -166,7 +166,27 @@
     } else {
       let el = it.element
       let el_loc = el.location()
-      if el.kind == heading [
+      // 如果没有 kind 属性
+      if not el.has("kind") [
+        #let levels = counter(heading).at(el_loc)
+        // levels = (1, 1, ...)
+        #set text(purple)
+        #if levels.len() == 1 [
+          *第*
+          #levels.at(0)
+          *章*
+        ] else if levels.len() == 2 [
+          *第*
+          #numbering("1.1", levels.at(0), levels.at(1))
+          *节*
+        ] else if levels.len() == 3 [
+          *第*
+          #numbering("1.1.1", levels.at(0), levels.at(1), levels.at(2))
+          *节*
+        ] else [
+          #it
+        ]
+      ] else if el.kind == heading [
         #set text(purple)
         *第*
         #numbering("1", chapter_counter.at(el_loc).first())
@@ -200,4 +220,27 @@
 #let bluetxt(body) = {
   set text(color.rgb(0x40,0x40,0xff)) 
  [*#body*]
+}
+
+#let easy = {
+  set text(color.rgb(0x40, 0xc0, 0x40))
+  [*简单*]
+}
+
+#let medium = {
+  // orange color
+  set text(color.rgb(0xff, 0x80, 0x00))
+  [*中等*]
+}
+
+#let hard = {
+  // red color
+  set text(color.rgb(0xff, 0x00, 0x00))
+  [*较难*]
+}
+
+#let veryhard = {
+  // red color
+  set text(color.rgb(0x99, 0x00, 0x00))
+  [*挑战*]
 }
