@@ -2,10 +2,12 @@
 
 #include "List.hpp"
 #include "../forward_list/ForwardList.hpp"
+#include "../static_list/StaticList.hpp"
 
 template <typename T, template <typename> typename L>
 requires (std::is_base_of_v<dslab::list::bidirectional_list::AbstractList<T>, L<T>> ||
-            std::is_base_of_v<dslab::list::forward_list::AbstractForwardList<T>, L<T>>)
+            std::is_base_of_v<dslab::list::forward_list::AbstractForwardList<T>, L<T>> ||
+            std::is_base_of_v<dslab::list::static_list::AbstractStaticList<T>, L<T>>)
 struct std::formatter<L<T>> {
     // output format : [a1, a2, a3, ...]
 

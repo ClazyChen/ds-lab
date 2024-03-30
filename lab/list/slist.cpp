@@ -1,13 +1,21 @@
-#include "list.hpp"
+#include "static_list.hpp"
+
+using namespace std;
 
 using dslab::Algorithm;
 using dslab::TestItem;
 using dslab::Random;
 
-// this experiment is to test the list
+// this experiment is to test the performance of the static list
 // you can replace the list with your own implementation
 template <typename T>
-using List = dslab::List<T>;
+using List = dslab::StaticList<T>;
+
+// note that the static list is similar to the list
+// the differences is:
+// +  the static list's insert and copy are vector operations
+//    for insert, there is potential resize overhead
+//    for copy, more elements need to be copied due to the load factor
 
 // test process:
 // 1. create an empty list, size=0
@@ -30,7 +38,7 @@ void check(List<TestItem>& L) {
     }
     auto it { L.begin() };
     for (auto& x : stdVector) {
-        if (*it != x) {
+        if (it->m_value != x) {
             throw std::runtime_error("value not match");
         }
         ++it;
@@ -66,15 +74,12 @@ public:
             std::cout << std::format("push back {} -> {}", i, L) << std::endl;
             check(L);
         }
-        if (TestItem::s_moveCount != 0) {
-            throw std::runtime_error("moveCount != 0");
-        }
         if (L.size() != N) {
             throw std::runtime_error("size != N");
         }
     }
     std::string type_name() const override {
-        return "Push Back List";
+        return "Push Back";
     }
 };
 
@@ -98,9 +103,10 @@ public:
         }
     }
     std::string type_name() const override {
-        return "Insert As Next List";
+        return "Insert As Next";
     }
 };
+
 
 class EraseList : public ALT {
 public:
@@ -170,9 +176,6 @@ public:
             std::cout << std::format("insert as prev {} @ {:2} -> {}", i + 2 * N, *p, L) << std::endl;
             check(L);
         }
-        if (TestItem::s_moveCount != 0) {
-            throw std::runtime_error("moveCount != 0");
-        }
         if (L.size() != 2 * N) {
             throw std::runtime_error("size != 2N");
         }
@@ -194,9 +197,6 @@ public:
         }
         if (TestItem::s_moveCount != 0) {
             throw std::runtime_error("moveCount != 0");
-        }
-        if (TestItem::s_copyCount != L.size()) {
-            throw std::runtime_error("copyCount != size");
         }
     }
     std::string type_name() const override {
