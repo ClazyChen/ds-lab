@@ -673,7 +673,7 @@ iterator insertAsNext(iterator p, const T& e) override {
 
 #h(2em) 在上述后插实现中，我们先构造了一个节点`q`，将其前向和后向指针接在`p`和`r`之间，然后再将`p`的后向指针和`r`的前向指针接在`q`上。
 
-=== 在静态列表上删除一个元素
+=== 在静态列表上删除一个元素 <lis:remove-static-list>
 
 如果我们按照动态列表的方法在静态列表上删除，可以得到下面的算法。
 

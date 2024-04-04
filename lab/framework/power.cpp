@@ -36,7 +36,7 @@ public:
 };
 
 // iterative
-using PowerIterative = Power;
+using PowerIterative = Power<int>;
 
 std::vector<std::pair<int, int>> testData {
     {3, 4}, {2, 30}, {-3, 3}, // some common cases

@@ -10,6 +10,7 @@ requires std::is_base_of_v<LinearList<typename L<T>::value_type, typename L<T>::
 class Stack : public AbstractStack<T> {
 protected:
     L<T> V;
+    friend class std::formatter<T, Stack<T, L>>;
 public:
     Stack() = default;
     Stack(const Stack& other) = default;
@@ -31,8 +32,8 @@ public:
         V.push_back(std::move(e));
     }
 
-    void pop() override {
-        V.pop_back();
+    T pop() override {
+        return V.pop_back();
     }
 
     T& top() override {
