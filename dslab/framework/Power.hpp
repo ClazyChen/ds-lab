@@ -7,6 +7,9 @@ namespace dslab::framework {
     class Power : public Algorithm<T(T, T)> {
     public:
         T operator()(T a, T b) override {
+            return const_cast<const Power<T>&>(*this)(a, b);
+        }
+        T operator()(T a, T b) const {
             T result { 1 };
             while (b > 0) {
                 if (b % 2 == 1) {

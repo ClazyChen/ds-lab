@@ -18,6 +18,8 @@ protected:
     const T* data() const override { return m_data.get(); }
 
 public:
+    using allocator_type = A;
+
     std::size_t capacity() const override { return m_capacity; }
     std::size_t size() const override { return m_size; }
 

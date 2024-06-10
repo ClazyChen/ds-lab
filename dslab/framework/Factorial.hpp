@@ -13,6 +13,9 @@ public:
     T operator()(T n) override {
         return factorial(n);
     }
+    T operator()(T n) const {
+        return factorial(n);
+    }
     std::string type_name() const override {
         return "Factorial (constexpr)";
     }

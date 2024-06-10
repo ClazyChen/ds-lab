@@ -64,7 +64,7 @@ namespace dslab::stack::expression {
             return { false, false };
         }
 
-        T apply(const T& lhs, const T& rhs) const override {
+        T apply(const T& lhs, const T& rhs) const {
             if (isOperator()) {
                 switch (getOperator()) {
                 case '+': return lhs + rhs;
@@ -92,7 +92,7 @@ namespace dslab::stack::expression {
             {'+', 1}, {'-', 1}, {'*', 2}, {'/', 2}, {'%', 2}
         };
 
-        bool prior(char next) const override {
+        bool prior(char next) const {
             if (isOperator()) {
                 auto prior_left { priority_left.find(getOperator()) };
                 auto prior_right { priority_right.find(next) };

@@ -10,6 +10,7 @@ template <typename T = int, template<typename> typename L = DefaultVector>
 class Expression : public L<ExpressionElement<T>> {
     using L<ExpressionElement<T>>::push_back;
     using L<ExpressionElement<T>>::back;
+    using L<ExpressionElement<T>>::empty;
 public:
     Expression() = default;
     Expression(std::string_view expr, std::size_t base = 10) {
@@ -22,7 +23,7 @@ public:
             }
         } };
         for (auto i { 0uz }; i < expr.size(); i++) {
-            if (!std::isdigit(c)) {
+            if (auto c { expr[i] }; !std::isdigit(c)) {
                 add(i);
                 if (c == '-' && (empty() || back() == '(')) {
                     start = i;
@@ -59,6 +60,35 @@ public:
         }
         process(')');
         *this = std::move(suffix);
+    }
+
+    T calInfix() const {
+        Stack<T> Sr;
+        Stack<ExpressionElement<T>> So;
+        auto process { [&](const ExpressionElement<T>& e) {
+            while (!So.empty() && So.top().prior(e.getOperator())) {
+                if (auto op { So.pop() }; op != '(') {
+                    auto [l, r] { op.operandPosition() };
+                    T rhs { r ? Sr.pop() : 0 };
+                    T lhs { l ? Sr.pop() : 0 };
+                    Sr.push(op.apply(lhs, rhs));
+                } else {
+                    break;
+                }
+            }
+        } };
+        for (auto& e : *this) {
+            if (e.isOperand()) {
+                Sr.push(e.getOperand());
+            } else {
+                process(e);
+                if (e != ')') {
+                    So.push(e);
+                }
+            }
+        }
+        process(')');
+        return Sr.pop();
     }
 
     T calSuffix() const {
