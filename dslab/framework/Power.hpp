@@ -3,10 +3,14 @@
 
 namespace dslab::framework {
 
-    class Power : public Algorithm<int(int, int)> {
+    template <typename T>
+    class Power : public Algorithm<T(T, T)> {
     public:
-        int operator()(int a, int b) override {
-            int result { 1 };
+        T operator()(T a, T b) override {
+            return const_cast<const Power<T>&>(*this)(a, b);
+        }
+        T operator()(T a, T b) const {
+            T result { 1 };
             while (b > 0) {
                 if (b % 2 == 1) {
                     result *= a;

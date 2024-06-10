@@ -44,8 +44,16 @@ namespace dslab::vector {
         void push_back(T&& e) { insert(end(), std::move(e)); }
         
         // pop front and back
-        void pop_front() { erase(begin()); }
-        void pop_back() { erase(--end()); }
+        T pop_front() { 
+            T e { std::move(front()) };
+            erase(begin()); 
+            return e;
+        }
+        T pop_back() {
+            T e { std::move(back()) };
+            erase(--end());
+            return e;
+        }
 
     };
 

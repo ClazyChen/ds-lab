@@ -8,6 +8,7 @@
 #include "ch01.typ"
 #include "ch02.typ"
 #include "ch03.typ"
+#include "ch04.typ"
 
 /*
 = Music
